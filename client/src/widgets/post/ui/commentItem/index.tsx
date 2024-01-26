@@ -33,7 +33,7 @@ const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit,
 
   const [isShowInfo, setIsShowInfo] = useState(false);
   const [isLike, setIsLike] = useState(comment.likesList.includes(+id));
-  const [editContent, setEditContent] = useState(comment.content);
+  const [editContent, setEditContent] = useState(comment.content.join('\n'));
 
   const convertedName = convertName(comment.author.name);
 
@@ -49,13 +49,22 @@ const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit,
   };
 
   const handleUpdateComment = () => {
-    if (editContent)
-      dispatch(updateComment({ commentId: comment.id, content: editContent })).then(() => {
-        handlerEdit(editContent, comment.id);
-      });
-    else {
+    if (!editContent) {
       handlerEdit(null);
+      return;
     }
+
+    dispatch(updateComment({ commentId: comment.id, content: editContent.split('\n') })).then(
+      () => {
+        handlerEdit(editContent, comment.id);
+        setEditContent(editContent);
+      }
+    );
+  };
+
+  const handlerCansel = () => {
+    handlerEdit(null);
+    setEditContent(comment.content.join('\n'));
   };
 
   const handlerView = () => setIsShowInfo(false);
@@ -73,16 +82,16 @@ const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit,
           <SContainerEdit>
             <SAutosizeInput
               minRows={1}
+              maxRows={5}
               isDrag={false}
               value={editContent}
               onChange={handleChangeContent}
-              $position={false}
+              $position={true}
               placeholder="Написать комментарий..."
-              autoComplete="off"
               draggable="false"
             />
             <SContainerButtons>
-              <BaseButton onClick={() => handlerEdit(null)} bgTransparent={true}>
+              <BaseButton onClick={handlerCansel} bgTransparent={true}>
                 Отмена
               </BaseButton>
               <BaseButton onClick={handleUpdateComment}>Сохранить</BaseButton>
@@ -91,7 +100,11 @@ const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit,
         )}
         {!comment.isEdit && (
           <>
-            <SContent>{comment.content}</SContent>
+            <SContent>
+              {comment.content.map((row) => (
+                <div key={row}>{row}</div>
+              ))}
+            </SContent>
             <STime>{postTime(comment.createdAt)}</STime>
           </>
         )}

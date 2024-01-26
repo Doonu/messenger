@@ -5,7 +5,7 @@ export class ToggleLikeCommentDto {
 }
 
 export class UpdateCommentDto{
-    readonly content: string
+    readonly content: string[]
     readonly commentId: number
 }
 

@@ -25,7 +25,7 @@ export interface IPostState {
 
 export interface ICommentsState {
   id: number;
-  content: string;
+  content: string[];
   createdAt: string;
   updatedAt: string;
   likesList: number[];

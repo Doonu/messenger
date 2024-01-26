@@ -5,7 +5,7 @@ import { RootState } from '../../../app/store';
 import API from '../interceptors';
 
 interface IUpdateComment {
-  content: string;
+  content: string[];
   commentId: number;
 }
 
