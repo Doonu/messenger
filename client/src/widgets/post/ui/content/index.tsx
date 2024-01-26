@@ -28,13 +28,13 @@ const Content: FC<IContent> = ({ post, allFiles }) => {
         />
         {visibleMore && <More post={post} />}
       </SHead>
-      {allFiles.photos.map(({ url, id }) => (
+      {allFiles.photos?.map(({ url, id }) => (
         <img key={id} style={{ width: '300px', height: '300px' }} src={url}></img>
       ))}
       {post.content.map((content, i) => (
         <SP key={post.id + i}>{content}</SP>
       ))}
-      {allFiles.files.map(({ url, id }) => (
+      {allFiles.files?.map(({ url, id }) => (
         <a key={id} href={`http://localhost:5000/${url}`} target="blank">
           Сслы
         </a>

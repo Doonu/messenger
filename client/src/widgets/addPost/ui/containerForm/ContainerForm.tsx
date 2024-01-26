@@ -64,8 +64,6 @@ const ContainerForm: FC<IContainerFormProps> = ({
     const files = e.target.files;
     if (!files) return;
 
-    //TODO: Сделать фильтрацию для файлов и фотографий
-
     if (data.photos.length + files.length > 5) {
       handlerChangeTitle('Вы можете прикрепить к посту не больше 5 фотографий');
       return;

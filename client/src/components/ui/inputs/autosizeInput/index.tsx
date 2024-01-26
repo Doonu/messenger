@@ -6,6 +6,7 @@ export interface IPositionProps extends InputProps {
   $position: boolean;
   $isDraggable?: boolean;
   minRows: number;
+  maxRows?: number;
   isDrag?: boolean;
   isMaxWidth?: boolean;
 }

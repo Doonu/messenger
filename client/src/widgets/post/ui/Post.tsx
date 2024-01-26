@@ -43,7 +43,7 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
   };
 
   const filterFiles = () => {
-    const photos: IFilesPost[] = post.files.filter(({ url }) => {
+    const photos: IFilesPost[] = post.files?.filter(({ url }) => {
       const arrayFile = url.split('.');
       if (
         arrayFile[arrayFile.length - 1].includes('jpg') ||
@@ -55,7 +55,7 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
       return false;
     });
 
-    const files: IFilesPost[] = post.files.filter(({ url }) => {
+    const files: IFilesPost[] = post.files?.filter(({ url }) => {
       const arrayFile = url.split('.');
       if (
         arrayFile[arrayFile.length - 1].includes('pdf') ||

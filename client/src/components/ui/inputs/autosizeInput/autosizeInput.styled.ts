@@ -9,7 +9,7 @@ export const SInput = styled(TextareaAutosize)<IPositionProps>`
   min-height: ${({ minRows }) => (minRows === 1 ? '40px' : '60px')};
   padding-left: 10px;
   height: unset;
-  display: inline-table;
+  display: inline;
 
   ${({ isDrag }) =>
     isDrag &&

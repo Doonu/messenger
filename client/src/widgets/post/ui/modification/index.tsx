@@ -191,6 +191,7 @@ const Modification: FC<IModification> = ({
             value={content}
             draggable="false"
             minRows={2}
+            maxRows={5}
             isDrag={true}
             $position={false}
           />

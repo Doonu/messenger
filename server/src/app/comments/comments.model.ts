@@ -3,7 +3,7 @@ import {Post} from "../posts/posts.model";
 import {User} from "../users/users.model";
 
 interface CommentsCreate{
-    content: string
+    content: string[]
     postId: number
     userId: number
 }
@@ -11,10 +11,10 @@ interface CommentsCreate{
 @Table({tableName: 'comments'})
 export class Comments extends Model<Comments, CommentsCreate>{
     @Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true })
-    id: number
+    id: number;
 
-    @Column({ type: DataType.TEXT, allowNull: false })
-    content: string
+    @Column({ type: DataType.ARRAY(DataType.TEXT), allowNull: false })
+    content: string[];
 
     @Column({type: DataType.ARRAY(DataType.INTEGER), defaultValue: []})
     likesList: number[];
@@ -24,7 +24,7 @@ export class Comments extends Model<Comments, CommentsCreate>{
 
     @ForeignKey(() => Post)
     @Column({type: DataType.INTEGER})
-    postId: number
+    postId: number;
 
     @ForeignKey(() => User)
     @Column({type: DataType.INTEGER})

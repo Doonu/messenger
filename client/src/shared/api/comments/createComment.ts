@@ -5,7 +5,7 @@ import API from '../interceptors';
 import { ICommentsState } from '../../../entities/post/model/IPost';
 
 interface ICreateComment {
-  content: string;
+  content: string[];
   postId: number;
 }
 

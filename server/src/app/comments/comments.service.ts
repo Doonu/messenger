@@ -21,6 +21,7 @@ export class CommentsService {
     async deleteComment(id: number, userId: number){
         const comment = await this.commentsRepository.findOne({where: {id: id}})
         const post = await this.postRepository.findOne({where: {id: comment.postId}})
+
         if(userId === post.userId || comment.userId === userId){
             await this.commentsRepository.destroy({where: { id: id }})
         } else {

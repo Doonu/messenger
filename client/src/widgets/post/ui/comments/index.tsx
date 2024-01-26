@@ -10,8 +10,6 @@ import createComment from '../../../../shared/api/comments/createComment';
 import deleteComments from '../../../../shared/api/comments/deleteComments';
 import { CommentsProps } from '../../model/IComments';
 
-//TODO: Добавить сортировку
-
 const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
   const dispatch = useAppDispatch();
 
@@ -30,7 +28,7 @@ const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
 
   const handlerCreateComment = () => {
     if (content) {
-      dispatch(createComment({ postId: post.id, content: content }))
+      dispatch(createComment({ postId: post.id, content: content.toString().split('\n') }))
         .unwrap()
         .then((comment) => {
           setComments((comments) => [comment, ...comments]);
@@ -71,7 +69,7 @@ const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
       if (editContent && comment.id === id) {
         return {
           ...comment,
-          content: editContent,
+          content: editContent.toString().split('\n'),
           isEdit: false,
         };
       } else {
@@ -113,12 +111,12 @@ const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
         <PhotoProfile img={avatar}>{name[0]}</PhotoProfile>
         <SAutosizeInput
           minRows={1}
+          maxRows={5}
           isDrag={false}
           value={content}
           onChange={handleChangeContent}
-          $position={false}
+          $position={true}
           placeholder="Написать комментарий..."
-          autoComplete="off"
           draggable="false"
         />
         <SButton onClick={handlerCreateComment}>
