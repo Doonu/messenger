@@ -12,11 +12,17 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
 
 const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
   'post/update',
-  (updatePost, {}) => {
+  ({ content, isDisabledComments, view, files, id }, {}) => {
+    let dynamicParams = {};
+
+    if (files.length) {
+      dynamicParams = { ...updatePost, files: files };
+    }
+
     return API<IPostState>({
       url: `http://localhost:5000/api/posts`,
       method: 'PUT',
-      data: updatePost,
+      data: { ...dynamicParams, content, isDisabledComments, view, id },
     }).then(({ data }) => {
       return {
         id: data.id,

@@ -89,7 +89,7 @@ export class FilesService {
     }
 
     async removeFiles(files: iFile[]){
-        if(!files.length) return []
+        if(!files?.length) return []
         const filePath = path.resolve(__dirname, "../../../", 'static')
 
 

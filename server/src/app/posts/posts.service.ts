@@ -53,15 +53,24 @@ export class PostsService {
             throw new HttpException("У вас нет прав изменять этот пост", HttpStatus.BAD_REQUEST);
         }
 
-        const deletedFiles = oldPost.files.filter(file => {
-            return !dto.files.find((newFile) => {
-                return file.id === newFile.id
-            })
+        const deletedFiles = oldPost?.files?.filter(file => {
+            if(dto.files){
+                return !dto.files.find((newFile) => {
+                    return file.id === newFile.id
+                })
+            } else {
+                return true
+            }
         })
 
         await this.fileService.removeFiles(deletedFiles)
 
-        const newFiles = await this.fileService.renameFiles(dto.files)
+        let newFiles = []
+
+        if(dto.files?.length){
+             newFiles = await this.fileService.renameFiles(dto.files)
+        }
+
 
         await oldPost.update({files: newFiles, content: [...dto.content], isDisabledComments: dto.isDisabledComments, view: dto.view})
         return await this.postRepository.findOne({where: {id: dto.id}, include: { all: true } })

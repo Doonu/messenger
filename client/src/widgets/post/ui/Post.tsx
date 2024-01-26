@@ -66,7 +66,7 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
       return false;
     });
 
-    setAllFiles({ photos: photos, files: files });
+    setAllFiles({ photos: photos || [], files: files || [] });
   };
 
   useEffect(() => {
