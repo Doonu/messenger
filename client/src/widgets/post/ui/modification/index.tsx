@@ -73,7 +73,7 @@ const Modification: FC<IModification> = ({
     const files = e.target.files;
     if (!files) return;
 
-    if (modifyAllFiles.photos.length + files.length > 5) {
+    if (modifyAllFiles.photos?.length + files.length > 5) {
       handlerChangeTitle('Вы можете прикрепить к посту не больше 5 фотографий');
       return;
     }
@@ -106,8 +106,7 @@ const Modification: FC<IModification> = ({
       .then((post) => {
         handlerRemoveEdit();
 
-        //TODO: Вынести в отдельную функцию
-        const photos: IFilesPost[] = post.files.filter(({ url }) => {
+        const photos: IFilesPost[] = post.files?.filter(({ url }) => {
           const arrayFile = url.split('.');
           if (
             arrayFile[arrayFile.length - 1].includes('jpg') ||
@@ -119,7 +118,7 @@ const Modification: FC<IModification> = ({
           return false;
         });
 
-        const files: IFilesPost[] = post.files.filter(({ url }) => {
+        const files: IFilesPost[] = post.files?.filter(({ url }) => {
           const arrayFile = url.split('.');
           if (
             arrayFile[arrayFile.length - 1].includes('pdf') ||
@@ -130,7 +129,7 @@ const Modification: FC<IModification> = ({
           return false;
         });
 
-        setAllFiles({ photos: photos, files: files });
+        setAllFiles({ photos: photos || [], files: files || [] });
       })
       .catch(() => {});
   };
@@ -175,7 +174,7 @@ const Modification: FC<IModification> = ({
             />
             <span>редактирование записи</span>
           </SHead>
-          {!!modifyAllFiles.photos.length && (
+          {!!modifyAllFiles.photos?.length && (
             <Photos
               setIsPreviewPhoto={setIsPreviewPhoto}
               setIsCurrentIndex={setCurrentIndex}
@@ -183,7 +182,7 @@ const Modification: FC<IModification> = ({
               setData={setModifyAllFiles}
             />
           )}
-          {!!modifyAllFiles.files.length && (
+          {!!modifyAllFiles.files?.length && (
             <Files data={modifyAllFiles} setData={setModifyAllFiles} />
           )}
           <SAutosizeInput
