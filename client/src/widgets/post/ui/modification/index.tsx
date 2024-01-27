@@ -24,7 +24,7 @@ import { PreviewPhoto } from '../../../../components/navigation/modal/content/pr
 import ActionIcons from '../../../../features/actionIcons';
 import addPendingList from '../../../../shared/api/files/addPendingList';
 import clearTrash from '../../../../shared/api/files/clearTrash';
-import { photosFilter } from '../../../../shared/util/filter';
+import { extensionPhotoList, photosFilter } from '../../../../shared/util/filter';
 
 interface IModification extends IPostAndDrag {
   allFiles: IAllFiles;
@@ -72,12 +72,16 @@ const Modification: FC<IModification> = ({
     const files = e.target.files;
     if (!files) return;
 
-    if (modifyAllFiles.photos?.length + files.length > 5) {
+    const filteredPhoto = Array.from(files).filter((file) =>
+      extensionPhotoList.includes(file.name.split('.')[file.name.split('.').length - 1])
+    );
+
+    if (modifyAllFiles.photos?.length + filteredPhoto.length > 5) {
       handlerChangeTitle('Вы можете прикрепить к посту не больше 5 фотографий');
       return;
     }
 
-    await dispatch(addPendingList(Array.from(files)))
+    await dispatch(addPendingList(Array.from(filteredPhoto)))
       .unwrap()
       .then((files) => {
         setModifyAllFiles((prev) => {

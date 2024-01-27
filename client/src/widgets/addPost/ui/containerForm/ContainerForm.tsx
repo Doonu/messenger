@@ -21,6 +21,7 @@ import { useOutsideClick } from '../../../../hooks/outside';
 import ActionIcons from '../../../../features/actionIcons';
 import BaseButton from '../../../../components/ui/buttons/baseButton';
 import addPendingList from '../../../../shared/api/files/addPendingList';
+import { extensionPhotoList } from '../../../../shared/util/filter';
 
 interface IContainerFormProps {
   isDraggablePhoto: boolean;
@@ -62,14 +63,19 @@ const ContainerForm: FC<IContainerFormProps> = ({
   const handlerPhoto = async (e: ChangeEvent<HTMLInputElement>) => {
     handlerChange();
     const files = e.target.files;
+
     if (!files) return;
 
-    if (data.photos.length + files.length > 5) {
+    const filteredPhoto = Array.from(files).filter((file) =>
+      extensionPhotoList.includes(file.name.split('.')[file.name.split('.').length - 1])
+    );
+
+    if (data.photos.length + filteredPhoto.length > 5) {
       handlerChangeTitle('Вы можете прикрепить к посту не больше 5 фотографий');
       return;
     }
 
-    await dispatch(addPendingList(Array.from(files)))
+    await dispatch(addPendingList(Array.from(filteredPhoto)))
       .unwrap()
       .then((files) => {
         setData((prev) => {
