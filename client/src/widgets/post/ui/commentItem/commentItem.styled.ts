@@ -57,7 +57,13 @@ export const SContent = styled(Typography.Text)`
   margin-bottom: 5px;
 `;
 
-export const STime = styled.span``;
+export const SComment = styled.div`
+  color: ${({ theme }) => theme.colors.active};
+`;
+
+export const STime = styled.span`
+  color: ${({ theme }) => theme.colors.text};
+`;
 
 export const SDelete = styled.div`
   cursor: pointer;

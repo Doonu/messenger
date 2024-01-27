@@ -29,9 +29,7 @@ const Actions: FC<IActions> = ({ onActiveComments, commentLength, post }) => {
       <LikeButton $isLike={isLike} onClick={handleLikeClick}>
         {post.countLikes}
       </LikeButton>
-      {!post.isDisabledComments && (
-        <SComment onClick={onActiveComments}>{commentLength || post.comments.length}</SComment>
-      )}
+      {!post.isDisabledComments && <SComment onClick={onActiveComments}>{commentLength}</SComment>}
       <SShared>{post.shared}</SShared>
     </SInfo>
   );

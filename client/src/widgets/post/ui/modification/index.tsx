@@ -25,8 +25,6 @@ import ActionIcons from '../../../../features/actionIcons';
 import addPendingList from '../../../../shared/api/files/addPendingList';
 import clearTrash from '../../../../shared/api/files/clearTrash';
 
-//TODO: Добавить модалки
-
 interface IModification extends IPostAndDrag {
   allFiles: IAllFiles;
   setAllFiles: Dispatch<SetStateAction<IAllFiles>>;

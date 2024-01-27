@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IPostState } from './model/IPost';
+import { IPostState, IRecalculationOfComments } from './model/IPost';
 import postCreate from '../../shared/api/post/postCreate';
 import getAllPost from '../../shared/api/post/getAllPost';
 import deletePostById from '../../shared/api/post/deletePostById';
@@ -55,6 +55,17 @@ export const postSlice = createSlice({
     },
     removeEditPost: (state) => {
       state.editedPost = undefined;
+    },
+    recalculationOfComments: (state, { payload }: PayloadAction<IRecalculationOfComments>) => {
+      state.posts = state.posts.map((post) => {
+        if (post.id === payload.id) {
+          return {
+            ...post,
+            comments: payload.action === 0 ? post.comments - 1 : post.comments + 1,
+          };
+        }
+        return post;
+      });
     },
   },
   extraReducers: (builder) => {
@@ -115,5 +126,6 @@ export const {
   editPost,
   removeWarningPost,
   removeEditPost,
+  recalculationOfComments,
 } = postSlice.actions;
 export default postSlice.reducer;
