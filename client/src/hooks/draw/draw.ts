@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Draw, Point } from './IDraw';
+import { Draw, Point } from './draw.types';
 
 export const useDraw = (onDraw: ({ ctx, currentPoint, prevPoint }: Draw) => void) => {
   const [mouseDown, setMouseDown] = useState(false);

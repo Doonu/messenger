@@ -4,7 +4,7 @@ import { SActionChange, SActions, SaveImage, SContainer } from './photoEditor.st
 import Toolbar from './ui/Toolbar';
 import { IActionType } from './model/IToolbar';
 import { useDraw } from '../../hooks/draw/draw';
-import { Draw } from '../../hooks/draw/IDraw';
+import { Draw } from '../../hooks/draw/draw.types';
 import BaseButton from '../../components/ui/buttons/baseButton';
 
 interface IPhotoEditor {
