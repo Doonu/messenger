@@ -27,8 +27,10 @@ export class PostsService {
             throw new HttpException("У вас нет прав удалять этот пост", HttpStatus.BAD_REQUEST);
         }
 
-        const newFilesName = await this.fileService.renameUpdatePending(savedPost.files, userId)
-        await savedPost.update({files: newFilesName})
+       if(savedPost.files){
+           const newFilesName = await this.fileService.renameUpdatePending(savedPost.files, userId)
+           await savedPost.update({files: newFilesName})
+       }
 
         await this.postRepository.destroy({where: {id: id}})
         return savedPost
@@ -39,8 +41,10 @@ export class PostsService {
         const post = await this.postRepository.findByPk(id, {paranoid: false})
         await post.restore()
 
-        const newFiles = await this.fileService.renameFiles(post.files)
-        await post.update({files: newFiles})
+        if(post.files){
+            const newFiles = await this.fileService.renameFiles(post.files)
+            await post.update({files: newFiles})
+        }
 
         return post;
     }
