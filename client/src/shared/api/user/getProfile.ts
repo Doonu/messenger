@@ -16,7 +16,7 @@ export interface IGetProfile {
   email: string;
   banned: boolean;
   banReason: null | string;
-  id: string;
+  id: number;
   roles: {
     value: string;
     createdAt: string;
@@ -29,7 +29,7 @@ export interface ApiProfile {
   email: string;
   banned: boolean;
   banReason: null | string;
-  id: string;
+  id: number;
   roles: {
     id: number;
     value: string;

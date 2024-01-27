@@ -5,26 +5,43 @@ import ToggleComments from '../ui/more/toggleComments';
 import { IPostState } from '../../../entities/post/model/IPost';
 import EditPost from '../ui/more/editPost';
 
-export const moreItemsDropdown = (post: IPostState): MenuProps['items'] => {
+interface IMoreItemsDropdown {
+  post: IPostState;
+  services: Array<() => void>;
+  disabledServices: boolean;
+}
+
+export const moreItemsDropdown = ({
+  disabledServices,
+  services,
+  post,
+}: IMoreItemsDropdown): MenuProps['items'] => {
   return [
     {
-      label: <DeletePost post={post} />,
+      label: <DeletePost />,
+      onClick: services[0],
+      disabled: disabledServices,
       key: '0',
     },
     {
       type: 'divider',
-    },
-    {
-      label: <ToggleComments post={post} />,
       key: '1',
     },
     {
-      type: 'divider',
+      label: <ToggleComments post={post} />,
+      onClick: services[1],
+      disabled: disabledServices,
       key: '2',
     },
     {
-      label: <EditPost post={post} />,
+      type: 'divider',
       key: '3',
+    },
+    {
+      label: <EditPost />,
+      onClick: services[2],
+      disabled: disabledServices,
+      key: '4',
     },
   ];
 };

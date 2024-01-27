@@ -33,13 +33,13 @@ const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit,
   const { id } = useAppSelector(selectorUser);
 
   const [isShowInfo, setIsShowInfo] = useState(false);
-  const [isLike, setIsLike] = useState(comment.likesList.includes(+id));
+  const [isLike, setIsLike] = useState(comment.likesList.includes(id));
   const [editContent, setEditContent] = useState(comment.content.join('\n'));
 
   const convertedName = convertName(comment.author.name);
 
-  const visibleRemove = comment.author.id === +id || userPostId === +id;
-  const visibleEdit = comment.author.id === +id;
+  const visibleRemove = comment.author.id === id || userPostId === id;
+  const visibleEdit = comment.author.id === id;
 
   const handlerLike = () => {
     dispatch(likeComments(comment.id)).finally(() => setIsLike((prev) => !prev));
