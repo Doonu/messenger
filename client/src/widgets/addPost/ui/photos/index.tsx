@@ -26,7 +26,7 @@ const Photos: FC<IPhotosProps> = ({ data, setData, setCurrentIndex }) => {
 
   return (
     <SPhotos $position={values.isActive}>
-      {data.photos.map(({ url, id, originalName }, index) => (
+      {data.photos.map(({ url, id }, index) => (
         <Photo
           onClick={() => handleOpenModalPhoto(index)}
           onDelete={() => handleDelete(id)}

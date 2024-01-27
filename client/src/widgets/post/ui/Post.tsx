@@ -4,15 +4,14 @@ import Restore from './restore';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { selectorPost } from '../../../entities/post/post.selectors';
 import { ICommentsState } from '../../../entities/post/model/IPost';
-import { IAllFiles, IFilesPost } from '../../../shared/models/IPost';
+import { IAllFiles } from '../../../shared/models/IPost';
 import Comments from './comments';
 import { removeWarningPost } from '../../../entities/post/post.slice';
 import { IPostAndDrag } from '../model/shared';
 import Content from './content';
 import Modification from './modification';
 import Actions from './actions';
-
-//TODO: Возможно стоит убирать предупреждение после скролла через некоторое время
+import { photosFilter } from '../../../shared/util/filter';
 
 const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange }) => {
   const dispatch = useAppDispatch();
@@ -43,28 +42,8 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
   };
 
   const filterFiles = () => {
-    const photos: IFilesPost[] = post.files?.filter(({ url }) => {
-      const arrayFile = url.split('.');
-      if (
-        arrayFile[arrayFile.length - 1].includes('jpg') ||
-        arrayFile[arrayFile.length - 1].includes('png') ||
-        arrayFile[arrayFile.length - 1].includes('webp')
-      ) {
-        return true;
-      }
-      return false;
-    });
-
-    const files: IFilesPost[] = post.files?.filter(({ url }) => {
-      const arrayFile = url.split('.');
-      if (
-        arrayFile[arrayFile.length - 1].includes('pdf') ||
-        arrayFile[arrayFile.length - 1].includes('docx')
-      ) {
-        return true;
-      }
-      return false;
-    });
+    const photos = photosFilter({ photos: post.files, type: 'photo' });
+    const files = photosFilter({ photos: post.files, type: 'file' });
 
     setAllFiles({ photos: photos || [], files: files || [] });
   };

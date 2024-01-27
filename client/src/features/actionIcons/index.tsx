@@ -100,7 +100,7 @@ const ActionIcons: FC<IIconsProps> = ({ setData, data, onActive, onTitle, isActi
       <div onClick={handleFile}>
         <SFile title={'Файл'} />
         <input
-          accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+          accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf, .csv, application/vnd.ms-excel"
           ref={fileRef}
           multiple
           type="file"

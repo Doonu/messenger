@@ -4,7 +4,6 @@ import { message as messageAntd, notification } from 'antd';
 import { clearMessage } from '../../../entities/notification/notification.slice';
 import notificationConfig from './lib/config';
 
-//TODO: Вынести все selectors в отдельный файл
 //TODO: Разобраться с типами
 //TODO: Сразу с компонентами делать лоадеры
 

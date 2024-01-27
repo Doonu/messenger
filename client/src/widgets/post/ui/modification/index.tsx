@@ -14,7 +14,7 @@ import {
   SDragField,
   SHead,
 } from './modification.styled';
-import { IAllFiles, IFilesPost } from '../../../../shared/models/IPost';
+import { IAllFiles } from '../../../../shared/models/IPost';
 import Photos from '../photos';
 import Files from '../files';
 import updatePost from '../../../../shared/api/post/updatePost';
@@ -24,6 +24,7 @@ import { PreviewPhoto } from '../../../../components/navigation/modal/content/pr
 import ActionIcons from '../../../../features/actionIcons';
 import addPendingList from '../../../../shared/api/files/addPendingList';
 import clearTrash from '../../../../shared/api/files/clearTrash';
+import { photosFilter } from '../../../../shared/util/filter';
 
 interface IModification extends IPostAndDrag {
   allFiles: IAllFiles;
@@ -104,28 +105,8 @@ const Modification: FC<IModification> = ({
       .then((post) => {
         handlerRemoveEdit();
 
-        const photos: IFilesPost[] = post.files?.filter(({ url }) => {
-          const arrayFile = url.split('.');
-          if (
-            arrayFile[arrayFile.length - 1].includes('jpg') ||
-            arrayFile[arrayFile.length - 1].includes('png') ||
-            arrayFile[arrayFile.length - 1].includes('webp')
-          ) {
-            return true;
-          }
-          return false;
-        });
-
-        const files: IFilesPost[] = post.files?.filter(({ url }) => {
-          const arrayFile = url.split('.');
-          if (
-            arrayFile[arrayFile.length - 1].includes('pdf') ||
-            arrayFile[arrayFile.length - 1].includes('docx')
-          ) {
-            return true;
-          }
-          return false;
-        });
+        const photos = photosFilter({ photos: post.files, type: 'photo' });
+        const files = photosFilter({ photos: post.files, type: 'file' });
 
         setAllFiles({ photos: photos || [], files: files || [] });
       })
