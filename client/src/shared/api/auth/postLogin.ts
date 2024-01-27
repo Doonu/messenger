@@ -33,6 +33,7 @@ const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
       })
       .catch(({ response }: AxiosError<IError>) => {
         const title = response?.data.message || 'Неизвестная ошибка';
+
         dispatch(
           showMessage({
             title: title,
@@ -40,6 +41,7 @@ const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
             level: 'medium',
           })
         );
+
         return rejectWithValue(response?.data);
       });
   }

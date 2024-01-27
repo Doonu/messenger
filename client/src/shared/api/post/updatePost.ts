@@ -12,7 +12,7 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
 
 const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
   'post/update',
-  ({ content, isDisabledComments, view, files, id }, {}) => {
+  ({ content, isDisabledComments, view, files, id }, { rejectWithValue }) => {
     let dynamicParams = {};
 
     if (files.length) {
@@ -23,26 +23,30 @@ const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
       url: `http://localhost:5000/api/posts`,
       method: 'PUT',
       data: { ...dynamicParams, content, isDisabledComments, view, id },
-    }).then(({ data }) => {
-      return {
-        id: data.id,
-        userId: data.userId,
-        content: data.content,
-        countLikes: data.countLikes,
-        likesList: data.likesList,
-        shared: data.shared,
-        comments: data.comments.length,
-        files: data.files,
-        createdAt: data.createdAt,
-        updatedAt: data.updatedAt,
-        isDisabledComments: data.isDisabledComments,
-        view: data.view,
-        author: {
-          name: data.author.name,
-          imgSubstitute: data.author.imgSubstitute,
-        },
-      };
-    });
+    })
+      .then(({ data }) => {
+        return {
+          id: data.id,
+          userId: data.userId,
+          content: data.content,
+          countLikes: data.countLikes,
+          likesList: data.likesList,
+          shared: data.shared,
+          comments: data.comments.length,
+          files: data.files,
+          createdAt: data.createdAt,
+          updatedAt: data.updatedAt,
+          isDisabledComments: data.isDisabledComments,
+          view: data.view,
+          author: {
+            name: data.author.name,
+            imgSubstitute: data.author.imgSubstitute,
+          },
+        };
+      })
+      .catch((response) => {
+        return rejectWithValue(response?.data);
+      });
   }
 );
 

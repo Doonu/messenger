@@ -14,7 +14,7 @@ export const SButton = styled(Button)<BaseButtonProps>`
       align-items: center;
       gap: 5px;
       max-height: 30px;
-    `}
+    `};
 
   background: ${({ theme, bgTransparent }) => (bgTransparent ? 'transparent' : theme.colors.blue)};
   color: ${({ theme }) => theme.colors.active};

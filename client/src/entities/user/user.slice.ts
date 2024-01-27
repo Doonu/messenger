@@ -5,7 +5,7 @@ import getProfile from '../../shared/api/user/getProfile';
 
 export interface authState {
   name: string;
-  id: string;
+  id: number;
   email: string;
   banned: boolean;
   banReason: null | string;
@@ -19,7 +19,7 @@ export interface authState {
 const initialState: authState = {
   name: '',
   email: '',
-  id: '',
+  id: 0,
   banned: false,
   banReason: null,
   roles: [],
