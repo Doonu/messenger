@@ -5,7 +5,7 @@ export interface IPostState {
   countLikes: number;
   likesList: number[];
   shared: number;
-  comments: ICommentsState[];
+  comments: number;
   files: {
     id: string;
     url: string;
@@ -23,6 +23,10 @@ export interface IPostState {
   };
 }
 
+export interface ApiPostState extends Omit<IPostState, 'comments'> {
+  comments: ICommentsState[];
+}
+
 export interface ICommentsState {
   id: number;
   content: string[];
@@ -36,4 +40,9 @@ export interface ICommentsState {
     id: number;
   };
   isEdit: boolean;
+}
+
+export interface IRecalculationOfComments {
+  id: number;
+  action: 0 | 1; // 0 - удаление, 1 - прибавление
 }

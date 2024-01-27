@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import {
   SContainer,
-  SContent,
   SName,
   STime,
   SInfo,
@@ -13,6 +12,7 @@ import {
   SNameContainer,
   SContainerButtons,
   SContainerEdit,
+  SComment,
 } from './commentItem.styled';
 import { postTime } from '../../../../shared/util/time';
 import PhotoProfile from '../../../../components/ui/profiles/photo';
@@ -25,6 +25,7 @@ import { selectorUser } from '../../../../entities/user/user.selectors';
 import BaseButton from '../../../../components/ui/buttons/baseButton';
 import updateComment from '../../../../shared/api/comments/updateComment';
 import { ICommentItem } from '../../model/ICommentItem';
+import { Slice } from '../../../../components/ui/slice';
 
 const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit, userPostId }) => {
   const dispatch = useAppDispatch();
@@ -99,14 +100,10 @@ const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit,
           </SContainerEdit>
         )}
         {!comment.isEdit && (
-          <>
-            <SContent>
-              {comment.content.map((row) => (
-                <div key={row}>{row}</div>
-              ))}
-            </SContent>
+          <SComment>
+            <Slice padding={false} content={comment.content} />
             <STime>{postTime(comment.createdAt)}</STime>
-          </>
+          </SComment>
         )}
       </SInfo>
       {!comment.isEdit && (

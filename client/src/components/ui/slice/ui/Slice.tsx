@@ -3,9 +3,10 @@ import { SContainer, SViewFull } from './slice.styled';
 
 interface ISlice {
   content: string[];
+  padding?: boolean;
 }
 
-export const Slice: FC<ISlice> = ({ content }) => {
+export const Slice: FC<ISlice> = ({ content, padding = true }) => {
   const [isActive, setIsActive] = useState(false); // Состояние для отображения показать польностью или скрыть
   const [state, setState] = useState<string[]>(content.slice(0, 8)); // Состояние content
   const [hidden, setHidden] = useState(false); // Состояние для отображения тумблера
@@ -32,7 +33,7 @@ export const Slice: FC<ISlice> = ({ content }) => {
   }, [content]);
 
   return (
-    <SContainer>
+    <SContainer $padding={padding}>
       {state.map((str, i) => (
         <div key={i}>{str}</div>
       ))}

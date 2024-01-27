@@ -122,7 +122,7 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
           <Actions
             post={post}
             onActiveComments={handleActiveComments}
-            commentLength={comments.length}
+            commentLength={post.comments}
           />
         )}
       </STop>

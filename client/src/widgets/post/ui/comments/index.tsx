@@ -9,6 +9,7 @@ import PhotoProfile from '../../../../components/ui/profiles/photo';
 import createComment from '../../../../shared/api/comments/createComment';
 import deleteComments from '../../../../shared/api/comments/deleteComments';
 import { CommentsProps } from '../../model/IComments';
+import { recalculationOfComments } from '../../../../entities/post/post.slice';
 
 const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
   const dispatch = useAppDispatch();
@@ -32,6 +33,7 @@ const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
         .unwrap()
         .then((comment) => {
           setComments((comments) => [comment, ...comments]);
+          dispatch(recalculationOfComments({ action: 1, id: post.id }));
           setContent('');
         });
     }
@@ -42,6 +44,7 @@ const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
       .unwrap()
       .then(() => {
         const currentComments = comments.filter((com) => com.id !== id);
+        dispatch(recalculationOfComments({ action: 0, id: post.id }));
         setComments(currentComments);
       })
       .catch(() => {});
