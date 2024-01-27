@@ -24,11 +24,13 @@ const toggleCommentsById = createAsyncThunk<
       return data;
     })
     .catch(({ response }: AxiosError<IError>) => {
+      const customMessage = `У вас нет прав для ${
+        isDisabledComments ? 'разблокировки' : 'блокировки'
+      } комментариев`;
+
       dispatch(
         showMessage({
-          title: `У вас нет прав для ${
-            isDisabledComments ? 'разблокировки' : 'блокировки'
-          } комментариев`,
+          title: customMessage,
           type: 'warning',
           level: 'medium',
         })

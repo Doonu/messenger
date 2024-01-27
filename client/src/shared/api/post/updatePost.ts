@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IPostState } from '../../../entities/post/model/IPost';
+import { ApiPostState, IPostState } from '../../../entities/post/model/IPost';
 import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../models/errors';
 import { RootState } from '../../../app/store';
 import API from '../interceptors';
@@ -19,7 +19,7 @@ const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
       dynamicParams = { ...updatePost, files: files };
     }
 
-    return API<IPostState>({
+    return API<ApiPostState>({
       url: `http://localhost:5000/api/posts`,
       method: 'PUT',
       data: { ...dynamicParams, content, isDisabledComments, view, id },
@@ -31,7 +31,7 @@ const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
         countLikes: data.countLikes,
         likesList: data.likesList,
         shared: data.shared,
-        comments: data.comments,
+        comments: data.comments.length,
         files: data.files,
         createdAt: data.createdAt,
         updatedAt: data.updatedAt,

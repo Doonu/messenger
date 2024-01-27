@@ -5,7 +5,7 @@ import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../mod
 import { RootState } from '../../../app/store';
 import { AxiosError } from 'axios';
 import { showMessage } from '../../../entities/notification/notification.slice';
-import { IPostState } from '../../../entities/post/model/IPost';
+import { IPostState, ApiPostState } from '../../../entities/post/model/IPost';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
@@ -13,12 +13,10 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
 
 type IPostCreate = Pick<IPostState, 'content' | 'isDisabledComments' | 'view' | 'files'>;
 
-interface ApiPostCreate extends IPostState {}
-
 const postCreate = createAsyncThunk<IPostState, IPostCreate, IConfigAsyncThunk>(
   'posts/create',
   (post, { rejectWithValue, dispatch }) => {
-    return API<ApiPostCreate>({
+    return API<ApiPostState>({
       url: `http://localhost:5000/api/posts`,
       method: 'POST',
       data: post,
@@ -31,7 +29,7 @@ const postCreate = createAsyncThunk<IPostState, IPostCreate, IConfigAsyncThunk>(
           countLikes: data.countLikes,
           likesList: data.likesList,
           shared: data.shared,
-          comments: data.comments,
+          comments: 0,
           files: data.files,
           createdAt: data.createdAt,
           updatedAt: data.updatedAt,
