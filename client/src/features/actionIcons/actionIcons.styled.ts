@@ -4,6 +4,7 @@ export const SContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
+
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     & > div:first-child,
     & > div:nth-child(2) {

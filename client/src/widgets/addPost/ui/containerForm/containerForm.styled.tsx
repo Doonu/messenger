@@ -11,6 +11,7 @@ interface SDragFieldProps {
 
 export const SContainer = styled.div<IPositionProps>`
   display: grid;
+  position: relative;
   border: 1px solid ${({ theme }) => theme.colors.secondaryText};
   background: ${({ theme }) => theme.colors.secondaryBg};
   border-radius: ${({ theme }) => theme.radius.base};
