@@ -30,7 +30,7 @@ const Photos: FC<IPhotosProps> = ({ data, setData, setCurrentIndex }) => {
         <Photo
           onClick={() => handleOpenModalPhoto(index)}
           onDelete={() => handleDelete(id)}
-          url={`http://localhost:5000/${url}`}
+          url={url}
           key={id}
         />
       ))}

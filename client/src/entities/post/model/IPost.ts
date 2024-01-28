@@ -15,7 +15,7 @@ export interface IPostState {
   }[];
   createdAt: string;
   updatedAt: string;
-  view: string;
+  view: 'slider' | 'grid';
   isDisabledComments: boolean;
   author: {
     name: string;

@@ -3,10 +3,12 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalStyles = createGlobalStyle`
   #root{
     height: 100vh;
+    
     @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
       height: auto;
     };
   }
+  
     * {
         padding: 0;
         margin: 0;

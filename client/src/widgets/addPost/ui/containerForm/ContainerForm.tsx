@@ -118,20 +118,22 @@ const ContainerForm: FC<IContainerFormProps> = ({
 
           {data.photos.length > 1 && <Features />}
           <SContainerIcons $position={values.isActive}>
-            <ActionIcons
-              setData={setData}
-              data={data}
-              onActive={handlerActive}
-              onTitle={handlerChangeTitle}
-              isActive={values.isActive}
-            />
             {values.isActive && (
-              <SSubmit>
-                {!isCorrect && <Settings />}
-                <BaseButton htmlType="submit" disabled={isCorrect} height="30px">
-                  Опубликовать
-                </BaseButton>
-              </SSubmit>
+              <>
+                <ActionIcons
+                  setData={setData}
+                  data={data}
+                  onActive={handlerActive}
+                  onTitle={handlerChangeTitle}
+                  isActive={values.isActive}
+                />
+                <SSubmit>
+                  {!isCorrect && <Settings />}
+                  <BaseButton htmlType="submit" disabled={isCorrect} height="30px">
+                    Опубликовать
+                  </BaseButton>
+                </SSubmit>
+              </>
             )}
           </SContainerIcons>
         </>

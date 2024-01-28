@@ -10,13 +10,12 @@ interface SDragFieldProps {
 }
 
 export const SContainer = styled.div<IPositionProps>`
-  position: relative;
-  display: block;
+  display: grid;
   border: 1px solid ${({ theme }) => theme.colors.secondaryText};
   background: ${({ theme }) => theme.colors.secondaryBg};
   border-radius: ${({ theme }) => theme.radius.base};
   padding: 15px;
-  margin-bottom: 15px;
+  margin: 0 auto 15px 0;
   min-height: ${({ $isDraggable }) => $isDraggable && `150px`};
 
   ${({ $position }) =>

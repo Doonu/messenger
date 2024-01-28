@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import Header from '../../navigation/header';
-import { Containers } from '../../../shared/styles/containers';
+import { SContent } from '../../../shared/styles/containers';
 
 interface BaseContainerProps {
   children: ReactNode;
@@ -11,7 +11,7 @@ const BaseContainer: FC<BaseContainerProps> = ({ isHeader = true, children }) =>
   return (
     <>
       {isHeader && <Header />}
-      <Containers>{children}</Containers>
+      <SContent>{children}</SContent>
     </>
   );
 };

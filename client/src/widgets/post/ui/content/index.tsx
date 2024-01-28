@@ -28,12 +28,17 @@ const Content: FC<IContent> = ({ post, allFiles }) => {
         />
         {visibleMore && <More post={post} />}
       </SHead>
-      {allFiles.photos?.map(({ url, id }) => (
-        <img key={id} style={{ width: '300px', height: '300px' }} src={url}></img>
-      ))}
       {post.content.map((content, i) => (
         <SP key={post.id + i}>{content}</SP>
       ))}
+      {post.view === 'slider' &&
+        allFiles.photos?.map(({ url, id }) => (
+          <img key={id} style={{ width: '100%', height: '100%' }} src={url}></img>
+        ))}
+      {post.view === 'grid' &&
+        allFiles.photos?.map(({ url, id }) => (
+          <img key={id} style={{ width: '100%', height: '100%' }} src={url}></img>
+        ))}
       {allFiles.files?.map(({ url, id }) => (
         <a key={id} href={`http://localhost:5000/${url}`} target="blank">
           Сслы
