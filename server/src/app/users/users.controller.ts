@@ -26,7 +26,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Post("/profile")
   getProfile(@Req() {userId}: any){
-    return this.userService.getProfile(userId);
+    return this.userService.getUser(userId);
   }
 
   @ApiOperation({ summary: "Получение всех пользователей" })

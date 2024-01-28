@@ -13,7 +13,7 @@ export class UsersService {
               private roleService: RolesService) {
   }
 
-  // Создание пользователей
+  // Создание пользователя
   async postCreateUser(dto: RegisterUserDto) {
     const user = await this.userRepository.create(dto);
     const role = await this.roleService.getRoleByValue("USER");
@@ -30,10 +30,6 @@ export class UsersService {
   // Получение пользователя по id
   async getUser(id: number) {
     return await this.userRepository.findOne({ attributes: [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute'], where: { id: id }, include: { all: true } });
-  }
-
-  async getProfile(userId: any){
-    return await this.userRepository.findOne({ attributes: [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute'], where: { id: userId }, include: { all: true } });
   }
 
   // Удаление пользователя по id
