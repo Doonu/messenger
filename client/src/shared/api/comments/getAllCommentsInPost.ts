@@ -8,25 +8,33 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
 }
 
-const getAllCommentsInPost = createAsyncThunk<ICommentsState[], number, IConfigAsyncThunk>(
-  'comments/getAll',
-  (id, { rejectWithValue }) => {
-    return API<ICommentsState[]>({
-      url: `http://localhost:5000/api/posts/comments/${id}`,
-      method: 'GET',
-    })
-      .then(({ data }) => {
-        return data.map((comment) => {
-          return {
-            ...comment,
-            isEdit: false,
-          };
-        });
-      })
-      .catch(({ response }) => {
-        return rejectWithValue(response?.data);
+interface IGetAllCommentsInPost {
+  postId: number;
+  orderBy: string;
+  orderDirection: number;
+}
+
+const getAllCommentsInPost = createAsyncThunk<
+  ICommentsState[],
+  IGetAllCommentsInPost,
+  IConfigAsyncThunk
+>('comments/getAll', ({ postId, orderDirection, orderBy }, { rejectWithValue }) => {
+  return API<ICommentsState[]>({
+    url: `http://localhost:5000/api/posts/comments/${postId}`,
+    method: 'GET',
+    params: { orderBy, orderDirection },
+  })
+    .then(({ data }) => {
+      return data.map((comment) => {
+        return {
+          ...comment,
+          isEdit: false,
+        };
       });
-  }
-);
+    })
+    .catch(({ response }) => {
+      return rejectWithValue(response?.data);
+    });
+});
 
 export default getAllCommentsInPost;

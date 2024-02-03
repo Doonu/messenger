@@ -20,7 +20,7 @@ const BigPhoto: FC<IBigPhoto> = ({ fixedMinSize, url, onClick, dimensions }) => 
   const sizePhoto = () => {
     if (dimensions.width >= dimensions.height) {
       let ratioOfNumbers = dimensions.width / dimensions.height;
-      console.log(containerRef?.current?.offsetWidth);
+
       if (containerRef?.current?.offsetWidth) {
         setHeight(fixedMinSize / ratioOfNumbers);
         setWidth(containerRef.current.offsetWidth);

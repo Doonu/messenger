@@ -30,6 +30,7 @@ export interface ICommentsState {
   updatedAt: string;
   likesList: number[];
   postId: number;
+  countLikes: number;
   author: {
     name: string;
     imgSubstitute: string;

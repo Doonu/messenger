@@ -10,16 +10,25 @@ import createComment from '../../../../shared/api/comments/createComment';
 import deleteComments from '../../../../shared/api/comments/deleteComments';
 import { CommentsProps } from '../../model/IComments';
 import { recalculationOfComments } from '../../../../entities/post/post.slice';
+import Sorting from '../../../../components/ui/sorting/ui';
+import { filterComments } from './lib/filterComments';
+import { ICommentsState } from '../../../../entities/post/model/IPost';
 
-const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
+const Comments: FC<CommentsProps> = ({ post }) => {
   const dispatch = useAppDispatch();
 
   const { name, avatar } = useAppSelector(selectorUser);
 
-  const [content, setContent] = useState('');
+  const [comments, setComments] = useState<ICommentsState[]>([]);
+  const [orderBy, setOrderBy] = useState<string>('1');
+  const [orderDirection, setOrderDirection] = useState<0 | 1>(0);
+
+  const [content, setContent] = useState<string>('');
 
   const getAllComments = () => {
-    dispatch(getAllCommentsInPost(post.id))
+    dispatch(
+      getAllCommentsInPost({ postId: post.id, orderBy: orderBy, orderDirection: orderDirection })
+    )
       .unwrap()
       .then((data) => {
         setComments(data);
@@ -92,10 +101,24 @@ const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
 
   useEffect(() => {
     getAllComments();
-  }, []);
+  }, [orderBy, orderDirection]);
 
   return (
     <SContainer>
+      {!!comments.length && (
+        <Sorting
+          tabs={filterComments}
+          orderBy={orderBy}
+          orderDirection={orderDirection}
+          onChangeDirection={() => {
+            setOrderDirection((prev) => (prev === 1 ? 0 : 1));
+          }}
+          onChangeTabs={(activeKey) => {
+            setOrderBy(activeKey);
+          }}
+        />
+      )}
+
       {!!comments.length && (
         <SContainerComments>
           {comments.map((comment) => (
@@ -106,6 +129,7 @@ const Comments: FC<CommentsProps> = ({ post, setComments, comments }) => {
               onEdit={() => handlerUpdateComment(comment.id)}
               comment={comment}
               key={comment.id}
+              setComments={setComments}
             />
           ))}
         </SContainerComments>

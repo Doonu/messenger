@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Patch, Post, Put, Req, UseGuards} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Put, Query, Req, UseGuards} from '@nestjs/common';
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {CreateCommentDto} from "./dto/create-comment.dto";
 import {CommentsService} from "./comments.service";
@@ -27,10 +27,15 @@ export class CommentsController {
         return this.commentService.deleteComment(id, userId)
     }
 
-    @UseGuards(JwtAuthGuard)
+    // @UseGuards(JwtAuthGuard)
     @Get(':id')
-    getAllCommentsPost(@Param('id') id: number){
-        return this.commentService.getAllCommentsInPost(id)
+    getAllCommentsPost(
+        @Param('id') id: number,
+        @Query("orderBy") orderBy: string,
+        @Query("orderDirection") orderDirection: number,
+    ){
+        console.log(orderBy, orderDirection)
+        return this.commentService.getAllCommentsInPost(id, orderBy, orderDirection)
     }
 
     @UseGuards(JwtAuthGuard)

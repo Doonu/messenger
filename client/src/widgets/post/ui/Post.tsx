@@ -3,7 +3,6 @@ import { SContainer, STop } from './post.styled';
 import Restore from './restore';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { selectorPost } from '../../../entities/post/post.selectors';
-import { ICommentsState } from '../../../entities/post/model/IPost';
 import { IAllFiles } from '../../../shared/models/IPost';
 import Comments from './comments';
 import { removeWarningPost } from '../../../entities/post/post.slice';
@@ -21,7 +20,6 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
   const ref = useRef<any>(null);
 
   const [allFiles, setAllFiles] = useState<IAllFiles>({ photos: [], files: [] });
-  const [comments, setComments] = useState<ICommentsState[]>([]);
 
   const [isDeletedPost, setIsDeletedPost] = useState(false);
   const [isCommentsActive, setIsCommentsActive] = useState(false);
@@ -105,9 +103,7 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
           />
         )}
       </STop>
-      {isCommentsActive && !isDeletedPost && (
-        <Comments comments={comments} setComments={setComments} post={post} />
-      )}
+      {isCommentsActive && !isDeletedPost && <Comments post={post} />}
     </SContainer>
   );
 };

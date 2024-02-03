@@ -12,18 +12,21 @@ export const SContainer = styled.div`
   padding: 5px;
 `;
 
-export const SContainerHandle = styled.div<ISContainerHandler>`
-  align-self: normal;
-  display: flex;
-  gap: 20px;
-  visibility: ${({ $isView }) => ($isView ? '' : 'hidden')};
-`;
-
-export const SContainerColumn = styled.div`
+export const SContainerHandle = styled.div`
+  width: 70px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  margin-right: 20px; ;
+  gap: 20px;
+
+  align-self: normal;
+`;
+
+export const SContainerRow = styled.div<ISContainerHandler>`
+  display: flex;
+  gap: 15px;
+
+  margin-right: 20px;
+  visibility: ${({ $isView }) => ($isView ? '' : 'hidden')};
 `;
 
 export const SInfo = styled.div`
@@ -34,6 +37,10 @@ export const SInfo = styled.div`
 `;
 
 export const SLike = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
   cursor: pointer;
 `;
 
