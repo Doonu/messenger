@@ -7,12 +7,12 @@ import {
   SDelete,
   SContainerHandle,
   SLike,
-  SContainerColumn,
   SIcon,
   SNameContainer,
   SContainerButtons,
   SContainerEdit,
   SComment,
+  SContainerRow,
 } from './commentItem.styled';
 import { postTime } from '../../../../shared/util/time';
 import PhotoProfile from '../../../../components/custom/profiles/photo';
@@ -27,7 +27,14 @@ import updateComment from '../../../../shared/api/comments/updateComment';
 import { ICommentItem } from '../../model/ICommentItem';
 import { Slice } from '../../../../components/custom/slice';
 
-const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit, userPostId }) => {
+const CommentItem: FC<ICommentItem> = ({
+  comment,
+  onDelete,
+  onEdit,
+  handlerEdit,
+  userPostId,
+  setComments,
+}) => {
   const dispatch = useAppDispatch();
 
   const { id } = useAppSelector(selectorUser);
@@ -42,7 +49,22 @@ const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit,
   const visibleEdit = comment.author.id === id;
 
   const handlerLike = () => {
-    dispatch(likeComments(comment.id)).finally(() => setIsLike((prev) => !prev));
+    dispatch(likeComments(comment.id))
+      .unwrap()
+      .then(({ isLike }) => {
+        setComments((comments) => {
+          return comments.map((prevComment) => {
+            if (prevComment.id === comment.id) {
+              return {
+                ...prevComment,
+                countLikes: isLike ? prevComment.countLikes + 1 : prevComment.countLikes - 1,
+              };
+            }
+            return prevComment;
+          });
+        });
+      })
+      .finally(() => setIsLike((prev) => !prev));
   };
 
   const handleChangeContent = (e: ChangeEvent<HTMLInputElement>) => {
@@ -107,23 +129,24 @@ const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit,
         )}
       </SInfo>
       {!comment.isEdit && (
-        <SContainerHandle $isView={isShowInfo}>
-          {visibleEdit && (
-            <SIcon onClick={onEdit}>
-              <Redaction />
-            </SIcon>
-          )}
-          <SContainerColumn>
+        <SContainerHandle>
+          <SContainerRow $isView={isShowInfo}>
+            {visibleEdit && (
+              <SIcon onClick={onEdit}>
+                <Redaction />
+              </SIcon>
+            )}
             {visibleRemove && (
               <SDelete onClick={onDelete}>
                 <Close />
               </SDelete>
             )}
-            <SLike onClick={handlerLike}>
-              {!isLike && <Like />}
-              {isLike && <BgLike color={'red'} />}
-            </SLike>
-          </SContainerColumn>
+          </SContainerRow>
+          <SLike onClick={handlerLike}>
+            {!isLike && <Like />}
+            {isLike && <BgLike color={'red'} />}
+            {comment.countLikes}
+          </SLike>
         </SContainerHandle>
       )}
     </SContainer>

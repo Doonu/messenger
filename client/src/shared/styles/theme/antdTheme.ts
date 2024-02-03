@@ -5,8 +5,8 @@ const antdTheme: ThemeConfig = {
   token: {
     fontFamily: `Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'`,
-    // colorPrimary: baseTheme.colors.text,
-    // colorBgLayout: baseTheme.colors.bg,
+    colorPrimary: baseTheme.colors.text,
+    colorBgLayout: baseTheme.colors.bg,
   },
   components: {
     Input: {

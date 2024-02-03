@@ -12,8 +12,13 @@ import { SlMagnifierAdd } from 'react-icons/sl';
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 import { FaPen } from 'react-icons/fa';
 import { PiTextAa } from 'react-icons/pi';
+import { LuArrowDownWideNarrow } from 'react-icons/lu';
 
 export const ArrowDown = styled(IoCaretDownOutline)``;
+
+export const SortedArrow = styled(LuArrowDownWideNarrow).attrs({
+  size: 20,
+})``;
 
 export const Camera = styled(BsFillCameraFill).attrs({
   size: 25,

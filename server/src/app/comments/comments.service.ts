@@ -28,9 +28,16 @@ export class CommentsService {
             throw new UnauthorizedException({ message: "Нет доступа удалять комментарий" });
         }
     }
+    /*
+    *  orderBy
+    *  1 - По новизне
+    *  2 - По популярности
+    * */
+    async getAllCommentsInPost(id: number, orderBy: string, orderDirection: number){
+        let sortOrderBy = orderBy == '2' ? "countLikes" : 'createdAt';
+        let sortOrderDirection = orderDirection == 0 ? 'DESC' : 'ASC'
 
-    async getAllCommentsInPost(id: number){
-        return await this.commentsRepository.findAll({where: {postId: id}, include: {all: true}, order: [['createdAt', 'DESC']]})
+        return await this.commentsRepository.findAll({where: {postId: id}, include: {all: true}, order: [[sortOrderBy, sortOrderDirection]]})
     }
 
     async toggleLikeComment(dto: ToggleLikeCommentDto, userId: number){
