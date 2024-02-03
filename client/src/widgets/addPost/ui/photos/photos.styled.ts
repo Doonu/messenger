@@ -24,8 +24,10 @@ export const SPhotos = styled.div<IPositionProps>`
   overflow-y: hidden;
 
   &::-webkit-scrollbar {
-    height: 0;
+    background: ${({ theme }) => theme.colors.secondaryBg};
+    height: 10px;
   }
+
   &::-webkit-scrollbar-thumb {
     border-radius: 20px;
     background: ${({ theme }) => theme.colors.secondaryText};

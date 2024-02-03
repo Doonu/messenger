@@ -9,6 +9,7 @@ export const SFiles = styled.div`
   width: 100%;
   flex-wrap: nowrap;
   overflow-x: auto;
+
   &::-webkit-scrollbar {
     background: ${({ theme }) => theme.colors.secondaryBg};
     height: 10px;
