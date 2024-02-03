@@ -3,7 +3,7 @@ import { SPhotos } from './photos.styled';
 import { useFormikContext } from 'formik';
 import { IPost } from '../../model/IPost';
 import { IAllFiles } from '../../../../shared/models/IPost';
-import { Photo } from '../../../../components/ui/photos/photo';
+import { Photo } from '../../../../components/custom/photos/photo';
 
 interface IPhotosProps {
   data: IAllFiles;

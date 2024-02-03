@@ -5,7 +5,7 @@ import { selectorUser } from '../../../../entities/user/user.selectors';
 import SendIcon from '../../../../shared/assets/icons/sendIcon';
 import getAllCommentsInPost from '../../../../shared/api/comments/getAllCommentsInPost';
 import CommentItem from '../commentItem';
-import PhotoProfile from '../../../../components/ui/profiles/photo';
+import PhotoProfile from '../../../../components/custom/profiles/photo';
 import createComment from '../../../../shared/api/comments/createComment';
 import deleteComments from '../../../../shared/api/comments/deleteComments';
 import { CommentsProps } from '../../model/IComments';

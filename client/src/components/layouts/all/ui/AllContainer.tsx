@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import BaseContainer from '../../base';
 import Sidebar from '../../../navigation/sidebar';
 import { SCenter, SMain } from './allContainer.styled';
-import MainAdvancedProfile from '../../../ui/profiles/mainAdvanced';
+import MainAdvancedProfile from '../../../custom/profiles/mainAdvanced';
 
 interface AllContainerProps {
   children: ReactNode;

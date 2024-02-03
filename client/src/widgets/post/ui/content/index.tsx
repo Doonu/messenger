@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { SHead, SP } from './content.styled';
-import MainPostProfile from '../../../../components/ui/profiles/mainPost';
+import MainPostProfile from '../../../../components/custom/profiles/mainPost';
 import { postTime } from '../../../../shared/util/time';
 import More from '../more';
 import { useAppSelector } from '../../../../hooks/redux';

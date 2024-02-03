@@ -2,7 +2,7 @@ import React, { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'reac
 import BaseButton from '../../../../components/ui/buttons/baseButton';
 import { useAppDispatch } from '../../../../hooks/redux';
 import { removeEditPost } from '../../../../entities/post/post.slice';
-import MainPostProfile from '../../../../components/ui/profiles/mainPost';
+import MainPostProfile from '../../../../components/custom/profiles/mainPost';
 import { postTime } from '../../../../shared/util/time';
 import { IPostAndDrag } from '../../model/shared';
 import {
