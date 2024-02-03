@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import MainProfile from '../../../ui/profiles/main';
 
-export const SContainer = styled.div`
+export const SContainer = styled.header`
   border-bottom: 1px solid ${({ theme }) => theme.colors.secondaryText};
 `;
 
