@@ -13,9 +13,9 @@ import {
 import getProfile from '../../../../../../shared/api/user/getProfile';
 import { useAppDispatch } from '../../../../../../hooks/redux';
 import { authState } from '../../../../../../entities/user/user.slice';
-import MainPostProfile from '../../../../../ui/profiles/mainPost';
+import MainPostProfile from '../../../../../custom/profiles/mainPost';
 import { Like } from '../../../../../ui/buttons/likesButton/like';
-import { Slice } from '../../../../../ui/slice';
+import { Slice } from '../../../../../custom/slice';
 import { IAllFiles, IFilesPost } from '../../../../../../shared/models/IPost';
 import PhotoEditor from '../../../../../../features/photoEditor';
 import Carousel from '../../../../../ui/carousel/ui';

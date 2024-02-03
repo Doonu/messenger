@@ -1,6 +1,6 @@
 import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IAllFiles } from '../../../../shared/models/IPost';
-import { File } from '../../../../components/ui/file';
+import { File } from '../../../../components/custom/file';
 import { SFiles } from './files.styled';
 
 interface IPhotosProps {

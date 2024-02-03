@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { SContainer, SMainProfile, STitle, SWrapper } from './header.styled';
-import Navbar from '../../../ui/navbar';
-import Logo from '../../../ui/logo';
+import Navbar from '../../../custom/navbar';
+import Logo from '../../../custom/logo';
 import { useAppSelector } from '../../../../hooks/redux';
 import { selectorUser } from '../../../../entities/user/user.selectors';
 import GlobalSearch from '../../../../widgets/globalSearch/ui/SearchForm';

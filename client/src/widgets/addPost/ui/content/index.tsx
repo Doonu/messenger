@@ -4,7 +4,7 @@ import { useFormikContext } from 'formik';
 import { IPost } from '../../model/IPost';
 import { useAppSelector } from '../../../../hooks/redux';
 import { selectorUser } from '../../../../entities/user/user.selectors';
-import PhotoProfile from '../../../../components/ui/profiles/photo';
+import PhotoProfile from '../../../../components/custom/profiles/photo';
 import AutosizeInput from '../../../../components/ui/inputs/autosizeInput';
 
 const Content = () => {

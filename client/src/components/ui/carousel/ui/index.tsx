@@ -5,7 +5,7 @@ import {
   SArrowRight,
 } from '../../../navigation/modal/content/previewPhoto/ui/previewPhoto.styled';
 import { CarouselRef } from 'antd/es/carousel';
-import BigPhoto from '../../photos/bigPhoto';
+import BigPhoto from '../../../custom/photos/bigPhoto';
 import { ICarousel } from '../model/ICarousel';
 
 const Carousel: FC<ICarousel> = ({

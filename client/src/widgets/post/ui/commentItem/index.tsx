@@ -15,7 +15,7 @@ import {
   SComment,
 } from './commentItem.styled';
 import { postTime } from '../../../../shared/util/time';
-import PhotoProfile from '../../../../components/ui/profiles/photo';
+import PhotoProfile from '../../../../components/custom/profiles/photo';
 import { convertName } from '../../../../shared/util/user';
 import { BgLike, Close, Like, Redaction } from '../../../../shared/assets/icons';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
@@ -25,7 +25,7 @@ import { selectorUser } from '../../../../entities/user/user.selectors';
 import BaseButton from '../../../../components/ui/buttons/baseButton';
 import updateComment from '../../../../shared/api/comments/updateComment';
 import { ICommentItem } from '../../model/ICommentItem';
-import { Slice } from '../../../../components/ui/slice';
+import { Slice } from '../../../../components/custom/slice';
 
 const CommentItem: FC<ICommentItem> = ({ comment, onDelete, onEdit, handlerEdit, userPostId }) => {
   const dispatch = useAppDispatch();
