@@ -6,7 +6,7 @@ export const SContainer = styled.div`
 `;
 
 export const SWrapper = styled.div`
-  max-width: 1460px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -25,12 +25,6 @@ export const STitle = styled.div`
   text-transform: uppercase;
   font-size: 20px;
   letter-spacing: 1px;
-`;
-
-export const SLeft = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 120px;
 `;
 
 export const SMainProfile = styled(MainProfile)`

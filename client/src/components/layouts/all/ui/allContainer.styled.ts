@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 
 export const SMain = styled.div`
-  position: relative;
-  gap: 30px;
+  display: flex;
+  gap: 15px;
 `;
 
 export const SCenter = styled.div`
-  max-width: 900px;
+  max-width: 720px;
   margin: 0 auto;
+  flex: 1;
 `;

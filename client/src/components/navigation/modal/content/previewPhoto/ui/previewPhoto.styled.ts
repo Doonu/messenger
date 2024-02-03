@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Carousel } from 'antd';
 import { ArrowLeft, ArrowRight } from '../../../../../../shared/assets/icons';
 
 export const SContainer = styled.div`
@@ -12,14 +11,12 @@ export const SContent = styled.div`
 `;
 
 export const SLeft = styled.div`
+  display: flex;
+  align-items: center;
+
   height: 88vh;
   padding: 0;
   user-select: none;
-`;
-
-export const SCarousel = styled(Carousel)`
-  height: 100%;
-  width: 650px;
 `;
 
 export const SFooter = styled.div`
@@ -35,13 +32,6 @@ export const SInfoPic = styled.div`
   padding: 10px;
   font-size: 15px;
   color: ${({ theme }) => theme.colors.active};
-`;
-
-export const SImg = styled.img`
-  height: 88vh;
-  object-fit: cover;
-  border-radius: 8px 0 0 0;
-  width: 650px;
 `;
 
 export const SRight = styled.div`
@@ -60,21 +50,17 @@ export const SContainerInfo = styled.div`
   background: ${({ theme }) => theme.colors.secondaryBg};
 `;
 
-export const SImgContainer = styled.div`
-  position: relative;
-  width: max-content;
-  border-radius: 118px 0 0 0;
-`;
-
 export const SArrowLeft = styled(ArrowRight)`
   position: absolute;
   top: 45%;
   left: 20px;
   cursor: pointer;
+
   &:hover {
     opacity: 0.4;
   }
 `;
+
 export const SArrowRight = styled(ArrowLeft)`
   position: absolute;
   top: 45%;

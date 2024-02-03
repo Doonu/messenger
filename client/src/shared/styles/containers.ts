@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-export const Containers = styled.div`
-  max-width: 1460px;
+export const SContent = styled.div`
+  max-width: 1200px;
   margin: 0 auto;
   height: calc(100vh - 91px);
   user-select: none;
@@ -9,7 +9,7 @@ export const Containers = styled.div`
 `;
 
 export const ContainerForm = styled.div`
-  max-width: 1440px;
+  max-width: 1200px;
   margin: 0 auto;
   height: 100vh;
   display: flex;

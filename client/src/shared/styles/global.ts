@@ -3,15 +3,23 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalStyles = createGlobalStyle`
   #root{
     height: 100vh;
+    
     @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
       height: auto;
     };
   }
+  
     * {
         padding: 0;
         margin: 0;
         border: none;
     }
+    
+    html{
+      overflow-x: hidden;
+      margin-right: calc(-1 * (100vw - 100%));
+    }
+    
     body{
         background: ${({ theme }) => theme.colors.bg};
         color: ${({ theme }) => theme.colors.text};

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const Container = styled.div`
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 40px;
 
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     position: fixed;

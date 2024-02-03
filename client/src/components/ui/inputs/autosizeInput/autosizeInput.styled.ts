@@ -5,7 +5,7 @@ import { IPositionProps } from './';
 export const SInput = styled(TextareaAutosize)<IPositionProps>`
   color: ${({ theme }) => theme.colors.active};
   font-size: 18px;
-  max-width: ${({ isMaxWidth }) => (isMaxWidth ? '800px' : 'none')};
+  max-width: ${({ isMaxWidth }) => (isMaxWidth ? '720px' : 'none')};
   min-height: ${({ minRows }) => (minRows === 1 ? '40px' : '60px')};
   padding-left: 10px;
   height: unset;

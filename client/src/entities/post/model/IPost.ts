@@ -1,3 +1,5 @@
+import { IFilesPost } from '../../../shared/models/IPost';
+
 export interface IPostState {
   id: number;
   userId: number;
@@ -6,16 +8,10 @@ export interface IPostState {
   likesList: number[];
   shared: number;
   comments: number;
-  files: {
-    id: string;
-    url: string;
-    size: number;
-    originalName: string;
-    type: string;
-  }[];
+  files: IFilesPost[];
   createdAt: string;
   updatedAt: string;
-  view: string;
+  view: 'slider' | 'grid';
   isDisabledComments: boolean;
   author: {
     name: string;

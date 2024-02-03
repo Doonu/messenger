@@ -12,7 +12,7 @@ const AllContainer: FC<AllContainerProps> = ({ children }) => {
   return (
     <BaseContainer>
       <SMain>
-        <Sidebar>content</Sidebar>
+        <Sidebar $width="small">content</Sidebar>
         <SCenter>{children}</SCenter>
         <Sidebar $right>
           <MainAdvancedProfile />

@@ -2,18 +2,12 @@ import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import * as fs from 'fs'
 import * as path from 'path'
 import * as uuid from 'uuid'
+import sizeOf from 'image-size'
 import {iFile} from "../posts/dto/create-post.dto";
 
 @Injectable()
 export class FilesService {
-    //TODO:
-    // Два варианта при имзенении поста:
-    // 1) Сервис по удалению отдельной фотки(на крестик)  - отпадает
-    // 2) Сравнивать старые файлы и новые и удалять
-    /*
-    * 1) Публикация поста, загрузка изображения в папку ожидаения публикации
-    * 2)
-    * */
+    extensionPhotoList = ['jpg', 'png', 'webp', 'svg', 'gif', 'jpeg', 'bmp'];
 
     async renameFiles(files: iFile[]){
         try {
@@ -112,20 +106,39 @@ export class FilesService {
                 const array = file.originalname.split('.');
                 const expansion = array[array.length - 1]
                 const id = uuid.v4()
-                const status = 'pending'
 
+                const status = 'pending'
                 const fileName = userId + "_" + status + "_" + id + `.${expansion}`
 
-                fileNames.push({
+                fs.writeFileSync(path.join(filePath, fileName), file.buffer)
+
+                let newParamFile = {
                     id: id,
                     url: fileName,
                     originalName: file.originalname,
                     size: file.size,
-                    type: file.mimetype
-                })
+                    type: file.mimetype,
+                    dimensions: null
+                }
 
-                fs.writeFileSync(path.join(filePath, fileName), file.buffer)
+                if(this.extensionPhotoList.includes(expansion)){
+                    const dimensions = sizeOf(`static/${fileName}`);
+
+                    newParamFile = {
+                        ...newParamFile,
+                        dimensions: {
+                            height: dimensions.height,
+                            width: dimensions.width
+                        }
+                    }
+
+                }
+
+                fileNames.push({
+                    ...newParamFile,
+                })
             })
+
             return fileNames
 
         } catch (e){

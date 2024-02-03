@@ -4,12 +4,12 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { selectorPost } from '../../../../entities/post/post.selectors';
 import { SList } from './Home.styled';
 import getAllPost from '../../../../shared/api/post/getAllPost';
-import Post from '../../../../widgets/post/ui/Post';
+import { Post } from '../../../../widgets/post';
 import { setAllPosts } from '../../../../entities/post/post.slice';
 import AddPost from '../../../../widgets/addPost';
 
 //TODO: Оптимизировать компонент драгон-input, ререндер на каждый клик
-//TODO: Пагинация
+//TODO: Пагинация(Virtualize-list)
 
 const Home = () => {
   const dispatch = useAppDispatch();

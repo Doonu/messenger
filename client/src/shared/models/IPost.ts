@@ -4,6 +4,10 @@ export interface IFilesPost {
   originalName: string;
   size: number;
   type: string;
+  dimensions: {
+    height: number;
+    width: number;
+  };
 }
 
 export interface IAllFiles {

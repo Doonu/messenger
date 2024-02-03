@@ -1,24 +1,11 @@
-import React, {
-  Dispatch,
-  FC,
-  KeyboardEvent,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import {
   Descriptions,
-  SArrowLeft,
-  SArrowRight,
-  SCarousel,
   SContainer,
   SContainerInfo,
   SContainerProfile,
   SContent,
   SFooter,
-  SImg,
-  SImgContainer,
   SInfoPic,
   SLeft,
   SRight,
@@ -27,11 +14,11 @@ import getProfile from '../../../../../../shared/api/user/getProfile';
 import { useAppDispatch } from '../../../../../../hooks/redux';
 import { authState } from '../../../../../../entities/user/user.slice';
 import MainPostProfile from '../../../../../ui/profiles/mainPost';
-import { CarouselRef } from 'antd/es/carousel';
 import { Like } from '../../../../../ui/buttons/likesButton/like';
 import { Slice } from '../../../../../ui/slice';
 import { IAllFiles, IFilesPost } from '../../../../../../shared/models/IPost';
 import PhotoEditor from '../../../../../../features/photoEditor';
+import Carousel from '../../../../../ui/carousel/ui';
 
 interface PreviewPhotoProps {
   list: IFilesPost[];
@@ -53,8 +40,6 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
 
   const [isEditorPhoto, setIsEditorPhoto] = useState(false);
 
-  const slider = useRef<CarouselRef>(null);
-
   const dispatch = useAppDispatch();
   const handlerGetProfile = () => {
     dispatch(getProfile())
@@ -66,29 +51,6 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
 
   const handleLikeClick = () => {
     setIsLike((prev) => !prev);
-  };
-
-  const handleLeft = () => {
-    slider?.current?.prev();
-    if (currentIndex !== 1) {
-      setCurrentIndex(currentIndex - 1);
-    } else {
-      setCurrentIndex(list.length);
-    }
-  };
-
-  const handleRight = () => {
-    slider?.current?.next();
-    if (currentIndex < list.length) {
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      setCurrentIndex(1);
-    }
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
-    if (e.code === 'ArrowRight') handleRight();
-    if (e.code === 'ArrowLeft') handleLeft();
   };
 
   const handlerEditionImage = (url: string | undefined, id: string) => {
@@ -112,10 +74,6 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
   };
 
   useEffect(() => {
-    slider?.current?.goTo(currentIndex - 1);
-  }, [currentIndex]);
-
-  useEffect(() => {
     handlerGetProfile();
   }, []);
 
@@ -126,20 +84,16 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
       )}
       {!isEditorPhoto && (
         <SContent>
-          <SLeft onKeyDown={handleKeyDown}>
-            <SCarousel ref={slider} dots={false} speed={0} infinite>
-              {list.map(({ url, id }) => (
-                <SImgContainer key={id}>
-                  {list.length > 1 && (
-                    <>
-                      <SArrowLeft onClick={handleLeft} />
-                      <SArrowRight onClick={handleRight} />
-                    </>
-                  )}
-                  <SImg draggable="false" src={url} alt="" />
-                </SImgContainer>
-              ))}
-            </SCarousel>
+          <SLeft>
+            <Carousel
+              speed={0}
+              fixedMinHeight={800}
+              dots={false}
+              infinite
+              currentSlide={currentIndex}
+              photoList={list}
+              setCurrentSlide={setCurrentIndex}
+            />
           </SLeft>
           <SRight>
             <SContainerProfile>
@@ -153,7 +107,7 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
             </SContainerProfile>
             <SContainerInfo>
               <Like onClick={handleLikeClick} isLike={isLike}>
-                12
+                0
               </Like>
             </SContainerInfo>
             <Descriptions>
