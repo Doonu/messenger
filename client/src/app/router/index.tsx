@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux';
 import { checkAuth } from '../../entities/auth/auth.slice';
 import { isAuthSelector } from '../../entities/auth/auth.selectors';
 import { LoaderPage } from '../../components/ui/loaders';
-import Home from '../../pages/private/home';
+import Profile from '../../pages/private/profile';
 import Login from '../../pages/public/login';
 
 const Router = () => {
@@ -24,7 +24,7 @@ const Router = () => {
             ? privateRoutes.map((route) => (
                 <>
                   <Route key={route.path} path={route.path} element={<route.component />} />
-                  {route.path && <Route path="/*" element={<Home />} />}
+                  {route.path && <Route path="/*" element={<Profile />} />}
                 </>
               ))
             : publicRoutes.map((route) => (

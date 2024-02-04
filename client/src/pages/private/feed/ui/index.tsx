@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AllContainer from '../../../../components/layouts/all';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { selectorPost } from '../../../../entities/post/post.selectors';
-import { SList } from './Home.styled';
+import { SList } from './Feed.styled';
 import getAllPost from '../../../../shared/api/post/getAllPost';
 import { Post } from '../../../../widgets/post';
 import { setAllPosts } from '../../../../entities/post/post.slice';
