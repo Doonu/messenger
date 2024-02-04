@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Dispatch, FC, SetStateAction } from 'react';
+import React, { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
 
 import Settings from '../settings/Settings';
 import { useFormikContext } from 'formik';
@@ -16,7 +16,7 @@ import Content from '../content';
 import Features from '../features';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { selectorPost } from '../../../../entities/post/post.selectors';
+import { selectorEditedPost, selectorPost } from '../../../../entities/post/post.selectors';
 import { useOutsideClick } from '../../../../hooks/outside';
 import ActionIcons from '../../../../features/actionIcons';
 import BaseButton from '../../../../components/ui/buttons/baseButton';
@@ -42,7 +42,11 @@ const ContainerForm: FC<IContainerFormProps> = ({
 
   const { values, setFieldValue } = useFormikContext<IPost>();
 
-  const { posts, editedPost } = useAppSelector(selectorPost);
+  const editedPost = useAppSelector(selectorEditedPost);
+  const posts = useAppSelector(selectorPost);
+
+  const [loadingPhotos, setLoadingPhotos] = useState(false);
+  const [loadingFiles, setLoadingFiles] = useState(false);
 
   const isCorrect = !values.content.length && !data.photos.length && !data.files.length;
   const isEditPost = posts.find((post) => post.id === editedPost?.id);
@@ -60,8 +64,10 @@ const ContainerForm: FC<IContainerFormProps> = ({
     setFieldValue('isActive', true);
   };
 
-  const handlerPhoto = async (e: ChangeEvent<HTMLInputElement>) => {
+  const handlerPhoto = (e: ChangeEvent<HTMLInputElement>) => {
     handlerChange();
+    handlerActive();
+
     const files = e.target.files;
 
     if (!files) return;
@@ -75,16 +81,19 @@ const ContainerForm: FC<IContainerFormProps> = ({
       return;
     }
 
-    await dispatch(addPendingList(Array.from(filteredPhoto)))
+    setLoadingPhotos(true);
+
+    dispatch(addPendingList(Array.from(filteredPhoto)))
       .unwrap()
       .then((files) => {
         setData((prev) => {
           return { ...prev, photos: [...files, ...prev.photos] };
         });
       })
-      .catch(() => {});
-
-    handlerActive();
+      .catch(() => {})
+      .finally(() => {
+        setLoadingPhotos(false);
+      });
   };
 
   const handlerPhotoFocus = () => {
@@ -111,14 +120,21 @@ const ContainerForm: FC<IContainerFormProps> = ({
       {!isDraggablePhoto && (
         <>
           <Content />
-          {!!data.photos.length && (
-            <Photos setCurrentIndex={setCurrentIndex} data={data} setData={setData} />
-          )}
-          {!!data.files.length && <Files data={data} setData={setData} />}
+
+          <Photos
+            loader={loadingPhotos}
+            setCurrentIndex={setCurrentIndex}
+            data={data}
+            setData={setData}
+          />
+
+          <Files loader={loadingFiles} data={data} setData={setData} />
 
           {data.photos.length > 1 && <Features />}
           <SContainerIcons $position={values.isActive}>
             <ActionIcons
+              setLoadingFiles={setLoadingFiles}
+              setLoadingPhoto={setLoadingPhotos}
               setData={setData}
               data={data}
               onActive={handlerActive}

@@ -88,7 +88,7 @@ export class PostsService {
     *
     * */
     async getAll(){
-        return await this.postRepository.findAll({include: {all: true}, order: [['createdAt', 'ASC']]});
+        return await this.postRepository.findAll({include: {all: true}, order: [['createdAt', 'DESC']]});
     }
 
     async toggleComments(dto: UpdatePostCommentsDto, userId: number){

@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import AutosizeInput from '../../../../components/ui/inputs/autosizeInput';
 
 export const SContainer = styled.div`
+  padding-top: 10px;
   display: flex;
   flex-direction: column;
   border-top: 1px solid ${({ theme }) => theme.colors.secondaryText};

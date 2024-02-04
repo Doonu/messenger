@@ -4,7 +4,6 @@ import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../mod
 import { RootState } from '../../../app/store';
 import API from '../interceptors';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../entities/notification/notification.slice';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
@@ -12,7 +11,7 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
 
 const getAllPost = createAsyncThunk<IPostState[], undefined, IConfigAsyncThunk>(
   'posts/getAll',
-  (_, { rejectWithValue, dispatch }) => {
+  (_, { rejectWithValue }) => {
     return API<ApiPostState[]>({
       url: `api/posts`,
       method: 'GET',
@@ -30,13 +29,13 @@ const getAllPost = createAsyncThunk<IPostState[], undefined, IConfigAsyncThunk>(
         });
       })
       .catch(({ response }: AxiosError<IError>) => {
-        dispatch(
-          showMessage({
-            title: `Неудалось получить посты`,
-            type: 'warning',
-            level: 'medium',
-          })
-        );
+        // dispatch(
+        //   showMessage({
+        //     title: `Неудалось получить посты`,
+        //     type: 'warning',
+        //     level: 'medium',
+        //   })
+        // );
         return rejectWithValue(response?.data);
       });
   }

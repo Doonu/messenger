@@ -3,13 +3,10 @@ import React from 'react';
 import { SContainer, SMainProfile, STitle, SWrapper } from './header.styled';
 import Navbar from '../../../custom/navbar';
 import Logo from '../../../custom/logo';
-import { useAppSelector } from '../../../../hooks/redux';
-import { selectorUser } from '../../../../entities/user/user.selectors';
 import GlobalSearch from '../../../../widgets/globalSearch/ui/SearchForm';
 
 const Header = () => {
   //TODO: Сделать для мобилки
-  const user = useAppSelector(selectorUser);
 
   return (
     <SContainer>
@@ -19,7 +16,7 @@ const Header = () => {
         </Logo>
         <Navbar />
         <GlobalSearch />
-        <SMainProfile avatar={user.avatar} name={user.name} />
+        <SMainProfile />
       </SWrapper>
     </SContainer>
   );

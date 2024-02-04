@@ -12,13 +12,13 @@ import {
 } from './previewPhoto.styled';
 import getProfile from '../../../../../../shared/api/user/getProfile';
 import { useAppDispatch } from '../../../../../../hooks/redux';
-import { authState } from '../../../../../../entities/user/user.slice';
 import MainPostProfile from '../../../../../custom/profiles/mainPost';
 import { Like } from '../../../../../ui/buttons/likesButton/like';
 import { Slice } from '../../../../../custom/slice';
 import { IAllFiles, IFilesPost } from '../../../../../../shared/models/IPost';
 import PhotoEditor from '../../../../../../features/photoEditor';
 import Carousel from '../../../../../ui/carousel/ui';
+import { IUser } from '../../../../../../shared/models/IUser';
 
 interface PreviewPhotoProps {
   list: IFilesPost[];
@@ -35,12 +35,13 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
   currentIndex,
   setCurrentIndex,
 }) => {
-  const [userPhoto, setUserPhoto] = useState<authState>();
+  const [userPhoto, setUserPhoto] = useState<IUser>();
   const [isLike, setIsLike] = useState(false);
 
   const [isEditorPhoto, setIsEditorPhoto] = useState(false);
 
   const dispatch = useAppDispatch();
+
   const handlerGetProfile = () => {
     dispatch(getProfile())
       .unwrap()

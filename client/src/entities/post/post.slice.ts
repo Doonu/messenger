@@ -13,22 +13,20 @@ import updatePost from '../../shared/api/post/updatePost';
 
 interface postsState {
   posts: IPostState[];
+  errorPosts: boolean;
+  loadingPosts: boolean;
+
   deletedPost: IPostState[];
   editedPost: IPostState | undefined;
   warningEdit: boolean;
-  loaders: {
-    addPost: boolean;
-    getPost: boolean;
-  };
 }
 
 const initialState: postsState = {
   posts: [],
+  errorPosts: false,
+  loadingPosts: false,
+
   deletedPost: [],
-  loaders: {
-    addPost: false,
-    getPost: false,
-  },
   editedPost: undefined,
   warningEdit: false,
 };
@@ -69,15 +67,24 @@ export const postSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getAllPost.fulfilled, (state, { payload }) => {
+      state.posts = payload;
+      state.loadingPosts = false;
+    });
+    builder.addCase(getAllPost.pending, (state) => {
+      state.loadingPosts = true;
+    });
+    builder.addCase(getAllPost.rejected, (state) => {
+      state.errorPosts = true;
+      state.loadingPosts = false;
+    });
+
     builder.addCase(postCreate.fulfilled, (state, { payload }) => {
       state.posts.unshift(payload);
     });
     builder.addCase(updatePost.fulfilled, (state, { payload }) => {
       const index = state.posts.findIndex((i) => i.id === payload.id);
       state.posts[index] = payload;
-    });
-    builder.addCase(getAllPost.fulfilled, (state, { payload }) => {
-      state.posts = payload.reverse();
     });
     builder.addCase(deletePostById.fulfilled, (state, { payload }) => {
       state.deletedPost = [...state.deletedPost, payload];

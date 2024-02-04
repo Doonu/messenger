@@ -1,29 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import getProfile from '../../shared/api/user/getProfile';
-
-//TODO: Соединить модельки из слайса и апи
+import { IUser } from '../../shared/models/IUser';
 
 export interface authState {
-  name: string;
-  id: number;
-  email: string;
-  banned: boolean;
-  banReason: null | string;
-  roles: {
-    value: string;
-    createdAt: string;
-  }[];
-  avatar: string;
+  user: IUser;
+  loader: boolean;
 }
 
 const initialState: authState = {
-  name: '',
-  email: '',
-  id: 0,
-  banned: false,
-  banReason: null,
-  roles: [],
-  avatar: '',
+  user: {} as IUser,
+  loader: false,
 };
 
 export const userSlice = createSlice({
@@ -31,14 +17,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getProfile.fulfilled, (state, { payload }: PayloadAction<authState>) => {
-      state.name = payload.name;
-      state.email = payload.email;
-      state.banReason = payload.banReason;
-      state.banned = payload.banned;
-      state.roles = payload.roles;
-      state.id = payload.id;
-      state.avatar = payload.avatar;
+    builder.addCase(getProfile.fulfilled, (state, { payload }: PayloadAction<IUser>) => {
+      state.user = payload;
     });
   },
 });

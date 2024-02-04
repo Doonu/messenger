@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import AllContainer from '../../../../components/layouts/all';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { selectorPost } from '../../../../entities/post/post.selectors';
+import {
+  selectorEditedPost,
+  selectorLoadingPosts,
+  selectorPost,
+} from '../../../../entities/post/post.selectors';
 import { SList } from './Feed.styled';
 import getAllPost from '../../../../shared/api/post/getAllPost';
 import { Post } from '../../../../widgets/post';
 import { setAllPosts } from '../../../../entities/post/post.slice';
 import AddPost from '../../../../widgets/addPost';
+import Empty from '../../../../components/ui/empty';
+import { LoaderPage } from '../../../../components/ui/loaders';
 
 //TODO: Оптимизировать компонент драгон-input, ререндер на каждый клик
 //TODO: Пагинация(Virtualize-list)
@@ -14,7 +20,9 @@ import AddPost from '../../../../widgets/addPost';
 const Home = () => {
   const dispatch = useAppDispatch();
 
-  const { posts, editedPost } = useAppSelector(selectorPost);
+  const editedPost = useAppSelector(selectorEditedPost);
+  const posts = useAppSelector(selectorPost);
+  const loadingPosts = useAppSelector(selectorLoadingPosts);
 
   const [isDraggablePhoto, setIsDraggablePhoto] = useState(false);
   const [isDraggablePhotoInPost, setIsDraggablePhotoInPost] = useState(false);
@@ -59,6 +67,8 @@ const Home = () => {
             />
           ))}
         </SList>
+        {!posts.length && !loadingPosts && <Empty message={'Посты не найдены'} />}
+        {loadingPosts && <LoaderPage />}
       </AllContainer>
     </div>
   );
