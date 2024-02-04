@@ -2,17 +2,19 @@ import { ComponentType, lazy } from 'react';
 
 // TODO: разобраться с этим
 // @ts-ignore
-const Home = lazy(() => import(`../../pages/private/home`));
+const HOME = lazy(() => import(`../../pages/private/home`));
 // @ts-ignore
 const Dialog = lazy(() => import('../../pages/private/dialog'));
-// @ts-ignore
-const Profile = lazy(() => import('../../pages/private/profile'));
 // @ts-ignore
 const Favorite = lazy(() => import('../../pages/private/favorite'));
 // @ts-ignore
 const Login = lazy(() => import('../../pages/public/login'));
 // @ts-ignore
 const Registration = lazy(() => import('../../pages/public/registration'));
+// @ts-ignore
+const Feed = lazy(() => import('../../pages/private/feed/ui'));
+// @ts-ignore
+const Profile = lazy(() => import('../../pages/private/profile'));
 
 export interface IRoute {
   path: string;
@@ -22,10 +24,11 @@ export interface IRoute {
 }
 
 export enum RoutesNamesPrivate {
-  HOME = '/',
+  HOME = '/profile',
+  PROFILE = '/profile/:id',
   DIALOG = '/dialog',
-  NEWS = '/feed',
   FAVORITE = '/favorite',
+  FEED = '/feed',
 }
 
 export enum RoutesNamesPublic {
@@ -34,10 +37,11 @@ export enum RoutesNamesPublic {
 }
 
 export const privateRoutes: IRoute[] = [
-  { path: RoutesNamesPrivate.HOME, component: Home, type: 'Home' },
+  { path: RoutesNamesPrivate.HOME, component: HOME, type: 'Profile' },
+  { path: RoutesNamesPrivate.PROFILE, component: Profile, type: 'Profiles' },
   { path: RoutesNamesPrivate.DIALOG, component: Dialog, type: 'Dialog' },
   { path: RoutesNamesPrivate.FAVORITE, component: Favorite, type: 'Favorite' },
-  { path: RoutesNamesPrivate.NEWS, component: Profile, type: 'Profile' },
+  { path: RoutesNamesPrivate.FEED, component: Feed, type: 'Feed' },
 ];
 
 export const publicRoutes: IRoute[] = [

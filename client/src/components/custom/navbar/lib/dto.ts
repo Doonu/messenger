@@ -10,10 +10,10 @@ export const NavbarDto: NavbarProps[] = [
     path: RoutesNamesPrivate.HOME,
     type: 'Home',
     component: AiFillHome,
-    description: 'Главная',
+    description: 'Домашняя',
   },
   {
-    path: RoutesNamesPrivate.NEWS,
+    path: RoutesNamesPrivate.FEED,
     type: 'Feed',
     component: BsNewspaper,
     description: 'Новости',
