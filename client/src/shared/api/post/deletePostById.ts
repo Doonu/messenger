@@ -14,7 +14,7 @@ const deletePostById = createAsyncThunk<IPostState, number, IConfigAsyncThunk>(
   'post/delete',
   (postId, { rejectWithValue, dispatch }) => {
     return API<IPostState>({
-      url: `http://localhost:5000/api/posts/${postId}`,
+      url: `api/posts/${postId}`,
       method: 'DELETE',
     })
       .then(({ data }) => {

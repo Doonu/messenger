@@ -17,7 +17,7 @@ const createComment = createAsyncThunk<ICommentsState, ICreateComment, IConfigAs
   'comments/createComment',
   ({ content, postId }, { rejectWithValue }) => {
     return API<ICommentsState>({
-      url: `http://localhost:5000/api/posts/comments`,
+      url: `api/posts/comments`,
       method: 'POST',
       data: { content, postId },
     })

@@ -13,7 +13,7 @@ const deleteComments = createAsyncThunk<ICommentsState, number, IConfigAsyncThun
   'comments/deleteComment',
   (postId, { rejectWithValue, dispatch }) => {
     return API<ICommentsState>({
-      url: `http://localhost:5000/api/posts/comments/${postId}`,
+      url: `api/posts/comments/${postId}`,
       method: 'DELETE',
     })
       .then(({ data }) => {

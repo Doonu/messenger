@@ -10,7 +10,6 @@ export const SPhotos = styled.div<IPositionProps>`
   height: 100%;
 
   display: flex;
-  justify-content: center;
   gap: 20px;
 
   ${({ $isDraggable }) =>

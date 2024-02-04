@@ -10,6 +10,7 @@ const API: AxiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  baseURL: 'http://localhost:5000',
 });
 
 const handlerRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {

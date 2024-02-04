@@ -12,7 +12,7 @@ const likeComments = createAsyncThunk<ILikeComments, number, IConfigAsyncThunk>(
   'comments/like',
   (commentId, _) => {
     return API<ILikeComments>({
-      url: `http://localhost:5000/api/posts/comments/like`,
+      url: `api/posts/comments/like`,
       method: 'PATCH',
       data: { commentId: commentId },
     }).then(({ data }) => data);

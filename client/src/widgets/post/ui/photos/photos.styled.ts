@@ -5,7 +5,6 @@ export const SContainer = styled.div`
   height: 100%;
 
   display: flex;
-  justify-content: center;
   gap: 20px;
 
   flex-wrap: nowrap;
@@ -13,8 +12,10 @@ export const SContainer = styled.div`
   overflow-y: hidden;
 
   &::-webkit-scrollbar {
-    height: 0;
+    background: ${({ theme }) => theme.colors.secondaryBg};
+    height: 10px;
   }
+
   &::-webkit-scrollbar-thumb {
     border-radius: 20px;
     background: ${({ theme }) => theme.colors.secondaryText};

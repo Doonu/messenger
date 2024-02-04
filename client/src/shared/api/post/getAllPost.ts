@@ -14,7 +14,7 @@ const getAllPost = createAsyncThunk<IPostState[], undefined, IConfigAsyncThunk>(
   'posts/getAll',
   (_, { rejectWithValue, dispatch }) => {
     return API<ApiPostState[]>({
-      url: `http://localhost:5000/api/posts`,
+      url: `api/posts`,
       method: 'GET',
     })
       .then(({ data }) => {

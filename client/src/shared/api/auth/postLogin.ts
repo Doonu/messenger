@@ -15,7 +15,7 @@ const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
   'auth/login',
   ({ email, password }, { rejectWithValue, dispatch }) => {
     return API<ApiLogin>({
-      url: `http://localhost:5000/api/auth/login`,
+      url: `api/auth/login`,
       method: 'POST',
       data: { email, password },
     })

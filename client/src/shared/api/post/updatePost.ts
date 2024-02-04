@@ -20,7 +20,7 @@ const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
     }
 
     return API<ApiPostState>({
-      url: `http://localhost:5000/api/posts`,
+      url: `api/posts`,
       method: 'PUT',
       data: { ...dynamicParams, content, isDisabledComments, view, id },
     })

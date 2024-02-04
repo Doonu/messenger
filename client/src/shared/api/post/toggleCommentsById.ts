@@ -16,7 +16,7 @@ const toggleCommentsById = createAsyncThunk<
   IConfigAsyncThunk
 >('post/toggle-comments', ({ postId, isDisabledComments }, { rejectWithValue, dispatch }) => {
   return API<IToggleCommentsById>({
-    url: `http://localhost:5000/api/posts/toggle-comments`,
+    url: `api/posts/toggle-comments`,
     method: 'PATCH',
     data: { postId, isDisabledComments },
   })

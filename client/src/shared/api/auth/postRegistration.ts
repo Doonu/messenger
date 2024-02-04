@@ -15,7 +15,7 @@ const postRegistration = createAsyncThunk<IPostRegister, IRegister, IConfigAsync
   'auth/login',
   ({ email, password, name }, { rejectWithValue, dispatch }) => {
     return API<ApiRegister>({
-      url: `http://localhost:5000/api/auth/registration`,
+      url: `api/auth/registration`,
       method: 'POST',
       data: { email, password, name },
     })

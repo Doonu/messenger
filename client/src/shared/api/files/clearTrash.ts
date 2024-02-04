@@ -11,7 +11,7 @@ const clearTrash = createAsyncThunk<null, undefined, IConfigAsyncThunk>(
   'files/clearTrash',
   (_, {}) => {
     return API({
-      url: `http://localhost:5000/api/files/clearTrash`,
+      url: `api/files/clearTrash`,
       method: 'POST',
     });
   }

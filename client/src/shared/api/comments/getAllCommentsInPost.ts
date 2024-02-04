@@ -20,7 +20,7 @@ const getAllCommentsInPost = createAsyncThunk<
   IConfigAsyncThunk
 >('comments/getAll', ({ postId, orderDirection, orderBy }, { rejectWithValue }) => {
   return API<ICommentsState[]>({
-    url: `http://localhost:5000/api/posts/comments/${postId}`,
+    url: `api/posts/comments/${postId}`,
     method: 'GET',
     params: { orderBy, orderDirection },
   })

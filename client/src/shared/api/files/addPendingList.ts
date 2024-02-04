@@ -16,7 +16,7 @@ const addPendingList = createAsyncThunk<IFilesPost[], IAddWaitList, IConfigAsync
   'files/pending',
   (files, { rejectWithValue, dispatch }) => {
     return API<IFilesPost[]>({
-      url: `http://localhost:5000/api/files/pending`,
+      url: `api/files/pending`,
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
       data: files,

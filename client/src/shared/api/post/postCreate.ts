@@ -17,7 +17,7 @@ const postCreate = createAsyncThunk<IPostState, IPostCreate, IConfigAsyncThunk>(
   'posts/create',
   (post, { rejectWithValue, dispatch }) => {
     return API<ApiPostState>({
-      url: `http://localhost:5000/api/posts`,
+      url: `api/posts`,
       method: 'POST',
       data: post,
     })

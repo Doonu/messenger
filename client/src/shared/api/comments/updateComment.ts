@@ -17,7 +17,7 @@ const updateComment = createAsyncThunk<ICommentsState, IUpdateComment, IConfigAs
   'comments/updateComment',
   ({ content, commentId }, { rejectWithValue }) => {
     return API<ICommentsState>({
-      url: `http://localhost:5000/api/posts/comments`,
+      url: `api/posts/comments`,
       method: 'PUT',
       data: { commentId, content },
     })

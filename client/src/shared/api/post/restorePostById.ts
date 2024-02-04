@@ -14,7 +14,7 @@ const restorePostById = createAsyncThunk<IPostState, number, IConfigAsyncThunk>(
   'post/restore',
   (postId, { rejectWithValue, dispatch }) => {
     return API<IPostState>({
-      url: `http://localhost:5000/api/posts/restore/${postId}`,
+      url: `api/posts/restore/${postId}`,
       method: 'POST',
     })
       .then(({ data }) => {

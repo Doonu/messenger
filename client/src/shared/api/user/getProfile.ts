@@ -43,7 +43,7 @@ const getProfile = createAsyncThunk<IGetProfile, undefined, IConfigAsyncThunk>(
   'auth/getProfile',
   (_, { rejectWithValue, dispatch }) => {
     return API<ApiProfile>({
-      url: `http://localhost:5000/api/users/profile`,
+      url: `api/users/profile`,
       method: 'POST',
     })
       .then(({ data }) => ({
