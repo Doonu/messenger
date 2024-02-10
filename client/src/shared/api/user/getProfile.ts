@@ -6,22 +6,10 @@ import { RootState } from '../../../app/store';
 import { AxiosError } from 'axios';
 import { showMessage } from '../../../entities/notification/notification.slice';
 import { logout } from '../../../entities/auth/auth.slice';
+import { IUser } from '../../models/IUser';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
-}
-
-export interface IGetProfile {
-  name: string;
-  email: string;
-  banned: boolean;
-  banReason: null | string;
-  id: number;
-  roles: {
-    value: string;
-    createdAt: string;
-  }[];
-  avatar: string;
 }
 
 export interface ApiProfile {
@@ -39,7 +27,7 @@ export interface ApiProfile {
   imgSubstitute: string;
 }
 
-const getProfile = createAsyncThunk<IGetProfile, undefined, IConfigAsyncThunk>(
+const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
   'auth/getProfile',
   (_, { rejectWithValue, dispatch }) => {
     return API<ApiProfile>({

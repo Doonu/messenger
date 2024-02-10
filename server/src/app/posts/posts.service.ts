@@ -19,7 +19,6 @@ export class PostsService {
         return await this.postRepository.findOne({where: { id: createdPost.id }, include: { all: true } })
     }
 
-    // Если удаляется пост, то файлам добавляется состояние pending
     async deleteById(id: number, userId: number){
         const savedPost = await this.postRepository.findOne({ where : { id: id } })
 
@@ -36,7 +35,6 @@ export class PostsService {
         return savedPost
     }
 
-    // При ресторе файлам добавляется fulfilled
     async restoreById(id: number){
         const post = await this.postRepository.findByPk(id, {paranoid: false})
         await post.restore()
@@ -49,7 +47,6 @@ export class PostsService {
         return post;
     }
 
-    // Переделать
     async updatePost(dto: UpdatePostDto, userId: number){
         const oldPost = await this.postRepository.findOne({ where: {id: dto.id} })
 
@@ -88,7 +85,7 @@ export class PostsService {
     *
     * */
     async getAll(){
-        return await this.postRepository.findAll({include: {all: true}, order: [['createdAt', 'ASC']]});
+        return await this.postRepository.findAll({include: {all: true}, order: [['createdAt', 'DESC']]});
     }
 
     async toggleComments(dto: UpdatePostCommentsDto, userId: number){

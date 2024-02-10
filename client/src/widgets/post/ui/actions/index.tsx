@@ -3,7 +3,7 @@ import { SComment, SInfo, SShared } from './acions.styled';
 import LikeButton from '../../../../components/ui/buttons/likesButton/likeButton';
 import likePost from '../../../../shared/api/post/likePost';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { selectorUser } from '../../../../entities/user/user.selectors';
+import { selectorProfile } from '../../../../entities';
 import { IPostState } from '../../../../entities/post/model/IPost';
 
 interface IActions {
@@ -15,7 +15,7 @@ interface IActions {
 const Actions: FC<IActions> = ({ onActiveComments, commentLength, post }) => {
   const dispatch = useAppDispatch();
 
-  const { id } = useAppSelector(selectorUser);
+  const { id } = useAppSelector(selectorProfile);
 
   const [isLike, setIsLike] = useState(post.likesList.includes(+id));
 

@@ -3,17 +3,17 @@ import { SContainer } from './content.styled';
 import { useFormikContext } from 'formik';
 import { IPost } from '../../model/IPost';
 import { useAppSelector } from '../../../../hooks/redux';
-import { selectorUser } from '../../../../entities/user/user.selectors';
+import { selectorProfile } from '../../../../entities';
 import PhotoProfile from '../../../../components/custom/profiles/photo';
 import AutosizeInput from '../../../../components/ui/inputs/autosizeInput';
 
 const Content = () => {
   const { values, setFieldValue } = useFormikContext<IPost>();
-  const { name, avatar } = useAppSelector(selectorUser);
+  const { name, avatar } = useAppSelector(selectorProfile);
 
   return (
     <SContainer $position={values.isActive}>
-      <PhotoProfile img={avatar}>{name[0]}</PhotoProfile>
+      <PhotoProfile img={avatar}>{name?.[0]}</PhotoProfile>
       <AutosizeInput
         isDrag={true}
         minRows={2}

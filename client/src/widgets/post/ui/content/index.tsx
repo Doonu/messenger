@@ -5,7 +5,7 @@ import { postTime } from '../../../../shared/util/time';
 import More from '../more';
 import { useAppSelector } from '../../../../hooks/redux';
 import { IPostState } from '../../../../entities/post/model/IPost';
-import { selectorPost } from '../../../../entities/post/post.selectors';
+import { selectorEditedPost } from '../../../../entities';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import Grid from './ui/grid';
 import { Carousel } from '../../../../components/ui/carousel';
@@ -17,7 +17,7 @@ interface IContent {
 }
 
 const Content: FC<IContent> = ({ post, allFiles }) => {
-  const { editedPost } = useAppSelector(selectorPost);
+  const editedPost = useAppSelector(selectorEditedPost);
 
   const visibleMore = editedPost?.id !== post.id;
 
@@ -31,6 +31,7 @@ const Content: FC<IContent> = ({ post, allFiles }) => {
         />
         {visibleMore && <More post={post} />}
       </SHead>
+
       {post.content.map((content, i) => (
         <SP key={post.id + i}>{content}</SP>
       ))}
@@ -41,7 +42,7 @@ const Content: FC<IContent> = ({ post, allFiles }) => {
 
       {post.view === 'grid' && <Grid photos={allFiles.photos} />}
 
-      {!!allFiles.files?.length && <Files data={allFiles} isModify={false} />}
+      <Files data={allFiles} isModify={false} />
     </>
   );
 };

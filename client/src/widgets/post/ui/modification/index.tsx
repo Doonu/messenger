@@ -40,14 +40,17 @@ const Modification: FC<IModification> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const [isDraggablePhotoFocus, setIsDraggablePhotoFocus] = useState(false);
-
-  const [content, setContent] = useState(post.content.join('\n'));
-
   const [modifyAllFiles, setModifyAllFiles] = useState<IAllFiles>({
     photos: allFiles.photos,
     files: allFiles.files,
   });
+
+  const [isDraggablePhotoFocus, setIsDraggablePhotoFocus] = useState(false);
+
+  const [content, setContent] = useState(post.content.join('\n'));
+
+  const [loadingPhotos, setLoadingPhotos] = useState(false);
+  const [loadingFiles, setLoadingFiles] = useState(false);
 
   const [isWarningMessage, setIsWarningMessage] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');
@@ -157,17 +160,17 @@ const Modification: FC<IModification> = ({
             />
             <span>редактирование записи</span>
           </SHead>
-          {!!modifyAllFiles.photos?.length && (
-            <Photos
-              setIsPreviewPhoto={setIsPreviewPhoto}
-              setIsCurrentIndex={setCurrentIndex}
-              data={modifyAllFiles}
-              setData={setModifyAllFiles}
-            />
-          )}
-          {!!modifyAllFiles.files?.length && (
-            <Files data={modifyAllFiles} setData={setModifyAllFiles} />
-          )}
+
+          <Photos
+            loader={loadingPhotos}
+            setIsPreviewPhoto={setIsPreviewPhoto}
+            setIsCurrentIndex={setCurrentIndex}
+            data={modifyAllFiles}
+            setData={setModifyAllFiles}
+          />
+
+          <Files data={modifyAllFiles} setData={setModifyAllFiles} loader={loadingFiles} />
+
           <SAutosizeInput
             onChange={(e) => setContent(e.target.value)}
             value={content}
@@ -179,6 +182,8 @@ const Modification: FC<IModification> = ({
           />
           <SBottom>
             <ActionIcons
+              setLoadingFiles={setLoadingFiles}
+              setLoadingPhoto={setLoadingPhotos}
               setData={setModifyAllFiles}
               data={modifyAllFiles}
               onTitle={handlerChangeTitle}

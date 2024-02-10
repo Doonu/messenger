@@ -12,9 +12,19 @@ interface IIconsProps {
   onTitle: (title: string) => void;
   onActive?: () => void;
   isActive?: boolean;
+  setLoadingPhoto: Dispatch<SetStateAction<boolean>>;
+  setLoadingFiles: Dispatch<SetStateAction<boolean>>;
 }
 
-const ActionIcons: FC<IIconsProps> = ({ setData, data, onActive, onTitle, isActive = true }) => {
+const ActionIcons: FC<IIconsProps> = ({
+  setData,
+  data,
+  onActive,
+  onTitle,
+  isActive = true,
+  setLoadingPhoto,
+  setLoadingFiles,
+}) => {
   const dispatch = useAppDispatch();
 
   const cameraRef = useRef<any>(null);
@@ -39,13 +49,17 @@ const ActionIcons: FC<IIconsProps> = ({ setData, data, onActive, onTitle, isActi
       return;
     }
 
+    setLoadingFiles(true);
+
     await dispatch(addPendingList(Array.from(files)))
       .unwrap()
       .then((files) => {
         setData((prev) => {
           return { ...prev, files: [...files, ...prev.files] };
         });
-      });
+      })
+      .catch(() => {})
+      .finally(() => setLoadingFiles(false));
 
     onActive && onActive();
   };
@@ -59,13 +73,17 @@ const ActionIcons: FC<IIconsProps> = ({ setData, data, onActive, onTitle, isActi
       return;
     }
 
+    setLoadingPhoto(true);
+
     await dispatch(addPendingList(Array.from(files)))
       .unwrap()
       .then((files) => {
         setData((prev) => {
           return { ...prev, photos: [...files, ...prev.photos] };
         });
-      });
+      })
+      .catch(() => {})
+      .finally(() => setLoadingPhoto(false));
 
     onActive && onActive();
   };

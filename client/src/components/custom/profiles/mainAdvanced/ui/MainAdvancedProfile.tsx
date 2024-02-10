@@ -12,13 +12,16 @@ import {
   SUserStatistic,
 } from './mainAdvanced.styled';
 import { useAppSelector } from '../../../../../hooks/redux';
-import { selectorUser } from '../../../../../entities/user/user.selectors';
+import { selectorProfile, selectorProfileLoader } from '../../../../../entities';
+import SkeletonMainAdvancedProfile from './skeleton';
 
 const MainAdvancedProfile = () => {
-  const user = useAppSelector(selectorUser);
-  // TODO: Вынести в другой компонент 33 строка(нужно ли это?)
-  // TODO: Генерация фоточки и сохранение в базу
-  //TODO: Лишние проверки (27) -> mainProfile
+  const user = useAppSelector(selectorProfile);
+  const loader = useAppSelector(selectorProfileLoader);
+
+  if (loader) {
+    return <SkeletonMainAdvancedProfile />;
+  }
 
   return (
     <BlockContainer>

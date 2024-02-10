@@ -1,10 +1,10 @@
 import React from 'react';
 import BaseContainer from '../../../components/layouts/base';
 import { useAppSelector } from '../../../hooks/redux';
-import { selectorUser } from '../../../entities/user/user.selectors';
+import { selectorProfile } from '../../../entities';
 
 const Home = () => {
-  const user = useAppSelector(selectorUser);
+  const user = useAppSelector(selectorProfile);
 
   return <BaseContainer>{user.name}</BaseContainer>;
 };

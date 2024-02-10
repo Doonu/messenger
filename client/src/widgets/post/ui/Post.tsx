@@ -2,7 +2,12 @@ import React, { FC, useEffect, useRef, useState } from 'react';
 import { SContainer, STop } from './post.styled';
 import Restore from './restore';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { selectorPost } from '../../../entities/post/post.selectors';
+import {
+  selectorDeletedPost,
+  selectorEditedPost,
+  selectorPost,
+  selectorWarningEdit,
+} from '../../../entities';
 import { IAllFiles } from '../../../shared/models/IPost';
 import Comments from './comments';
 import { removeWarningPost } from '../../../entities/post/post.slice';
@@ -15,7 +20,10 @@ import { photosFilter } from '../../../shared/util/filter';
 const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange }) => {
   const dispatch = useAppDispatch();
 
-  const { deletedPost, editedPost, warningEdit, posts } = useAppSelector(selectorPost);
+  const editedPost = useAppSelector(selectorEditedPost);
+  const warningEdit = useAppSelector(selectorWarningEdit);
+  const posts = useAppSelector(selectorPost);
+  const deletedPost = useAppSelector(selectorDeletedPost);
 
   const ref = useRef<any>(null);
 

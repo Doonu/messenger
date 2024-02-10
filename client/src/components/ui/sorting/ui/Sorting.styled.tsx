@@ -8,6 +8,8 @@ export const SOrderBy = styled.div`
   gap: 14px;
   align-items: center;
 
+  padding-left: 15px;
+
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}px) {
     gap: 4px;
   }

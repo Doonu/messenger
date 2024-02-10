@@ -2,17 +2,25 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import { Photo } from '../../../../components/custom/photos/photo';
 import { SContainer } from './photos.styled';
+import { LoaderSmall } from '../../../../components/ui/loaders';
 
 interface IPhotosProps {
   data: IAllFiles;
   setData: Dispatch<SetStateAction<IAllFiles>>;
   setIsCurrentIndex: Dispatch<SetStateAction<number>>;
   setIsPreviewPhoto: Dispatch<SetStateAction<boolean>>;
+  loader: boolean;
 }
 
 //TODO: Вынести из двух мест
 
-const Photos: FC<IPhotosProps> = ({ data, setData, setIsCurrentIndex, setIsPreviewPhoto }) => {
+const Photos: FC<IPhotosProps> = ({
+  data,
+  setData,
+  setIsCurrentIndex,
+  setIsPreviewPhoto,
+  loader,
+}) => {
   const handleDelete = (id: string) => {
     const filteredList = data.photos.filter((file) => file.id !== id);
     setData({ ...data, photos: filteredList });
@@ -23,17 +31,25 @@ const Photos: FC<IPhotosProps> = ({ data, setData, setIsCurrentIndex, setIsPrevi
     setIsPreviewPhoto(true);
   };
 
+  if (loader) {
+    return <LoaderSmall />;
+  }
+
   return (
-    <SContainer>
-      {data.photos.map((file, index) => (
-        <Photo
-          onClick={() => handleOpenModalPhoto(index)}
-          key={file.id}
-          onDelete={() => handleDelete(file.id)}
-          url={file.url}
-        />
-      ))}
-    </SContainer>
+    <>
+      {!!data.photos?.length && !loader && (
+        <SContainer>
+          {data.photos.map((file, index) => (
+            <Photo
+              onClick={() => handleOpenModalPhoto(index)}
+              key={file.id}
+              onDelete={() => handleDelete(file.id)}
+              url={file.url}
+            />
+          ))}
+        </SContainer>
+      )}
+    </>
   );
 };
 

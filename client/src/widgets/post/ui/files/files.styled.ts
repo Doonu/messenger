@@ -4,6 +4,7 @@ export const SFiles = styled.div`
   display: flex;
   align-items: center;
   gap: 20px;
+  margin-top: 20px;
 
   height: 100%;
   width: 100%;
