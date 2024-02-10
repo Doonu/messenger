@@ -2,7 +2,6 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import { File } from '../../../../components/custom/file';
 import { SFiles } from './files.styled';
-import { ContainerLoading } from '../../../addPost/ui/containerForm/containerForm.styled';
 import { LoaderSmall } from '../../../../components/ui/loaders';
 
 interface IPhotosProps {
@@ -19,11 +18,7 @@ const Files: FC<IPhotosProps> = ({ data, setData, isModify = true, loader = fals
   };
 
   if (loader) {
-    return (
-      <ContainerLoading>
-        <LoaderSmall />
-      </ContainerLoading>
-    );
+    return <LoaderSmall />;
   }
 
   return (

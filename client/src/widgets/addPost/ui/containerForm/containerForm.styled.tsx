@@ -106,9 +106,3 @@ export const SSubmit = styled.div`
   align-items: center;
   gap: 20px;
 `;
-
-export const ContainerLoading = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-`;

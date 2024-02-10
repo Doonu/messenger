@@ -1,7 +1,14 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import { SAutosizeInput, SButton, SContainer, SContainerComments, SForm } from './comments.styled';
+import {
+  SAutosizeInput,
+  SButton,
+  SContainer,
+  SContainerComments,
+  SForm,
+  SLoaderComment,
+} from './comments.styled';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { selectorUser } from '../../../../entities/user/user.selectors';
+import { selectorProfile } from '../../../../entities';
 import SendIcon from '../../../../shared/assets/icons/sendIcon';
 import getAllCommentsInPost from '../../../../shared/api/comments/getAllCommentsInPost';
 import CommentItem from '../commentItem';
@@ -11,17 +18,19 @@ import deleteComments from '../../../../shared/api/comments/deleteComments';
 import { CommentsProps } from '../../model/IComments';
 import { recalculationOfComments } from '../../../../entities/post/post.slice';
 import Sorting from '../../../../components/ui/sorting/ui';
-import { filterComments } from './lib/filterComments';
+import { filterComments, IFilterCommentsKeys } from './lib/filterComments';
 import { ICommentsState } from '../../../../entities/post/model/IPost';
 
 const Comments: FC<CommentsProps> = ({ post }) => {
   const dispatch = useAppDispatch();
 
-  const { name, avatar } = useAppSelector(selectorUser);
+  const { name, avatar } = useAppSelector(selectorProfile);
 
   const [comments, setComments] = useState<ICommentsState[]>([]);
-  const [orderBy, setOrderBy] = useState<string>('1');
+
+  const [orderBy, setOrderBy] = useState<IFilterCommentsKeys>('1');
   const [orderDirection, setOrderDirection] = useState<0 | 1>(0);
+  const [loader, setLoader] = useState(true);
 
   const [content, setContent] = useState<string>('');
 
@@ -33,7 +42,10 @@ const Comments: FC<CommentsProps> = ({ post }) => {
       .then((data) => {
         setComments(data);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        setLoader(false);
+      });
   };
 
   const handlerCreateComment = () => {
@@ -99,6 +111,14 @@ const Comments: FC<CommentsProps> = ({ post }) => {
     setContent(e.target.value);
   };
 
+  const handlerDirection = () => {
+    setOrderDirection((prev) => (prev === 1 ? 0 : 1));
+  };
+
+  const handlerOrderBy = (activeKey: IFilterCommentsKeys) => {
+    setOrderBy(activeKey);
+  };
+
   useEffect(() => {
     getAllComments();
   }, [orderBy, orderDirection]);
@@ -106,18 +126,16 @@ const Comments: FC<CommentsProps> = ({ post }) => {
   return (
     <SContainer>
       {!!comments.length && (
-        <Sorting
+        <Sorting<IFilterCommentsKeys>
           tabs={filterComments}
           orderBy={orderBy}
           orderDirection={orderDirection}
-          onChangeDirection={() => {
-            setOrderDirection((prev) => (prev === 1 ? 0 : 1));
-          }}
-          onChangeTabs={(activeKey) => {
-            setOrderBy(activeKey);
-          }}
+          onChangeDirection={handlerDirection}
+          onChangeTabs={() => handlerOrderBy}
         />
       )}
+
+      {loader && <SLoaderComment />}
 
       {!!comments.length && (
         <SContainerComments>
@@ -134,6 +152,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
           ))}
         </SContainerComments>
       )}
+
       <SForm>
         <PhotoProfile img={avatar}>{name[0]}</PhotoProfile>
         <SAutosizeInput

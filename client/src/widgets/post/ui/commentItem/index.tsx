@@ -21,7 +21,7 @@ import { BgLike, Close, Like, Redaction } from '../../../../shared/assets/icons'
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import likeComments from '../../../../shared/api/comments/likeComments';
 import { SAutosizeInput } from '../comments/comments.styled';
-import { selectorUser } from '../../../../entities/user/user.selectors';
+import { selectorProfile } from '../../../../entities';
 import BaseButton from '../../../../components/ui/buttons/baseButton';
 import updateComment from '../../../../shared/api/comments/updateComment';
 import { ICommentItem } from '../../model/ICommentItem';
@@ -37,7 +37,7 @@ const CommentItem: FC<ICommentItem> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const { id } = useAppSelector(selectorUser);
+  const { id } = useAppSelector(selectorProfile);
 
   const [isShowInfo, setIsShowInfo] = useState(false);
   const [isLike, setIsLike] = useState(comment.likesList.includes(id));

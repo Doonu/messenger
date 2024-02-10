@@ -2,7 +2,6 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 import { SFiles } from './files.styled';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import { File } from '../../../../components/custom/file';
-import { ContainerLoading } from '../containerForm/containerForm.styled';
 import { LoaderSmall } from '../../../../components/ui/loaders';
 
 interface IFilesProps {
@@ -18,11 +17,7 @@ const Files: FC<IFilesProps> = ({ data, setData, loader }) => {
   };
 
   if (loader) {
-    return (
-      <ContainerLoading>
-        <LoaderSmall />
-      </ContainerLoading>
-    );
+    return <LoaderSmall />;
   }
 
   return (

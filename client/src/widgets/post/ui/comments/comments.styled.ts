@@ -1,11 +1,20 @@
 import styled from 'styled-components';
 import AutosizeInput from '../../../../components/ui/inputs/autosizeInput';
+import { LoaderSmall } from '../../../../components/ui/loaders';
 
 export const SContainer = styled.div`
   padding-top: 10px;
   display: flex;
   flex-direction: column;
+  width: 100%;
   border-top: 1px solid ${({ theme }) => theme.colors.secondaryText};
+`;
+
+export const SLoaderComment = styled(LoaderSmall)`
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
 `;
 
 export const SForm = styled.div`

@@ -5,7 +5,6 @@ import { IPost } from '../../model/IPost';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import { Photo } from '../../../../components/custom/photos/photo';
 import { LoaderSmall } from '../../../../components/ui/loaders';
-import { ContainerLoading } from '../containerForm/containerForm.styled';
 
 interface IPhotosProps {
   data: IAllFiles;
@@ -30,11 +29,7 @@ const Photos: FC<IPhotosProps> = ({ data, setData, setCurrentIndex, loader }) =>
   };
 
   if (loader) {
-    return (
-      <ContainerLoading>
-        <LoaderSmall />
-      </ContainerLoading>
-    );
+    return <LoaderSmall />;
   }
 
   return (

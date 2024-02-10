@@ -2,25 +2,32 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import getProfile from '../../shared/api/user/getProfile';
 import { IUser } from '../../shared/models/IUser';
 
-export interface authState {
+export interface profileState {
   user: IUser;
   loader: boolean;
 }
 
-const initialState: authState = {
+const initialState: profileState = {
   user: {} as IUser,
   loader: false,
 };
 
-export const userSlice = createSlice({
-  name: 'auth',
+export const profileSlice = createSlice({
+  name: 'profile',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getProfile.fulfilled, (state, { payload }: PayloadAction<IUser>) => {
       state.user = payload;
+      state.loader = false;
+    });
+    builder.addCase(getProfile.pending, (state) => {
+      state.loader = true;
+    });
+    builder.addCase(getProfile.rejected, (state) => {
+      state.loader = false;
     });
   },
 });
 
-export default userSlice.reducer;
+export default profileSlice.reducer;

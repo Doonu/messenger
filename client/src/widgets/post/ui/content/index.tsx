@@ -5,7 +5,7 @@ import { postTime } from '../../../../shared/util/time';
 import More from '../more';
 import { useAppSelector } from '../../../../hooks/redux';
 import { IPostState } from '../../../../entities/post/model/IPost';
-import { selectorEditedPost } from '../../../../entities/post/post.selectors';
+import { selectorEditedPost } from '../../../../entities';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import Grid from './ui/grid';
 import { Carousel } from '../../../../components/ui/carousel';

@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 import { ArrowDown } from '../../../../../shared/assets/icons';
-import { Dropdown } from 'antd';
 
-export const SDropdown = styled(Dropdown)`
+export const SProfileContainer = styled.div`
+  display: flex;
+  justify-content: center;
+
   margin-left: 20px;
+  min-width: 150px;
 `;
 
 export const SContainer = styled.div`

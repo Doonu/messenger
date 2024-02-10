@@ -6,13 +6,13 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { editPost } from '../../../../entities/post/post.slice';
 import toggleCommentsById from '../../../../shared/api/post/toggleCommentsById';
 import deletePostById from '../../../../shared/api/post/deletePostById';
-import { selectorUser } from '../../../../entities/user/user.selectors';
+import { selectorProfile } from '../../../../entities';
 import { Dropdown } from 'antd';
 
 const More: FC<IPost> = ({ post }) => {
   const dispatch = useAppDispatch();
 
-  const user = useAppSelector(selectorUser);
+  const user = useAppSelector(selectorProfile);
 
   const disabledServices = user.id !== post.userId;
 

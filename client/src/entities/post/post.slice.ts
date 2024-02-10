@@ -9,8 +9,6 @@ import { ILikePost, IToggleCommentsById } from '../../shared/models/IPost';
 import likePost from '../../shared/api/post/likePost';
 import updatePost from '../../shared/api/post/updatePost';
 
-//TODO: Обработка ошибок и загрузки
-
 interface postsState {
   posts: IPostState[];
   errorPosts: boolean;
@@ -24,7 +22,7 @@ interface postsState {
 const initialState: postsState = {
   posts: [],
   errorPosts: false,
-  loadingPosts: false,
+  loadingPosts: true,
 
   deletedPost: [],
   editedPost: undefined,
@@ -40,6 +38,7 @@ export const postSlice = createSlice({
     },
     setAllPosts: (state, { payload }: PayloadAction<IPostState[]>) => {
       state.posts = payload;
+      state.loadingPosts = true;
     },
     editPost: (state, { payload }: PayloadAction<number>) => {
       if (!state.editedPost) {

@@ -29,13 +29,6 @@ const getAllPost = createAsyncThunk<IPostState[], undefined, IConfigAsyncThunk>(
         });
       })
       .catch(({ response }: AxiosError<IError>) => {
-        // dispatch(
-        //   showMessage({
-        //     title: `Неудалось получить посты`,
-        //     type: 'warning',
-        //     level: 'medium',
-        //   })
-        // );
         return rejectWithValue(response?.data);
       });
   }

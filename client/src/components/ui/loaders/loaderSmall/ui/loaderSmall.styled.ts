@@ -4,6 +4,12 @@ interface ISLoaderProps {
   size?: number;
 }
 
+export const ContainerLoading = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const SLoader = styled.div<ISLoaderProps>`
   width: ${({ size }) => size}px;
   height: ${({ size }) => size}px;

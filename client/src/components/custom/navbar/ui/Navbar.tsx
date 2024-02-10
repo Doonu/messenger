@@ -3,13 +3,13 @@ import { Container, SDescription, SItem, SLink, SNotify } from './navbar.styled'
 import { NavbarDto } from '../lib/dto';
 import { useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../../../hooks/redux';
-import { selectorUser } from '../../../../entities/user/user.selectors';
+import { selectorProfile } from '../../../../entities';
 
 //TODO: Перенести в widgets
 
 const Navbar = () => {
   const locate = useLocation();
-  const { id } = useAppSelector(selectorUser);
+  const { id } = useAppSelector(selectorProfile);
   // TODO: Подумать как будут приходить нотификации
   return (
     <Container>

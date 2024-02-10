@@ -16,12 +16,13 @@ import Content from '../content';
 import Features from '../features';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { selectorEditedPost, selectorPost } from '../../../../entities/post/post.selectors';
+import { selectorEditedPost, selectorPost, selectorProfileLoader } from '../../../../entities';
 import { useOutsideClick } from '../../../../hooks/outside';
 import ActionIcons from '../../../../features/actionIcons';
 import BaseButton from '../../../../components/ui/buttons/baseButton';
 import addPendingList from '../../../../shared/api/files/addPendingList';
 import { extensionPhotoList } from '../../../../shared/util/filter';
+import SkeletonAddPost from '../skeleton';
 
 interface IContainerFormProps {
   isDraggablePhoto: boolean;
@@ -44,6 +45,7 @@ const ContainerForm: FC<IContainerFormProps> = ({
 
   const editedPost = useAppSelector(selectorEditedPost);
   const posts = useAppSelector(selectorPost);
+  const loaderProfile = useAppSelector(selectorProfileLoader);
 
   const [loadingPhotos, setLoadingPhotos] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
@@ -99,6 +101,10 @@ const ContainerForm: FC<IContainerFormProps> = ({
   const handlerPhotoFocus = () => {
     isEditPost && setFieldValue('isDraggablePhotoFocus', !values.isDraggablePhotoFocus);
   };
+
+  if (loaderProfile) {
+    return <SkeletonAddPost />;
+  }
 
   return (
     <SContainer

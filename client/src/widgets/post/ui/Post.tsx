@@ -7,7 +7,7 @@ import {
   selectorEditedPost,
   selectorPost,
   selectorWarningEdit,
-} from '../../../entities/post/post.selectors';
+} from '../../../entities';
 import { IAllFiles } from '../../../shared/models/IPost';
 import Comments from './comments';
 import { removeWarningPost } from '../../../entities/post/post.slice';
