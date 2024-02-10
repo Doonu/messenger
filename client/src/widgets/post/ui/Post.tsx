@@ -43,10 +43,6 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
     }
   };
 
-  const handlerPost = () => {
-    warningEdit && isEditPost && dispatch(removeWarningPost());
-  };
-
   const filterFiles = () => {
     const photos = photosFilter({ photos: post.files, type: 'photo' });
     const files = photosFilter({ photos: post.files, type: 'file' });
@@ -71,16 +67,22 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
   }, [posts]);
 
   useEffect(() => {
+    const saveTimeout = setTimeout(() => {
+      dispatch(removeWarningPost());
+    }, 2000);
+
     if (warningEdit && editedPost?.id === post.id) {
-      ref.current.scrollIntoView({ behavior: 'smooth' });
+      ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
+
+    return () => {
+      clearTimeout(saveTimeout);
+    };
   }, [warningEdit]);
 
   return (
-    <SContainer ref={ref} onClick={handlerPost}>
+    <SContainer $isWarning={warningEdit && isEditPost} ref={ref}>
       <STop>
-        {warningEdit && isEditPost && <>Предупреждение</>}
-
         {isEditPost && (
           <Modification
             setAllFiles={setAllFiles}
