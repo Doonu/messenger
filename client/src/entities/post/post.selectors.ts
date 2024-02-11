@@ -6,3 +6,4 @@ export const selectorErrorPosts = (state: RootState) => state.postSlice.errorPos
 export const selectorWarningEdit = (state: RootState) => state.postSlice.warningEdit;
 export const selectorDeletedPost = (state: RootState) => state.postSlice.deletedPost;
 export const selectorEditedPost = (state: RootState) => state.postSlice.editedPost;
+export const selectorPagePost = (state: RootState) => state.postSlice.pagePost;

@@ -33,11 +33,12 @@ export class CommentsService {
     *  1 - По новизне
     *  2 - По популярности
     * */
-    async getAllCommentsInPost(id: number, orderBy: string, orderDirection: number){
+    async getAllCommentsInPost(id: number, orderBy: string, orderDirection: number, page: number, limit: number){
         let sortOrderBy = orderBy == '2' ? "countLikes" : 'createdAt';
         let sortOrderDirection = orderDirection == 0 ? 'DESC' : 'ASC'
+        let currentPage = page - 1;
 
-        return await this.commentsRepository.findAll({where: {postId: id}, include: {all: true}, order: [[sortOrderBy, sortOrderDirection]]})
+        return await this.commentsRepository.findAll({where: {postId: id}, include: {all: true}, order: [[sortOrderBy, sortOrderDirection]], limit: limit, offset: currentPage * limit})
     }
 
     async toggleLikeComment(dto: ToggleLikeCommentDto, userId: number){

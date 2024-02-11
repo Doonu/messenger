@@ -14,9 +14,9 @@ import { setAllPosts } from '../../../../entities/post/post.slice';
 import AddPost from '../../../../widgets/addPost';
 import Empty from '../../../../components/ui/empty';
 import SkeletonPost from '../../../../widgets/post/ui/skeleton';
+import { selectorPagePost } from '../../../../entities/post/post.selectors';
 
 //TODO: Оптимизировать компонент драгон-input, ререндер на каждый клик
-//TODO: Пагинация(Virtualize-list)
 
 const Feed = () => {
   const dispatch = useAppDispatch();
@@ -25,6 +25,7 @@ const Feed = () => {
   const posts = useAppSelector(selectorPost);
   const loadingPosts = useAppSelector(selectorLoadingPosts);
   const errorPosts = useAppSelector(selectorErrorPosts);
+  const page = useAppSelector(selectorPagePost);
 
   const [isDraggablePhoto, setIsDraggablePhoto] = useState(false);
   const [isDraggablePhotoInPost, setIsDraggablePhotoInPost] = useState(false);
@@ -49,7 +50,7 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    dispatch(getAllPost());
+    dispatch(getAllPost({ page: page }));
 
     return () => {
       dispatch(setAllPosts([]));

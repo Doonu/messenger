@@ -3,7 +3,7 @@ import {
     Controller,
     Delete,
     Get, Param, Patch,
-    Post, Put, Req,
+    Post, Put, Query, Req,
     UploadedFiles,
     UseGuards,
     UseInterceptors
@@ -28,8 +28,10 @@ export class PostsController {
     // @UseGuards(RolesGuard)
     // @UseGuards(JwtAuthGuard)
     @Get('')
-    getAllPosts(){
-        return this.postService.getAll()
+    getAllPosts(
+        @Query("page") page: number,
+    ){
+        return this.postService.getAll(page)
     }
 
     @UseGuards(JwtAuthGuard)

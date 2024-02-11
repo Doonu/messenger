@@ -13,6 +13,7 @@ interface postsState {
   posts: IPostState[];
   errorPosts: boolean;
   loadingPosts: boolean;
+  pagePost: number;
 
   deletedPost: IPostState[];
   editedPost: IPostState | undefined;
@@ -23,6 +24,7 @@ const initialState: postsState = {
   posts: [],
   errorPosts: false,
   loadingPosts: true,
+  pagePost: 1,
 
   deletedPost: [],
   editedPost: undefined,

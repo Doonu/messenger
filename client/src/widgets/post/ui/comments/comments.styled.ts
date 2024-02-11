@@ -17,6 +17,13 @@ export const SLoaderComment = styled(LoaderSmall)`
   width: 100%;
 `;
 
+export const SMore = styled.div`
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.link};
+`;
+
 export const SForm = styled.div`
   display: flex;
   align-items: flex-start;

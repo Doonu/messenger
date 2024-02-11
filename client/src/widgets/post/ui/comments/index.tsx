@@ -6,6 +6,7 @@ import {
   SContainerComments,
   SForm,
   SLoaderComment,
+  SMore,
 } from './comments.styled';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { selectorProfile } from '../../../../entities';
@@ -30,17 +31,51 @@ const Comments: FC<CommentsProps> = ({ post }) => {
 
   const [orderBy, setOrderBy] = useState<IFilterCommentsKeys>('1');
   const [orderDirection, setOrderDirection] = useState<0 | 1>(0);
+
   const [loader, setLoader] = useState(true);
+  const [page, setPage] = useState(1);
+  const limit = 5;
+
+  const isMore = page * limit === comments.length;
 
   const [content, setContent] = useState<string>('');
 
   const getAllComments = () => {
     dispatch(
-      getAllCommentsInPost({ postId: post.id, orderBy: orderBy, orderDirection: orderDirection })
+      getAllCommentsInPost({
+        postId: post.id,
+        orderBy,
+        orderDirection: orderDirection,
+        page: 1,
+        limit,
+      })
     )
       .unwrap()
       .then((data) => {
         setComments(data);
+        setPage(1);
+      })
+      .catch(() => {})
+      .finally(() => {
+        setLoader(false);
+      });
+  };
+
+  const nextPageGetAllComments = () => {
+    setLoader(true);
+    dispatch(
+      getAllCommentsInPost({
+        postId: post.id,
+        orderBy,
+        orderDirection: orderDirection,
+        page: page + 1,
+        limit,
+      })
+    )
+      .unwrap()
+      .then((data) => {
+        setComments((prev) => [...prev, ...data]);
+        setPage((prev) => prev + 1);
       })
       .catch(() => {})
       .finally(() => {
@@ -131,11 +166,9 @@ const Comments: FC<CommentsProps> = ({ post }) => {
           orderBy={orderBy}
           orderDirection={orderDirection}
           onChangeDirection={handlerDirection}
-          onChangeTabs={() => handlerOrderBy}
+          onChangeTabs={handlerOrderBy}
         />
       )}
-
-      {loader && <SLoaderComment />}
 
       {!!comments.length && (
         <SContainerComments>
@@ -152,6 +185,10 @@ const Comments: FC<CommentsProps> = ({ post }) => {
           ))}
         </SContainerComments>
       )}
+
+      {loader && <SLoaderComment />}
+
+      {isMore && <SMore onClick={nextPageGetAllComments}>Загрузить еще</SMore>}
 
       <SForm>
         <PhotoProfile img={avatar}>{name[0]}</PhotoProfile>
