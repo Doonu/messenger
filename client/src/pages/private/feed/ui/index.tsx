@@ -6,16 +6,15 @@ import {
   selectorErrorPosts,
   selectorLoadingPosts,
   selectorPost,
+  selectorPagePost,
+  selectorHaseMore,
 } from '../../../../entities';
-import { SList } from './Feed.styled';
 import getAllPost from '../../../../shared/api/post/getAllPost';
 import { Post } from '../../../../widgets/post';
-import { setAllPosts } from '../../../../entities/post/post.slice';
+import { addPage, setAllPosts } from '../../../../entities/post/post.slice';
 import AddPost from '../../../../widgets/addPost';
-import Empty from '../../../../components/ui/empty';
 import SkeletonPost from '../../../../widgets/post/ui/skeleton';
-import { selectorPagePost } from '../../../../entities/post/post.selectors';
-
+import ObserverList from '../../../../components/custom/lists/ObserverList/ui';
 //TODO: Оптимизировать компонент драгон-input, ререндер на каждый клик
 
 const Feed = () => {
@@ -26,6 +25,7 @@ const Feed = () => {
   const loadingPosts = useAppSelector(selectorLoadingPosts);
   const errorPosts = useAppSelector(selectorErrorPosts);
   const page = useAppSelector(selectorPagePost);
+  const haseMore = useAppSelector(selectorHaseMore);
 
   const [isDraggablePhoto, setIsDraggablePhoto] = useState(false);
   const [isDraggablePhotoInPost, setIsDraggablePhotoInPost] = useState(false);
@@ -49,8 +49,16 @@ const Feed = () => {
     setIsDraggablePhoto(false);
   };
 
+  const handlerNextPage = () => {
+    dispatch(getAllPost({ page: page + 1 }))
+      .unwrap()
+      .then(() => {
+        dispatch(addPage());
+      });
+  };
+
   useEffect(() => {
-    dispatch(getAllPost({ page: page }));
+    dispatch(getAllPost({ page: 1 }));
 
     return () => {
       dispatch(setAllPosts([]));
@@ -61,18 +69,23 @@ const Feed = () => {
     <div onDragEnterCapture={handlerPhotoDrag} onDragLeaveCapture={handlerPhotoDrag}>
       <AllContainer>
         <AddPost handlerChange={handlerChange} isDraggablePhoto={isDraggablePhoto} />
-        <SList>
-          {posts.map((post) => (
+
+        <ObserverList
+          list={posts}
+          itemContent={(el) => (
             <Post
-              handlerChange={handlerChangeInPost}
               isDraggablePhotoInPost={isDraggablePhotoInPost}
-              key={post.id}
-              post={post}
+              handlerChange={handlerChangeInPost}
+              post={el}
             />
-          ))}
-          {loadingPosts && <SkeletonPost />}
-        </SList>
-        {!posts.length && !loadingPosts && <Empty message={errorMessage} />}
+          )}
+          fetchNextPage={handlerNextPage}
+          hasMore={haseMore}
+          isPending={loadingPosts && page === 1}
+          notFoundMessage={errorMessage}
+          skeleton={() => <SkeletonPost />}
+          isFetching={loadingPosts && page > 1}
+        />
       </AllContainer>
     </div>
   );

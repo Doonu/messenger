@@ -14,6 +14,7 @@ interface postsState {
   errorPosts: boolean;
   loadingPosts: boolean;
   pagePost: number;
+  haseMore: boolean;
 
   deletedPost: IPostState[];
   editedPost: IPostState | undefined;
@@ -25,6 +26,7 @@ const initialState: postsState = {
   errorPosts: false,
   loadingPosts: true,
   pagePost: 1,
+  haseMore: true,
 
   deletedPost: [],
   editedPost: undefined,
@@ -41,6 +43,7 @@ export const postSlice = createSlice({
     setAllPosts: (state, { payload }: PayloadAction<IPostState[]>) => {
       state.posts = payload;
       state.loadingPosts = true;
+      state.haseMore = true;
     },
     editPost: (state, { payload }: PayloadAction<number>) => {
       if (!state.editedPost) {
@@ -48,6 +51,9 @@ export const postSlice = createSlice({
       } else {
         state.warningEdit = true;
       }
+    },
+    addPage: (state) => {
+      state.pagePost += 1;
     },
     removeWarningPost: (state) => {
       state.warningEdit = false;
@@ -69,8 +75,12 @@ export const postSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getAllPost.fulfilled, (state, { payload }) => {
-      state.posts = payload;
-      state.loadingPosts = false;
+      if (payload.length === 0) state.haseMore = false;
+
+      if (payload.length !== 0) {
+        state.posts = [...state.posts, ...payload];
+        state.loadingPosts = false;
+      }
     });
     builder.addCase(getAllPost.pending, (state) => {
       state.loadingPosts = true;
@@ -129,6 +139,7 @@ export const postSlice = createSlice({
 });
 
 export const {
+  addPage,
   deletePost,
   setAllPosts,
   editPost,
