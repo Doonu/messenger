@@ -30,7 +30,10 @@ const Restore: FC<IRestoreProps> = ({ postId, setIsDeletedPost, setAllFiles }) =
       .catch(() => {});
   };
 
-  const handlerDelete = () => dispatch(deletePost(postId));
+  const handlerDelete = () => {
+    setIsDeletedPost(false);
+    dispatch(deletePost(postId));
+  };
 
   return (
     <SContainer>

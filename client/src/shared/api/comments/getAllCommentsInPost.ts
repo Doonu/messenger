@@ -12,17 +12,19 @@ interface IGetAllCommentsInPost {
   postId: number;
   orderBy: string;
   orderDirection: number;
+  page: number;
+  limit: number;
 }
 
 const getAllCommentsInPost = createAsyncThunk<
   ICommentsState[],
   IGetAllCommentsInPost,
   IConfigAsyncThunk
->('comments/getAll', ({ postId, orderDirection, orderBy }, { rejectWithValue }) => {
+>('comments/getAll', ({ postId, orderDirection, orderBy, page, limit }, { rejectWithValue }) => {
   return API<ICommentsState[]>({
     url: `api/posts/comments/${postId}`,
     method: 'GET',
-    params: { orderBy, orderDirection },
+    params: { orderBy, orderDirection, page, limit },
   })
     .then(({ data }) => {
       return data.map((comment) => {

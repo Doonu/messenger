@@ -10,6 +10,8 @@ import {
   selectorWarningEdit,
   selectorDeletedPost,
   selectorPost,
+  selectorPagePost,
+  selectorHaseMore,
 } from './post/post.selectors';
 
 export default { authSlice, notificationSlice, userSlice, postSlice };
@@ -22,4 +24,6 @@ export {
   selectorPost,
   selectorProfile,
   selectorProfileLoader,
+  selectorHaseMore,
+  selectorPagePost,
 };

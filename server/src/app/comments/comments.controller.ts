@@ -33,9 +33,10 @@ export class CommentsController {
         @Param('id') id: number,
         @Query("orderBy") orderBy: string,
         @Query("orderDirection") orderDirection: number,
+        @Query("page") page: number,
+        @Query("limit") limit: number
     ){
-        console.log(orderBy, orderDirection)
-        return this.commentService.getAllCommentsInPost(id, orderBy, orderDirection)
+        return this.commentService.getAllCommentsInPost(id, orderBy, orderDirection, page, limit)
     }
 
     @UseGuards(JwtAuthGuard)

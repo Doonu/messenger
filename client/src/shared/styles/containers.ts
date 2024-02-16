@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 
-export const SContent = styled.div`
+export const Content = styled.div`
   max-width: 1200px;
   margin: 0 auto;
-  height: calc(100vh - 91px);
+  min-height: calc(100vh - 181px);
+  flex: 1;
   user-select: none;
   padding: 20px 10px 0 10px;
 `;
@@ -36,4 +37,13 @@ export const BlockContainer = styled.div`
   border: 1px solid ${({ theme }) => theme.colors.secondaryText};
   border-radius: 10px;
   padding: 15px;
+`;
+
+export const Footer = styled.footer`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 15px;
+  min-height: 70px;
 `;

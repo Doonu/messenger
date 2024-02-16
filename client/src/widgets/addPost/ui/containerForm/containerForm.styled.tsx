@@ -18,6 +18,7 @@ export const SContainer = styled.div<IPositionProps>`
   padding: 15px;
   margin: 0 auto 15px 0;
   min-height: ${({ $isDraggable }) => $isDraggable && `150px`};
+  width: 100%;
 
   ${({ $position }) =>
     $position &&

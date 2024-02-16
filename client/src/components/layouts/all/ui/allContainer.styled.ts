@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const SMain = styled.div`
   display: flex;
+  align-items: flex-start;
   gap: 15px;
 `;
 
@@ -12,7 +13,7 @@ export const SAffixContainer = styled.div`
 `;
 
 export const SCenter = styled.div`
-  max-width: 720px;
+  max-width: 650px;
   margin: 0 auto;
   flex: 1;
 `;

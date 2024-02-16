@@ -84,8 +84,11 @@ export class PostsService {
     *  Если сортировки нет, то дефолтная сортировка по дате создания order: [['createdAt', 'DESC']]
     *
     * */
-    async getAll(){
-        return await this.postRepository.findAll({include: {all: true}, order: [['createdAt', 'DESC']]});
+    async getAll(page: number){
+        let currentPage = page - 1;
+        const limit = 10;
+
+        return await this.postRepository.findAll({include: {all: true}, order: [['createdAt', 'DESC']], limit: limit, offset: currentPage * limit });
     }
 
     async toggleComments(dto: UpdatePostCommentsDto, userId: number){

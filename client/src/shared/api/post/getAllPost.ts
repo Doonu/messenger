@@ -9,12 +9,17 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
 }
 
-const getAllPost = createAsyncThunk<IPostState[], undefined, IConfigAsyncThunk>(
+interface IGetAllPost {
+  page: number;
+}
+
+const getAllPost = createAsyncThunk<IPostState[], IGetAllPost, IConfigAsyncThunk>(
   'posts/getAll',
-  (_, { rejectWithValue }) => {
+  ({ page }, { rejectWithValue }) => {
     return API<ApiPostState[]>({
       url: `api/posts`,
       method: 'GET',
+      params: { page: page },
     })
       .then(({ data }) => {
         return data.map((post) => {
