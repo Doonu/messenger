@@ -3,7 +3,7 @@ import { Carousel as CarouselAntd } from 'antd';
 
 export const SCarouselAntd = styled(CarouselAntd)`
   height: 100%;
-  width: 650px;
+  width: 100%;
 
   .slick-slide {
     * > div {

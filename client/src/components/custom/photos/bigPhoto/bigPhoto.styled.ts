@@ -14,6 +14,7 @@ export const SImageContainer = styled.div<IBigPhotoPropsStyles>`
 `;
 
 export const SImage = styled.img<IBigPhotoPropsStyles>`
+  max-width: 100%;
   object-fit: contain;
   border-radius: 15px;
   max-height: ${({ $fixedMinHeight }) => $fixedMinHeight}px;

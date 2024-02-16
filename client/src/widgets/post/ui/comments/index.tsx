@@ -1,13 +1,5 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import {
-  SAutosizeInput,
-  SButton,
-  SContainer,
-  SContainerComments,
-  SForm,
-  SLoaderComment,
-  SMore,
-} from './comments.styled';
+import { SAutosizeInput, SButton, SContainer, SForm } from './comments.styled';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { selectorProfile } from '../../../../entities';
 import SendIcon from '../../../../shared/assets/icons/sendIcon';
@@ -21,6 +13,7 @@ import { recalculationOfComments } from '../../../../entities/post/post.slice';
 import Sorting from '../../../../components/ui/sorting/ui';
 import { filterComments, IFilterCommentsKeys } from './lib/filterComments';
 import { ICommentsState } from '../../../../entities/post/model/IPost';
+import BaseList from '../../../../components/custom/lists/BaseList/ui';
 
 const Comments: FC<CommentsProps> = ({ post }) => {
   const dispatch = useAppDispatch();
@@ -170,25 +163,24 @@ const Comments: FC<CommentsProps> = ({ post }) => {
         />
       )}
 
-      {!!comments.length && (
-        <SContainerComments>
-          {comments.map((comment) => (
-            <CommentItem
-              userPostId={post.userId}
-              handlerEdit={handlerEdit}
-              onDelete={() => handlerDeleteComment(comment.id)}
-              onEdit={() => handlerUpdateComment(comment.id)}
-              comment={comment}
-              key={comment.id}
-              setComments={setComments}
-            />
-          ))}
-        </SContainerComments>
-      )}
-
-      {loader && <SLoaderComment />}
-
-      {isMore && <SMore onClick={nextPageGetAllComments}>Загрузить еще</SMore>}
+      <BaseList
+        list={comments}
+        isBorderBottom={true}
+        isPending={loader}
+        fetchNextPage={nextPageGetAllComments}
+        hasMore={isMore}
+        itemContent={(comment) => (
+          <CommentItem
+            userPostId={post.userId}
+            handlerEdit={handlerEdit}
+            onDelete={() => handlerDeleteComment(comment.id)}
+            onEdit={() => handlerUpdateComment(comment.id)}
+            comment={comment}
+            key={comment.id}
+            setComments={setComments}
+          />
+        )}
+      />
 
       <SForm>
         <PhotoProfile img={avatar}>{name[0]}</PhotoProfile>

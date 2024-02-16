@@ -7,6 +7,7 @@ interface ISContainer {
 
 export const SContainer = styled(BlockContainer)<ISContainer>`
   padding: 0;
+  max-width: 100%;
 
   ${({ $isWarning }) =>
     $isWarning &&

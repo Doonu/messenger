@@ -44,6 +44,7 @@ export const postSlice = createSlice({
       state.posts = payload;
       state.loadingPosts = true;
       state.haseMore = true;
+      state.pagePost = 1;
     },
     editPost: (state, { payload }: PayloadAction<number>) => {
       if (!state.editedPost) {
@@ -77,10 +78,9 @@ export const postSlice = createSlice({
     builder.addCase(getAllPost.fulfilled, (state, { payload }) => {
       if (payload.length === 0) state.haseMore = false;
 
-      if (payload.length !== 0) {
-        state.posts = [...state.posts, ...payload];
-        state.loadingPosts = false;
-      }
+      if (payload.length !== 0) state.posts = [...state.posts, ...payload];
+
+      state.loadingPosts = false;
     });
     builder.addCase(getAllPost.pending, (state) => {
       state.loadingPosts = true;

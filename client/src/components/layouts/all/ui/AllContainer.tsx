@@ -15,9 +15,9 @@ const AllContainer: FC<AllContainerProps> = ({ children }) => {
       <SMain>
         <Affix offsetTop={30}>
           <SAffixContainer>
-            <Sidebar $width="small">content</Sidebar>
-            <Sidebar $width="small">content</Sidebar>
-            <Sidebar $width="small">content</Sidebar>
+            <Sidebar>content</Sidebar>
+            <Sidebar>content</Sidebar>
+            <Sidebar>content</Sidebar>
           </SAffixContainer>
         </Affix>
         <SCenter>{children}</SCenter>

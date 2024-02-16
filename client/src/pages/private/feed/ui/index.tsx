@@ -15,6 +15,7 @@ import { addPage, setAllPosts } from '../../../../entities/post/post.slice';
 import AddPost from '../../../../widgets/addPost';
 import SkeletonPost from '../../../../widgets/post/ui/skeleton';
 import ObserverList from '../../../../components/custom/lists/ObserverList/ui';
+import { DraggableContainer } from './Feed.styled';
 //TODO: Оптимизировать компонент драгон-input, ререндер на каждый клик
 
 const Feed = () => {
@@ -66,7 +67,7 @@ const Feed = () => {
   }, []);
 
   return (
-    <div onDragEnterCapture={handlerPhotoDrag} onDragLeaveCapture={handlerPhotoDrag}>
+    <DraggableContainer onDragEnterCapture={handlerPhotoDrag} onDragLeaveCapture={handlerPhotoDrag}>
       <AllContainer>
         <AddPost handlerChange={handlerChange} isDraggablePhoto={isDraggablePhoto} />
 
@@ -87,7 +88,7 @@ const Feed = () => {
           isFetching={loadingPosts && page > 1}
         />
       </AllContainer>
-    </div>
+    </DraggableContainer>
   );
 };
 
