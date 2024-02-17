@@ -85,7 +85,7 @@ const ContainerForm: FC<IContainerFormProps> = ({
 
     setLoadingPhotos(true);
 
-    dispatch(addPendingList(Array.from(filteredPhoto)))
+    dispatch(addPendingList({ files: Array.from(filteredPhoto), status: 1 }))
       .unwrap()
       .then((files) => {
         setData((prev) => {
@@ -146,6 +146,7 @@ const ContainerForm: FC<IContainerFormProps> = ({
               onActive={handlerActive}
               onTitle={handlerChangeTitle}
               isActive={values.isActive}
+              statusPhoto={1}
             />
             {values.isActive && (
               <SSubmit>

@@ -10,7 +10,10 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
 }
 
-type IAddWaitList = any[];
+interface IAddWaitList {
+  files: any[];
+  status: number;
+}
 
 const addPendingList = createAsyncThunk<IFilesPost[], IAddWaitList, IConfigAsyncThunk>(
   'files/pending',

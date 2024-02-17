@@ -17,7 +17,7 @@ const Restore: FC<IRestoreProps> = ({ postId, setIsDeletedPost, setAllFiles }) =
   const dispatch = useAppDispatch();
 
   const handlerRestore = () => {
-    dispatch(restorePostById(postId))
+    dispatch(restorePostById({ postId: postId }))
       .unwrap()
       .then((post) => {
         setIsDeletedPost(false);

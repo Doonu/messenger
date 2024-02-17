@@ -56,8 +56,8 @@ export const postSlice = createSlice({
     addPage: (state) => {
       state.pagePost += 1;
     },
-    removeWarningPost: (state) => {
-      state.warningEdit = false;
+    switchWarningPost: (state, { payload }: PayloadAction<boolean>) => {
+      state.warningEdit = payload;
     },
     removeEditPost: (state) => {
       state.editedPost = undefined;
@@ -143,7 +143,7 @@ export const {
   deletePost,
   setAllPosts,
   editPost,
-  removeWarningPost,
+  switchWarningPost,
   removeEditPost,
   recalculationOfComments,
 } = postSlice.actions;

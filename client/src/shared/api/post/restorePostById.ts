@@ -10,9 +10,13 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
 }
 
-const restorePostById = createAsyncThunk<IPostState, number, IConfigAsyncThunk>(
+interface IRestorePostById {
+  postId: number;
+}
+
+const restorePostById = createAsyncThunk<IPostState, IRestorePostById, IConfigAsyncThunk>(
   'post/restore',
-  (postId, { rejectWithValue, dispatch }) => {
+  ({ postId }, { rejectWithValue, dispatch }) => {
     return API<IPostState>({
       url: `api/posts/restore/${postId}`,
       method: 'POST',

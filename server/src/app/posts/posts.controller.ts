@@ -4,7 +4,6 @@ import {
     Delete,
     Get, Param, Patch,
     Post, Put, Query, Req,
-    UploadedFiles,
     UseGuards,
     UseInterceptors
 } from '@nestjs/common';
@@ -12,10 +11,8 @@ import {CreatePostDto} from "./dto/create-post.dto";
 import {PostsService} from "./posts.service";
 import {AnyFilesInterceptor} from "@nestjs/platform-express";
 import {ApiResponse} from "@nestjs/swagger";
-import {RolesGuard} from "../auth/roles.guard";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {UpdatePostCommentsDto, UpdatePostLikeDto} from "./dto/update-post.dto";
-import {CreateCommentDto} from "../comments/dto/create-comment.dto";
 import {UpdatePostDto} from "../comments/dto/update-comment.dto";
 
 

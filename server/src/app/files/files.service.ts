@@ -9,14 +9,15 @@ import {iFile} from "../posts/dto/create-post.dto";
 export class FilesService {
     extensionPhotoList = ['jpg', 'png', 'webp', 'svg', 'gif', 'jpeg', 'bmp'];
 
-    async renameFiles(files: iFile[]){
+    async renameFiles(files: iFile[], status: number){
         try {
             if(!files.length) return;
+            const statusPhoto = this.statusName(status)
             const filePath = path.resolve(__dirname, "../../../", 'static')
             let newFiles = [];
 
             files.forEach(item => {
-                if(item.url.split("_")[1] === 'pending'){
+                if(item.url.split("_")[1] === statusPhoto){
                     const status = 'fulfilled';
                     const userId = item.url.split("_")[0]
                     const expansion = item.url.split(".")[item.url.split(".").length - 1]
@@ -41,31 +42,30 @@ export class FilesService {
         }
     }
 
-    async clearTrash(userId: number){
+    async clearTrash(userId: number, status: number){
         const filePath = path.resolve(__dirname, "../../../", 'static')
         const files_fs = fs.readdirSync(filePath)
 
         files_fs.forEach(el => {
             const array = el.split("_")
-            if(array[1] === 'pending' && userId === +array[0]){
+            if(array[1] === this.statusName(status) && userId === +array[0]){
                 fs.unlink(filePath + '/' + el, () => {})
             }
         })
     }
 
-    async renameUpdatePending(files: iFile[], userId: number){
+    async renameUpdatePending(files: iFile[], userId: number, status: number){
         try {
             if(!files.length) return []
             const filePath = path.resolve(__dirname, "../../../", 'static')
             let newFiles = [];
 
             files.forEach((file) => {
-                // TODO: Вынести в отедльную функцию
                 const array = file.originalName.split('.');
                 const expansion = array[array.length - 1]
-                const status = 'pending'
+                const statusPhoto = this.statusName(status)
 
-                const newFileName = userId + "_" + status + "_" + file.id + `.${expansion}`;
+                const newFileName = userId + "_" + statusPhoto + "_" + file.id + `.${expansion}`;
                 const newUrlName = filePath + "/" + newFileName;
 
                 newFiles.push({
@@ -92,9 +92,10 @@ export class FilesService {
         })
     }
 
-    async addPending(files: Array<Express.Multer.File> , userId: number): Promise<any[]>{
+    async addPending(files: Array<Express.Multer.File> , status: number, userId: number): Promise<any[]>{
         try {
             if(!files.length) return []
+            const statusPhoto = this.statusName(status)
             let fileNames = [];
             const filePath = path.resolve(__dirname, "../../../", 'static')
 
@@ -107,8 +108,7 @@ export class FilesService {
                 const expansion = array[array.length - 1]
                 const id = uuid.v4()
 
-                const status = 'pending'
-                const fileName = userId + "_" + status + "_" + id + `.${expansion}`
+                const fileName = userId + "_" + statusPhoto + "_" + id + `.${expansion}`
 
                 fs.writeFileSync(path.join(filePath, fileName), file.buffer)
 
@@ -144,5 +144,9 @@ export class FilesService {
         } catch (e){
             throw new HttpException("Произошла ошибка при записи файла в список ожиданий", HttpStatus.INTERNAL_SERVER_ERROR)
         }
+    }
+
+    statusName (status: number){
+        return +status === 1 ? 'pendingAddPost' : 'pendingEditPost';
     }
 }
