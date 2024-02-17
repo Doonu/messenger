@@ -9,7 +9,7 @@ import { selectorEditedPost } from '../../../../entities';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import Grid from './ui/grid';
 import { Carousel } from '../../../../components/ui/carousel';
-import Files from '../files';
+import Files from '../../../../features/files';
 
 interface IContent {
   post: IPostState;

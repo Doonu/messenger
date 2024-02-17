@@ -5,7 +5,6 @@ export const initialValues: IPost = {
   isActive: false,
   isWarningModal: false,
   isDraggablePhotoFocus: true,
-  isPreviewPhoto: false,
   isDisabledComments: false,
   view: 'slider',
 
