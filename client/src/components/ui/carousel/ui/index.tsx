@@ -50,7 +50,7 @@ const Carousel: FC<ICarousel> = ({
   }, [currentSlide]);
 
   return (
-    <div onKeyDown={handleKeyDown}>
+    <div style={{ width: '100%' }} onKeyDown={handleKeyDown}>
       <SCarouselAntd ref={slider} dots {...props}>
         {photoList.map(({ url, dimensions, id }) => (
           <SImgContainer key={id}>
