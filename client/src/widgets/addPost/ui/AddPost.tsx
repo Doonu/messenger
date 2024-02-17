@@ -32,6 +32,7 @@ const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
 
   const [allFiles, setAllFiles] = useState<IAllFiles>({ photos: [], files: [] });
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPreviewPhoto, setIsPreviewPhoto] = useState(false);
 
   const isEditPost = posts.find((post) => post.id === editedPost?.id);
 
@@ -72,8 +73,8 @@ const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
           <ModalBase
             isFooter={false}
             width="max-content"
-            onClose={() => setFieldValue('isPreviewPhoto', false)}
-            open={values.isPreviewPhoto}
+            onClose={() => setIsPreviewPhoto(false)}
+            open={isPreviewPhoto}
             padding="0 0 0 0"
           >
             {allFiles?.photos && (
@@ -88,6 +89,7 @@ const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
           </ModalBase>
           {allFiles && (
             <ContainerForm
+              setIsPreviewPhoto={setIsPreviewPhoto}
               setCurrentIndex={setCurrentIndex}
               setData={setAllFiles}
               data={allFiles}

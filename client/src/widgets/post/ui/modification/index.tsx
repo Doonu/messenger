@@ -15,8 +15,6 @@ import {
   SHead,
 } from './modification.styled';
 import { IAllFiles } from '../../../../shared/models/IPost';
-import Photos from '../photos';
-import Files from '../files';
 import updatePost from '../../../../shared/api/post/updatePost';
 import ModalBase from '../../../../components/navigation/modal/ui/ModalBase';
 import { WarningCountPhotos } from '../../../../components/navigation/modal';
@@ -25,6 +23,8 @@ import ActionIcons from '../../../../features/actionIcons';
 import addPendingList from '../../../../shared/api/files/addPendingList';
 import clearTrash from '../../../../shared/api/files/clearTrash';
 import { extensionPhotoList, photosFilter } from '../../../../shared/util/filter';
+import Files from '../../../../features/files';
+import Photos from '../../../../features/photos';
 
 interface IModification extends IPostAndDrag {
   allFiles: IAllFiles;
@@ -165,7 +165,7 @@ const Modification: FC<IModification> = ({
           <Photos
             loader={loadingPhotos}
             setIsPreviewPhoto={setIsPreviewPhoto}
-            setIsCurrentIndex={setCurrentIndex}
+            setCurrentIndex={setCurrentIndex}
             data={modifyAllFiles}
             setData={setModifyAllFiles}
           />

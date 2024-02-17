@@ -14,7 +14,6 @@ interface IClearTrash {
 const clearTrash = createAsyncThunk<null, IClearTrash, IConfigAsyncThunk>(
   'files/clearTrash',
   ({ status }, {}) => {
-    console.log(status);
     return API({
       url: `api/files/clearTrash`,
       method: 'POST',

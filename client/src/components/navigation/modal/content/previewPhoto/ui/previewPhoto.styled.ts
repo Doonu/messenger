@@ -15,6 +15,8 @@ export const SLeft = styled.div`
   align-items: center;
 
   height: 88vh;
+  width: 60vw;
+
   padding: 0;
   user-select: none;
 `;

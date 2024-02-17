@@ -10,8 +10,6 @@ import {
   SSubmit,
   DragInput,
 } from './containerForm.styled';
-import Files from '../files';
-import Photos from '../photos';
 import Content from '../content';
 import Features from '../features';
 import { IAllFiles } from '../../../../shared/models/IPost';
@@ -23,6 +21,8 @@ import BaseButton from '../../../../components/ui/buttons/baseButton';
 import addPendingList from '../../../../shared/api/files/addPendingList';
 import { extensionPhotoList } from '../../../../shared/util/filter';
 import SkeletonAddPost from '../skeleton';
+import Files from '../../../../features/files';
+import Photos from '../../../../features/photos';
 
 interface IContainerFormProps {
   isDraggablePhoto: boolean;
@@ -30,6 +30,7 @@ interface IContainerFormProps {
   data: IAllFiles;
   setData: Dispatch<SetStateAction<IAllFiles>>;
   setCurrentIndex: Dispatch<SetStateAction<number>>;
+  setIsPreviewPhoto: Dispatch<SetStateAction<boolean>>;
 }
 
 const ContainerForm: FC<IContainerFormProps> = ({
@@ -38,6 +39,7 @@ const ContainerForm: FC<IContainerFormProps> = ({
   data,
   setData,
   setCurrentIndex,
+  setIsPreviewPhoto,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -132,9 +134,10 @@ const ContainerForm: FC<IContainerFormProps> = ({
             setCurrentIndex={setCurrentIndex}
             data={data}
             setData={setData}
+            setIsPreviewPhoto={setIsPreviewPhoto}
           />
 
-          <Files loader={loadingFiles} data={data} setData={setData} />
+          <Files data={data} setData={setData} loader={loadingFiles} />
 
           {data.photos.length > 1 && <Features />}
           <SContainerIcons $position={values.isActive}>

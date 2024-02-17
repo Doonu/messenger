@@ -1,22 +1,11 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
-interface IPositionProps {
-  $position: boolean;
-  $isDraggable?: boolean;
-}
-
-export const SPhotos = styled.div<IPositionProps>`
+export const SList = styled.div`
   width: 100%;
   height: 100%;
 
   display: flex;
   gap: 20px;
-
-  ${({ $isDraggable }) =>
-    $isDraggable &&
-    css`
-      visibility: ${$isDraggable ? 'hidden' : 'visible'};
-    `}
 
   flex-wrap: nowrap;
   overflow-x: auto;
