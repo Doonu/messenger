@@ -10,7 +10,7 @@ import {
 } from '../../../entities';
 import { IAllFiles } from '../../../shared/models/IPost';
 import Comments from './comments';
-import { removeWarningPost } from '../../../entities/post/post.slice';
+import { switchWarningPost } from '../../../entities/post/post.slice';
 import { IPostAndDrag } from '../model/shared';
 import Content from './content';
 import Modification from './modification';
@@ -68,7 +68,7 @@ const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange })
 
   useEffect(() => {
     const saveTimeout = setTimeout(() => {
-      dispatch(removeWarningPost());
+      dispatch(switchWarningPost(false));
     }, 2000);
 
     if (warningEdit && editedPost?.id === post.id) {

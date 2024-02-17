@@ -7,12 +7,18 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
 }
 
-const clearTrash = createAsyncThunk<null, undefined, IConfigAsyncThunk>(
+interface IClearTrash {
+  status: number;
+}
+
+const clearTrash = createAsyncThunk<null, IClearTrash, IConfigAsyncThunk>(
   'files/clearTrash',
-  (_, {}) => {
+  ({ status }, {}) => {
+    console.log(status);
     return API({
       url: `api/files/clearTrash`,
       method: 'POST',
+      data: { status: status },
     });
   }
 );

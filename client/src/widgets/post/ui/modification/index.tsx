@@ -60,7 +60,7 @@ const Modification: FC<IModification> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handlerRemoveEdit = () => {
-    dispatch(clearTrash());
+    dispatch(clearTrash({ status: 2 }));
     dispatch(removeEditPost());
   };
 
@@ -84,7 +84,7 @@ const Modification: FC<IModification> = ({
       return;
     }
 
-    await dispatch(addPendingList(Array.from(filteredPhoto)))
+    await dispatch(addPendingList({ files: Array.from(filteredPhoto), status: 2 }))
       .unwrap()
       .then((files) => {
         setModifyAllFiles((prev) => {
@@ -106,6 +106,7 @@ const Modification: FC<IModification> = ({
         view: post.view,
         isDisabledComments: post.isDisabledComments,
         id: post.id,
+        status: 2,
       })
     )
       .unwrap()
@@ -187,6 +188,7 @@ const Modification: FC<IModification> = ({
               setData={setModifyAllFiles}
               data={modifyAllFiles}
               onTitle={handlerChangeTitle}
+              statusPhoto={2}
             ></ActionIcons>
             <SButtons>
               <BaseButton bgTransparent onClick={handlerRemoveEdit}>

@@ -12,8 +12,8 @@ export class PostsService {
     }
 
     async create(dto: CreatePostDto, userId: number) {
-        const newFiles = await this.fileService.renameFiles(dto.files)
-        await this.fileService.clearTrash(userId)
+        const newFiles = await this.fileService.renameFiles(dto.files, dto.status)
+        await this.fileService.clearTrash(userId, dto.status)
 
         const createdPost = await this.postRepository.create({...dto, userId,files: newFiles})
         return await this.postRepository.findOne({where: { id: createdPost.id }, include: { all: true } })
@@ -27,7 +27,7 @@ export class PostsService {
         }
 
        if(savedPost.files){
-           const newFilesName = await this.fileService.renameUpdatePending(savedPost.files, userId)
+           const newFilesName = await this.fileService.renameUpdatePending(savedPost.files, userId, 2)
            await savedPost.update({files: newFilesName})
        }
 
@@ -40,7 +40,7 @@ export class PostsService {
         await post.restore()
 
         if(post.files){
-            const newFiles = await this.fileService.renameFiles(post.files)
+            const newFiles = await this.fileService.renameFiles(post.files, 2)
             await post.update({files: newFiles})
         }
 
@@ -69,7 +69,7 @@ export class PostsService {
         let newFiles = []
 
         if(dto.files?.length){
-             newFiles = await this.fileService.renameFiles(dto.files)
+             newFiles = await this.fileService.renameFiles(dto.files, dto.status)
         }
 
 

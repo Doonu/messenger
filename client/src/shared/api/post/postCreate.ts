@@ -11,7 +11,9 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
 }
 
-type IPostCreate = Pick<IPostState, 'content' | 'isDisabledComments' | 'view' | 'files'>;
+type IPostCreate = Pick<IPostState, 'content' | 'isDisabledComments' | 'view' | 'files'> & {
+  status: number;
+};
 
 const postCreate = createAsyncThunk<IPostState, IPostCreate, IConfigAsyncThunk>(
   'posts/create',

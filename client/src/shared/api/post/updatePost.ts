@@ -4,7 +4,9 @@ import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../models/erro
 import { RootState } from '../../../app/store';
 import API from '../interceptors';
 
-type IPostUpdate = Pick<IPostState, 'content' | 'files' | 'isDisabledComments' | 'view' | 'id'>;
+type IPostUpdate = Pick<IPostState, 'content' | 'files' | 'isDisabledComments' | 'view' | 'id'> & {
+  status: number;
+};
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
@@ -12,7 +14,7 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
 
 const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
   'post/update',
-  ({ content, isDisabledComments, view, files, id }, { rejectWithValue }) => {
+  ({ content, isDisabledComments, view, files, id, status }, { rejectWithValue }) => {
     let dynamicParams = {};
 
     if (files.length) {
@@ -22,7 +24,7 @@ const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
     return API<ApiPostState>({
       url: `api/posts`,
       method: 'PUT',
-      data: { ...dynamicParams, content, isDisabledComments, view, id },
+      data: { ...dynamicParams, content, isDisabledComments, view, id, status },
     })
       .then(({ data }) => {
         return {

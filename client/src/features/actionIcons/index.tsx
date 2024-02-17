@@ -14,6 +14,7 @@ interface IIconsProps {
   isActive?: boolean;
   setLoadingPhoto: Dispatch<SetStateAction<boolean>>;
   setLoadingFiles: Dispatch<SetStateAction<boolean>>;
+  statusPhoto: number;
 }
 
 const ActionIcons: FC<IIconsProps> = ({
@@ -24,6 +25,7 @@ const ActionIcons: FC<IIconsProps> = ({
   isActive = true,
   setLoadingPhoto,
   setLoadingFiles,
+  statusPhoto,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -51,7 +53,7 @@ const ActionIcons: FC<IIconsProps> = ({
 
     setLoadingFiles(true);
 
-    await dispatch(addPendingList(Array.from(files)))
+    await dispatch(addPendingList({ files: Array.from(files), status: statusPhoto }))
       .unwrap()
       .then((files) => {
         setData((prev) => {
@@ -75,7 +77,7 @@ const ActionIcons: FC<IIconsProps> = ({
 
     setLoadingPhoto(true);
 
-    await dispatch(addPendingList(Array.from(files)))
+    await dispatch(addPendingList({ status: statusPhoto, files: Array.from(files) }))
       .unwrap()
       .then((files) => {
         setData((prev) => {

@@ -6,11 +6,13 @@ import ContainerForm from './containerForm/ContainerForm';
 import { IPost } from '../model/IPost';
 import { initialValues } from '../lib/initialValues';
 import { IAllFiles } from '../../../shared/models/IPost';
-import { useAppDispatch } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import postCreate from '../../../shared/api/post/postCreate';
 import ModalBase from '../../../components/navigation/modal/ui/ModalBase';
 import { WarningCountPhotos } from '../../../components/navigation/modal';
 import { PreviewPhoto } from '../../../components/navigation/modal/content/previewPhoto';
+import { switchWarningPost } from '../../../entities/post/post.slice';
+import { selectorEditedPost, selectorPost } from '../../../entities';
 
 //TODO: Сделать контайнер и сделать только в нем опасити
 //TODO: Сделать мазайку для картинок
@@ -23,15 +25,25 @@ interface IPostProps {
 }
 
 const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
+  const dispatch = useAppDispatch();
+
+  const editedPost = useAppSelector(selectorEditedPost);
+  const posts = useAppSelector(selectorPost);
+
   const [allFiles, setAllFiles] = useState<IAllFiles>({ photos: [], files: [] });
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const dispatch = useAppDispatch();
+  const isEditPost = posts.find((post) => post.id === editedPost?.id);
 
   return (
     <Formik<IPost>
       initialValues={initialValues}
       onSubmit={(values, { resetForm, setFieldValue }) => {
+        if (isEditPost) {
+          dispatch(switchWarningPost(true));
+          return;
+        }
+
         setFieldValue('isActive', false);
 
         dispatch(
@@ -40,6 +52,7 @@ const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
             files: [...allFiles.files, ...allFiles.photos],
             isDisabledComments: values.isDisabledComments,
             view: values.view,
+            status: 1,
           })
         );
 

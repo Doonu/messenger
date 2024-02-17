@@ -11,4 +11,5 @@ export class CreatePostDto {
     readonly isDisabledComments: boolean
     readonly view: string;
     readonly files: iFile[];
+    readonly status: number;
 }
