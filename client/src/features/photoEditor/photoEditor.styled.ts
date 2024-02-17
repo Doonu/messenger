@@ -1,18 +1,27 @@
 import styled from 'styled-components';
 
 export const SContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 0.5fr;
+  display: flex;
 
   & canvas {
+    flex: 1;
     border-radius: 10px 0 0 0;
   }
+`;
+
+export const SPicture = styled.div`
+  display: grid;
+  justify-items: center;
+  align-items: center;
+
+  width: 50vw;
+  height: 88vh;
 `;
 
 export const SActions = styled.div`
   display: flex;
   flex-direction: column;
-
+  width: 300px;
   border-radius: 15px;
 `;
 

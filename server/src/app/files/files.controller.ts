@@ -1,8 +1,9 @@
-import {Body, Controller, Post, Req, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
-import {AnyFilesInterceptor} from "@nestjs/platform-express";
+import {Body, Controller, Post, Req, UploadedFile, UploadedFiles, UseGuards, UseInterceptors} from '@nestjs/common';
+import {AnyFilesInterceptor, FileInterceptor} from "@nestjs/platform-express";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {FilesService} from "./files.service";
 import {AddingWaitingListDto} from "./dto/adding-waiting-list.dto";
+import {ReplacementPhotoDto} from "./dto/replacement-photo.dto";
 
 @Controller('files')
 export class FilesController {
@@ -20,5 +21,12 @@ export class FilesController {
     @Post('/clearTrash')
     clearTrash(@Req() {userId}: any, @Body() {status}: AddingWaitingListDto){
         return this.fileService.clearTrash(userId, status)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('/replace')
+    @UseInterceptors(FileInterceptor("file"))
+    replacementPhoto(@UploadedFile() file: Express.Multer.File, @Body() {idPhoto, status}: ReplacementPhotoDto, @Req() {userId}: any){
+        return this.fileService.replaceBuffer(file, status, idPhoto, userId);
     }
 }

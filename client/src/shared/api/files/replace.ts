@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../interceptors';
+import { IFilesPost } from '../../models/IPost';
 import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../models/errors';
 import { RootState } from '../../../app/store';
-import { IFilesPost } from '../../models/IPost';
+import API from '../interceptors';
 import { AxiosError } from 'axios';
 import { showMessage } from '../../../entities/notification/notification.slice';
 
@@ -10,19 +10,20 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
 }
 
-interface IAddWaitList {
-  files: any[];
+interface IReplace {
+  file: any;
+  idPhoto: string;
   status: number;
 }
 
-const addPendingList = createAsyncThunk<IFilesPost[], IAddWaitList, IConfigAsyncThunk>(
-  'files/pending',
-  (files, { rejectWithValue, dispatch }) => {
-    return API<IFilesPost[]>({
-      url: `api/files/pending`,
+const replace = createAsyncThunk<IFilesPost, IReplace, IConfigAsyncThunk>(
+  'files/replace',
+  ({ file, idPhoto, status }, { dispatch, rejectWithValue }) => {
+    return API<IFilesPost>({
+      url: 'api/files/replace',
       method: 'POST',
       headers: { 'Content-Type': 'multipart/form-data' },
-      data: files,
+      data: { file: file, idPhoto: idPhoto, status: status },
     })
       .then(({ data }) => data)
       .catch(({ response }: AxiosError<IError>) => {
@@ -38,4 +39,4 @@ const addPendingList = createAsyncThunk<IFilesPost[], IAddWaitList, IConfigAsync
   }
 );
 
-export default addPendingList;
+export default replace;

@@ -24,7 +24,17 @@ export const SLeft = styled.div`
 export const SFooter = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
+`;
+
+export const SEdit = styled.div`
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.white};
+  transition: 0.5s all;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.link};
+  }
 `;
 
 export const SInfoPic = styled.div`

@@ -1,6 +1,10 @@
 import styled from 'styled-components';
 import { Carousel as CarouselAntd } from 'antd';
 
+export const SContainer = styled.div`
+  width: 100%;
+`;
+
 export const SCarouselAntd = styled(CarouselAntd)`
   height: 100%;
   width: 100%;

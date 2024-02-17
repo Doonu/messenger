@@ -92,6 +92,17 @@ export class FilesService {
         })
     }
 
+    async replaceBuffer(file: Express.Multer.File, status, idPhoto, userId){
+        const filePath = path.resolve(__dirname, "../../../", 'static')
+        const files_fs = fs.readdirSync(filePath)
+
+        files_fs.forEach(fileInDirectory => {
+            if(fileInDirectory.split("_")[2].split(".")[0] === idPhoto){
+                fs.writeFileSync(path.join(filePath, fileInDirectory), file.buffer)
+            }
+        })
+    }
+
     async addPending(files: Array<Express.Multer.File> , status: number, userId: number): Promise<any[]>{
         try {
             if(!files.length) return []

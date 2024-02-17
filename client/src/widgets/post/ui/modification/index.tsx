@@ -75,6 +75,8 @@ const Modification: FC<IModification> = ({
     const files = e.target.files;
     if (!files) return;
 
+    console.log(files);
+
     const filteredPhoto = Array.from(files).filter((file) =>
       extensionPhotoList.includes(file.name.split('.')[file.name.split('.').length - 1])
     );

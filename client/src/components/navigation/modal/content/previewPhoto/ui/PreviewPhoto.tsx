@@ -5,6 +5,7 @@ import {
   SContainerInfo,
   SContainerProfile,
   SContent,
+  SEdit,
   SFooter,
   SInfoPic,
   SLeft,
@@ -19,6 +20,7 @@ import { IAllFiles, IFilesPost } from '../../../../../../shared/models/IPost';
 import PhotoEditor from '../../../../../../features/photoEditor';
 import Carousel from '../../../../../ui/carousel/ui';
 import { IUser } from '../../../../../../shared/models/IUser';
+import replace from '../../../../../../shared/api/files/replace';
 
 interface PreviewPhotoProps {
   list: IFilesPost[];
@@ -54,22 +56,26 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
     setIsLike((prev) => !prev);
   };
 
-  const handlerEditionImage = (url: string | undefined, id: string) => {
-    if (!url) return;
+  const canselEdit = () => setIsEditorPhoto(false);
 
-    const currentList = list.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          url: url,
-        };
-      }
-      return item;
-    });
+  const handlerEditionImage = (image: any, id: string) => {
+    if (!image) return;
 
-    setList((prev) => {
-      return { ...prev, photos: currentList };
-    });
+    dispatch(replace({ file: image, idPhoto: id, status: 2 }));
+
+    // const currentList = list.map((item) => {
+    //   if (item.id === id) {
+    //     return {
+    //       ...item,
+    //       url: url,
+    //     };
+    //   }
+    //   return item;
+    // });
+    //
+    // setList((prev) => {
+    //   return { ...prev, photos: currentList };
+    // });
 
     setIsEditorPhoto(false);
   };
@@ -81,7 +87,11 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
   return (
     <SContainer>
       {isEditorPhoto && (
-        <PhotoEditor onEditionImage={handlerEditionImage} image={list[currentIndex - 1]} />
+        <PhotoEditor
+          canselEdit={canselEdit}
+          onEditionImage={handlerEditionImage}
+          image={list[currentIndex - 1]}
+        />
       )}
       {!isEditorPhoto && (
         <SContent>
@@ -118,13 +128,15 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
         </SContent>
       )}
       <SFooter>
-        <div onClick={() => setIsEditorPhoto((prev) => !prev)}>hello</div>
+        {!isEditorPhoto && (
+          <SEdit onClick={() => setIsEditorPhoto((prev) => !prev)}>Редактировать</SEdit>
+        )}
         <SInfoPic>
           {list.length > 1
             ? `Фотографии для публикации поста ${currentIndex} из ${list.length}`
             : `Фотография для публикации поста`}
         </SInfoPic>
-        <div>this</div>
+        {!isEditorPhoto && <div></div>}
       </SFooter>
     </SContainer>
   );
