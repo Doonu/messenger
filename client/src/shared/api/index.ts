@@ -14,8 +14,10 @@ import likeComments from './comments/likeComments';
 import updateComment from './comments/updateComment';
 import updatePost from './post/updatePost';
 import clearTrash from './files/clearTrash';
+import replace from './files/replace';
 
 export default {
+  replace,
   postLogin,
   postRegistration,
   getProfile,

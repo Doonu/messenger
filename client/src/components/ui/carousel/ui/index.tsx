@@ -1,5 +1,5 @@
 import React, { useEffect, FC, KeyboardEvent, useRef } from 'react';
-import { SCarouselAntd, SImgContainer } from './carousel.styled';
+import { SCarouselAntd, SContainer, SImgContainer } from './carousel.styled';
 import {
   SArrowLeft,
   SArrowRight,
@@ -50,7 +50,7 @@ const Carousel: FC<ICarousel> = ({
   }, [currentSlide]);
 
   return (
-    <div onKeyDown={handleKeyDown}>
+    <SContainer onKeyDown={handleKeyDown}>
       <SCarouselAntd ref={slider} dots {...props}>
         {photoList.map(({ url, dimensions, id }) => (
           <SImgContainer key={id}>
@@ -64,7 +64,7 @@ const Carousel: FC<ICarousel> = ({
           </SImgContainer>
         ))}
       </SCarouselAntd>
-    </div>
+    </SContainer>
   );
 };
 

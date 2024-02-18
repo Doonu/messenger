@@ -84,7 +84,7 @@ const Modification: FC<IModification> = ({
       return;
     }
 
-    await dispatch(addPendingList({ files: Array.from(filteredPhoto), status: 2 }))
+    dispatch(addPendingList({ files: Array.from(filteredPhoto), status: 2 }))
       .unwrap()
       .then((files) => {
         setModifyAllFiles((prev) => {
@@ -135,7 +135,7 @@ const Modification: FC<IModification> = ({
       >
         {modifyAllFiles.photos && (
           <PreviewPhoto
-            setList={setAllFiles}
+            setList={setModifyAllFiles}
             setCurrentIndex={setCurrentIndex}
             currentIndex={currentIndex}
             list={modifyAllFiles.photos}
