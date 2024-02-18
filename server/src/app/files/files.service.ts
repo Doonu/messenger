@@ -3,13 +3,13 @@ import * as fs from 'fs'
 import * as path from 'path'
 import * as uuid from 'uuid'
 import sizeOf from 'image-size'
-import {iFile} from "../posts/dto/create-post.dto";
+import {IFile} from "../posts/dto/create-post.dto";
 
 @Injectable()
 export class FilesService {
     extensionPhotoList = ['jpg', 'png', 'webp', 'svg', 'gif', 'jpeg', 'bmp'];
 
-    async renameFiles(files: iFile[], status: number){
+    async renameFiles(files: IFile[], status: number){
         try {
             if(!files.length) return;
             const statusPhoto = this.statusName(status)
@@ -54,7 +54,7 @@ export class FilesService {
         })
     }
 
-    async renameUpdatePending(files: iFile[], userId: number, status: number){
+    async renameUpdatePending(files: IFile[], userId: number, status: number){
         try {
             if(!files.length) return []
             const filePath = path.resolve(__dirname, "../../../", 'static')
@@ -82,25 +82,57 @@ export class FilesService {
         }
     }
 
-    async removeFiles(files: iFile[]){
+    async removeFiles(files: IFile[]){
         if(!files?.length) return []
         const filePath = path.resolve(__dirname, "../../../", 'static')
-
 
         files.forEach(file => {
             fs.unlinkSync(filePath + '/' + file.url)
         })
     }
 
-    async replaceBuffer(file: Express.Multer.File, status, idPhoto, userId){
+    async replaceBuffer(file: Express.Multer.File, status, idPhoto){
         const filePath = path.resolve(__dirname, "../../../", 'static')
         const files_fs = fs.readdirSync(filePath)
+        const statusPhoto = this.statusName(status)
+        const id = uuid.v4()
+        let result;
 
         files_fs.forEach(fileInDirectory => {
-            if(fileInDirectory.split("_")[2].split(".")[0] === idPhoto){
-                fs.writeFileSync(path.join(filePath, fileInDirectory), file.buffer)
+            const fileId = fileInDirectory.split("_")[2].split(".")[0]
+
+            if(fileId === idPhoto){
+                const newFileName = fileInDirectory.replace(fileId, id).replace(fileInDirectory.split("_")[1], statusPhoto)
+                const expansion = fileInDirectory.split(".")[1]
+
+                fs.writeFileSync(path.join(filePath, newFileName), file.buffer)
+
+                result = {
+                    id: id,
+                    url: newFileName,
+                    originalName: "new_name",
+                    size: file.size,
+                    type: file.mimetype,
+                    dimensions: null
+                }
+
+                if(this.extensionPhotoList.includes(expansion)){
+                    const dimensions = sizeOf(`static/${fileInDirectory}`);
+
+                    result = {
+                        ...result,
+                        dimensions: {
+                            height: dimensions.height,
+                            width: dimensions.width
+                        }
+                    }
+
+                }
+
             }
         })
+
+        return result
     }
 
     async addPending(files: Array<Express.Multer.File> , status: number, userId: number): Promise<any[]>{

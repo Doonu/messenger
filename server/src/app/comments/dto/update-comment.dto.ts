@@ -1,4 +1,4 @@
-import {iFile} from "../../posts/dto/create-post.dto";
+import {IFile} from "../../posts/dto/create-post.dto";
 
 export class ToggleLikeCommentDto {
     readonly commentId: number
@@ -14,6 +14,6 @@ export class UpdatePostDto{
     readonly id: number
     readonly isDisabledComments: boolean
     readonly view: string;
-    readonly files: iFile[];
+    readonly files: IFile[];
     readonly status: number;
 }

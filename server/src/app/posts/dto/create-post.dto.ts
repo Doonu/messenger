@@ -1,4 +1,4 @@
-export interface iFile{
+export interface IFile{
     id: string;
     url: string;
     originalName: string;
@@ -10,6 +10,6 @@ export class CreatePostDto {
     readonly content: string[]
     readonly isDisabledComments: boolean
     readonly view: string;
-    readonly files: iFile[];
+    readonly files: IFile[];
     readonly status: number;
 }

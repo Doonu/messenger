@@ -26,7 +26,7 @@ export class FilesController {
     @UseGuards(JwtAuthGuard)
     @Post('/replace')
     @UseInterceptors(FileInterceptor("file"))
-    replacementPhoto(@UploadedFile() file: Express.Multer.File, @Body() {idPhoto, status}: ReplacementPhotoDto, @Req() {userId}: any){
-        return this.fileService.replaceBuffer(file, status, idPhoto, userId);
+    replacementPhoto(@UploadedFile() file: Express.Multer.File, @Body() {idPhoto, status}: ReplacementPhotoDto){
+        return this.fileService.replaceBuffer(file, status, idPhoto);
     }
 }

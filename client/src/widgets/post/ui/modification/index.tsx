@@ -75,8 +75,6 @@ const Modification: FC<IModification> = ({
     const files = e.target.files;
     if (!files) return;
 
-    console.log(files);
-
     const filteredPhoto = Array.from(files).filter((file) =>
       extensionPhotoList.includes(file.name.split('.')[file.name.split('.').length - 1])
     );
@@ -86,7 +84,7 @@ const Modification: FC<IModification> = ({
       return;
     }
 
-    await dispatch(addPendingList({ files: Array.from(filteredPhoto), status: 2 }))
+    dispatch(addPendingList({ files: Array.from(filteredPhoto), status: 2 }))
       .unwrap()
       .then((files) => {
         setModifyAllFiles((prev) => {
@@ -137,7 +135,7 @@ const Modification: FC<IModification> = ({
       >
         {modifyAllFiles.photos && (
           <PreviewPhoto
-            setList={setAllFiles}
+            setList={setModifyAllFiles}
             setCurrentIndex={setCurrentIndex}
             currentIndex={currentIndex}
             list={modifyAllFiles.photos}

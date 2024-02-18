@@ -61,21 +61,18 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
   const handlerEditionImage = (image: any, id: string) => {
     if (!image) return;
 
-    dispatch(replace({ file: image, idPhoto: id, status: 2 }));
+    dispatch(replace({ file: image, idPhoto: id, status: 2 }))
+      .unwrap()
+      .then((data) => {
+        const currentList = list.map((item) => {
+          if (item.id === id) {
+            return data;
+          }
+          return item;
+        });
 
-    // const currentList = list.map((item) => {
-    //   if (item.id === id) {
-    //     return {
-    //       ...item,
-    //       url: url,
-    //     };
-    //   }
-    //   return item;
-    // });
-    //
-    // setList((prev) => {
-    //   return { ...prev, photos: currentList };
-    // });
+        setList((prev) => ({ ...prev, photos: currentList }));
+      });
 
     setIsEditorPhoto(false);
   };
