@@ -5,8 +5,8 @@ interface ISContainer {
 }
 
 interface ISImg {
-  $index: number;
   $length: number;
+  $radius: string;
 }
 
 export const SContainer = styled.div<ISContainer>`
@@ -29,24 +29,9 @@ export const SContainer = styled.div<ISContainer>`
 export const SImg = styled.img<ISImg>`
   object-fit: cover;
   object-position: 50% 0;
+  border-radius: ${({ $radius }) => $radius};
 
-  border-radius: ${({ $index, $length }) =>
-    $index === 0 && $length > 2
-      ? '15px 0 0 0'
-      : $index === 0 && $length === 2
-      ? '15px 0 0 15px'
-      : $index === 1 && $length > 2
-      ? '0 15px 0 0'
-      : $index === 1 && $length === 2
-      ? '0 15px 15px 0'
-      : $length % 2 === 1 && $index === $length - 1
-      ? '0 0 15px 15px'
-      : $length % 2 !== 1 && $index === $length - 2
-      ? '0 0 0 15px'
-      : $length % 2 !== 1 && $index === $length - 1
-      ? '0 0 15px 0'
-      : ''};
-
+  width: 100%;
   height: ${({ $length }) => $length && $length >= 4 && '200px'} !important;
   height: ${({ $length }) => $length && $length > 1 && $length < 4 && '250px'} !important;
 `;
