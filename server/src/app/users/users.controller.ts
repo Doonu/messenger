@@ -1,8 +1,8 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Req, UseGuards} from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { DeleteUserDto } from "./dto/delete-user.dto";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { User } from "./users.model";
+import { User } from "./models/users.model";
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { Roles } from "../auth/roles-auth.decorator";
 import { RolesGuard } from "../auth/roles.guard";
@@ -65,11 +65,21 @@ export class UsersController {
     return this.userService.postCreateUser(userDto);
   }
   
-  @ApiOperation({ summary: "Изменение пользователя" })
-  @ApiResponse({ status: 200, type: User })
-  @Put()
-  update() {
-    return this.userService.putUpdateUser();
+  // @ApiOperation({ summary: "Изменение пользователя" })
+  // @ApiResponse({ status: 200, type: User })
+  // @Put()
+  // update() {
+  //   return this.userService.putUpdateUser();
+  // }
+
+  @Get("/friends")
+  getFriends(@Body() dto: number){
+    return this.userService.getFriends(dto);
+  }
+
+  @Get("/friendsRequest")
+  getFriendsRequest(@Body() dto: string){
+    return this.userService.getFriendRequests(dto);
   }
 
   @ApiOperation({ summary: "Удаление пользователя" })

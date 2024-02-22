@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import postLogin from '../../shared/api/auth/postLogin';
+import postLogin from '../../shared/api/http/auth/postLogin';
 
 interface authState {
   accessToken: string;

@@ -7,7 +7,7 @@ import { IPost } from '../model/IPost';
 import { initialValues } from '../lib/initialValues';
 import { IAllFiles } from '../../../shared/models/IPost';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import postCreate from '../../../shared/api/post/postCreate';
+import postCreate from '../../../shared/api/http/post/postCreate';
 import ModalBase from '../../../components/navigation/modal/ui/ModalBase';
 import { WarningCountPhotos } from '../../../components/navigation/modal';
 import { PreviewPhoto } from '../../../components/navigation/modal/content/previewPhoto';

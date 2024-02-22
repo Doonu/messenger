@@ -1,23 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../interceptors';
-import { ApiLogin, ILogin, IPostLogin } from './model/login';
+import API from '../../interceptors';
 
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../models/errors';
-import { RootState } from '../../../app/store';
+import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
+import { RootState } from '../../../../app/store';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../entities/notification/notification.slice';
+import { showMessage } from '../../../../entities/notification/notification.slice';
+import { ApiRegister, IPostRegister, IRegister } from './model/register';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
 }
 
-const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
+const postRegistration = createAsyncThunk<IPostRegister, IRegister, IConfigAsyncThunk>(
   'auth/login',
-  ({ email, password }, { rejectWithValue, dispatch }) => {
-    return API<ApiLogin>({
-      url: `api/auth/login`,
+  ({ email, password, name }, { rejectWithValue, dispatch }) => {
+    return API<ApiRegister>({
+      url: `api/auth/registration`,
       method: 'POST',
-      data: { email, password },
+      data: { email, password, name },
     })
       .then(({ data }) => {
         localStorage.setItem(
@@ -33,7 +33,6 @@ const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
       })
       .catch(({ response }: AxiosError<IError>) => {
         const title = response?.data.message || 'Неизвестная ошибка';
-
         dispatch(
           showMessage({
             title: title,
@@ -41,10 +40,9 @@ const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
             level: 'medium',
           })
         );
-
         return rejectWithValue(response?.data);
       });
   }
 );
 
-export default postLogin;
+export default postRegistration;

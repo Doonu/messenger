@@ -1,7 +1,7 @@
 import {forwardRef, Module} from '@nestjs/common';
 import { CommentsController } from './comments.controller';
 import {SequelizeModule} from "@nestjs/sequelize";
-import {User} from "../users/users.model";
+import {User} from "../users/models/users.model";
 import {Post} from "../posts/posts.model";
 import {Comments} from "./comments.model";
 import {RolesModule} from "../roles/roles.module";

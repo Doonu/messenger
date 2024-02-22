@@ -2,7 +2,7 @@ import React, { Dispatch, FC, SetStateAction } from 'react';
 import { SButtonContainer, SDelete, SRestore } from './restore.styled';
 import { SContainer } from './restore.styled';
 import { useAppDispatch } from '../../../../hooks/redux';
-import restorePostById from '../../../../shared/api/post/restorePostById';
+import restorePostById from '../../../../shared/api/http/post/restorePostById';
 import { deletePost } from '../../../../entities/post/post.slice';
 import { IAllFiles } from '../../../../shared/models/IPost';
 import { photosFilter } from '../../../../shared/util/filter';

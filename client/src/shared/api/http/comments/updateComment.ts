@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ICommentsState } from '../../../entities/post/model/IPost';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../models/errors';
-import { RootState } from '../../../app/store';
-import API from '../interceptors';
+import { ICommentsState } from '../../../../entities/post/model/IPost';
+import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../../models/errors';
+import { RootState } from '../../../../app/store';
+import API from '../../interceptors';
 
 interface IUpdateComment {
   content: string[];

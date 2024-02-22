@@ -4,8 +4,8 @@ import { SMore } from './more.styled';
 import { IPost } from '../../model/shared';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { editPost } from '../../../../entities/post/post.slice';
-import toggleCommentsById from '../../../../shared/api/post/toggleCommentsById';
-import deletePostById from '../../../../shared/api/post/deletePostById';
+import toggleCommentsById from '../../../../shared/api/http/post/toggleCommentsById';
+import deletePostById from '../../../../shared/api/http/post/deletePostById';
 import { selectorProfile } from '../../../../entities';
 import { Dropdown } from 'antd';
 

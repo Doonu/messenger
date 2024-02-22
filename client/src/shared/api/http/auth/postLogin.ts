@@ -1,23 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../interceptors';
+import API from '../../interceptors';
+import { ApiLogin, ILogin, IPostLogin } from './model/login';
 
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../models/errors';
-import { RootState } from '../../../app/store';
+import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
+import { RootState } from '../../../../app/store';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../entities/notification/notification.slice';
-import { ApiRegister, IPostRegister, IRegister } from './model/register';
+import { showMessage } from '../../../../entities/notification/notification.slice';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
 }
 
-const postRegistration = createAsyncThunk<IPostRegister, IRegister, IConfigAsyncThunk>(
+const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
   'auth/login',
-  ({ email, password, name }, { rejectWithValue, dispatch }) => {
-    return API<ApiRegister>({
-      url: `api/auth/registration`,
+  ({ email, password }, { rejectWithValue, dispatch }) => {
+    return API<ApiLogin>({
+      url: `api/auth/login`,
       method: 'POST',
-      data: { email, password, name },
+      data: { email, password },
     })
       .then(({ data }) => {
         localStorage.setItem(
@@ -33,6 +33,7 @@ const postRegistration = createAsyncThunk<IPostRegister, IRegister, IConfigAsync
       })
       .catch(({ response }: AxiosError<IError>) => {
         const title = response?.data.message || 'Неизвестная ошибка';
+
         dispatch(
           showMessage({
             title: title,
@@ -40,9 +41,10 @@ const postRegistration = createAsyncThunk<IPostRegister, IRegister, IConfigAsync
             level: 'medium',
           })
         );
+
         return rejectWithValue(response?.data);
       });
   }
 );
 
-export default postRegistration;
+export default postLogin;

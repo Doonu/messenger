@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../models/errors';
-import { RootState } from '../../../app/store';
-import API from '../interceptors';
+import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../../models/errors';
+import { RootState } from '../../../../app/store';
+import API from '../../interceptors';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;

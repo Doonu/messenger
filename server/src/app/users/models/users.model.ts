@@ -1,9 +1,9 @@
 import { Model, Table, Column, DataType, BelongsToMany, HasMany } from "sequelize-typescript";
 import { ApiProperty } from "@nestjs/swagger";
-import { Role } from "../roles/roles.model";
-import { UserRoles } from "../roles/user-roles.model";
-import { Post } from "../posts/posts.model";
-import {Comments} from "../comments/comments.model";
+import { Role } from "../../roles/roles.model";
+import { UserRoles } from "../../roles/user-roles.model";
+import { Post } from "../../posts/posts.model";
+import {Comments} from "../../comments/comments.model";
 
 interface UserCreationAttrs {
   email: string;
@@ -40,6 +40,12 @@ export class User extends Model<User, UserCreationAttrs> {
   @ApiProperty({example: 'Фото', description: 'Цвет аватарки'})
   @Column({ type: DataType.STRING, defaultValue: 'red' })
   imgSubstitute: string;
+
+  @Column({type: DataType.STRING})
+  socket_id: string
+
+  @Column({type: DataType.ARRAY(DataType.INTEGER), defaultValue: []})
+  friends: number[];
 
   @BelongsToMany(() => Role, () => UserRoles)
   roles: Role[];

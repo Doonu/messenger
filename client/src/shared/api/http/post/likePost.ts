@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../models/errors';
-import { RootState } from '../../../app/store';
-import API from '../interceptors';
-import { ILikePost } from '../../models/IPost';
+import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../../models/errors';
+import { RootState } from '../../../../app/store';
+import API from '../../interceptors';
+import { ILikePost } from '../../../models/IPost';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;

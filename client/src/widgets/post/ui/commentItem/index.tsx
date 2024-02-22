@@ -19,11 +19,11 @@ import PhotoProfile from '../../../../components/custom/profiles/photo';
 import { convertName } from '../../../../shared/util/user';
 import { BgLike, Close, Like, Redaction } from '../../../../shared/assets/icons';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import likeComments from '../../../../shared/api/comments/likeComments';
+import likeComments from '../../../../shared/api/http/comments/likeComments';
 import { SAutosizeInput } from '../comments/comments.styled';
 import { selectorProfile } from '../../../../entities';
 import BaseButton from '../../../../components/ui/buttons/baseButton';
-import updateComment from '../../../../shared/api/comments/updateComment';
+import updateComment from '../../../../shared/api/http/comments/updateComment';
 import { ICommentItem } from '../../model/ICommentItem';
 import { Slice } from '../../../../components/custom/slice';
 

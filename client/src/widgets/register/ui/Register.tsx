@@ -2,11 +2,11 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Form } from 'antd';
 import { SContainerAuth, SInput, SInputForm, STitle, SBaseButton, SLink } from './register.styled';
-import { IRegister } from '../../../shared/api/auth/model/register';
+import { IRegister } from '../../../shared/api/http/auth/model/register';
 import { useAppDispatch } from '../../../hooks/redux';
 import { useNavigate } from 'react-router-dom';
-import postRegistration from '../../../shared/api/auth/postRegistration';
-import getProfile from '../../../shared/api/user/getProfile';
+import postRegistration from '../../../shared/api/http/auth/postRegistration';
+import getProfile from '../../../shared/api/http/user/getProfile';
 //TODO: Избавиться от двух ошибок подряд
 
 interface IInitialValue extends IRegister {

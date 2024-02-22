@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 const Profile = () => {
   const params = useParams();
+
   return <BaseContainer>{params.id}</BaseContainer>;
 };
 

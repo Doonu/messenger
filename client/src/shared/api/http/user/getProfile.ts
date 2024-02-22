@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../interceptors';
+import API from '../../interceptors';
 
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../models/errors';
-import { RootState } from '../../../app/store';
+import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
+import { RootState } from '../../../../app/store';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../entities/notification/notification.slice';
-import { logout } from '../../../entities/auth/auth.slice';
-import { IUser } from '../../models/IUser';
+import { showMessage } from '../../../../entities/notification/notification.slice';
+import { logout } from '../../../../entities/auth/auth.slice';
+import { IUser } from '../../../models/IUser';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;
