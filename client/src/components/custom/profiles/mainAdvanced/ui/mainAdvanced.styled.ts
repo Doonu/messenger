@@ -12,33 +12,6 @@ export const SProfileContainer = styled.div`
   position: relative;
 `;
 
-export const SImg = styled.img`
-  width: 60px;
-  height: 60px;
-  margin: 0;
-  border-radius: 99%;
-  object-fit: cover;
-  position: absolute;
-  top: -20px;
-  left: 20px;
-`;
-
-export const SImgSubstitute = styled.div`
-  min-width: 60px;
-  height: 60px;
-  border-radius: 99%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 35px;
-  position: absolute;
-  top: -20px;
-  left: 20px;
-  color: white;
-
-  background: ${({ color }) => color};
-`;
-
 export const SInfo = styled.div`
   display: flex;
   flex-direction: column;

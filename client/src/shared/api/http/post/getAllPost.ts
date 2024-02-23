@@ -28,6 +28,7 @@ const getAllPost = createAsyncThunk<IPostState[], IGetAllPost, IConfigAsyncThunk
             author: {
               name: post.author.name,
               imgSubstitute: post.author.imgSubstitute,
+              id: post.author.id,
             },
             comments: post.comments.length,
           };

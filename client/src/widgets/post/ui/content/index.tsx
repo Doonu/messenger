@@ -28,6 +28,7 @@ const Content: FC<IContent> = ({ post, allFiles }) => {
           time={postTime(post.createdAt)}
           name={post.author.name}
           avatar={post.author.imgSubstitute}
+          id={post.author.id}
         />
         {visibleMore && <More post={post} />}
       </SHead>

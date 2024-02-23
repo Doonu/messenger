@@ -4,7 +4,6 @@ import {
   SContent,
   SCount,
   SHeader,
-  SImgSubstitute,
   SInfo,
   SLocation,
   SName,
@@ -14,6 +13,7 @@ import {
 import { useAppSelector } from '../../../../../hooks/redux';
 import { selectorProfile, selectorProfileLoader } from '../../../../../entities';
 import SkeletonMainAdvancedProfile from './skeleton';
+import PhotoProfile from '../../photo';
 
 const MainAdvancedProfile = () => {
   const user = useAppSelector(selectorProfile);
@@ -27,8 +27,15 @@ const MainAdvancedProfile = () => {
     <BlockContainer>
       <SHeader />
       <SProfileContainer>
-        {user.avatar && user.name && user.avatar[0] === '#' && user.name[0] && (
-          <SImgSubstitute color={user.avatar}>{user.name[0]}</SImgSubstitute>
+        {user.avatar && (
+          <PhotoProfile
+            isAbsolute={true}
+            top={-20}
+            left={20}
+            size={60}
+            img={user.avatar}
+            name={user.name}
+          />
         )}
         <SInfo>
           <SName>{user.name}</SName>

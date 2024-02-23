@@ -15,9 +15,10 @@ import updateComment from './http/comments/updateComment';
 import updatePost from './http/post/updatePost';
 import clearTrash from './http/files/clearTrash';
 import replace from './http/files/replace';
+import getUser from './http/user/getUser';
 import SocketApi from './socket/socket-api';
 
-export default {
+export {
   SocketApi,
   replace,
   postLogin,
@@ -36,4 +37,5 @@ export default {
   updateComment,
   updatePost,
   clearTrash,
+  getUser,
 };

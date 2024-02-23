@@ -1,11 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../interceptors';
-
+import { IUser } from '../../../models/IUser';
 import { IConfigAsyncThunk, IError } from '../../../models/errors';
+import API from '../../interceptors';
 import { AxiosError } from 'axios';
 import { showMessage } from '../../../../entities/notification/notification.slice';
-import { logout } from '../../../../entities/auth/auth.slice';
-import { IUser } from '../../../models/IUser';
 
 export interface ApiProfile {
   name: string;
@@ -23,12 +21,12 @@ export interface ApiProfile {
   friends: number[];
 }
 
-const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
-  'auth/getProfile',
-  (_, { rejectWithValue, dispatch }) => {
+const getUser = createAsyncThunk<IUser, number, IConfigAsyncThunk>(
+  'auth/getUser',
+  (id, { rejectWithValue, dispatch }) => {
     return API<ApiProfile>({
-      url: `api/users/profile`,
-      method: 'POST',
+      url: `api/users/${id}`,
+      method: 'GET',
     })
       .then(({ data }) => ({
         name: data.name,
@@ -47,7 +45,6 @@ const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
       }))
       .catch(({ response }: AxiosError<IError>) => {
         const title = response?.data.message || 'Неизвестная ошибка';
-        dispatch(logout());
         dispatch(
           showMessage({
             title: title,
@@ -60,4 +57,4 @@ const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
   }
 );
 
-export default getProfile;
+export default getUser;

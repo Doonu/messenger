@@ -158,6 +158,7 @@ const Modification: FC<IModification> = ({
               time={postTime(post.createdAt)}
               name={post.author.name}
               avatar={post.author.imgSubstitute}
+              id={post.author.id}
             />
             <span>редактирование записи</span>
           </SHead>

@@ -1,11 +1,5 @@
 import React, { FC, useState } from 'react';
-import {
-  SArrowDown,
-  SContainer,
-  SImgSubstitute,
-  SName,
-  SProfileContainer,
-} from './mainProfile.styled';
+import { SArrowDown, SContainer, SName, SProfileContainer } from './mainProfile.styled';
 import { IMain } from '../model/IMain';
 import { convertName } from '../../../../../shared/util/user';
 import { itemsDropdown } from '../lib/items';
@@ -13,6 +7,7 @@ import { useAppSelector } from '../../../../../hooks/redux';
 import { selectorProfileLoader, selectorProfile } from '../../../../../entities';
 import { Dropdown } from 'antd';
 import SkeletonMainProfile from './skeleton';
+import PhotoProfile from '../../photo';
 
 const MainProfile: FC<IMain> = () => {
   //TODO: В сплывающем окне, смена темы и выход из аккаунта
@@ -36,9 +31,7 @@ const MainProfile: FC<IMain> = () => {
     <SProfileContainer>
       <Dropdown onOpenChange={rotateArrow} menu={{ items: itemsDropdown }} trigger={['click']}>
         <SContainer>
-          {avatar && avatar[0] === '#' && name && (
-            <SImgSubstitute color={avatar}>{name[0]}</SImgSubstitute>
-          )}
+          <PhotoProfile img={avatar} name={name} />
           <SName>{convertName(name)}</SName>
           <SArrowDown $isActive={arrow} />
         </SContainer>

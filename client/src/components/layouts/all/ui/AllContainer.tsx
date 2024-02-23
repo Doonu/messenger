@@ -7,27 +7,33 @@ import { Affix } from 'antd';
 
 interface AllContainerProps {
   children: ReactNode;
+  left?: boolean;
+  right?: boolean;
 }
 
-const AllContainer: FC<AllContainerProps> = ({ children }) => {
+const AllContainer: FC<AllContainerProps> = ({ children, left = true, right = true }) => {
   return (
     <BaseContainer>
       <SMain>
-        <Affix offsetTop={30}>
-          <SAffixContainer>
-            <Sidebar>content</Sidebar>
-            <Sidebar>content</Sidebar>
-            <Sidebar>content</Sidebar>
-          </SAffixContainer>
-        </Affix>
+        {left && (
+          <Affix offsetTop={30}>
+            <SAffixContainer>
+              <Sidebar>content</Sidebar>
+              <Sidebar>content</Sidebar>
+              <Sidebar>content</Sidebar>
+            </SAffixContainer>
+          </Affix>
+        )}
         <SCenter>{children}</SCenter>
-        <Affix offsetTop={30}>
-          <SAffixContainer>
-            <Sidebar $right>
-              <MainAdvancedProfile />
-            </Sidebar>
-          </SAffixContainer>
-        </Affix>
+        {right && (
+          <Affix offsetTop={30}>
+            <SAffixContainer>
+              <Sidebar $right>
+                <MainAdvancedProfile />
+              </Sidebar>
+            </SAffixContainer>
+          </Affix>
+        )}
       </SMain>
     </BaseContainer>
   );

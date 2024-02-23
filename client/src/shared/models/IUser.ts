@@ -9,4 +9,5 @@ export interface IUser {
     createdAt: string;
   }[];
   avatar: string;
+  friends: number[];
 }

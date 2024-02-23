@@ -13,7 +13,7 @@ const Content = () => {
 
   return (
     <SContainer $position={values.isActive}>
-      <PhotoProfile img={avatar}>{name?.[0]}</PhotoProfile>
+      <PhotoProfile img={avatar} name={name} />
       <AutosizeInput
         isDrag={true}
         minRows={2}

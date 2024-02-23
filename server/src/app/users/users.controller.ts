@@ -64,22 +64,10 @@ export class UsersController {
   create(@Body() userDto: RegisterUserDto) {
     return this.userService.postCreateUser(userDto);
   }
-  
-  // @ApiOperation({ summary: "Изменение пользователя" })
-  // @ApiResponse({ status: 200, type: User })
-  // @Put()
-  // update() {
-  //   return this.userService.putUpdateUser();
-  // }
 
   @Get("/friends")
   getFriends(@Body() dto: number){
     return this.userService.getFriends(dto);
-  }
-
-  @Get("/friendsRequest")
-  getFriendsRequest(@Body() dto: string){
-    return this.userService.getFriendRequests(dto);
   }
 
   @ApiOperation({ summary: "Удаление пользователя" })
@@ -87,5 +75,10 @@ export class UsersController {
   @Delete()
   delete(@Body() userDto: DeleteUserDto) {
     return this.userService.deleteUser(userDto);
+  }
+
+  @Get("/friendsRequest")
+  getFriendsRequest(@Body() dto: string){
+    return this.userService.getFriendRequests(dto);
   }
 }

@@ -183,7 +183,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
       />
 
       <SForm>
-        <PhotoProfile img={avatar}>{name[0]}</PhotoProfile>
+        <PhotoProfile img={avatar} name={name} />
         <SAutosizeInput
           minRows={1}
           maxRows={5}

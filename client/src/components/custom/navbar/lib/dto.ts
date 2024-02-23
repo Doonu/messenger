@@ -7,10 +7,10 @@ type NavbarProps = IRoute;
 
 export const NavbarDto: NavbarProps[] = [
   {
-    path: RoutesNamesPrivate.HOME,
-    type: 'Home',
+    path: '/profile',
+    type: 'Profile',
     component: AiFillHome,
-    description: 'Домашняя',
+    description: 'Профиль',
   },
   {
     path: RoutesNamesPrivate.FEED,

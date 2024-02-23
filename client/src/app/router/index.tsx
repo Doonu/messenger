@@ -6,7 +6,7 @@ import { checkAuth } from '../../entities/auth/auth.slice';
 import { isAuthSelector } from '../../entities/auth/auth.selectors';
 import { LoaderPage } from '../../components/ui/loaders';
 import Login from '../../pages/public/login';
-import Home from '../../pages/private/home';
+import { Feed } from '../../pages/private/feed';
 
 const Router = () => {
   const dispatch = useAppDispatch();
@@ -24,7 +24,7 @@ const Router = () => {
             ? privateRoutes.map((route) => (
                 <>
                   <Route key={route.path} path={route.path} element={<route.component />} />
-                  {route.path && <Route path="/*" element={<Home />} />}
+                  {route.path && <Route path="/*" element={<Feed />} />}
                 </>
               ))
             : publicRoutes.map((route) => (

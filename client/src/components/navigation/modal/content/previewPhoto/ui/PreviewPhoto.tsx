@@ -110,6 +110,7 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
                   time={'прямо сейчас'}
                   name={userPhoto.name}
                   avatar={userPhoto.avatar}
+                  id={userPhoto.id}
                 />
               )}
             </SContainerProfile>

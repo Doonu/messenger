@@ -95,7 +95,7 @@ const CommentItem: FC<ICommentItem> = ({
 
   return (
     <SContainer onMouseLeave={handlerView} onMouseEnter={handlerHidden}>
-      <PhotoProfile img={comment.author.imgSubstitute}>{comment.author.name[0]}</PhotoProfile>
+      <PhotoProfile img={comment.author.imgSubstitute} name={comment.author.name} />
       <SInfo>
         <SNameContainer>
           <SName>{convertedName}</SName>
