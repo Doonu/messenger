@@ -65,9 +65,9 @@ export class UsersController {
     return this.userService.postCreateUser(userDto);
   }
 
-  @Get("/friends")
-  getFriends(@Body() dto: number){
-    return this.userService.getFriends(dto);
+  @Get("/friends/:id")
+  getFriends(@Param("id") id: number){
+    return this.userService.getFriends(id);
   }
 
   @ApiOperation({ summary: "Удаление пользователя" })

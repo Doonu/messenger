@@ -1,25 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IUser } from '../../../models/IUser';
+import { ApiProfile, IUser } from '../../../models/IUser';
 import { IConfigAsyncThunk, IError } from '../../../models/errors';
 import API from '../../interceptors';
 import { AxiosError } from 'axios';
 import { showMessage } from '../../../../entities/notification/notification.slice';
-
-export interface ApiProfile {
-  name: string;
-  email: string;
-  banned: boolean;
-  banReason: null | string;
-  id: number;
-  roles: {
-    id: number;
-    value: string;
-    description: string;
-    createdAt: string;
-  }[];
-  imgSubstitute: string;
-  friends: number[];
-}
 
 const getUser = createAsyncThunk<IUser, number, IConfigAsyncThunk>(
   'auth/getUser',

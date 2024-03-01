@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { selectorProfile } from '../../../../entities';
-import { useFriendRequest } from '../../../../shared/api/socket/friendRequest/useFriendRequest';
 import SocketApi from '../../../../shared/api/socket/socket-api';
 import { IUser } from '../../../../shared/models/IUser';
 import { MainPageProfile } from '../../../../components/custom/profiles/mainPageProfile';
 import AllContainer from '../../../../components/layouts/all';
 import { getUser } from '../../../../shared/api';
+import getFriends from '../../../../shared/api/http/user/getFriends';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -19,12 +19,11 @@ const Profile = () => {
   const user = useAppSelector(selectorProfile);
 
   const [profilePage, setProfilePage] = useState<IUser>({} as IUser);
-
-  useFriendRequest();
+  const [profileFriends, setProfileFriends] = useState<IUser[]>([]);
 
   const handlerFriendRequest = () => {
     SocketApi.socket?.emit('friend_request', {
-      to: 5,
+      to: profilePage.id,
       from: user.id,
     });
   };
@@ -40,6 +39,12 @@ const Profile = () => {
       .unwrap()
       .then((data) => {
         setProfilePage(data);
+        dispatch(getFriends(id))
+          .unwrap()
+          .then((data) => {
+            setProfileFriends(data);
+          })
+          .catch(() => {});
       })
       .catch(() => {
         navigate('/');
@@ -47,16 +52,18 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (idParam && user.id !== +idParam) {
+    if (idParam) {
       handlerGetUser(+idParam);
-    } else {
-      setProfilePage(user);
     }
   }, [idParam]);
 
   return (
     <AllContainer right={false}>
       <MainPageProfile user={profilePage} />
+
+      {profileFriends.map((el) => (
+        <div key={el.id}>{el.name}</div>
+      ))}
       <button onClick={handlerFriendRequest}>Send request</button>
       <br />
       <button onClick={handlerFriendAccept}>Accept request</button>

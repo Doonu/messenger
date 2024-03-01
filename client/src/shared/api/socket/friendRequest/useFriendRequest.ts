@@ -8,38 +8,32 @@ export const useFriendRequest = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectorProfile);
 
+  const messageView = (data: any) => {
+    dispatch(
+      showMessage({
+        title: data.message,
+        type: 'success',
+        level: 'low',
+      })
+    );
+  };
+
   const connectSocket = () => {
     SocketApi.createConnection(user.id);
 
-    SocketApi.socket?.on('new_friend_req', (data) => {
-      console.log('Создание friend req', data);
-      dispatch(
-        showMessage({
-          title: 'Вам пришло предложение дружбы',
-          type: 'success',
-          level: 'low',
-        })
-      );
-    });
+    SocketApi.socket?.once('new_friend_req', messageView);
 
-    SocketApi.socket?.on('request_accepted', (data) => {
-      console.log('Request принят', data);
-    });
+    SocketApi.socket?.once('request_accepted', messageView);
 
-    SocketApi.socket?.on('request_sent', (data) => {
-      console.log('Request отправлен', data);
-    });
+    SocketApi.socket?.once('request_sent', messageView);
   };
 
   useEffect(() => {
     if (user.id) connectSocket();
 
-    // return () => {
-    //   if (user.id) {
-    //     SocketApi.socket?.off('new_friend_req');
-    //     SocketApi.socket?.off('request_accepted');
-    //     SocketApi.socket?.off('request_sent');
-    //   }
-    // };
+    return () => {
+      SocketApi.socket?.off('new_friend_req', messageView);
+      SocketApi.socket?.off('connect');
+    };
   }, [user.id]);
 };

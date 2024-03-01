@@ -1,4 +1,4 @@
- import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { User } from "./models/users.model";
 import { InjectModel } from "@nestjs/sequelize";
 import { DeleteUserDto } from "./dto/delete-user.dto";
@@ -6,10 +6,10 @@ import { RolesService } from "../roles/roles.service";
 import { AddRoleDto } from "./dto/add-role.dto";
 import { BanUserDto } from "./dto/ban-user.dto";
 import {RegisterUserDto} from "./dto/register-user.dto";
- import {ChangeSocketId} from "./dto/change-socketId";
- import {FriendRequest} from "./models/friendRequest.model";
- import {CreateFriendRequestDto} from "./dto/create-friendRequest.dto";
- import {AddFriendsDto} from "./dto/add-friends.dto";
+import {ChangeSocketId} from "./dto/change-socketId";
+import {FriendRequest} from "./models/friendRequest.model";
+import {CreateFriendRequestDto} from "./dto/create-friendRequest.dto";
+import {AddFriendsDto} from "./dto/add-friends.dto";
 
 @Injectable()
 export class UsersService {
@@ -34,7 +34,7 @@ export class UsersService {
 
   // Получение пользователя по id
   async getUser(id: number) {
-    return await this.userRepository.findOne({ attributes: [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute', 'socket_id', 'friends'], where: { id: id }, include: { all: true } });
+    return await this.userRepository.findOne({ attributes: [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute', 'socket_id', 'friends'], where: { id: id }, include: { all: true} });
   }
 
   // Получение пользователя по id
@@ -82,13 +82,13 @@ export class UsersService {
   // Изменение socketId
   async changeSocketId(dto: ChangeSocketId){
     const post = await this.userRepository.findOne({where: {id: dto.userId}})
-    if(!post.socket_id) await post.update({socket_id: dto.socketId})
+    await post.update({socket_id: dto.socketId})
   }
 
   // Получение друзей
   async getFriends(dto: number){
     const user = await this.userRepository.findByPk(dto)
-    return user.friends.map(async id => await this.userRepository.findByPk(id))
+    return await Promise.all(user.friends.map(async (el) => this.userRepository.findOne({ attributes: [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute', 'socket_id', 'friends'], where: {id: el} })));
   }
 
   // Добавление друзей

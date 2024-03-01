@@ -5,23 +5,7 @@ import { IConfigAsyncThunk, IError } from '../../../models/errors';
 import { AxiosError } from 'axios';
 import { showMessage } from '../../../../entities/notification/notification.slice';
 import { logout } from '../../../../entities/auth/auth.slice';
-import { IUser } from '../../../models/IUser';
-
-export interface ApiProfile {
-  name: string;
-  email: string;
-  banned: boolean;
-  banReason: null | string;
-  id: number;
-  roles: {
-    id: number;
-    value: string;
-    description: string;
-    createdAt: string;
-  }[];
-  imgSubstitute: string;
-  friends: number[];
-}
+import { ApiProfile, IUser } from '../../../models/IUser';
 
 const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
   'auth/getProfile',

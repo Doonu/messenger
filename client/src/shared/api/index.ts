@@ -16,10 +16,12 @@ import updatePost from './http/post/updatePost';
 import clearTrash from './http/files/clearTrash';
 import replace from './http/files/replace';
 import getUser from './http/user/getUser';
+import getFriends from './http/user/getFriends';
 import SocketApi from './socket/socket-api';
 
 export {
   SocketApi,
+  getFriends,
   replace,
   postLogin,
   postRegistration,

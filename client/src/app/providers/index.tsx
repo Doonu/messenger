@@ -8,6 +8,7 @@ import Notification from '../../components/ui/notification/Notification';
 import Router from '../router';
 import AntdConfigProvider from './AntdConfigProvider';
 import AuthProvider from './AuthProvider';
+import SocketProviders from './SocketProviders';
 
 const Providers = () => {
   const store = setupStore();
@@ -20,6 +21,7 @@ const Providers = () => {
           <AuthProvider />
           <Notification />
           <Router />
+          <SocketProviders />
         </Provider>
       </AntdConfigProvider>
     </ThemeProvider>

@@ -1,4 +1,4 @@
 export class CreateFriendRequestDto{
-    readonly toUserId: string;
-    readonly fromUserId: string;
+    readonly toUserId: number;
+    readonly fromUserId: number;
 }

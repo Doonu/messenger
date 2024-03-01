@@ -2,8 +2,8 @@ import {Column, DataType, Model, Table} from "sequelize-typescript";
 import {ApiProperty} from "@nestjs/swagger";
 
 interface FriendRequestCreationAttrs{
-    senderId: string;
-    recipientId: string;
+    senderId: number;
+    recipientId: number;
 }
 
 @Table({tableName: 'friendRequest'})
@@ -13,11 +13,11 @@ export class FriendRequest extends Model<FriendRequest, FriendRequestCreationAtt
     @Column({ type: DataType.INTEGER, unique: true, autoIncrement: true, primaryKey: true })
     id: number;
 
-    @ApiProperty({ example: "1", description: "Уникальный индификатор отправилтеля" })
-    @Column({type: DataType.STRING})
-    senderId: string;
+    @ApiProperty({ example: 132, description: "Уникальный индификатор отправилтеля" })
+    @Column({type: DataType.INTEGER})
+    senderId: number;
 
-    @ApiProperty({ example: "1", description: "Уникальный индификатор получателя" })
-    @Column({type: DataType.STRING})
-    recipientId: string;
+    @ApiProperty({ example: 112, description: "Уникальный индификатор получателя" })
+    @Column({type: DataType.INTEGER})
+    recipientId: number;
 }
