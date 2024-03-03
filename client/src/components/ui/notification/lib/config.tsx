@@ -15,6 +15,7 @@ const notificationConfig = ({
   type,
   message,
   level = 'medium',
+  onClick,
   ...props
 }: IMessageConfigProps): ArgsProps => {
   let notificationStyle: CSSProperties = {
@@ -66,7 +67,14 @@ const notificationConfig = ({
     placement: 'bottomLeft',
     closeIcon: null,
     icon: currentIcons.icon,
-    message: <div style={{ color: currentIcons.color, fontWeight: '700' }}>{message}</div>,
+    message: (
+      <div
+        onClick={onClick}
+        style={{ color: currentIcons.color, fontWeight: '700', cursor: 'pointer' }}
+      >
+        {message}
+      </div>
+    ),
     duration: 5,
     ...props,
   };

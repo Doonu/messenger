@@ -9,7 +9,7 @@ import {
   selectorPagePost,
   selectorHaseMore,
 } from '../../../../entities';
-import getAllPost from '../../../../shared/api/post/getAllPost';
+import { getAllPost } from '../../../../shared/api';
 import { Post } from '../../../../widgets/post';
 import { addPage, setAllPosts } from '../../../../entities/post/post.slice';
 import AddPost from '../../../../widgets/addPost';

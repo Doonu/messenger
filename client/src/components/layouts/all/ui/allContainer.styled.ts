@@ -13,7 +13,6 @@ export const SAffixContainer = styled.div`
 `;
 
 export const SCenter = styled.div`
-  max-width: 650px;
   margin: 0 auto;
   flex: 1;
 `;

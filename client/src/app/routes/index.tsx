@@ -2,7 +2,6 @@ import { ComponentType, lazy } from 'react';
 
 // TODO: разобраться с этим
 // @ts-ignore
-const HOME = lazy(() => import(`../../pages/private/home`));
 // @ts-ignore
 const Dialog = lazy(() => import('../../pages/private/dialog'));
 // @ts-ignore
@@ -24,11 +23,10 @@ export interface IRoute {
 }
 
 export enum RoutesNamesPrivate {
-  HOME = '/profile',
   PROFILE = '/profile/:id',
   DIALOG = '/dialog',
   FAVORITE = '/favorite',
-  FEED = '/feed',
+  FEED = '/',
 }
 
 export enum RoutesNamesPublic {
@@ -37,8 +35,7 @@ export enum RoutesNamesPublic {
 }
 
 export const privateRoutes: IRoute[] = [
-  { path: RoutesNamesPrivate.HOME, component: HOME, type: 'Profile' },
-  { path: RoutesNamesPrivate.PROFILE, component: Profile, type: 'Profiles' },
+  { path: RoutesNamesPrivate.PROFILE, component: Profile, type: 'Profile' },
   { path: RoutesNamesPrivate.DIALOG, component: Dialog, type: 'Dialog' },
   { path: RoutesNamesPrivate.FAVORITE, component: Favorite, type: 'Favorite' },
   { path: RoutesNamesPrivate.FEED, component: Feed, type: 'Feed' },

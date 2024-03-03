@@ -14,9 +14,9 @@ const Navbar = () => {
   return (
     <Container>
       {NavbarDto.map((value) => {
-        const path = value.type === 'Profile' ? `profile/${id}` : value.path;
+        const path = value.type === 'Profile' ? `/profile/${id}` : value.path;
         const baseActive = locate.pathname === value.path;
-        const active = value.type === 'Profile' ? locate.pathname === `profile/${id}` : baseActive;
+        const active = value.type === 'Profile' ? locate.pathname === `/profile/${id}` : baseActive;
 
         return (
           <SLink $active={active} to={path} replace key={value.path}>

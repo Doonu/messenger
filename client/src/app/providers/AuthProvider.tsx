@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux';
-import getProfile from '../../shared/api/user/getProfile';
+import getProfile from '../../shared/api/http/user/getProfile';
 import { isAuthSelector } from '../../entities/auth/auth.selectors';
 
 const AuthProvider = () => {

@@ -3,7 +3,7 @@ import { LoginUserDto } from "../users/dto/login-user.dto";
 import { UsersService } from "../users/users.service";
 import { JwtService } from "@nestjs/jwt";
 import * as bcrypt from "bcryptjs";
-import { User } from "../users/users.model";
+import { User } from "../users/models/users.model";
 import {RegisterUserDto} from "../users/dto/register-user.dto";
 
 @Injectable()

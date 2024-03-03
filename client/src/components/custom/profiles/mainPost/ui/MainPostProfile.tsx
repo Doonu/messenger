@@ -1,15 +1,18 @@
 import React, { FC } from 'react';
-import { SContainer, SContainerName, SImg, SImgSubstitute, SName, STime } from './mainPost.styled';
+import { SContainer, SContainerName, SName, STime } from './mainPost.styled';
 import { IMainPost } from '../model/IMainPost';
 import { convertName } from '../../../../../shared/util/user';
+import PhotoProfile from '../../photo';
+import { useNavigate } from 'react-router-dom';
 
-const MainPostProfile: FC<IMainPost> = ({ name, avatar, time }) => {
+const MainPostProfile: FC<IMainPost> = ({ name, avatar, time, id }) => {
+  const navigate = useNavigate();
+
   return (
     <SContainer>
-      {avatar?.[0] !== '#' && <SImg src={avatar} />}
-      {avatar?.[0] === '#' && name && <SImgSubstitute color={avatar}>{name[0]}</SImgSubstitute>}
+      <PhotoProfile img={avatar} name={name} />
       <SContainerName>
-        <SName>{convertName(name)}</SName>
+        <SName onClick={() => navigate(`profile/${id}`)}>{convertName(name)}</SName>
         <STime>{time}</STime>
       </SContainerName>
     </SContainer>

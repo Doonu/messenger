@@ -25,28 +25,6 @@ export const SContainer = styled.div`
   }
 `;
 
-export const SImg = styled.img`
-  min-width: 40px;
-  height: 40px;
-  border-radius: 99%;
-`;
-
-interface SImgSubstituteProps {
-  color: string;
-}
-
-export const SImgSubstitute = styled.div<SImgSubstituteProps>`
-  min-width: 40px;
-  height: 40px;
-  border-radius: 99%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-
-  background: ${({ color }) => color};
-`;
-
 export const SName = styled.div`
   font-size: 15px;
   letter-spacing: 2px;

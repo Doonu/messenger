@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { UsersModule } from "./app/users/users.module";
 import * as process from "process";
 import { SequelizeModule } from "@nestjs/sequelize";
-import { User } from "./app/users/users.model";
+import { User } from "./app/users/models/users.model";
 import { RolesModule } from "./app/roles/roles.module";
 import { Role } from "./app/roles/roles.model";
 import { UserRoles } from "./app/roles/user-roles.model";
@@ -16,10 +16,11 @@ import {CommentsModule} from "./app/comments/comments.module";
 import {ConfigModule} from "@nestjs/config";
 import {Comments} from "./app/comments/comments.model";
 import { FilesController } from './app/files/files.controller';
+import {FriendRequestService} from "./app/sockets/friendRequest/friendRequest.service";
 
 @Module({
   controllers: [FilesController],
-  providers: [], // Любой переиспользованный компонент
+  providers: [FriendRequestService],
   imports: [
     ConfigModule.forRoot({ envFilePath: `.${process.env.NODE_ENV}.env` }),
     ServeStaticModule.forRoot({

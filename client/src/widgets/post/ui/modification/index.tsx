@@ -15,13 +15,13 @@ import {
   SHead,
 } from './modification.styled';
 import { IAllFiles } from '../../../../shared/models/IPost';
-import updatePost from '../../../../shared/api/post/updatePost';
+import updatePost from '../../../../shared/api/http/post/updatePost';
 import ModalBase from '../../../../components/navigation/modal/ui/ModalBase';
 import { WarningCountPhotos } from '../../../../components/navigation/modal';
 import { PreviewPhoto } from '../../../../components/navigation/modal/content/previewPhoto';
 import ActionIcons from '../../../../features/actionIcons';
-import addPendingList from '../../../../shared/api/files/addPendingList';
-import clearTrash from '../../../../shared/api/files/clearTrash';
+import addPendingList from '../../../../shared/api/http/files/addPendingList';
+import clearTrash from '../../../../shared/api/http/files/clearTrash';
 import { extensionPhotoList, photosFilter } from '../../../../shared/util/filter';
 import Files from '../../../../features/files';
 import Photos from '../../../../features/photos';
@@ -158,6 +158,7 @@ const Modification: FC<IModification> = ({
               time={postTime(post.createdAt)}
               name={post.author.name}
               avatar={post.author.imgSubstitute}
+              id={post.author.id}
             />
             <span>редактирование записи</span>
           </SHead>

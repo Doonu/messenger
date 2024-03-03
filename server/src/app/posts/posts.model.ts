@@ -1,5 +1,5 @@
 import {Model, Table, Column, DataType, BelongsTo, ForeignKey, DeletedAt, HasMany} from "sequelize-typescript";
-import { User } from "../users/users.model";
+import { User } from "../users/models/users.model";
 import {Comments} from "../comments/comments.model";
 
 interface PostCreationAttrs {

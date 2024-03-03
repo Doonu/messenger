@@ -16,6 +16,7 @@ export interface IPostState {
   author: {
     name: string;
     imgSubstitute: string;
+    id: number;
   };
 }
 

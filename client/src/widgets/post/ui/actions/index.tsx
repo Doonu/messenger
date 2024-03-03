@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { SComment, SInfo, SShared } from './acions.styled';
 import LikeButton from '../../../../components/ui/buttons/likesButton/likeButton';
-import likePost from '../../../../shared/api/post/likePost';
+import likePost from '../../../../shared/api/http/post/likePost';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { selectorProfile } from '../../../../entities';
 import { IPostState } from '../../../../entities/post/model/IPost';

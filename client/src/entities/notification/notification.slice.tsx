@@ -6,6 +6,7 @@ const initialState: INotification = {
     title: '',
     type: undefined,
     level: undefined,
+    onClick: undefined,
   },
 };
 

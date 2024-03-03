@@ -11,7 +11,7 @@ import {
   SLeft,
   SRight,
 } from './previewPhoto.styled';
-import getProfile from '../../../../../../shared/api/user/getProfile';
+import getProfile from '../../../../../../shared/api/http/user/getProfile';
 import { useAppDispatch } from '../../../../../../hooks/redux';
 import MainPostProfile from '../../../../../custom/profiles/mainPost';
 import { Like } from '../../../../../ui/buttons/likesButton/like';
@@ -20,7 +20,7 @@ import { IAllFiles, IFilesPost } from '../../../../../../shared/models/IPost';
 import PhotoEditor from '../../../../../../features/photoEditor';
 import Carousel from '../../../../../ui/carousel/ui';
 import { IUser } from '../../../../../../shared/models/IUser';
-import replace from '../../../../../../shared/api/files/replace';
+import replace from '../../../../../../shared/api/http/files/replace';
 
 interface PreviewPhotoProps {
   list: IFilesPost[];
@@ -110,6 +110,7 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
                   time={'прямо сейчас'}
                   name={userPhoto.name}
                   avatar={userPhoto.avatar}
+                  id={userPhoto.id}
                 />
               )}
             </SContainerProfile>

@@ -1,6 +1,6 @@
 import {BelongsTo, Column, DataType, ForeignKey, Model, Table} from "sequelize-typescript";
 import {Post} from "../posts/posts.model";
-import {User} from "../users/users.model";
+import {User} from "../users/models/users.model";
 
 interface CommentsCreate{
     content: string[]

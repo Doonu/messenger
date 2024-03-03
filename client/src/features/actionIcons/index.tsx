@@ -4,7 +4,7 @@ import { ChangeEvent, Dispatch, FC, SetStateAction, useRef, MouseEvent } from 'r
 import { SContainer, SDivider } from './actionIcons.styled';
 import { Camera, Music, Poster, SFile, Video } from '../../shared/assets/icons';
 import { useAppDispatch } from '../../hooks/redux';
-import addPendingList from '../../shared/api/files/addPendingList';
+import addPendingList from '../../shared/api/http/files/addPendingList';
 
 interface IIconsProps {
   data: IAllFiles;
