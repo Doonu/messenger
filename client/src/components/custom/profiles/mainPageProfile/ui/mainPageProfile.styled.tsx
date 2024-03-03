@@ -1,5 +1,8 @@
+import React from 'react';
 import styled from 'styled-components';
 import { BlockContainer } from '../../../../../shared/styles/containers';
+import BaseButton from '../../../../ui/buttons/baseButton';
+import { Comment } from '../../../../../shared/assets/icons';
 
 export const SBlockContainer = styled(BlockContainer)`
   padding: 2px;
@@ -16,11 +19,18 @@ export const SHeader = styled.div`
 
 export const SInfo = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 10px;
 
   padding-left: 150px;
   padding-top: 20px;
+  height: 120px;
+`;
+
+export const SRow = styled.div`
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
 `;
 
 export const SNavigate = styled.div`
@@ -29,7 +39,20 @@ export const SNavigate = styled.div`
 `;
 
 export const SActions = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
   padding-right: 30px;
+`;
+
+export const SMessage = styled(BaseButton).attrs({
+  variant: 'secondary',
+  radius: 20,
+  leftIcon: <Comment size={22} />,
+})`
+  color: ${({ theme }) => theme.colors.text};
+  background: ${({ theme }) => theme.colors.secondaryText};
 `;
 
 export const SName = styled.div`

@@ -6,7 +6,6 @@ class SocketApi {
   static createConnection(userId: number) {
     this.socket = io('http://localhost:5000', {
       query: { user_id: userId },
-      ackTimeout: 10000,
     });
 
     this.socket.connect();
@@ -15,7 +14,7 @@ class SocketApi {
       console.log(`⚡: ${this.socket?.id} user just connected!`);
     });
 
-    this.socket.on('disconnect', () => {
+    this.socket.once('disconnect', () => {
       console.log('disconnected');
     });
   }

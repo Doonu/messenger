@@ -6,7 +6,7 @@ import { AxiosError } from 'axios';
 import { showMessage } from '../../../../entities/notification/notification.slice';
 
 const getFriends = createAsyncThunk<IUser[], number, IConfigAsyncThunk>(
-  'aurh/getFriends',
+  'auth/getFriends',
   (id, { rejectWithValue, dispatch }) => {
     return API<ApiProfile[]>({
       url: `api/users/friends/${id}`,

@@ -1,38 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { selectorProfile } from '../../../../entities';
-import SocketApi from '../../../../shared/api/socket/socket-api';
+import { useAppDispatch } from '../../../../hooks/redux';
 import { IUser } from '../../../../shared/models/IUser';
-import { MainPageProfile } from '../../../../components/custom/profiles/mainPageProfile';
 import AllContainer from '../../../../components/layouts/all';
 import { getUser } from '../../../../shared/api';
 import getFriends from '../../../../shared/api/http/user/getFriends';
+import ActionsProfile from './actionsProfile';
+
+//TODO: Сделать удаление друга
+//TODO: Сделать отмену добавления в друзья
+//TODO: Отказ добавления в друзья
 
 const Profile = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
   const navigate = useNavigate();
 
-  const idParam = params['id'];
-
-  const user = useAppSelector(selectorProfile);
-
   const [profilePage, setProfilePage] = useState<IUser>({} as IUser);
   const [profileFriends, setProfileFriends] = useState<IUser[]>([]);
 
-  const handlerFriendRequest = () => {
-    SocketApi.socket?.emit('friend_request', {
-      to: profilePage.id,
-      from: user.id,
-    });
-  };
-
-  const handlerFriendAccept = () => {
-    SocketApi.socket?.emit('accept_friend_request', {
-      idFriendRequest: 2,
-    });
-  };
+  const idParam = params['id'];
 
   const handlerGetUser = (id: number) => {
     dispatch(getUser(id))
@@ -59,14 +46,15 @@ const Profile = () => {
 
   return (
     <AllContainer right={false}>
-      <MainPageProfile user={profilePage} />
+      <ActionsProfile
+        setProfileFriends={setProfileFriends}
+        profileFriends={profileFriends}
+        profilePage={profilePage}
+      />
 
       {profileFriends.map((el) => (
         <div key={el.id}>{el.name}</div>
       ))}
-      <button onClick={handlerFriendRequest}>Send request</button>
-      <br />
-      <button onClick={handlerFriendAccept}>Accept request</button>
     </AllContainer>
   );
 };

@@ -1,4 +1,5 @@
 import {
+    BaseWsExceptionFilter,
     ConnectedSocket,
     MessageBody,
     OnGatewayConnection,
@@ -9,6 +10,7 @@ import {UsersService} from "../../users/users.service";
 import {FriendRequestDto} from "./dto/friend-request.dto";
 import {AcceptFriendRequestDto} from "../../users/dto/accept-friend-request.dto";
 import { Server } from "socket.io";
+import {UseFilters} from "@nestjs/common";
 
 @WebSocketGateway({
     cors: {
@@ -23,15 +25,15 @@ export class FriendRequestService implements OnGatewayConnection{
 
     async handleConnection(@ConnectedSocket() client: any) {
         const userId = client.handshake.query['user_id'];
-        console.log(userId)
 
         if(userId){
             await this.usersService.changeSocketId({socketId: client.id, userId: userId})
         }
     }
 
+    @UseFilters(new BaseWsExceptionFilter())
     @SubscribeMessage("friend_request")
-    async handleFriendRequest(@MessageBody() dto: FriendRequestDto, @ConnectedSocket() client: any){
+    async handleFriendRequest(@MessageBody() dto: FriendRequestDto){
         if(dto.to === dto.from) return null
 
         const toUser = await this.usersService.getUser(dto.to)
@@ -50,9 +52,7 @@ export class FriendRequestService implements OnGatewayConnection{
     }
 
     @SubscribeMessage("accept_friend_request")
-    async handleAcceptFriendRequest(
-        @MessageBody() dto: AcceptFriendRequestDto, @ConnectedSocket() client: any
-    ){
+    async handleAcceptFriendRequest(@MessageBody() dto: AcceptFriendRequestDto){
         const request_doc = await this.usersService.getFriendRequest(dto.idFriendRequest)
 
         const sender = await this.usersService.getUser(request_doc.senderId)
@@ -61,7 +61,7 @@ export class FriendRequestService implements OnGatewayConnection{
         await this.usersService.addFriends({addUserId: receiver.id, userId: sender.id})
         await this.usersService.addFriends({addUserId: sender.id, userId: receiver.id})
 
-        await this.usersService.deleteFriendRequest(dto.idFriendRequest);
+        await this.usersService.deleteFriendRequest(receiver.id, sender.id);
 
         this.server.to(sender.socket_id).emit("request_accepted", {
             message: `Пользователь ${receiver.name} принял запрос на дружбу`

@@ -27,7 +27,7 @@ export class CommentsController {
         return this.commentService.deleteComment(id, userId)
     }
 
-    // @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Get(':id')
     getAllCommentsPost(
         @Param('id') id: number,

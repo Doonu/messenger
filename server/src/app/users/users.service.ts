@@ -37,11 +37,6 @@ export class UsersService {
     return await this.userRepository.findOne({ attributes: [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute', 'socket_id', 'friends'], where: { id: id }, include: { all: true} });
   }
 
-  // Получение пользователя по id
-  async getUserBySocketId(id: string) {
-    return await this.userRepository.findOne({ attributes: [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute', 'socket_id', 'friends' ], where: { socket_id: id }, include: { all: true } });
-  }
-
   // Удаление пользователя по id
   async deleteUser(dto: DeleteUserDto) {
     return await this.userRepository.destroy({
@@ -103,13 +98,32 @@ export class UsersService {
   }
 
   // Удаление friend request по id
-  async deleteFriendRequest(id: number){
-    await this.friendRequestRepository.destroy({where: {id: id}})
+  async deleteFriendRequest(receiver: number, sender: number){
+    await this.friendRequestRepository.destroy({where: { recipientId: receiver, senderId: sender }})
   }
 
   // Получение всех friend requests
   async getFriendRequests(recipientId: string){
       return await this.friendRequestRepository.findAll({where: {recipientId: recipientId}})
+  }
+
+  // Получение friend request по двум id
+  async getFriendRequestByTwoID(userId: number, searchUserId: number){
+    const sentEarlierReq = await this.friendRequestRepository.findOne({where: { senderId: userId, recipientId: searchUserId }});
+    if(sentEarlierReq) return {
+      status: "sender",
+      reqId: sentEarlierReq.id
+    }
+
+    const receivedReq = await this.friendRequestRepository.findOne({where: { senderId: searchUserId, recipientId: userId }})
+    if(receivedReq) return {
+      status: "recipient",
+      reqId: receivedReq.id
+    }
+
+    return {
+      status: false,
+    }
   }
 
   // Создание friends requests

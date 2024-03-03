@@ -8,5 +8,6 @@ export interface INotification {
     title: ReactNode;
     type: Types;
     level?: Levels;
+    onClick?: () => void | undefined;
   };
 }

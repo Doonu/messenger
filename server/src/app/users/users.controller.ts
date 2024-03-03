@@ -81,4 +81,10 @@ export class UsersController {
   getFriendsRequest(@Body() dto: string){
     return this.userService.getFriendRequests(dto);
   }
+
+  @Get("/friendsRequest/:id")
+  @UseGuards(JwtAuthGuard)
+  getFriendRequest(@Req() {userId}: any, @Param("id") id: number){
+    return this.userService.getFriendRequestByTwoID(userId, id)
+  }
 }
