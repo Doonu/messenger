@@ -76,8 +76,8 @@ export class UsersService {
 
   // Изменение socketId
   async changeSocketId(dto: ChangeSocketId){
-    const post = await this.userRepository.findOne({where: {id: dto.userId}})
-    await post.update({socket_id: dto.socketId})
+    const user = await this.userRepository.findOne({where: {id: dto.userId}})
+    if(user) await user.update({socket_id: dto.socketId})
   }
 
   // Получение друзей
