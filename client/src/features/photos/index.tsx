@@ -25,7 +25,7 @@ const Photos: FC<IPhotos> = ({ setIsPreviewPhoto, loader, setData, data, setCurr
             onClick={() => handleOpenModalPhoto(index)}
             key={file.id}
             onDelete={() => handleDelete(file.id)}
-            url={file.url}
+            url={`http://localhost:3000/${file.url}`}
           />
         )}
       />

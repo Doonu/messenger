@@ -60,7 +60,11 @@ const Carousel: FC<ICarousel> = ({
                 <SArrowRight onClick={handleRight} />
               </>
             )}
-            <BigPhoto fixedMinSize={fixedMinHeight} dimensions={dimensions} url={url} />
+            <BigPhoto
+              fixedMinSize={fixedMinHeight}
+              dimensions={dimensions}
+              url={`http://localhost:3000/${url}`}
+            />
           </SImgContainer>
         ))}
       </SCarouselAntd>

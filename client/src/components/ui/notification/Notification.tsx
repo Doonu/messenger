@@ -12,11 +12,11 @@ const Notification = () => {
   const [messageApi, contextHolderMessage] = messageAntd.useMessage();
 
   const dispatch = useAppDispatch();
-  const { title, type, level, onClick } = useAppSelector((data) => data.notificationSlice.message);
+  const { title, type, level } = useAppSelector((data) => data.notificationSlice.message);
 
   useEffect(() => {
     if (level === 'medium' && title && type) {
-      notificationApi[type](notificationConfig({ type, message: title, onClick }));
+      notificationApi[type](notificationConfig({ type, message: title }));
     }
     if (level === 'low' && title && type) {
       messageApi[type](title);

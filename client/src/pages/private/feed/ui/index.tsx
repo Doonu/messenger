@@ -8,6 +8,8 @@ import {
   selectorPost,
   selectorPagePost,
   selectorHaseMore,
+  selectorWarningEdit,
+  selectorDeletedPost,
 } from '../../../../entities';
 import { getAllPost } from '../../../../shared/api';
 import { Post } from '../../../../widgets/post';
@@ -21,16 +23,17 @@ import { DraggableContainer } from './Feed.styled';
 const Feed = () => {
   const dispatch = useAppDispatch();
 
-  const editedPost = useAppSelector(selectorEditedPost);
-  const posts = useAppSelector(selectorPost);
   const loadingPosts = useAppSelector(selectorLoadingPosts);
   const errorPosts = useAppSelector(selectorErrorPosts);
   const page = useAppSelector(selectorPagePost);
   const haseMore = useAppSelector(selectorHaseMore);
+  const posts = useAppSelector(selectorPost);
+  const warningEdit = useAppSelector(selectorWarningEdit);
+  const deletedPost = useAppSelector(selectorDeletedPost);
+  const editedPost = useAppSelector(selectorEditedPost);
 
   const [isDraggablePhoto, setIsDraggablePhoto] = useState(false);
   const [isDraggablePhotoInPost, setIsDraggablePhotoInPost] = useState(false);
-
   const isEditPost = posts.find((post) => post.id === editedPost?.id);
   const errorMessage = errorPosts ? 'Произошла ошибка' : 'Посты не найдены';
 
@@ -50,7 +53,7 @@ const Feed = () => {
     setIsDraggablePhoto(false);
   };
 
-  const handlerNextPage = () => {
+  const handlerNextPage = async () => {
     dispatch(getAllPost({ page: page + 1 }))
       .unwrap()
       .then(() => {
@@ -75,6 +78,10 @@ const Feed = () => {
           list={posts}
           itemContent={(el) => (
             <Post
+              deletedPost={deletedPost}
+              warningEdit={warningEdit}
+              editedPost={editedPost}
+              posts={posts}
               isDraggablePhotoInPost={isDraggablePhotoInPost}
               handlerChange={handlerChangeInPost}
               post={el}

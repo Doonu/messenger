@@ -8,7 +8,14 @@ const Grid: FC<IPhoto> = ({ photos }) => {
     <SContainer $length={photos.length}>
       {photos?.map(({ url, id }, index) => {
         const radius = generateRadiusForPhoto(index, photos.length);
-        return <SImg key={id} $length={photos.length} $radius={radius} src={url}></SImg>;
+        return (
+          <SImg
+            key={id}
+            $length={photos.length}
+            $radius={radius}
+            src={`http://localhost:3000/${url}`}
+          ></SImg>
+        );
       })}
     </SContainer>
   );

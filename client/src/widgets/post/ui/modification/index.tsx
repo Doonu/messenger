@@ -26,7 +26,8 @@ import { extensionPhotoList, photosFilter } from '../../../../shared/util/filter
 import Files from '../../../../features/files';
 import Photos from '../../../../features/photos';
 
-interface IModification extends IPostAndDrag {
+interface IModification
+  extends Pick<IPostAndDrag, 'isDraggablePhotoInPost' | 'post' | 'handlerChange'> {
   allFiles: IAllFiles;
   setAllFiles: Dispatch<SetStateAction<IAllFiles>>;
 }

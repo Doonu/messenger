@@ -9,6 +9,7 @@ import getFriendRequest, {
 } from '../../../../../shared/api/http/user/getFriendRequest';
 import { useFriendRequest } from '../../../../../shared/api/socket/friendRequest/useFriendRequest';
 import { useParams } from 'react-router-dom';
+import deleteFriend from '../../../../../shared/api/http/user/deleteFriend';
 
 const ActionsProfile: FC<IActionsProfile> = ({
   profilePage,
@@ -23,15 +24,27 @@ const ActionsProfile: FC<IActionsProfile> = ({
 
   const [statusUser, setStatusUser] = useState<IGetFriendRequest>({ status: false });
 
-  const handlerFriendRequest = () => {
+  const handlerFriendRequestWS = () => {
     SocketApi.socket?.emit('friend_request', {
       to: profilePage.id,
       from: user.id,
     });
   };
 
-  const handlerFriendAccept = () => {
+  const handlerFriendAcceptWS = () => {
     SocketApi.socket?.emit('accept_friend_request', {
+      idFriendRequest: statusUser?.reqId,
+    });
+  };
+
+  const handlerCancellationAddFriendWS = () => {
+    SocketApi.socket?.emit('cancellation_add_friend', {
+      idFriendRequest: statusUser?.reqId,
+    });
+  };
+
+  const canselFriendReqWS = () => {
+    SocketApi.socket?.emit('cancellation_friend_request', {
       idFriendRequest: statusUser?.reqId,
     });
   };
@@ -43,7 +56,17 @@ const ActionsProfile: FC<IActionsProfile> = ({
       .unwrap()
       .then((data) => {
         setStatusUser(data);
-      });
+      })
+      .catch(() => {});
+  };
+
+  const handlerDeleteFriend = () => {
+    dispatch(deleteFriend(profilePage.id))
+      .unwrap()
+      .then(() => {
+        setProfileFriends((prev) => prev.filter((profilePage) => profilePage.id !== user.id));
+      })
+      .catch(() => {});
   };
 
   const handlerAddFriend = () => {
@@ -51,9 +74,15 @@ const ActionsProfile: FC<IActionsProfile> = ({
     idParam && getStatusFriendReq(+idParam);
   };
 
+  const baseHandler = () => {
+    idParam && getStatusFriendReq(+idParam);
+  };
+
   useFriendRequest({
-    newFriendReqCallback: () => idParam && getStatusFriendReq(+idParam),
+    newFriendReqCallback: baseHandler,
     acceptedRequestCallback: handlerAddFriend,
+    canselFriendRequestCallback: baseHandler,
+    canselRequestCallback: baseHandler,
   });
 
   useEffect(() => {
@@ -64,9 +93,12 @@ const ActionsProfile: FC<IActionsProfile> = ({
 
   return (
     <MainPageProfile
+      handlerCancelFriendRequest={canselFriendReqWS}
+      handlerCancelAddFriend={handlerCancellationAddFriendWS}
+      handlerDeleteFriend={handlerDeleteFriend}
       handlerCheckFriend={handlerCheckFriend}
-      handlerFriendRequestAccepted={handlerFriendAccept}
-      friendRequest={handlerFriendRequest}
+      handlerFriendRequestAccepted={handlerFriendAcceptWS}
+      friendRequest={handlerFriendRequestWS}
       statusFriendRequest={statusUser}
       user={profilePage}
     />

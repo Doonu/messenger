@@ -11,17 +11,19 @@ interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
 
 interface IGetAllPost {
   page: number;
+  userId?: number;
 }
 
 const getAllPost = createAsyncThunk<IPostState[], IGetAllPost, IConfigAsyncThunk>(
   'posts/getAll',
-  ({ page }, { rejectWithValue }) => {
+  ({ page, userId = -1 }, { rejectWithValue }) => {
     return API<ApiPostState[]>({
-      url: `api/posts`,
+      url: `api/posts/${userId}`,
       method: 'GET',
       params: { page: page },
     })
       .then(({ data }) => {
+        console.log(data);
         return data.map((post) => {
           return {
             ...post,

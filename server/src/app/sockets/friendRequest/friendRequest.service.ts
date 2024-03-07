@@ -31,7 +31,6 @@ export class FriendRequestService implements OnGatewayConnection{
         }
     }
 
-    @UseFilters(new BaseWsExceptionFilter())
     @SubscribeMessage("friend_request")
     async handleFriendRequest(@MessageBody() dto: FriendRequestDto){
         if(dto.to === dto.from) return null
@@ -68,6 +67,44 @@ export class FriendRequestService implements OnGatewayConnection{
         })
         this.server.to(receiver.socket_id).emit("request_accepted", {
             message: `Вы приняли запрос дружбы от ${sender.name}`
+        })
+    }
+
+    @SubscribeMessage('cancellation_add_friend')
+    async handlerCancellationAddFriend(@MessageBody() dto: AcceptFriendRequestDto){
+        const request_doc = await this.usersService.getFriendRequest(dto.idFriendRequest)
+
+        const sender = await this.usersService.getUser(request_doc.senderId)
+        const receiver = await this.usersService.getUser(request_doc.recipientId)
+
+        await this.usersService.deleteFriendRequest(receiver.id, sender.id);
+
+        //TODO: Здесь удалять уведомления
+
+        this.server.to(sender.socket_id).emit("friend_cancellation", {
+            message: `Пользователь ${receiver.name} не принял запрос на дружбу`
+        })
+
+        this.server.to(receiver.socket_id).emit("friend_cancellation", {
+            message: `Вы не приняли запрос дружбы от ${sender.name}`
+        })
+    }
+
+    @SubscribeMessage('cancellation_friend_request')
+    async handlerCancellationFriendRequest(@MessageBody() dto: AcceptFriendRequestDto){
+        const request_doc = await this.usersService.getFriendRequest(dto.idFriendRequest)
+
+        const sender = await this.usersService.getUser(request_doc.senderId)
+        const receiver = await this.usersService.getUser(request_doc.recipientId)
+
+        await this.usersService.deleteFriendRequest(receiver.id, sender.id);
+
+        this.server.to(sender.socket_id).emit("request_cancellation", {
+            message: `Вы отменили свой запрос на дружбу для ${receiver.name}`
+        })
+
+        this.server.to(receiver.socket_id).emit("request_cancellation", {
+            message: `Вы не успели ответить на запрос дружбы от пользователя ${sender.name}`
         })
     }
 

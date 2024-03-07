@@ -5,6 +5,7 @@ import BaseButton from '../../../../ui/buttons/baseButton';
 import { Comment } from '../../../../../shared/assets/icons';
 
 export const SBlockContainer = styled(BlockContainer)`
+  margin-bottom: 15px;
   padding: 2px;
   position: relative;
 `;

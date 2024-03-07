@@ -24,11 +24,12 @@ export class PostsController {
     }
     // @UseGuards(RolesGuard)
     // @UseGuards(JwtAuthGuard)
-    @Get('')
+    @Get('/:id')
     getAllPosts(
         @Query("page") page: number,
+        @Param("id") id: number
     ){
-        return this.postService.getAll(page)
+        return this.postService.getAll(page, id)
     }
 
     @UseGuards(JwtAuthGuard)

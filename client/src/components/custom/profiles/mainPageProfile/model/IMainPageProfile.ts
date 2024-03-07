@@ -7,4 +7,7 @@ export interface IMainPageProfile {
   friendRequest: () => void;
   handlerCheckFriend: () => boolean;
   handlerFriendRequestAccepted: () => void;
+  handlerDeleteFriend: () => void;
+  handlerCancelAddFriend: () => void;
+  handlerCancelFriendRequest: () => void;
 }
