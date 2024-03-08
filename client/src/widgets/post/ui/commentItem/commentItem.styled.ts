@@ -54,21 +54,24 @@ export const SName = styled(Typography.Text)`
   color: ${({ theme }) => theme.colors.active};
   font-size: 16px;
   font-weight: 700;
-  line-height: 25px;
-`;
+  line-height: 15px;
+  cursor: pointer;
 
-export const SContent = styled(Typography.Text)`
-  color: ${({ theme }) => theme.colors.active};
-  font-size: 16px;
-  line-height: normal;
-  margin-bottom: 5px;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const SComment = styled.div`
   color: ${({ theme }) => theme.colors.active};
+
+  & > div {
+    margin-bottom: 10px;
+  }
 `;
 
 export const STime = styled.span`
+  margin-top: 25px;
   color: ${({ theme }) => theme.colors.text};
 `;
 

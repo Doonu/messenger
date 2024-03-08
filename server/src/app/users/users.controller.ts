@@ -65,16 +65,24 @@ export class UsersController {
     return this.userService.postCreateUser(userDto);
   }
 
-  @Get("/friends/:id")
-  getFriends(@Param("id") id: number){
-    return this.userService.getFriends(id);
-  }
-
+  @UseGuards(JwtAuthGuard)
   @ApiOperation({ summary: "Удаление пользователя" })
   @ApiResponse({ status: 200, type: User })
   @Delete()
   delete(@Body() userDto: DeleteUserDto) {
     return this.userService.deleteUser(userDto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get("/friends/:id")
+  getFriends(@Param("id") id: number){
+    return this.userService.getFriends(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete("/friends/:id")
+  deleteFriend(@Req() {userId}: any, @Param("id") id: number){
+    return this.userService.deleteFriend(userId, id)
   }
 
   @Get("/friendsRequest")

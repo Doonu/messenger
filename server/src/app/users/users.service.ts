@@ -92,6 +92,18 @@ export class UsersService {
     if(!user.friends.includes(dto.addUserId)) await user.update({friends: [...user.friends, dto.addUserId]})
   }
 
+  // Удаление друга
+  async deleteFriend(userId: number, idDelete: number){
+    const user = await this.getUser(userId)
+    const userDelete = await this.getUser(+idDelete)
+
+    const userFriends = user.friends.filter(friendUser => friendUser !== +idDelete)
+    const deleteUserFriends = userDelete.friends.filter(friendUserDelete => friendUserDelete !== userId)
+
+    await user.update({friends: userFriends})
+    await userDelete.update({friends: deleteUserFriends})
+  }
+
   // Получение friend request по id
   async getFriendRequest(friendRequestId: number){
     return await this.friendRequestRepository.findByPk(friendRequestId)

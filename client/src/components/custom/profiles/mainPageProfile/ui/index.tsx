@@ -23,6 +23,9 @@ const MainPageProfile: FC<IMainPageProfile> = ({
   handlerCheckFriend,
   statusFriendRequest,
   handlerFriendRequestAccepted,
+  handlerDeleteFriend,
+  handlerCancelFriendRequest,
+  handlerCancelAddFriend,
 }) => {
   const profile = useAppSelector(selectorProfile);
   const isMyProfile = profile.id === user.id;
@@ -46,14 +49,16 @@ const MainPageProfile: FC<IMainPageProfile> = ({
             <div>статус</div>
           </SNavigate>
           <SActions>
-            {isMyProfile && <BaseButton variant="secondary">Редактировать профлиь</BaseButton>}
+            {isMyProfile && <BaseButton variant="secondary">Редактировать профиль</BaseButton>}
             {!isMyProfile && !handlerCheckFriend() && statusFriendRequest.status === false && (
               <BaseButton variant="secondary" onClick={friendRequest}>
                 Добавить в друзья
               </BaseButton>
             )}
             {!isMyProfile && !handlerCheckFriend() && statusFriendRequest.status === 'sender' && (
-              <BaseButton variant="secondary">Отменить преложение дружбы</BaseButton>
+              <BaseButton onClick={handlerCancelFriendRequest} variant="secondary">
+                Отменить преложение дружбы
+              </BaseButton>
             )}
             {!isMyProfile &&
               !handlerCheckFriend() &&
@@ -63,11 +68,15 @@ const MainPageProfile: FC<IMainPageProfile> = ({
                   <BaseButton onClick={handlerFriendRequestAccepted} variant="secondary">
                     Принять предложение
                   </BaseButton>
-                  <BaseButton variant="secondary">Отменить предложение</BaseButton>
+                  <BaseButton onClick={handlerCancelAddFriend} variant="secondary">
+                    Отменить предложение
+                  </BaseButton>
                 </>
               )}
             {!isMyProfile && handlerCheckFriend() && statusFriendRequest.status === false && (
-              <BaseButton variant="secondary">Удалить из друзей</BaseButton>
+              <BaseButton onClick={handlerDeleteFriend} variant="secondary">
+                Удалить из друзей
+              </BaseButton>
             )}
             <SMessage />
           </SActions>

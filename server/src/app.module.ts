@@ -24,7 +24,8 @@ import {FriendRequestService} from "./app/sockets/friendRequest/friendRequest.se
   imports: [
     ConfigModule.forRoot({ envFilePath: `.${process.env.NODE_ENV}.env` }),
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'static')
+      rootPath: join(__dirname, '..', 'static'),
+      serveRoot: '/',
     }),
     SequelizeModule.forRoot({
       dialect: "postgres",

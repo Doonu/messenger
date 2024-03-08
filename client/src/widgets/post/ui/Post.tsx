@@ -17,13 +17,16 @@ import Modification from './modification';
 import Actions from './actions';
 import { photosFilter } from '../../../shared/util/filter';
 
-const Post: FC<IPostAndDrag> = ({ post, isDraggablePhotoInPost, handlerChange }) => {
+const Post: FC<IPostAndDrag> = ({
+  post,
+  isDraggablePhotoInPost,
+  handlerChange,
+  deletedPost,
+  posts,
+  editedPost,
+  warningEdit,
+}) => {
   const dispatch = useAppDispatch();
-
-  const editedPost = useAppSelector(selectorEditedPost);
-  const warningEdit = useAppSelector(selectorWarningEdit);
-  const posts = useAppSelector(selectorPost);
-  const deletedPost = useAppSelector(selectorDeletedPost);
 
   const ref = useRef<any>(null);
 
