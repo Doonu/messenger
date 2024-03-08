@@ -10,6 +10,7 @@ interface IImgProps {
 }
 
 export const SContainer = styled.div<IImgProps>`
+  position: relative;
   background: ${({ color }) => color};
   font-size: ${({ fontSize }) => fontSize && `${fontSize}px`};
   width: ${({ size }) => size && `${size}px`};
@@ -44,4 +45,14 @@ export const SImg = styled.img<Omit<IImgProps, 'fontSize' | 'color'>>`
       top: ${top}px;
       left: ${left}px;
     `};
+`;
+
+export const SNotify = styled.div`
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 99%;
+  background: ${({ theme }) => theme.colors.success};
+  bottom: 3%;
+  right: 3%;
 `;

@@ -18,7 +18,7 @@ import BaseList from '../../../../components/custom/lists/BaseList/ui';
 const Comments: FC<CommentsProps> = ({ post }) => {
   const dispatch = useAppDispatch();
 
-  const { name, avatar } = useAppSelector(selectorProfile);
+  const { name, avatar, statusConnected, timeConnected } = useAppSelector(selectorProfile);
 
   const [comments, setComments] = useState<ICommentsState[]>([]);
 
@@ -183,7 +183,12 @@ const Comments: FC<CommentsProps> = ({ post }) => {
       />
 
       <SForm>
-        <PhotoProfile img={avatar} name={name} />
+        <PhotoProfile
+          statusTime={timeConnected}
+          status={statusConnected}
+          img={avatar}
+          name={name}
+        />
         <SAutosizeInput
           minRows={1}
           maxRows={5}

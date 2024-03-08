@@ -5,12 +5,12 @@ import { convertName } from '../../../../../shared/util/user';
 import PhotoProfile from '../../photo';
 import { useNavigate } from 'react-router-dom';
 
-const MainPostProfile: FC<IMainPost> = ({ name, avatar, time, id }) => {
+const MainPostProfile: FC<IMainPost> = ({ name, avatar, time, id, status, statusTime }) => {
   const navigate = useNavigate();
 
   return (
     <SContainer>
-      <PhotoProfile img={avatar} name={name} />
+      <PhotoProfile status={status} statusTime={statusTime} img={avatar} name={name} />
       <SContainerName>
         <SName onClick={() => navigate(`/profile/${id}`)}>{convertName(name)}</SName>
         <STime>{time}</STime>

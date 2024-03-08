@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
-import { SContainer, SImg } from './photo.styled';
+import { SContainer, SImg, SNotify } from './photo.styled';
 
 interface IPhotoProfile {
   img: string;
   name: string;
+  status: boolean;
+  statusTime?: number;
   size?: number;
   isAbsolute?: boolean;
   top?: number;
@@ -19,6 +21,7 @@ const PhotoProfile: FC<IPhotoProfile> = ({
   top = 20,
   left = 20,
   fontSize = 22,
+  status,
 }) => {
   const isName = name && img[0] === '#' && name[0];
 
@@ -35,6 +38,7 @@ const PhotoProfile: FC<IPhotoProfile> = ({
       left={left}
     >
       {isName && name[0]}
+      {status && <SNotify />}
     </SContainer>
   );
 };

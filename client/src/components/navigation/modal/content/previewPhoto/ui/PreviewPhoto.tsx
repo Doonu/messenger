@@ -107,6 +107,8 @@ export const PreviewPhoto: FC<PreviewPhotoProps> = ({
             <SContainerProfile>
               {userPhoto && (
                 <MainPostProfile
+                  status={userPhoto.statusConnected}
+                  statusTime={userPhoto.timeConnected}
                   time={'прямо сейчас'}
                   name={userPhoto.name}
                   avatar={userPhoto.avatar}

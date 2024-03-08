@@ -29,6 +29,8 @@ const MainAdvancedProfile = () => {
       <SProfileContainer>
         {user.avatar && (
           <PhotoProfile
+            status={user.statusConnected}
+            statusTime={user.timeConnected}
             isAbsolute={true}
             top={-20}
             left={20}

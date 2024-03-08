@@ -97,7 +97,12 @@ const CommentItem: FC<ICommentItem> = ({
 
   return (
     <SContainer onMouseLeave={handlerView} onMouseEnter={handlerHidden}>
-      <PhotoProfile img={comment.author.imgSubstitute} name={comment.author.name} />
+      <PhotoProfile
+        statusTime={comment.author.timeConnected}
+        status={comment.author.statusConnected}
+        img={comment.author.imgSubstitute}
+        name={comment.author.name}
+      />
       <SInfo>
         <SNameContainer>
           <SName onClick={() => navigate(`/profile/${comment.author.id}`)}>{convertedName}</SName>

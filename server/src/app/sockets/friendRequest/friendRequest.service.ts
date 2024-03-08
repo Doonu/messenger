@@ -2,7 +2,7 @@ import {
     BaseWsExceptionFilter,
     ConnectedSocket,
     MessageBody,
-    OnGatewayConnection,
+    OnGatewayConnection, OnGatewayDisconnect,
     SubscribeMessage,
     WebSocketGateway, WebSocketServer
 } from "@nestjs/websockets";
@@ -17,7 +17,7 @@ import {UseFilters} from "@nestjs/common";
         origin: ['http://localhost:3000'],
     }
 })
-export class FriendRequestService implements OnGatewayConnection{
+export class FriendRequestService implements OnGatewayConnection, OnGatewayDisconnect{
     constructor(private usersService: UsersService) {
     }
 
@@ -28,7 +28,15 @@ export class FriendRequestService implements OnGatewayConnection{
 
         if(userId){
             await this.usersService.changeSocketId({socketId: client.id, userId: userId})
+            await this.usersService.changeConnected({userId: userId, connected: true})
         }
+    }
+
+    async handleDisconnect(@ConnectedSocket() client: any){
+        const userId = client.handshake.query['user_id'];
+
+        await this.usersService.changeConnected({userId: userId, connected: false})
+        client.disconnect(0)
     }
 
     @SubscribeMessage("friend_request")
@@ -107,10 +115,4 @@ export class FriendRequestService implements OnGatewayConnection{
             message: `Вы не успели ответить на запрос дружбы от пользователя ${sender.name}`
         })
     }
-
-    // @SubscribeMessage("end_friend_request")
-    // async handleDisconnect(@ConnectedSocket() client: any){
-    //     console.log("Closing connection")
-    //     client.disconnect(0)
-    // }
 }

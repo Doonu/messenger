@@ -153,7 +153,9 @@ const Profile = () => {
                 title={'Общие друзья'}
               />
             )}
-            <Friends count={profileFriends.length} friends={profileFriends} title={'Друзья'} />
+            {!!profileFriends.length && (
+              <Friends count={profileFriends.length} friends={profileFriends} title={'Друзья'} />
+            )}
           </SSidebars>
         </SContent>
       </AllContainer>

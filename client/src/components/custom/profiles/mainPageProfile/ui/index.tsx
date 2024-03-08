@@ -34,6 +34,8 @@ const MainPageProfile: FC<IMainPageProfile> = ({
     <SBlockContainer>
       <SHeader />
       <PhotoProfile
+        status={user.statusConnected}
+        statusTime={user.timeConnected}
         fontSize={50}
         isAbsolute
         left={20}

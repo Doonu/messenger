@@ -33,6 +33,14 @@ export class User extends Model<User, UserCreationAttrs> {
   @Column({ type: DataType.BOOLEAN, defaultValue: false })
   banned: boolean;
 
+  @ApiProperty({ example: true, description: "Онлайн пользователь или нет?" })
+  @Column({ type: DataType.BOOLEAN, defaultValue: false })
+  statusConnected: boolean;
+
+  @ApiProperty({ example: true, description: "Онлайн пользователь или нет?" })
+  @Column({ type: DataType.DATE, allowNull: false, defaultValue: new Date() })
+  timeConnected: number;
+
   @ApiProperty({ example: "За оскорбления", description: "Причина блокировки" })
   @Column({ type: DataType.STRING, allowNull: true })
   banReason: string;
