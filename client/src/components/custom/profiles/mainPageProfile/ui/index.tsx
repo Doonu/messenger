@@ -49,7 +49,7 @@ const MainPageProfile: FC<IMainPageProfile> = ({
             <div>статус</div>
           </SNavigate>
           <SActions>
-            {isMyProfile && <BaseButton variant="secondary">Редактировать профлиь</BaseButton>}
+            {isMyProfile && <BaseButton variant="secondary">Редактировать профиль</BaseButton>}
             {!isMyProfile && !handlerCheckFriend() && statusFriendRequest.status === false && (
               <BaseButton variant="secondary" onClick={friendRequest}>
                 Добавить в друзья

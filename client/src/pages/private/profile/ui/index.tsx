@@ -9,7 +9,7 @@ import ActionsProfile from './actionsProfile';
 import ObserverList from '../../../../components/custom/lists/ObserverList/ui';
 import { Post } from '../../../../widgets/post';
 import SkeletonPost from '../../../../widgets/post/ui/skeleton';
-import { DraggableContainer, SContent } from './Profile.styled';
+import { DraggableContainer, SContent, SSidebars, ViewContainer } from './Profile.styled';
 import {
   selectorDeletedPost,
   selectorEditedPost,
@@ -23,11 +23,13 @@ import {
 } from '../../../../entities';
 import { addPage, setAllPosts } from '../../../../entities/post/post.slice';
 import AddPost from '../../../../widgets/addPost';
+import Friends from '../../../../features/friends';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
   const params = useParams();
   const navigate = useNavigate();
+  const idParam = params['id'];
 
   const user = useAppSelector(selectorProfile);
   const editedPost = useAppSelector(selectorEditedPost);
@@ -47,6 +49,12 @@ const Profile = () => {
   const [profilePage, setProfilePage] = useState<IUser>({} as IUser);
   const [profileFriends, setProfileFriends] = useState<IUser[]>([]);
 
+  const generalFriends = profileFriends.filter((profileFriend) =>
+    user.friends.includes(profileFriend.id)
+  );
+
+  const isMe = idParam && user.id === +idParam;
+
   const handlerPhotoDrag = () => {
     if (!isEditPost) {
       setIsDraggablePhoto((prev) => !prev);
@@ -55,7 +63,9 @@ const Profile = () => {
     }
   };
 
-  const idParam = params['id'];
+  const handlerChange = () => {
+    setIsDraggablePhoto(false);
+  };
 
   const handlerChangeInPost = () => {
     setIsDraggablePhotoInPost(false);
@@ -78,16 +88,13 @@ const Profile = () => {
       });
   };
 
-  const handlerChange = () => {
-    setIsDraggablePhoto(false);
-  };
-
   const handlerNextPage = () => {
-    dispatch(getAllPost({ page: page + 1 }))
-      .unwrap()
-      .then(() => {
-        dispatch(addPage());
-      });
+    if (idParam)
+      dispatch(getAllPost({ page: page + 1, userId: +idParam }))
+        .unwrap()
+        .then(() => {
+          dispatch(addPage());
+        });
   };
 
   useEffect(() => {
@@ -111,10 +118,8 @@ const Profile = () => {
         />
 
         <SContent>
-          <div style={{ margin: '0 auto', flex: '1' }}>
-            {idParam && user.id === +idParam && (
-              <AddPost handlerChange={handlerChange} isDraggablePhoto={isDraggablePhoto} />
-            )}
+          <ViewContainer>
+            {isMe && <AddPost handlerChange={handlerChange} isDraggablePhoto={isDraggablePhoto} />}
 
             <ObserverList
               list={posts}
@@ -136,13 +141,18 @@ const Profile = () => {
               skeleton={() => <SkeletonPost />}
               isFetching={loadingPosts && page > 1}
             />
-          </div>
+          </ViewContainer>
 
-          <div style={{ width: '250px' }}>
-            {profileFriends.map((el) => (
-              <div key={el.id}>{el.name}</div>
-            ))}
-          </div>
+          <SSidebars>
+            {!!generalFriends.length && !isMe && (
+              <Friends
+                count={generalFriends.length}
+                friends={generalFriends}
+                title={'Общие друзья'}
+              />
+            )}
+            <Friends count={profileFriends.length} friends={profileFriends} title={'Друзья'} />
+          </SSidebars>
         </SContent>
       </AllContainer>
     </DraggableContainer>
