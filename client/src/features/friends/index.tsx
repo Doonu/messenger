@@ -4,6 +4,7 @@ import { SName, STitle, SUser, SUsers } from './friends.styled';
 import { BlockContainer } from '../../shared/styles/containers';
 import PhotoProfile from '../../components/custom/profiles/photo';
 import { convertName } from '../../shared/util/user';
+import { useNavigate } from 'react-router-dom';
 
 interface IFriends {
   friends: IUser[];
@@ -12,6 +13,8 @@ interface IFriends {
 }
 
 const Friends: FC<IFriends> = ({ friends, title, count }) => {
+  const navigate = useNavigate();
+
   return (
     <BlockContainer>
       <STitle>
@@ -19,7 +22,11 @@ const Friends: FC<IFriends> = ({ friends, title, count }) => {
       </STitle>
       <SUsers>
         {friends.slice(0, 4).map((friend) => (
-          <SUser title={convertName(friend.name)} key={friend.id}>
+          <SUser
+            onClick={() => navigate(`/profile/${friend.id}`)}
+            title={convertName(friend.name)}
+            key={friend.id}
+          >
             <PhotoProfile fontSize={30} size={60} img={friend.avatar} name={friend.name} />
             <SName>{convertName(friend.name)}</SName>
           </SUser>

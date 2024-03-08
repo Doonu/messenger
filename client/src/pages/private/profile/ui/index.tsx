@@ -103,6 +103,8 @@ const Profile = () => {
       dispatch(getAllPost({ page: 1, userId: +idParam }));
     }
 
+    window.scrollTo(0, 0);
+
     return () => {
       dispatch(setAllPosts([]));
     };

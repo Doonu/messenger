@@ -26,6 +26,7 @@ import BaseButton from '../../../../components/ui/buttons/baseButton';
 import updateComment from '../../../../shared/api/http/comments/updateComment';
 import { ICommentItem } from '../../model/ICommentItem';
 import { Slice } from '../../../../components/custom/slice';
+import { useNavigate } from 'react-router-dom';
 
 const CommentItem: FC<ICommentItem> = ({
   comment,
@@ -36,6 +37,7 @@ const CommentItem: FC<ICommentItem> = ({
   setComments,
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const { id } = useAppSelector(selectorProfile);
 
@@ -98,7 +100,7 @@ const CommentItem: FC<ICommentItem> = ({
       <PhotoProfile img={comment.author.imgSubstitute} name={comment.author.name} />
       <SInfo>
         <SNameContainer>
-          <SName>{convertedName}</SName>
+          <SName onClick={() => navigate(`/profile/${comment.author.id}`)}>{convertedName}</SName>
           {comment.isEdit && <span>редактирование комментария</span>}
         </SNameContainer>
         {comment.isEdit && (

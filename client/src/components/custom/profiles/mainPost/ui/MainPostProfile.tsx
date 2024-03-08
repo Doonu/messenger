@@ -12,7 +12,7 @@ const MainPostProfile: FC<IMainPost> = ({ name, avatar, time, id }) => {
     <SContainer>
       <PhotoProfile img={avatar} name={name} />
       <SContainerName>
-        <SName onClick={() => navigate(`profile/${id}`)}>{convertName(name)}</SName>
+        <SName onClick={() => navigate(`/profile/${id}`)}>{convertName(name)}</SName>
         <STime>{time}</STime>
       </SContainerName>
     </SContainer>

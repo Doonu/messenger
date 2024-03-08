@@ -15,6 +15,13 @@ export const SUsers = styled.div`
   gap: 10px;
 `;
 
+export const SName = styled(Typography.Text).attrs({
+  ellipsis: true,
+})`
+  font-size: 12px;
+  color: ${({ theme }) => theme.colors.active};
+`;
+
 export const SUser = styled.div`
   display: flex;
   gap: 5px;
@@ -22,11 +29,9 @@ export const SUser = styled.div`
   justify-content: center;
   align-items: center;
   width: 60px;
-`;
+  cursor: pointer;
 
-export const SName = styled(Typography.Text).attrs({
-  ellipsis: true,
-})`
-  font-size: 12px;
-  color: ${({ theme }) => theme.colors.active};
+  &:hover ${SName} {
+    text-decoration: underline;
+  }
 `;
