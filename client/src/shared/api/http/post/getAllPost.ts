@@ -23,7 +23,6 @@ const getAllPost = createAsyncThunk<IPostState[], IGetAllPost, IConfigAsyncThunk
       params: { page: page },
     })
       .then(({ data }) => {
-        console.log(data);
         return data.map((post) => {
           return {
             ...post,

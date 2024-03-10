@@ -46,13 +46,3 @@ export const SImg = styled.img<Omit<IImgProps, 'fontSize' | 'color'>>`
       left: ${left}px;
     `};
 `;
-
-export const SNotify = styled.div`
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border-radius: 99%;
-  background: ${({ theme }) => theme.colors.success};
-  bottom: 3%;
-  right: 3%;
-`;

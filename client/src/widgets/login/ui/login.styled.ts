@@ -9,7 +9,6 @@ export const SForm = styled(Form)`
   display: flex;
   align-items: center;
   gap: 70px;
-
   padding-right: 20px;
 `;
 
@@ -44,8 +43,8 @@ export const SInput = styled(Input).attrs({
 })``;
 
 export const SLogo = styled(Logo).attrs({
-  size: 120,
-  $sizeBg: '150px',
+  size: 60,
+  sizeBg: '80px',
   color: 'white',
 })`
   align-self: center;

@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
 import SocketApi from './socket-api';
-import { useAppSelector } from '../../../hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { selectorProfile } from '../../../entities';
+import { updateStatus } from '../../../entities/profile/profile.slice';
 
 export const useSocket = () => {
+  const dispatch = useAppDispatch();
   const user = useAppSelector(selectorProfile);
 
   const connectSocket = () => {
     SocketApi.createConnection(user.id);
+    dispatch(updateStatus());
   };
 
   useEffect(() => {

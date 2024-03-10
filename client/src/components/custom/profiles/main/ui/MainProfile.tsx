@@ -14,7 +14,7 @@ const MainProfile: FC<IMain> = () => {
   //TODO: Подумать над этим компонентом(Как должен выглядеть)
   //TODO: Сделать конфиг в локалсторадж для хранения темы, первый ли это заход пользователя в приложение
 
-  const { avatar, name, timeConnected, statusConnected } = useAppSelector(selectorProfile);
+  const { avatar, name } = useAppSelector(selectorProfile);
   const loader = useAppSelector(selectorProfileLoader);
 
   const [arrow, setArrow] = useState(false);
@@ -31,12 +31,7 @@ const MainProfile: FC<IMain> = () => {
     <SProfileContainer>
       <Dropdown onOpenChange={rotateArrow} menu={{ items: itemsDropdown }} trigger={['click']}>
         <SContainer>
-          <PhotoProfile
-            status={statusConnected}
-            statusTime={timeConnected}
-            img={avatar}
-            name={name}
-          />
+          <PhotoProfile img={avatar} name={name} />
           <SName>{convertName(name)}</SName>
           <SArrowDown $isActive={arrow} />
         </SContainer>

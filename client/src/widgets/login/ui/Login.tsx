@@ -103,7 +103,7 @@ const Login = () => {
               </SLinkWrap>
             </SFormContainer>
             <SLogoContainer>
-              <SLogo $shadow />
+              <SLogo shadow />
               <STitle>Discord - Messenger</STitle>
             </SLogoContainer>
           </SForm>

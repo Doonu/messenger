@@ -9,11 +9,11 @@ import AutosizeInput from '../../../../components/ui/inputs/autosizeInput';
 
 const Content = () => {
   const { values, setFieldValue } = useFormikContext<IPost>();
-  const { name, avatar, timeConnected, statusConnected } = useAppSelector(selectorProfile);
+  const { name, avatar } = useAppSelector(selectorProfile);
 
   return (
     <SContainer $position={values.isActive}>
-      <PhotoProfile status={statusConnected} statusTime={timeConnected} img={avatar} name={name} />
+      <PhotoProfile img={avatar} name={name} />
       <AutosizeInput
         isDrag={true}
         minRows={2}

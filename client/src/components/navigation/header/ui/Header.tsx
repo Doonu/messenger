@@ -11,7 +11,7 @@ const Header = () => {
   return (
     <SContainer>
       <SWrapper>
-        <Logo $shadow size={20} color="white" title={'right'}>
+        <Logo sizeBg="40px" shadow size={20} color="white" title={'right'}>
           <STitle>Discord</STitle>
         </Logo>
         <Navbar />

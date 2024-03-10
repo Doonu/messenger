@@ -42,12 +42,13 @@ const Profile = () => {
   const deletedPost = useAppSelector(selectorDeletedPost);
 
   const [isDraggablePhoto, setIsDraggablePhoto] = useState(false);
-  const errorMessage = errorPosts ? 'Произошла ошибка' : 'Посты не найдены';
-  const isEditPost = posts.find((post) => post.id === editedPost?.id);
   const [isDraggablePhotoInPost, setIsDraggablePhotoInPost] = useState(false);
 
   const [profilePage, setProfilePage] = useState<IUser>({} as IUser);
   const [profileFriends, setProfileFriends] = useState<IUser[]>([]);
+
+  const errorMessage = errorPosts ? 'Произошла ошибка' : 'Посты не найдены';
+  const isEditPost = posts.find((post) => post.id === editedPost?.id);
 
   const generalFriends = profileFriends.filter((profileFriend) =>
     user.friends.includes(profileFriend.id)
