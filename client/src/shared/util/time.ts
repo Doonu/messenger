@@ -25,7 +25,7 @@ export const monthState = [
   'дек',
 ];
 
-export const postTime = (time: string) => {
+export const postTime = (time: string | number) => {
   const timeNumber = new Date(time).getTime();
   const timeNow = Date.now();
 

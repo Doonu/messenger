@@ -23,7 +23,6 @@ const getAllPost = createAsyncThunk<IPostState[], IGetAllPost, IConfigAsyncThunk
       params: { page: page },
     })
       .then(({ data }) => {
-        console.log(data);
         return data.map((post) => {
           return {
             ...post,
@@ -31,6 +30,8 @@ const getAllPost = createAsyncThunk<IPostState[], IGetAllPost, IConfigAsyncThunk
               name: post.author.name,
               imgSubstitute: post.author.imgSubstitute,
               id: post.author.id,
+              statusConnected: post.author.statusConnected,
+              timeConnected: post.author.timeConnected,
             },
             comments: post.comments.length,
           };

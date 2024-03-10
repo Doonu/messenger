@@ -156,6 +156,8 @@ const Modification: FC<IModification> = ({
         <>
           <SHead>
             <MainPostProfile
+              status={post.author.statusConnected}
+              statusTime={post.author.timeConnected}
               time={postTime(post.createdAt)}
               name={post.author.name}
               avatar={post.author.imgSubstitute}

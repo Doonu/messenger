@@ -17,6 +17,8 @@ export interface IPostState {
     name: string;
     imgSubstitute: string;
     id: number;
+    statusConnected: boolean;
+    timeConnected: number;
   };
 }
 
@@ -36,6 +38,8 @@ export interface ICommentsState {
     name: string;
     imgSubstitute: string;
     id: number;
+    statusConnected: boolean;
+    timeConnected: number;
   };
   isEdit: boolean;
 }

@@ -10,6 +10,7 @@ import {ChangeSocketId} from "./dto/change-socketId";
 import {FriendRequest} from "./models/friendRequest.model";
 import {CreateFriendRequestDto} from "./dto/create-friendRequest.dto";
 import {AddFriendsDto} from "./dto/add-friends.dto";
+import {ChangeConnectedDto} from "./dto/change-connected.dto";
 
 @Injectable()
 export class UsersService {
@@ -17,6 +18,8 @@ export class UsersService {
               @InjectModel(FriendRequest) private friendRequestRepository: typeof FriendRequest,
               private roleService: RolesService) {
   }
+
+  baseFieldUser = [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute', 'socket_id', 'friends', 'statusConnected', 'timeConnected']
 
   // Создание пользователя
   async postCreateUser(dto: RegisterUserDto) {
@@ -34,7 +37,7 @@ export class UsersService {
 
   // Получение пользователя по id
   async getUser(id: number) {
-    return await this.userRepository.findOne({ attributes: [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute', 'socket_id', 'friends'], where: { id: id }, include: { all: true} });
+    return await this.userRepository.findOne({ attributes: this.baseFieldUser, where: { id: id }, include: { all: true} });
   }
 
   // Удаление пользователя по id
@@ -80,10 +83,16 @@ export class UsersService {
     if(user) await user.update({socket_id: dto.socketId})
   }
 
+  // Имзенение connected
+  async changeConnected(dto: ChangeConnectedDto){
+    const user = await this.userRepository.findOne({where: {id: dto.userId}})
+    if(user) await user.update({statusConnected: dto.connected, timeConnected: Date.now()})
+  }
+
   // Получение друзей
   async getFriends(dto: number){
     const user = await this.userRepository.findByPk(dto)
-    return await Promise.all(user.friends.map(async (el) => this.userRepository.findOne({ attributes: [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute', 'socket_id', 'friends'], where: {id: el} })));
+    return await Promise.all(user.friends.map(async (el) => this.userRepository.findOne({ attributes: this.baseFieldUser, where: {id: el} })));
   }
 
   // Добавление друзей

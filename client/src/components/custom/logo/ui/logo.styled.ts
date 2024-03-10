@@ -1,5 +1,10 @@
 import styled, { css } from 'styled-components';
-import { ILogo } from '../model/ILogo';
+
+interface ILogo {
+  $pulse: boolean;
+  $sizeBg: string;
+  $shadow: boolean;
+}
 
 export const SContainer = styled.div`
   display: flex;
@@ -12,10 +17,10 @@ export const SContainer = styled.div`
   }
 `;
 
-export const SContainerIcon = styled.div<Pick<ILogo, '$pulse' | '$sizeBg' | '$shadow'>>`
+export const SContainerIcon = styled.div<ILogo>`
   animation: ${({ $pulse }) => $pulse && `color-change 5s infinite`};
   background: ${({ theme }) => theme.colors.blue};
-  border-radius: 15px;
+  border-radius: 99%;
 
   ${({ $sizeBg }) => css`
     width: ${$sizeBg};

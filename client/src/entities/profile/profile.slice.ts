@@ -15,7 +15,12 @@ const initialState: profileState = {
 export const profileSlice = createSlice({
   name: 'profile',
   initialState,
-  reducers: {},
+  reducers: {
+    updateStatus: (state) => {
+      state.user.statusConnected = true;
+      state.user.timeConnected = Date.now();
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getProfile.fulfilled, (state, { payload }: PayloadAction<IUser>) => {
       state.user = payload;
@@ -31,3 +36,4 @@ export const profileSlice = createSlice({
 });
 
 export default profileSlice.reducer;
+export const { updateStatus } = profileSlice.actions;

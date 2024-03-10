@@ -3,4 +3,6 @@ export interface IMainPost {
   name: string;
   time: string;
   id: number;
+  status: boolean;
+  statusTime?: number;
 }

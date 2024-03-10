@@ -22,6 +22,8 @@ const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
         banReason: data.banReason,
         avatar: data.imgSubstitute || 'тут будет картинка',
         friends: data.friends,
+        statusConnected: data.statusConnected,
+        timeConnected: data.timeConnected,
         roles: data.roles.map(({ value, createdAt }) => {
           return {
             value,

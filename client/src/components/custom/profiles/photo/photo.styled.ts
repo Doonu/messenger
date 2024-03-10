@@ -10,6 +10,7 @@ interface IImgProps {
 }
 
 export const SContainer = styled.div<IImgProps>`
+  position: relative;
   background: ${({ color }) => color};
   font-size: ${({ fontSize }) => fontSize && `${fontSize}px`};
   width: ${({ size }) => size && `${size}px`};

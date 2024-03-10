@@ -41,6 +41,8 @@ const postCreate = createAsyncThunk<IPostState, IPostCreate, IConfigAsyncThunk>(
             name: data.author.name,
             imgSubstitute: data.author.imgSubstitute,
             id: data.author.id,
+            statusConnected: data.author.statusConnected,
+            timeConnected: data.author.timeConnected,
           },
         };
       })

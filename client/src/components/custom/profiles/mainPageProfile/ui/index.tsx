@@ -16,6 +16,7 @@ import { useAppSelector } from '../../../../../hooks/redux';
 import { selectorProfile } from '../../../../../entities';
 import { IMainPageProfile } from '../model/IMainPageProfile';
 import BaseButton from '../../../../ui/buttons/baseButton';
+import { postTime } from '../../../../../shared/util/time';
 
 const MainPageProfile: FC<IMainPageProfile> = ({
   user,
@@ -46,7 +47,9 @@ const MainPageProfile: FC<IMainPageProfile> = ({
         <SRow>
           <SNavigate>
             <SName>{convertName(user.name)}</SName>
-            <div>статус</div>
+            <div>
+              {user.statusConnected ? 'Онлайн' : `Был в сети ${postTime(user.timeConnected)}`}
+            </div>
           </SNavigate>
           <SActions>
             {isMyProfile && <BaseButton variant="secondary">Редактировать профиль</BaseButton>}

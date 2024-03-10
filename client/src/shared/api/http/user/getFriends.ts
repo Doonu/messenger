@@ -20,6 +20,8 @@ const getFriends = createAsyncThunk<IUser[], number, IConfigAsyncThunk>(
           banReason: user.banReason,
           avatar: user.imgSubstitute || 'тут будет картинка',
           friends: user.friends,
+          statusConnected: user.statusConnected,
+          timeConnected: user.timeConnected,
           roles: user?.roles?.map(({ value, createdAt }) => {
             return {
               value,

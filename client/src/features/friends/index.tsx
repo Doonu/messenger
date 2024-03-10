@@ -27,7 +27,14 @@ const Friends: FC<IFriends> = ({ friends, title, count }) => {
             title={convertName(friend.name)}
             key={friend.id}
           >
-            <PhotoProfile fontSize={30} size={60} img={friend.avatar} name={friend.name} />
+            <PhotoProfile
+              status={friend.statusConnected}
+              statusTime={friend.timeConnected}
+              fontSize={30}
+              size={60}
+              img={friend.avatar}
+              name={friend.name}
+            />
             <SName>{convertName(friend.name)}</SName>
           </SUser>
         ))}
