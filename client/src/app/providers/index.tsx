@@ -18,10 +18,11 @@ const Providers = () => {
       <GlobalStyles />
       <AntdConfigProvider>
         <Provider store={store}>
-          <AuthProvider />
-          <Notification />
-          <Router />
-          <SocketProviders />
+          <SocketProviders>
+            <AuthProvider />
+            <Notification />
+            <Router />
+          </SocketProviders>
         </Provider>
       </AntdConfigProvider>
     </ThemeProvider>

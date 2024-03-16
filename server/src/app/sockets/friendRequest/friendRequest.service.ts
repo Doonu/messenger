@@ -11,20 +11,26 @@ import {FriendRequestDto} from "./dto/friend-request.dto";
 import {AcceptFriendRequestDto} from "../../users/dto/accept-friend-request.dto";
 import { Server } from "socket.io";
 import {UseFilters} from "@nestjs/common";
+import {NotificationsService} from "../../notifications/notifications.service";
 
 @WebSocketGateway({
     cors: {
         origin: ['http://localhost:3000'],
-    }
+    },
+    // transports: ['websocket'],
 })
 export class FriendRequestService implements OnGatewayConnection, OnGatewayDisconnect{
-    constructor(private usersService: UsersService) {
+    constructor(
+        private usersService: UsersService,
+        private notificationsService: NotificationsService
+    ) {
     }
 
     @WebSocketServer() server: Server;
 
     async handleConnection(@ConnectedSocket() client: any) {
         const userId = client.handshake.query['user_id'];
+        console.log('connected')
 
         if(userId){
             await this.usersService.changeSocketId({socketId: client.id, userId: userId})
@@ -42,19 +48,27 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
     @SubscribeMessage("friend_request")
     async handleFriendRequest(@MessageBody() dto: FriendRequestDto){
         if(dto.to === dto.from) return null
+        console.log('tries')
 
         const toUser = await this.usersService.getUser(dto.to)
         const fromUser = await this.usersService.getUser(dto.from)
 
         await this.usersService.createFriendRequest({toUserId: toUser.id, fromUserId: fromUser.id})
 
+        const notification = await this.notificationsService.createNotifications({
+            userId: toUser.id,
+            senderId: fromUser.id,
+            content: `Вам отправил приглашения в друзья пользователь с именем - ${fromUser.name}`
+        })
+
+
         this.server.to(fromUser.socket_id).emit("new_friend_req", {
-            message: `Вы отправили приглашение в друзья ${toUser.name}`,
-            id: toUser.id,
+            message: `Вы отправили приглашение в друзья ${toUser.name}`
         })
 
         this.server.to(toUser.socket_id).emit("new_friend_req", {
-            message: `Вам отправил приглашения в друзья пользователь с именем - ${fromUser.name}`
+            message: `Вам отправил приглашения в друзья пользователь с именем - ${fromUser.name}`,
+            notification: notification
         })
     }
 

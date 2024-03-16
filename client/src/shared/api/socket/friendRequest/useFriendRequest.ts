@@ -4,12 +4,18 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { selectorProfile } from '../../../../entities';
 import { showMessage } from '../../../../entities/notification/notification.slice';
 import { Types } from '../../../../entities/notification/model/INotification';
+import { APINotifyItem } from '../../http/notification/getAllNotification';
 
 interface IUseFriendRequest {
-  newFriendReqCallback?: () => void;
+  newFriendReqCallback?: (data: IResponseFriendNotification) => void;
   acceptedRequestCallback?: () => void;
   canselFriendRequestCallback?: () => void;
   canselRequestCallback?: () => void;
+}
+
+export interface IResponseFriendNotification {
+  message: string;
+  notification: APINotifyItem;
 }
 
 export const useFriendRequest = ({
@@ -21,7 +27,7 @@ export const useFriendRequest = ({
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectorProfile);
 
-  const messageView = (data: any, type: Types = 'success') => {
+  const messageView = (data: IResponseFriendNotification, type: Types = 'success') => {
     dispatch(
       showMessage({
         title: data.message,
@@ -31,9 +37,10 @@ export const useFriendRequest = ({
     );
   };
 
-  const newFriendReq = (data: any) => {
+  const newFriendReq = (data: IResponseFriendNotification) => {
     messageView(data);
-    newFriendReqCallback && newFriendReqCallback();
+    console.log('hello');
+    newFriendReqCallback && newFriendReqCallback(data);
   };
 
   const handlerAcceptedRequest = (data: any) => {
@@ -52,10 +59,10 @@ export const useFriendRequest = ({
   };
 
   const connectSocket = () => {
-    SocketApi.socket?.once('new_friend_req', newFriendReq);
-    SocketApi.socket?.once('request_accepted', handlerAcceptedRequest);
-    SocketApi.socket?.once('friend_cancellation', handlerCanselFriendRequest);
-    SocketApi.socket?.once('request_cancellation', handlerCanselRequest);
+    SocketApi.socket?.on('new_friend_req', newFriendReq);
+    SocketApi.socket?.on('request_accepted', handlerAcceptedRequest);
+    SocketApi.socket?.on('friend_cancellation', handlerCanselFriendRequest);
+    SocketApi.socket?.on('request_cancellation', handlerCanselRequest);
   };
 
   useEffect(() => {

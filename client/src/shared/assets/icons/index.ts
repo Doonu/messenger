@@ -13,6 +13,16 @@ import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 import { FaPen } from 'react-icons/fa';
 import { PiTextAa } from 'react-icons/pi';
 import { LuArrowDownWideNarrow } from 'react-icons/lu';
+import { FaBell } from 'react-icons/fa';
+
+export const Bell = styled(FaBell).attrs({
+  size: 25,
+})`
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
+`;
 
 export const ArrowDown = styled(IoCaretDownOutline)``;
 
@@ -92,6 +102,7 @@ export const Comment = styled(GoComment)`
 
 export const Close = styled(IoMdClose)`
   color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
 `;
 
 export const Magnifier = styled(SlMagnifierAdd).attrs({

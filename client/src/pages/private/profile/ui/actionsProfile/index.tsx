@@ -7,9 +7,14 @@ import { IActionsProfile } from './model/IActionsProfile';
 import getFriendRequest, {
   IGetFriendRequest,
 } from '../../../../../shared/api/http/user/getFriendRequest';
-import { useFriendRequest } from '../../../../../shared/api/socket/friendRequest/useFriendRequest';
+import {
+  IResponseFriendNotification,
+  useFriendRequest,
+} from '../../../../../shared/api/socket/friendRequest/useFriendRequest';
 import { useParams } from 'react-router-dom';
 import deleteFriend from '../../../../../shared/api/http/user/deleteFriend';
+import { addNotification } from '../../../../../entities/notification/notification.slice';
+import { friendRequestConverting } from '../../../../../shared/api/socket/friendRequest/friendRequest.converting';
 
 const ActionsProfile: FC<IActionsProfile> = ({
   profilePage,
@@ -75,11 +80,24 @@ const ActionsProfile: FC<IActionsProfile> = ({
   };
 
   const baseHandler = () => {
-    idParam && getStatusFriendReq(+idParam);
+    if (idParam) {
+      getStatusFriendReq(+idParam);
+    }
+  };
+
+  const handlerNewFriendReq = (data: IResponseFriendNotification) => {
+    if (data.notification) {
+      const notification = friendRequestConverting(data.notification);
+      dispatch(addNotification(notification));
+    }
+
+    if (idParam) {
+      getStatusFriendReq(+idParam);
+    }
   };
 
   useFriendRequest({
-    newFriendReqCallback: baseHandler,
+    newFriendReqCallback: handlerNewFriendReq,
     acceptedRequestCallback: handlerAddFriend,
     canselFriendRequestCallback: baseHandler,
     canselRequestCallback: baseHandler,

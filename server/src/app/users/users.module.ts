@@ -10,17 +10,20 @@ import { AuthModule } from "../auth/auth.module";
 import {Comments} from "../comments/comments.model";
 import {FriendRequestService} from "../sockets/friendRequest/friendRequest.service";
 import {FriendRequest} from "./models/friendRequest.model";
+import {NotificationsService} from "../notifications/notifications.service";
+import {NotificationsModule} from "../notifications/notifications.module";
 
 @Module({
   controllers: [UsersController],
   providers: [UsersService, FriendRequestService],
   imports: [
     SequelizeModule.forFeature([User, Role, UserRoles, Comments, FriendRequest]),
+    NotificationsModule,
     RolesModule,
     forwardRef(() => AuthModule)
   ],
   exports: [
-    UsersService,
+    UsersService
   ]
 })
 export class UsersModule {

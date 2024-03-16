@@ -17,6 +17,7 @@ import {ConfigModule} from "@nestjs/config";
 import {Comments} from "./app/comments/comments.model";
 import { FilesController } from './app/files/files.controller';
 import {FriendRequestService} from "./app/sockets/friendRequest/friendRequest.service";
+import { NotificationsModule } from './app/notifications/notifications.module';
 
 @Module({
   controllers: [FilesController],
@@ -42,7 +43,8 @@ import {FriendRequestService} from "./app/sockets/friendRequest/friendRequest.se
     AuthModule,
     FilesModule,
     PostsModule,
-    CommentsModule
+    CommentsModule,
+    NotificationsModule
   ]
 })
 export class AppModule {

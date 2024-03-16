@@ -6,6 +6,8 @@ class SocketApi {
   static createConnection(userId: number) {
     this.socket = io('http://localhost:5000', {
       query: { user_id: userId },
+      autoConnect: false,
+      retries: 0,
     });
 
     this.socket.connect();
