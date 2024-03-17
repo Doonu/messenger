@@ -3,6 +3,7 @@ import {InjectModel} from "@nestjs/sequelize";
 import {Notifications} from "./notifications.model";
 import {CreateNotificationsDto} from "./dto/create-notifications.dto";
 import {DeleteNotificationDto} from "./dto/delete-notification.dto";
+import {DeleteNotificationsDto} from "./dto/delete-notifications.dto";
 
 @Injectable()
 export class NotificationsService {
@@ -12,7 +13,7 @@ export class NotificationsService {
     }
 
     async createNotifications(dto: CreateNotificationsDto){
-        const searchedNotify = await this.notificationsRepository.findOne({where: {senderId: dto.senderId, userId: dto.userId}, include: {all: true}})
+        const searchedNotify = await this.notificationsRepository.findOne({where: {senderId: dto.senderId, userId: dto.userId, content: dto.content}, include: {all: true}})
 
         if(!searchedNotify?.id) {
             const notification = await this.notificationsRepository.create({...dto})
@@ -21,7 +22,11 @@ export class NotificationsService {
     }
 
     async deleteNotification(dto: DeleteNotificationDto){
-        await this.notificationsRepository.destroy({where: {userId: dto.userId, senderId: dto.senderId}})
+        await this.notificationsRepository.destroy({where: {id: dto.notificationId}})
+    }
+
+    async deleteNotifications(dto: DeleteNotificationsDto){
+        await this.notificationsRepository.destroy({where: {userId: dto.userId}})
     }
 
     async getAllNotifications(userId: number){

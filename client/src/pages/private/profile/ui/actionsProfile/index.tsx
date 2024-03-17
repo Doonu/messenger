@@ -7,14 +7,9 @@ import { IActionsProfile } from './model/IActionsProfile';
 import getFriendRequest, {
   IGetFriendRequest,
 } from '../../../../../shared/api/http/user/getFriendRequest';
-import {
-  IResponseFriendNotification,
-  useFriendRequest,
-} from '../../../../../shared/api/socket/friendRequest/useFriendRequest';
+import { useFriendRequest } from '../../../../../shared/api/socket/friendRequest/useFriendRequest';
 import { useParams } from 'react-router-dom';
 import deleteFriend from '../../../../../shared/api/http/user/deleteFriend';
-import { addNotification } from '../../../../../entities/notification/notification.slice';
-import { friendRequestConverting } from '../../../../../shared/api/socket/friendRequest/friendRequest.converting';
 
 const ActionsProfile: FC<IActionsProfile> = ({
   profilePage,
@@ -85,12 +80,7 @@ const ActionsProfile: FC<IActionsProfile> = ({
     }
   };
 
-  const handlerNewFriendReq = (data: IResponseFriendNotification) => {
-    if (data.notification) {
-      const notification = friendRequestConverting(data.notification);
-      dispatch(addNotification(notification));
-    }
-
+  const handlerNewFriendReq = () => {
     if (idParam) {
       getStatusFriendReq(+idParam);
     }

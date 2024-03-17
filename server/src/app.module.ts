@@ -16,12 +16,12 @@ import {CommentsModule} from "./app/comments/comments.module";
 import {ConfigModule} from "@nestjs/config";
 import {Comments} from "./app/comments/comments.model";
 import { FilesController } from './app/files/files.controller';
-import {FriendRequestService} from "./app/sockets/friendRequest/friendRequest.service";
+import {FriendRequestService} from "./app/users/sockets/friendRequest/friendRequest.service";
 import { NotificationsModule } from './app/notifications/notifications.module';
 
 @Module({
   controllers: [FilesController],
-  providers: [FriendRequestService],
+  providers: [],
   imports: [
     ConfigModule.forRoot({ envFilePath: `.${process.env.NODE_ENV}.env` }),
     ServeStaticModule.forRoot({
@@ -45,7 +45,8 @@ import { NotificationsModule } from './app/notifications/notifications.module';
     PostsModule,
     CommentsModule,
     NotificationsModule
-  ]
+  ],
+  exports: []
 })
 export class AppModule {
 }

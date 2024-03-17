@@ -19,6 +19,7 @@ export const Bell = styled(FaBell).attrs({
   size: 25,
 })`
   cursor: pointer;
+
   &:hover {
     opacity: 0.7;
   }

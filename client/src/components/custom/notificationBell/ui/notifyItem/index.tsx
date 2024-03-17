@@ -5,16 +5,16 @@ import { INotifyItem } from '../../../../../entities/notification/model/INotific
 import { postTime } from '../../../../../shared/util/time';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../../../hooks/redux';
-import deleteNotification from '../../../../../shared/api/http/notification/deleteNotifigation';
+import { deleteNotification } from '../../../../../shared/api';
 
-const NotifyItem = ({ sender, content, createdAt }: INotifyItem) => {
+const NotifyItem = ({ sender, content, createdAt, id }: INotifyItem) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const handlerNotification = () => {
     if (sender) {
+      dispatch(deleteNotification(id));
       navigate(`/profile/${sender.id}`);
-      dispatch(deleteNotification(sender.id));
     }
   };
 

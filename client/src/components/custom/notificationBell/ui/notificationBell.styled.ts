@@ -7,3 +7,7 @@ export const SNotificationBellStyled = styled.div`
   margin-top: 28px;
   color: ${({ theme }) => theme.colors.active};
 `;
+
+export const SContent = styled.div`
+  position: relative;
+`;

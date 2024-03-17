@@ -7,11 +7,10 @@ import { Role } from "../roles/roles.model";
 import { UserRoles } from "../roles/user-roles.model";
 import { RolesModule } from "../roles/roles.module";
 import { AuthModule } from "../auth/auth.module";
-import {Comments} from "../comments/comments.model";
-import {FriendRequestService} from "../sockets/friendRequest/friendRequest.service";
-import {FriendRequest} from "./models/friendRequest.model";
-import {NotificationsService} from "../notifications/notifications.service";
-import {NotificationsModule} from "../notifications/notifications.module";
+import { Comments } from "../comments/comments.model";
+import { FriendRequestService } from "./sockets/friendRequest/friendRequest.service";
+import { FriendRequest } from "./models/friendRequest.model";
+import { NotificationsModule } from "../notifications/notifications.module";
 
 @Module({
   controllers: [UsersController],
@@ -23,7 +22,8 @@ import {NotificationsModule} from "../notifications/notifications.module";
     forwardRef(() => AuthModule)
   ],
   exports: [
-    UsersService
+    UsersService,
+    FriendRequestService
   ]
 })
 export class UsersModule {

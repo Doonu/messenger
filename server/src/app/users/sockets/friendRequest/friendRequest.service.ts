@@ -1,23 +1,20 @@
 import {
-    BaseWsExceptionFilter,
     ConnectedSocket,
     MessageBody,
     OnGatewayConnection, OnGatewayDisconnect,
     SubscribeMessage,
     WebSocketGateway, WebSocketServer
 } from "@nestjs/websockets";
-import {UsersService} from "../../users/users.service";
+import {UsersService} from "../../users.service";
 import {FriendRequestDto} from "./dto/friend-request.dto";
-import {AcceptFriendRequestDto} from "../../users/dto/accept-friend-request.dto";
+import {AcceptFriendRequestDto} from "../../dto/accept-friend-request.dto";
 import { Server } from "socket.io";
-import {UseFilters} from "@nestjs/common";
-import {NotificationsService} from "../../notifications/notifications.service";
+import {NotificationsService} from "../../../notifications/notifications.service";
 
 @WebSocketGateway({
     cors: {
         origin: ['http://localhost:3000'],
     },
-    // transports: ['websocket'],
 })
 export class FriendRequestService implements OnGatewayConnection, OnGatewayDisconnect{
     constructor(
@@ -30,7 +27,6 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
 
     async handleConnection(@ConnectedSocket() client: any) {
         const userId = client.handshake.query['user_id'];
-        console.log('connected')
 
         if(userId){
             await this.usersService.changeSocketId({socketId: client.id, userId: userId})
@@ -48,7 +44,6 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
     @SubscribeMessage("friend_request")
     async handleFriendRequest(@MessageBody() dto: FriendRequestDto){
         if(dto.to === dto.from) return null
-        console.log('tries')
 
         const toUser = await this.usersService.getUser(dto.to)
         const fromUser = await this.usersService.getUser(dto.from)
@@ -84,8 +79,15 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
 
         await this.usersService.deleteFriendRequest(receiver.id, sender.id);
 
+        const notification = await this.notificationsService.createNotifications({
+            userId: sender.id,
+            senderId: receiver.id,
+            content: `Пользователь ${receiver.name} принял запрос на дружбу`
+        })
+
         this.server.to(sender.socket_id).emit("request_accepted", {
-            message: `Пользователь ${receiver.name} принял запрос на дружбу`
+            message: `Пользователь ${receiver.name} принял запрос на дружбу`,
+            notification: notification
         })
         this.server.to(receiver.socket_id).emit("request_accepted", {
             message: `Вы приняли запрос дружбы от ${sender.name}`
@@ -101,10 +103,15 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
 
         await this.usersService.deleteFriendRequest(receiver.id, sender.id);
 
-        //TODO: Здесь удалять уведомления
+        const notification = await this.notificationsService.createNotifications({
+            userId: sender.id,
+            senderId: receiver.id,
+            content: `Пользователь ${receiver.name} не принял запрос на дружбу`
+        })
 
         this.server.to(sender.socket_id).emit("friend_cancellation", {
-            message: `Пользователь ${receiver.name} не принял запрос на дружбу`
+            message: `Пользователь ${receiver.name} не принял запрос на дружбу`,
+            notification: notification
         })
 
         this.server.to(receiver.socket_id).emit("friend_cancellation", {
@@ -121,12 +128,19 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
 
         await this.usersService.deleteFriendRequest(receiver.id, sender.id);
 
+        const notification = await this.notificationsService.createNotifications({
+            userId: receiver.id,
+            senderId: sender.id,
+            content: `Вы не успели ответить на запрос дружбы от пользователя ${sender.name}`
+        })
+
         this.server.to(sender.socket_id).emit("request_cancellation", {
             message: `Вы отменили свой запрос на дружбу для ${receiver.name}`
         })
 
         this.server.to(receiver.socket_id).emit("request_cancellation", {
-            message: `Вы не успели ответить на запрос дружбы от пользователя ${sender.name}`
+            message: `Вы не успели ответить на запрос дружбы от пользователя ${sender.name}`,
+            notification: notification
         })
     }
 }

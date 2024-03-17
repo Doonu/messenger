@@ -15,7 +15,13 @@ export class NotificationsController {
 
     @UseGuards(JwtAuthGuard)
     @Delete(":id")
-    deleteByIdNotification(@Req() {userId}: any, @Param("id") id: number,){
-        return this.notificationsService.deleteNotification({userId: userId, senderId: id})
+    deleteByIdNotification(@Param("id") notificationId: number){
+        return this.notificationsService.deleteNotification({ notificationId })
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete("user/:id")
+    deleteAllNotificationById(@Param("id") userId: number){
+        return this.notificationsService.deleteNotifications({ userId })
     }
 }

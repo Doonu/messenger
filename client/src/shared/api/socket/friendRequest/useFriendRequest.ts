@@ -2,18 +2,19 @@ import { useEffect } from 'react';
 import SocketApi from '../socket-api';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { selectorProfile } from '../../../../entities';
-import { showMessage } from '../../../../entities/notification/notification.slice';
+import { addNotification, showMessage } from '../../../../entities/notification/notification.slice';
 import { Types } from '../../../../entities/notification/model/INotification';
 import { APINotifyItem } from '../../http/notification/getAllNotification';
+import { friendRequestConverting } from './friendRequest.converting';
 
 interface IUseFriendRequest {
-  newFriendReqCallback?: (data: IResponseFriendNotification) => void;
+  newFriendReqCallback?: (data: IResponseNotification) => void;
   acceptedRequestCallback?: () => void;
   canselFriendRequestCallback?: () => void;
   canselRequestCallback?: () => void;
 }
 
-export interface IResponseFriendNotification {
+export interface IResponseNotification {
   message: string;
   notification: APINotifyItem;
 }
@@ -27,7 +28,7 @@ export const useFriendRequest = ({
   const dispatch = useAppDispatch();
   const user = useAppSelector(selectorProfile);
 
-  const messageView = (data: IResponseFriendNotification, type: Types = 'success') => {
+  const messageView = (data: IResponseNotification, type: Types = 'success') => {
     dispatch(
       showMessage({
         title: data.message,
@@ -37,23 +38,45 @@ export const useFriendRequest = ({
     );
   };
 
-  const newFriendReq = (data: IResponseFriendNotification) => {
+  const newFriendReq = (data: IResponseNotification) => {
+    if (data.notification && !newFriendReqCallback) {
+      const notification = friendRequestConverting(data.notification);
+      dispatch(addNotification(notification));
+    }
+
+    if (newFriendReqCallback) {
+      newFriendReqCallback(data);
+    }
+
     messageView(data);
-    console.log('hello');
-    newFriendReqCallback && newFriendReqCallback(data);
   };
 
-  const handlerAcceptedRequest = (data: any) => {
+  const handlerAcceptedRequest = (data: IResponseNotification) => {
+    if (data.notification && !acceptedRequestCallback) {
+      const notification = friendRequestConverting(data.notification);
+      dispatch(addNotification(notification));
+    }
+
     messageView(data);
     acceptedRequestCallback && acceptedRequestCallback();
   };
 
-  const handlerCanselFriendRequest = (data: any) => {
+  const handlerCanselFriendRequest = (data: IResponseNotification) => {
+    if (data.notification && !canselFriendRequestCallback) {
+      const notification = friendRequestConverting(data.notification);
+      dispatch(addNotification(notification));
+    }
+
     messageView(data, 'error');
     canselFriendRequestCallback && canselFriendRequestCallback();
   };
 
-  const handlerCanselRequest = (data: any) => {
+  const handlerCanselRequest = (data: IResponseNotification) => {
+    if (data.notification && !canselRequestCallback) {
+      const notification = friendRequestConverting(data.notification);
+      dispatch(addNotification(notification));
+    }
+
     messageView(data, 'error');
     canselRequestCallback && canselRequestCallback();
   };

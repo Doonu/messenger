@@ -2,18 +2,18 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IConfigAsyncThunk } from '../../../models/errors';
 import API from '../../interceptors';
 
-const deleteNotification = createAsyncThunk<number, number, IConfigAsyncThunk>(
-  'notification/delete',
-  (notificationId, { rejectWithValue }) => {
+const deleteAllNotifications = createAsyncThunk<number, number, IConfigAsyncThunk>(
+  'deleteAllNotifications',
+  (userId, { rejectWithValue }) => {
     return API({
-      url: `api/notifications/${notificationId}`,
+      url: `api/notifications/user/${userId}`,
       method: 'DELETE',
     })
-      .then(() => notificationId)
+      .then(() => userId)
       .catch(({ response }) => {
         return rejectWithValue(response?.data);
       });
   }
 );
 
-export default deleteNotification;
+export default deleteAllNotifications;

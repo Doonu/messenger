@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Container } from './header.styled';
+import { Close } from '../../../../../shared/assets/icons';
 
-const Header = () => {
-  return <Container>Оповещения для вашей страницы</Container>;
+interface IHeaderNotification {
+  deleteAllNotification: () => void;
+}
+
+const Header: FC<IHeaderNotification> = ({ deleteAllNotification }) => {
+  return (
+    <Container>
+      <div>Оповещения для вашей страницы</div>
+      <Close fontSize={20} onClick={deleteAllNotification} />
+    </Container>
+  );
 };
 
 export default Header;

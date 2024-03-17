@@ -5,7 +5,7 @@ import { IConfigAsyncThunk } from '../../../models/errors';
 import { ApiProfile } from '../../../models/IUser';
 
 export interface APINotifyItem {
-  id: number | null;
+  id: number;
   content: string;
   createdAt: string;
   sender: Omit<ApiProfile, 'roles'>;

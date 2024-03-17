@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { INotification, INotifyItem } from './model/INotification';
-import getAllNotification from '../../shared/api/http/notification/getAllNotification';
+import { deleteAllNotifications, getAllNotification, deleteNotification } from '../../shared/api';
 
 const initialState: INotification = {
   message: {
@@ -28,6 +28,14 @@ export const notificationSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllNotification.fulfilled, (state, { payload }) => {
       state.notifications = payload;
+    });
+    builder.addCase(deleteNotification.fulfilled, (state, { payload }) => {
+      state.notifications = state.notifications.filter(
+        (notification) => notification.id !== payload
+      );
+    });
+    builder.addCase(deleteAllNotifications.fulfilled, (state) => {
+      state.notifications = [];
     });
   },
 });

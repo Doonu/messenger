@@ -5,7 +5,7 @@ export type Types = 'error' | 'warning' | 'info' | 'success' | undefined;
 export type Levels = 'low' | 'medium' | 'height' | undefined;
 
 export interface INotifyItem {
-  id: number | null;
+  id: number;
   content: string;
   createdAt: string;
   sender: Omit<IUser, 'roles'>;

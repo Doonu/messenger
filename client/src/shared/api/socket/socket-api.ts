@@ -6,17 +6,15 @@ class SocketApi {
   static createConnection(userId: number) {
     this.socket = io('http://localhost:5000', {
       query: { user_id: userId },
-      autoConnect: false,
-      retries: 0,
     });
 
     this.socket.connect();
 
-    this.socket.once('connect', () => {
+    this.socket.on('connect', () => {
       console.log(`⚡: ${this.socket?.id} user just connected!`);
     });
 
-    this.socket.once('disconnect', () => {
+    this.socket.on('disconnect', () => {
       console.log('disconnected');
     });
   }

@@ -14,7 +14,7 @@ export const SContainer = styled.div`
   justify-content: center;
 `;
 
-export const SNotify = styled.div`
+export const SOnline = styled.div`
   width: 8px;
   height: 8px;
   border-radius: 99%;
