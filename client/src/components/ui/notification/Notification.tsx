@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { message as messageAntd, notification } from 'antd';
 import { clearMessage } from '../../../entities/notification/notification.slice';
 import notificationConfig from './lib/config';
+import { messagesSelectors } from '../../../entities/notification/notification.selectors';
 
 //TODO: Разобраться с типами
 //TODO: Сразу с компонентами делать лоадеры
@@ -12,7 +13,7 @@ const Notification = () => {
   const [messageApi, contextHolderMessage] = messageAntd.useMessage();
 
   const dispatch = useAppDispatch();
-  const { title, type, level } = useAppSelector((data) => data.notificationSlice.message);
+  const { title, type, level } = useAppSelector(messagesSelectors);
 
   useEffect(() => {
     if (level === 'medium' && title && type) {

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { SContainer, SImg } from './photo.styled';
-import Notify from '../../../shared/notify';
+import Online from '../../signals/online';
 
 interface IPhotoProfile {
   img: string;
@@ -39,7 +39,7 @@ const PhotoProfile: FC<IPhotoProfile> = ({
       left={left}
     >
       {isName && name[0]}
-      {status && <Notify />}
+      {status && <Online />}
     </SContainer>
   );
 };

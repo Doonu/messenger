@@ -24,13 +24,13 @@ const Router = () => {
             ? privateRoutes.map((route) => (
                 <>
                   <Route key={route.path} path={route.path} element={<route.component />} />
-                  {route.path && <Route path="/*" element={<Feed />} />}
+                  {route.path && <Route key={route.path} path="/*" element={<Feed />} />}
                 </>
               ))
             : publicRoutes.map((route) => (
                 <>
                   <Route key={route.path} path={route.path} element={<route.component />} />
-                  {route.path && <Route path="/*" element={<Login />} />}
+                  {route.path && <Route key={route.path} path="/*" element={<Login />} />}
                 </>
               ))}
         </Routes>

@@ -75,11 +75,19 @@ const ActionsProfile: FC<IActionsProfile> = ({
   };
 
   const baseHandler = () => {
-    idParam && getStatusFriendReq(+idParam);
+    if (idParam) {
+      getStatusFriendReq(+idParam);
+    }
+  };
+
+  const handlerNewFriendReq = () => {
+    if (idParam) {
+      getStatusFriendReq(+idParam);
+    }
   };
 
   useFriendRequest({
-    newFriendReqCallback: baseHandler,
+    newFriendReqCallback: handlerNewFriendReq,
     acceptedRequestCallback: handlerAddFriend,
     canselFriendRequestCallback: baseHandler,
     canselRequestCallback: baseHandler,

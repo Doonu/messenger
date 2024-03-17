@@ -1,24 +1,26 @@
 import {
-    BaseWsExceptionFilter,
     ConnectedSocket,
     MessageBody,
     OnGatewayConnection, OnGatewayDisconnect,
     SubscribeMessage,
     WebSocketGateway, WebSocketServer
 } from "@nestjs/websockets";
-import {UsersService} from "../../users/users.service";
+import {UsersService} from "../../users.service";
 import {FriendRequestDto} from "./dto/friend-request.dto";
-import {AcceptFriendRequestDto} from "../../users/dto/accept-friend-request.dto";
+import {AcceptFriendRequestDto} from "../../dto/accept-friend-request.dto";
 import { Server } from "socket.io";
-import {UseFilters} from "@nestjs/common";
+import {NotificationsService} from "../../../notifications/notifications.service";
 
 @WebSocketGateway({
     cors: {
         origin: ['http://localhost:3000'],
-    }
+    },
 })
 export class FriendRequestService implements OnGatewayConnection, OnGatewayDisconnect{
-    constructor(private usersService: UsersService) {
+    constructor(
+        private usersService: UsersService,
+        private notificationsService: NotificationsService
+    ) {
     }
 
     @WebSocketServer() server: Server;
@@ -48,13 +50,20 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
 
         await this.usersService.createFriendRequest({toUserId: toUser.id, fromUserId: fromUser.id})
 
+        const notification = await this.notificationsService.createNotifications({
+            userId: toUser.id,
+            senderId: fromUser.id,
+            content: `Вам отправил приглашения в друзья пользователь с именем - ${fromUser.name}`
+        })
+
+
         this.server.to(fromUser.socket_id).emit("new_friend_req", {
-            message: `Вы отправили приглашение в друзья ${toUser.name}`,
-            id: toUser.id,
+            message: `Вы отправили приглашение в друзья ${toUser.name}`
         })
 
         this.server.to(toUser.socket_id).emit("new_friend_req", {
-            message: `Вам отправил приглашения в друзья пользователь с именем - ${fromUser.name}`
+            message: `Вам отправил приглашения в друзья пользователь с именем - ${fromUser.name}`,
+            notification: notification
         })
     }
 
@@ -70,8 +79,15 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
 
         await this.usersService.deleteFriendRequest(receiver.id, sender.id);
 
+        const notification = await this.notificationsService.createNotifications({
+            userId: sender.id,
+            senderId: receiver.id,
+            content: `Пользователь ${receiver.name} принял запрос на дружбу`
+        })
+
         this.server.to(sender.socket_id).emit("request_accepted", {
-            message: `Пользователь ${receiver.name} принял запрос на дружбу`
+            message: `Пользователь ${receiver.name} принял запрос на дружбу`,
+            notification: notification
         })
         this.server.to(receiver.socket_id).emit("request_accepted", {
             message: `Вы приняли запрос дружбы от ${sender.name}`
@@ -87,10 +103,15 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
 
         await this.usersService.deleteFriendRequest(receiver.id, sender.id);
 
-        //TODO: Здесь удалять уведомления
+        const notification = await this.notificationsService.createNotifications({
+            userId: sender.id,
+            senderId: receiver.id,
+            content: `Пользователь ${receiver.name} не принял запрос на дружбу`
+        })
 
         this.server.to(sender.socket_id).emit("friend_cancellation", {
-            message: `Пользователь ${receiver.name} не принял запрос на дружбу`
+            message: `Пользователь ${receiver.name} не принял запрос на дружбу`,
+            notification: notification
         })
 
         this.server.to(receiver.socket_id).emit("friend_cancellation", {
@@ -107,12 +128,19 @@ export class FriendRequestService implements OnGatewayConnection, OnGatewayDisco
 
         await this.usersService.deleteFriendRequest(receiver.id, sender.id);
 
+        const notification = await this.notificationsService.createNotifications({
+            userId: receiver.id,
+            senderId: sender.id,
+            content: `Вы не успели ответить на запрос дружбы от пользователя ${sender.name}`
+        })
+
         this.server.to(sender.socket_id).emit("request_cancellation", {
             message: `Вы отменили свой запрос на дружбу для ${receiver.name}`
         })
 
         this.server.to(receiver.socket_id).emit("request_cancellation", {
-            message: `Вы не успели ответить на запрос дружбы от пользователя ${sender.name}`
+            message: `Вы не успели ответить на запрос дружбы от пользователя ${sender.name}`,
+            notification: notification
         })
     }
 }

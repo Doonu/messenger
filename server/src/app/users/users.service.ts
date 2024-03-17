@@ -14,9 +14,10 @@ import {ChangeConnectedDto} from "./dto/change-connected.dto";
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User) private userRepository: typeof User,
-              @InjectModel(FriendRequest) private friendRequestRepository: typeof FriendRequest,
-              private roleService: RolesService) {
+  constructor(
+      @InjectModel(User) private userRepository: typeof User,
+      @InjectModel(FriendRequest) private friendRequestRepository: typeof FriendRequest,
+      private roleService: RolesService) {
   }
 
   baseFieldUser = [ 'name', 'email', 'banned', 'banReason', 'id', 'imgSubstitute', 'socket_id', 'friends', 'statusConnected', 'timeConnected']
@@ -150,6 +151,6 @@ export class UsersService {
   // Создание friends requests
   async createFriendRequest(dto: CreateFriendRequestDto){
     const friendRequest = await this.friendRequestRepository.findOne({where: {senderId: dto.fromUserId, recipientId: dto.toUserId}})
-    if(!friendRequest) await this.friendRequestRepository.create({senderId: dto.fromUserId, recipientId: dto.toUserId})
+    if(!friendRequest?.id) await this.friendRequestRepository.create({senderId: dto.fromUserId, recipientId: dto.toUserId})
   }
 }

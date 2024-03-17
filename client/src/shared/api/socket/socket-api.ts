@@ -10,11 +10,11 @@ class SocketApi {
 
     this.socket.connect();
 
-    this.socket.once('connect', () => {
+    this.socket.on('connect', () => {
       console.log(`⚡: ${this.socket?.id} user just connected!`);
     });
 
-    this.socket.once('disconnect', () => {
+    this.socket.on('disconnect', () => {
       console.log('disconnected');
     });
   }

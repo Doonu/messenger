@@ -8,7 +8,10 @@ import { UpdatePostDto} from "../comments/dto/update-comment.dto";
 
 @Injectable()
 export class PostsService {
-    constructor(@InjectModel(Post) private postRepository: typeof Post, private fileService: FilesService) {
+    constructor(
+        @InjectModel(Post) private postRepository: typeof Post,
+        private fileService: FilesService
+    ) {
     }
 
     async create(dto: CreatePostDto, userId: number) {
