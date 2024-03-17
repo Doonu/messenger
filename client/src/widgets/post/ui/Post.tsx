@@ -1,13 +1,7 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { SContainer, STop } from './post.styled';
 import Restore from './restore';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import {
-  selectorDeletedPost,
-  selectorEditedPost,
-  selectorPost,
-  selectorWarningEdit,
-} from '../../../entities';
+import { useAppDispatch } from '../../../hooks/redux';
 import { IAllFiles } from '../../../shared/models/IPost';
 import Comments from './comments';
 import { switchWarningPost } from '../../../entities/post/post.slice';
