@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Bell } from '../../../shared/assets/icons';
 import { Dropdown } from 'antd';
 import Header from './ui/header';
-import { SContent, SNotificationBellStyled } from './ui/notificationBell.styled';
+import { SContent, SList, SNotificationBellStyled } from './ui/notificationBell.styled';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
 import { notificationSelectors } from '../../../entities/notification/notification.selectors';
 import { deleteAllNotifications, getAllNotification } from '../../../shared/api';
@@ -30,9 +30,11 @@ const NotificationBell = () => {
       dropdownRender={() => (
         <SNotificationBellStyled>
           <Header deleteAllNotification={handlerDeleteNotification} />
-          {notification.map((item) => (
-            <NotifyItem key={item.id} {...item} />
-          ))}
+          <SList>
+            {notification.map((item) => (
+              <NotifyItem key={item.id} {...item} />
+            ))}
+          </SList>
         </SNotificationBellStyled>
       )}
     >
