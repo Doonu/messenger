@@ -79,8 +79,8 @@ const Profile = () => {
         setProfilePage(data);
         dispatch(getFriends(id))
           .unwrap()
-          .then((data) => {
-            setProfileFriends(data);
+          .then((fetchedUser) => {
+            setProfileFriends(fetchedUser);
           })
           .catch(() => {});
       })
@@ -148,14 +148,10 @@ const Profile = () => {
 
           <SSidebars>
             {!!generalFriends.length && !isMe && (
-              <Friends
-                count={generalFriends.length}
-                friends={generalFriends}
-                title={'Общие друзья'}
-              />
+              <Friends friends={generalFriends} title={'Общие друзья'} />
             )}
             {!!profileFriends.length && (
-              <Friends count={profileFriends.length} friends={profileFriends} title={'Друзья'} />
+              <Friends isOnlineFriends friends={profileFriends} title={'Друзья'} />
             )}
           </SSidebars>
         </SContent>

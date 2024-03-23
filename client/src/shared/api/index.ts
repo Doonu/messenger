@@ -25,8 +25,9 @@ import getUser from './http/user/getUser';
 import getFriends from './http/user/getFriends';
 import getFriendRequest from './http/user/getFriendRequest';
 import deleteFriend from './http/user/deleteFriend';
+import getAllFriendRequests from './http/user/getAllFriendRequests';
 
-import deleteNotification from './http/notification/deleteNotifigation';
+import deleteNotification from './http/notification/deleteNotification';
 import deleteAllNotifications from './http/notification/deleteAllNotification';
 import getAllNotification from './http/notification/getAllNotification';
 
@@ -56,4 +57,5 @@ export {
   getUser,
   getFriendRequest,
   deleteFriend,
+  getAllFriendRequests,
 };

@@ -11,6 +11,7 @@ import {FriendRequest} from "./models/friendRequest.model";
 import {CreateFriendRequestDto} from "./dto/create-friendRequest.dto";
 import {AddFriendsDto} from "./dto/add-friends.dto";
 import {ChangeConnectedDto} from "./dto/change-connected.dto";
+import {IUserPossibleFriendsResponse} from "../../models/IUser";
 
 @Injectable()
 export class UsersService {
@@ -90,10 +91,52 @@ export class UsersService {
     if(user) await user.update({statusConnected: dto.connected, timeConnected: Date.now()})
   }
 
+  //TODO: педедаелать
+
   // Получение друзей
   async getFriends(dto: number){
     const user = await this.userRepository.findByPk(dto)
     return await Promise.all(user.friends.map(async (el) => this.userRepository.findOne({ attributes: this.baseFieldUser, where: {id: el} })));
+  }
+
+  //TODO: педедаелать
+
+  // Получение возможных друзей
+  async getPossibleFriends(userId: number){
+    const result: IUserPossibleFriendsResponse[] = [];
+
+    const user = await this.userRepository.findByPk(userId)
+    //
+    // await Promise.all(user.friends.map(async friendX => {
+    //   const friendUser = await this.userRepository.findByPk(friendX);
+    //
+    //   await Promise.all(friendUser.friends.map(async friendY => {
+    //     if(friendY !== user.id && !user.friends.includes(friendY)){
+    //       if(!result.length){
+    //         const friendUser = await this.userRepository.findByPk(friendY);
+    //         result.push({
+    //           countPossibleFriends: [friendY],
+    //           user: friendUser
+    //         })
+    //       }
+    //
+    //       result.forEach((friendZ, index) => {
+    //         if(!friendZ.countPossibleFriends.includes(friendY)){
+    //           if(friendZ.user.id === friendUser.id){
+    //             result[index].countPossibleFriends.push(friendY)
+    //           } else {
+    //             result.push({
+    //               countPossibleFriends: [...friendZ.countPossibleFriends, friendY],
+    //               user: friendUser
+    //             })
+    //           }
+    //         }
+    //       })
+    //     }
+    //   }))
+    // }))
+
+    return result
   }
 
   // Добавление друзей
@@ -125,8 +168,8 @@ export class UsersService {
   }
 
   // Получение всех friend requests
-  async getFriendRequests(recipientId: string){
-      return await this.friendRequestRepository.findAll({where: {recipientId: recipientId}})
+  async getFriendRequests(recipientId: number){
+    return await this.friendRequestRepository.findAll({where: {recipientId: recipientId}, include: {all: true}})
   }
 
   // Получение friend request по двум id

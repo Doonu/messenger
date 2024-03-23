@@ -9,6 +9,7 @@ import { RolesGuard } from "../auth/roles.guard";
 import { AddRoleDto } from "./dto/add-role.dto";
 import { BanUserDto } from "./dto/ban-user.dto";
 import {RegisterUserDto} from "./dto/register-user.dto";
+import {IUserPossibleFriendsResponse} from "../../models/IUser";
 
 @ApiTags("Пользователи")
 @Controller("users")
@@ -85,14 +86,21 @@ export class UsersController {
     return this.userService.deleteFriend(userId, id)
   }
 
-  @Get("/friendsRequest")
-  getFriendsRequest(@Body() dto: string){
-    return this.userService.getFriendRequests(dto);
+  @UseGuards(JwtAuthGuard)
+  @Post("/friendsAllRequests")
+  getFriendsRequest(@Req() {userId}: any){
+     return this.userService.getFriendRequests(userId);
   }
 
   @Get("/friendsRequest/:id")
   @UseGuards(JwtAuthGuard)
   getFriendRequest(@Req() {userId}: any, @Param("id") id: number){
     return this.userService.getFriendRequestByTwoID(userId, id)
+  }
+
+  @Get("/possibleFriends/:id")
+  // @UseGuards(JwtAuthGuard)
+  getPossibleFriends(@Param("id") userId: number){
+    return this.userService.getPossibleFriends(userId)
   }
 }

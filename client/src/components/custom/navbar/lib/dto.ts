@@ -1,6 +1,6 @@
 import { IRoute, RoutesNamesPrivate } from '../../../../app/routes';
 import { AiFillHome, AiFillMessage } from 'react-icons/ai';
-import { MdFavorite } from 'react-icons/md';
+import { FaUsers } from 'react-icons/fa';
 import { BsNewspaper } from 'react-icons/bs';
 
 type NavbarProps = IRoute;
@@ -25,9 +25,9 @@ export const NavbarDto: NavbarProps[] = [
     description: 'Мессенджер',
   },
   {
-    path: RoutesNamesPrivate.FAVORITE,
-    type: 'Favorite',
-    component: MdFavorite,
-    description: 'Любимые',
+    path: RoutesNamesPrivate.USERS,
+    type: 'Users',
+    component: FaUsers,
+    description: 'Друзья',
   },
 ];

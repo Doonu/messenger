@@ -3,7 +3,7 @@ import SocketApi from '../socket-api';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { selectorProfile } from '../../../../entities';
 import { addNotification, showMessage } from '../../../../entities/notification/notification.slice';
-import { Types } from '../../../../entities/notification/model/INotification';
+import { Types } from '../../../models/INotification';
 import { APINotifyItem } from '../../http/notification/getAllNotification';
 import { friendRequestConverting } from './friendRequest.converting';
 

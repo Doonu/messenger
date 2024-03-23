@@ -1,7 +1,7 @@
 import React from 'react';
 import { SClose, SContent, SDate, SInfo, SNotifyItem, SUser } from './notifyItem.styled';
 import PhotoProfile from '../../../profiles/photo';
-import { INotifyItem } from '../../../../../entities/notification/model/INotification';
+import { INotifyItem } from '../../../../../shared/models/INotification';
 import { postTime } from '../../../../../shared/util/time';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../../../hooks/redux';

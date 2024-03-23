@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { IUser } from '../../../shared/models/IUser';
+import { IUser } from './IUser';
 
 export type Types = 'error' | 'warning' | 'info' | 'success' | undefined;
 export type Levels = 'low' | 'medium' | 'height' | undefined;

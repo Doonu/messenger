@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 import { showMessage } from '../../../../entities/notification/notification.slice';
 import { logout } from '../../../../entities/auth/auth.slice';
 import { ApiProfile, IUser } from '../../../models/IUser';
+import { userConverting } from '../../../converteitions';
 
 const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
   'auth/getProfile',
@@ -14,23 +15,7 @@ const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
       url: `api/users/profile`,
       method: 'POST',
     })
-      .then(({ data }) => ({
-        name: data.name,
-        email: data.email,
-        banned: data.banned,
-        id: data.id,
-        banReason: data.banReason,
-        avatar: data.imgSubstitute || 'тут будет картинка',
-        friends: data.friends,
-        statusConnected: data.statusConnected,
-        timeConnected: data.timeConnected,
-        roles: data.roles.map(({ value, createdAt }) => {
-          return {
-            value,
-            createdAt,
-          };
-        }),
-      }))
+      .then(({ data }) => userConverting(data))
       .catch(({ response }: AxiosError<IError>) => {
         const title = response?.data.message || 'Неизвестная ошибка';
         dispatch(logout());

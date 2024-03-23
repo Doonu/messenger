@@ -1,14 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import API from '../../interceptors';
-import { INotifyItem } from '../../../../entities/notification/model/INotification';
+import { INotifyItem } from '../../../models/INotification';
 import { IConfigAsyncThunk } from '../../../models/errors';
 import { ApiProfile } from '../../../models/IUser';
+import { userConverting } from '../../../converteitions';
 
 export interface APINotifyItem {
   id: number;
   content: string;
   createdAt: string;
-  sender: Omit<ApiProfile, 'roles'>;
+  sender: ApiProfile;
 }
 
 const getAllNotification = createAsyncThunk<INotifyItem[], undefined, IConfigAsyncThunk>(
@@ -24,17 +25,7 @@ const getAllNotification = createAsyncThunk<INotifyItem[], undefined, IConfigAsy
             id: id,
             content: content,
             createdAt: createdAt,
-            sender: {
-              name: sender.name,
-              email: sender.email,
-              banned: sender.banned,
-              id: sender.id,
-              banReason: sender.banReason,
-              avatar: sender.imgSubstitute || 'тут будет картинка',
-              friends: sender.friends,
-              statusConnected: sender.statusConnected,
-              timeConnected: sender.timeConnected,
-            },
+            sender: userConverting(sender),
           };
         });
       })
