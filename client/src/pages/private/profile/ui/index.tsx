@@ -4,11 +4,10 @@ import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { IUser } from '../../../../shared/models/IUser';
 import AllContainer from '../../../../components/layouts/all';
 import { getAllPost, getUser } from '../../../../shared/api';
-import getFriends from '../../../../shared/api/http/user/getFriends';
+import getAllFriends from '../../../../shared/api/http/user/getAllFriends';
 import ActionsProfile from './actionsProfile';
 import ObserverList from '../../../../components/custom/lists/ObserverList/ui';
-import { Post } from '../../../../widgets/post';
-import SkeletonPost from '../../../../widgets/post/ui/skeleton';
+import { Post } from '../../../../widgets/items/post';
 import { DraggableContainer, SContent, SSidebars, ViewContainer } from './Profile.styled';
 import {
   selectorDeletedPost,
@@ -22,8 +21,9 @@ import {
   selectorWarningEdit,
 } from '../../../../entities';
 import { addPage, setAllPosts } from '../../../../entities/post/post.slice';
-import AddPost from '../../../../widgets/addPost';
+import AddPost from '../../../../widgets/forms/addPost';
 import Friends from '../../../../features/friends';
+import SkeletonPost from '../../../../widgets/items/post/ui/skeleton';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -77,7 +77,7 @@ const Profile = () => {
       .unwrap()
       .then((data) => {
         setProfilePage(data);
-        dispatch(getFriends(id))
+        dispatch(getAllFriends(id))
           .unwrap()
           .then((fetchedUser) => {
             setProfileFriends(fetchedUser);

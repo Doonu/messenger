@@ -94,9 +94,20 @@ export class UsersService {
   //TODO: педедаелать
 
   // Получение друзей
-  async getFriends(dto: number){
-    const user = await this.userRepository.findByPk(dto)
+  async getAllFriends(id: number){
+    const user = await this.userRepository.findByPk(id)
     return await Promise.all(user.friends.map(async (el) => this.userRepository.findOne({ attributes: this.baseFieldUser, where: {id: el} })));
+  }
+
+  async getFriends(id: number, page: number, search: string){
+    let currentPage = page - 1;
+    const currentLimit = 5;
+
+    const user = await this.userRepository.findByPk(id)
+    const fullFriends =  await Promise.all(user.friends.slice(currentPage === 0 ? 0 : currentPage * currentLimit, (currentPage * currentLimit) + currentLimit).map(async (el) => this.userRepository.findOne({ attributes: this.baseFieldUser, where: {id: el} })));
+
+    if(search) return fullFriends.filter(friend => friend.name.includes(search))
+    return fullFriends
   }
 
   //TODO: педедаелать

@@ -1,7 +1,7 @@
 import { InputProps } from 'antd/es/input/Input';
 import { ReactNode } from 'react';
 
-export type InputBorder = 'all' | 'right' | 'left' | 'none';
+export type InputBorder = 'all' | 'right' | 'left' | 'none' | 'rightNone';
 
 export interface IInput extends InputProps {
   border?: InputBorder;

@@ -6,11 +6,18 @@ import { AxiosError } from 'axios';
 import { showMessage } from '../../../../entities/notification/notification.slice';
 import { userConvertingArray } from '../../../converteitions';
 
-const getFriends = createAsyncThunk<IUser[], number, IConfigAsyncThunk>(
+interface IGetFriends {
+  id: number;
+  page: number;
+  search: string;
+}
+
+const getFriends = createAsyncThunk<IUser[], IGetFriends, IConfigAsyncThunk>(
   'auth/getFriends',
-  (id, { rejectWithValue, dispatch }) => {
+  ({ page, id, search }, { rejectWithValue, dispatch }) => {
     return API<ApiProfile[]>({
       url: `api/users/friends/${id}`,
+      params: { page: page, search: search },
     })
       .then(({ data }) => {
         return userConvertingArray(data);

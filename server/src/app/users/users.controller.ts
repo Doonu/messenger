@@ -1,4 +1,4 @@
-import {Body, Controller, Delete, Get, Param, Post, Req, UseGuards} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards} from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { DeleteUserDto } from "./dto/delete-user.dto";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
@@ -9,7 +9,6 @@ import { RolesGuard } from "../auth/roles.guard";
 import { AddRoleDto } from "./dto/add-role.dto";
 import { BanUserDto } from "./dto/ban-user.dto";
 import {RegisterUserDto} from "./dto/register-user.dto";
-import {IUserPossibleFriendsResponse} from "../../models/IUser";
 
 @ApiTags("Пользователи")
 @Controller("users")
@@ -75,9 +74,19 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get("/allFriends/:id")
+  getAllFriends(@Param("id") id: number){
+    return this.userService.getAllFriends(id);
+  }
+
+  // @UseGuards(JwtAuthGuard)
   @Get("/friends/:id")
-  getFriends(@Param("id") id: number){
-    return this.userService.getFriends(id);
+  getFriends(
+      @Param("id") id: number,
+      @Query("page") page: number,
+      @Query('search') search: string
+  ){
+    return this.userService.getFriends(id, page, search);
   }
 
   @UseGuards(JwtAuthGuard)

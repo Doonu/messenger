@@ -18,6 +18,7 @@ const Input: FC<IInput> = ({
     if (border === 'left') return '0 20px 20px 0';
     if (border === 'right') return '20px 0 0 20px';
     if (border === 'none') return '5px';
+    if (border === 'rightNone') return '5px 0 0 5px';
     else return '20px';
   }, [border]);
 

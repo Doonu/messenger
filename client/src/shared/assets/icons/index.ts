@@ -8,7 +8,7 @@ import { FaPaintBrush, FaPenFancy, FaRegHeart } from 'react-icons/fa';
 import { IoMdClose, IoMdHeart } from 'react-icons/io';
 import { TbShare3 } from 'react-icons/tb';
 import { GoComment } from 'react-icons/go';
-import { SlMagnifierAdd } from 'react-icons/sl';
+import { SlMagnifier } from 'react-icons/sl';
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 import { FaPen } from 'react-icons/fa';
 import { PiTextAa } from 'react-icons/pi';
@@ -106,7 +106,7 @@ export const Close = styled(IoMdClose)`
   cursor: pointer;
 `;
 
-export const Magnifier = styled(SlMagnifierAdd).attrs({
+export const Magnifier = styled(SlMagnifier).attrs({
   size: 20,
 })`
   color: ${({ theme }) => theme.colors.active};

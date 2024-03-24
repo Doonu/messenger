@@ -1,7 +1,6 @@
 import React from 'react';
 import { SBaseContainer } from './login.styled';
-
-import { LoginForm } from '../../../../widgets/login';
+import { LoginForm } from '../../../../widgets/forms/login';
 
 const Login = () => {
   return (

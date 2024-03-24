@@ -5,8 +5,8 @@ export interface IObserverList<T, K> {
   itemContent: (element: T) => React.ReactNode;
   fetchNextPage: () => void;
   hasMore: boolean;
+  skeleton: () => React.ReactNode;
   notFoundMessage: string;
   isPending?: boolean;
   isFetching?: boolean;
-  skeleton: () => React.ReactNode;
 }

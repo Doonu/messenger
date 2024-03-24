@@ -16,7 +16,7 @@ const ListFriends: FC<IListFriends> = ({ users, title, isBorder = false }) => {
 
   return (
     <SContainer $isBorder={isBorder}>
-      <STitle onClick={() => navigate('/users')}>
+      <STitle onClick={() => navigate('/friends')}>
         <span>{title}</span> {users.length}
       </STitle>
       <SUsers>

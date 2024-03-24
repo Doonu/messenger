@@ -3,7 +3,7 @@ import React from 'react';
 import { SContainer, SMainProfile, STitle, SWrapper } from './header.styled';
 import Navbar from '../../../custom/navbar';
 import Logo from '../../../custom/logo';
-import GlobalSearch from '../../../../widgets/globalSearch/ui/SearchForm';
+import GlobalSearch from '../../../../widgets/forms/globalSearch/ui/SearchForm';
 import NotificationBell from '../../../custom/notificationBell';
 
 const Header = () => {

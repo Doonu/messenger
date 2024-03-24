@@ -28,7 +28,7 @@ export enum RoutesNamesPrivate {
   DIALOG = '/dialog',
   FAVORITE = '/favorite',
   FEED = '/',
-  USERS = '/users',
+  USERS = '/friends',
 }
 
 export enum RoutesNamesPublic {
