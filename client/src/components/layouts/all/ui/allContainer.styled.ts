@@ -15,4 +15,5 @@ export const SAffixContainer = styled.div`
 export const SCenter = styled.div`
   margin: 0 auto;
   flex: 1;
+  min-height: calc(100vh - 200px);
 `;

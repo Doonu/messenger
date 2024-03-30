@@ -38,6 +38,9 @@ export const friendsSlice = createSlice({
     setSearch: (state, { payload }: PayloadAction<string>) => {
       state.search = payload;
     },
+    addFriend: (state, { payload }: PayloadAction<IUser>) => {
+      state.friends = [payload, ...state.friends];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getFriends.fulfilled, (state, { payload }) => {
@@ -57,5 +60,5 @@ export const friendsSlice = createSlice({
   },
 });
 
-export const { setAllFriends, addPage, setSearch } = friendsSlice.actions;
+export const { setAllFriends, addPage, setSearch, addFriend } = friendsSlice.actions;
 export default friendsSlice.reducer;

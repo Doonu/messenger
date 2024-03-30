@@ -27,6 +27,7 @@ import getFriendRequest from './http/user/getFriendRequest';
 import deleteFriend from './http/user/deleteFriend';
 import getAllFriendRequests from './http/user/getAllFriendRequests';
 import getFriends from './http/user/getAllFriends';
+import getUsersExceptFriends from './http/user/getUsersExceptFriends';
 
 import deleteNotification from './http/notification/deleteNotification';
 import deleteAllNotifications from './http/notification/deleteAllNotification';
@@ -60,4 +61,5 @@ export {
   getFriendRequest,
   deleteFriend,
   getAllFriendRequests,
+  getUsersExceptFriends,
 };

@@ -28,7 +28,7 @@ const Friends: FC<IFriends> = ({ friends, title, isOnlineFriends = false }) => {
           users={connectedUsers}
         />
       )}
-      {!!notConnectedUsers.length && <ListFriends title={title} users={notConnectedUsers} />}
+      {!!friends.length && <ListFriends title={title} users={friends} />}
     </SContainer>
   );
 };

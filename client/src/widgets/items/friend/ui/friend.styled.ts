@@ -1,4 +1,12 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+export const SInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: start;
+  margin-top: 5px;
+`;
 
 export const SName = styled.div`
   color: ${({ theme }) => theme.colors.active};
@@ -9,21 +17,35 @@ export const SName = styled.div`
   &:hover {
     text-decoration: underline;
   }
+
+  & > span {
+    color: ${({ theme }) => theme.colors.text};
+  }
 `;
 
-export const SService = styled.div`
-  display: flex;
-  margin-left: -15px;
-`;
+interface ISContainer {
+  $isBorderFirst: boolean;
+}
 
-export const SContainer = styled.div`
+export const SContainer = styled.div<ISContainer>`
+  padding: 10px 0 0 0;
+
   display: flex;
   gap: 20px;
   cursor: pointer;
+  border-top: 1px solid ${({ theme }) => theme.colors.secondaryText};
+
+  ${({ $isBorderFirst }) =>
+    !$isBorderFirst &&
+    css`
+      &:first-child {
+        border-top: 0;
+      }
+    `}
 `;
 
-export const SInfo = styled.div`
+export const SServices = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
+  flex: 1;
 `;

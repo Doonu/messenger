@@ -9,6 +9,7 @@ import { RolesGuard } from "../auth/roles.guard";
 import { AddRoleDto } from "./dto/add-role.dto";
 import { BanUserDto } from "./dto/ban-user.dto";
 import {RegisterUserDto} from "./dto/register-user.dto";
+import {ExceptFriendsDto} from "./dto/exceptFriends.dto";
 
 @ApiTags("Пользователи")
 @Controller("users")
@@ -36,6 +37,14 @@ export class UsersController {
   @Get()
   getAll() {
     return this.userService.getAllUsers();
+  }
+
+  @ApiOperation({ summary: "Получение всех пользователей кроме друзей" })
+  @ApiResponse({ status: 200, type: [User] })
+  @UseGuards(JwtAuthGuard)
+  @Post("/usersExceptFriends")
+  getAllExceptFriends(@Req() {userId}: any, @Body() {search}: ExceptFriendsDto){
+    return this.userService.getAllUsersExceptFriends(userId, search)
   }
 
   @ApiOperation({ summary: "Выдать роль" })
@@ -79,7 +88,7 @@ export class UsersController {
     return this.userService.getAllFriends(id);
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get("/friends/:id")
   getFriends(
       @Param("id") id: number,
@@ -108,7 +117,7 @@ export class UsersController {
   }
 
   @Get("/possibleFriends/:id")
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   getPossibleFriends(@Param("id") userId: number){
     return this.userService.getPossibleFriends(userId)
   }

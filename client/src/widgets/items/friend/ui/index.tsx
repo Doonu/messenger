@@ -1,25 +1,48 @@
-import React, { FC } from 'react';
-import { IUser } from '../../../../shared/models/IUser';
-import { SContainer, SInfo, SName, SService } from './friend.styled';
+import React, { FC, useState } from 'react';
+import { SContainer, SInfo, SName, SServices } from './friend.styled';
 import PhotoProfile from '../../../../components/custom/profiles/photo';
-import BaseButton from '../../../../components/ui/buttons/baseButton';
 import { useNavigate } from 'react-router-dom';
+import { IFriend } from '../model/IFriend';
+import WriteMessage from './writeMessage';
+import AddFriend from './addFriend';
+import { useAppSelector } from '../../../../hooks/redux';
+import { selectorProfile } from '../../../../entities';
+import SocketApi from '../../../../shared/api/socket/socket-api';
 
-const Friend: FC<IUser> = (user) => {
+const Friend: FC<IFriend> = ({ user, type, isBorderFirst = true }) => {
+  const profile = useAppSelector(selectorProfile);
+
+  const [viewAddFriendService, setViewAddFriendService] = useState(false);
+
   const navigate = useNavigate();
 
+  const handlerFriendRequestWS = () => {
+    SocketApi.socket?.emit('friend_request', {
+      to: user.id,
+      from: profile.id,
+    });
+
+    setViewAddFriendService(true);
+  };
+
   return (
-    <SContainer onClick={() => navigate(`/profile/${user.id}`)}>
-      <PhotoProfile size={70} img={user.avatar} name={user.name} />
-      <SInfo>
-        <SName>
-          {user.name} ({user.friends.length} друзей)
-        </SName>
-        <SService>
-          <BaseButton bgTransparent>Написать сообщение</BaseButton>
-          <BaseButton bgTransparent>Позвонить</BaseButton>
-        </SService>
-      </SInfo>
+    <SContainer $isBorderFirst={isBorderFirst}>
+      <PhotoProfile status={user.statusConnected} size={60} img={user.avatar} name={user.name} />
+      <SServices>
+        <SInfo>
+          <SName onClick={() => navigate(`/profile/${user.id}`)}>
+            {user.name} <span>({user.friends.length} друзей)</span>
+          </SName>
+          {type === 'friend' && <WriteMessage />}
+        </SInfo>
+        {type === 'notFriend' && (
+          <AddFriend
+            isSendFriend={user.isSendFriend}
+            viewAddFriendService={viewAddFriendService}
+            addFriendHandler={handlerFriendRequestWS}
+          />
+        )}
+      </SServices>
     </SContainer>
   );
 };

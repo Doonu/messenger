@@ -7,6 +7,8 @@ import { SButtons } from '../post/ui/modification/modification.styled';
 import BaseButton from '../../../components/ui/buttons/baseButton';
 import { SContainer, SContent, SName } from './applicationFriend.styled';
 import { useNavigate } from 'react-router-dom';
+import { addFriend } from '../../../entities/friends/friends.slice';
+import { useAppDispatch } from '../../../hooks/redux';
 
 interface IItemApplicationsFriends {
   request: IAllFriendRequests;
@@ -14,6 +16,7 @@ interface IItemApplicationsFriends {
 }
 
 const ApplicationFriend: FC<IItemApplicationsFriends> = ({ request, filterRequest }) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handlerFriendAcceptWS = () => {
@@ -22,6 +25,7 @@ const ApplicationFriend: FC<IItemApplicationsFriends> = ({ request, filterReques
     });
 
     filterRequest(request?.id);
+    dispatch(addFriend(request.sender));
   };
 
   const handlerCancellationAddFriendWS = () => {
@@ -33,7 +37,7 @@ const ApplicationFriend: FC<IItemApplicationsFriends> = ({ request, filterReques
   };
 
   return (
-    <SContainer key={request.id} onClick={() => navigate(request.sender.id)}>
+    <SContainer key={request.id} onClick={() => navigate(`/profile/${request.sender.id}`)}>
       <PhotoProfile size={70} img={request.sender.avatar} name={request.sender.name} />
       <SContent>
         <SName>{request.sender.name}</SName>
