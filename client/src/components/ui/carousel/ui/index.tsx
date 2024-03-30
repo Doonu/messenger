@@ -1,11 +1,8 @@
 import React, { useEffect, FC, KeyboardEvent, useRef } from 'react';
 import { SCarouselAntd, SContainer, SImgContainer } from './carousel.styled';
-import {
-  SArrowLeft,
-  SArrowRight,
-} from '../../../navigation/modal/content/previewPhoto/ui/previewPhoto.styled';
+import { SArrowLeft, SArrowRight } from './carousel.styled';
 import { CarouselRef } from 'antd/es/carousel';
-import BigPhoto from '../../../custom/photos/bigPhoto';
+import BigPhoto from 'components/custom/photos/bigPhoto';
 import { ICarousel } from '../model/ICarousel';
 
 const Carousel: FC<ICarousel> = ({

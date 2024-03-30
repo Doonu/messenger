@@ -1,12 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ILikeComments } from '../../../models/IPost';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
-import API from '../../interceptors';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
+import { ILikeComments } from 'shared/models/IPost';
+import { IConfigAsyncThunk } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
 
 const likeComments = createAsyncThunk<ILikeComments, number, IConfigAsyncThunk>(
   'comments/like',

@@ -11,16 +11,16 @@ import {
   SLeft,
   SRight,
 } from './previewPhoto.styled';
-import getProfile from '../../../../../../shared/api/http/user/getProfile';
-import { useAppDispatch } from '../../../../../../hooks/redux';
-import MainPostProfile from '../../../../../custom/profiles/mainPost';
-import { Like } from '../../../../../ui/buttons/likesButton/like';
-import { Slice } from '../../../../../custom/slice';
-import { IAllFiles, IFilesPost } from '../../../../../../shared/models/IPost';
-import PhotoEditor from '../../../../../../features/photoEditor';
-import Carousel from '../../../../../ui/carousel/ui';
-import { IUser } from '../../../../../../shared/models/IUser';
-import replace from '../../../../../../shared/api/http/files/replace';
+import getProfile from 'shared/api/http/user/getProfile';
+import { useAppDispatch } from 'hooks/redux';
+import MainPostProfile from 'components/custom/profiles/mainPost';
+import { Like } from 'components/ui/buttons/likesButton/like';
+import { Slice } from 'components/custom/slice';
+import { IAllFiles, IFilesPost } from 'shared/models/IPost';
+import PhotoEditor from 'features/photoEditor';
+import Carousel from 'components/ui/carousel/ui';
+import { IUser } from 'shared/models/IUser';
+import replace from 'shared/api/http/files/replace';
 
 interface PreviewPhotoProps {
   list: IFilesPost[];

@@ -2,11 +2,10 @@ import React, { FC } from 'react';
 import { moreItemsDropdown } from '../../lib/moreOptions';
 import { SMore } from './more.styled';
 import { IPost } from '../../model/shared';
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
-import { editPost } from '../../../../../entities/post/post.slice';
-import toggleCommentsById from '../../../../../shared/api/http/post/toggleCommentsById';
-import deletePostById from '../../../../../shared/api/http/post/deletePostById';
-import { selectorProfile } from '../../../../../entities';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { editPost } from 'entities/post/post.slice';
+import { toggleCommentsById, deletePostById } from 'shared/api';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 import { Dropdown } from 'antd';
 
 const More: FC<IPost> = ({ post }) => {

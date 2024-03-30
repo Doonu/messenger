@@ -1,4 +1,4 @@
-import { IAllFiles } from '../../../shared/models/IPost';
+import { IAllFiles } from 'shared/models/IPost';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface IPhotos {

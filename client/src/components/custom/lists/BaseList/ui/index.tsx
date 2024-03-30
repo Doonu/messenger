@@ -1,6 +1,6 @@
 import React from 'react';
 import { IBaseList } from '../model/IBaseList';
-import { LoaderSmall } from '../../../../ui/loaders';
+import { LoaderSmall } from 'components/ui/loaders';
 import { SContainerComments, SMore } from './baseList.styled';
 
 const BaseList = <T, K>({

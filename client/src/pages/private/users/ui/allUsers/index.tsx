@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import { SContainerUsers, SText, STitle } from '../user.styled';
-import BaseButton from '../../../../../components/ui/buttons/baseButton';
+import BaseButton from 'components/ui/buttons/baseButton';
 import { TbListSearch } from 'react-icons/tb';
-import { Friend } from '../../../../../widgets/items/friend';
-import { IUserExcept } from '../../../../../shared/api/http/user/getUsersExceptFriends';
+import { Friend } from 'widgets/items/friend';
+import { IUserExcept } from 'shared/models/IUser';
 
 interface IAllUsers {
   users: IUserExcept[];

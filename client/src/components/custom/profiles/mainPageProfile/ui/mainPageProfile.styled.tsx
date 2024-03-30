@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import { BlockContainer } from '../../../../../shared/styles/containers';
-import BaseButton from '../../../../ui/buttons/baseButton';
-import { Comment } from '../../../../../shared/assets/icons';
+import { BlockContainer } from 'shared/styles/containers';
+import BaseButton from 'components/ui/buttons/baseButton';
+import { Comment } from 'shared/assets/icons';
 
 export const SBlockContainer = styled(BlockContainer)`
   margin-bottom: 15px;

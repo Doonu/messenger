@@ -1,16 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../interceptors';
-import { INotifyItem } from '../../../models/INotification';
-import { IConfigAsyncThunk } from '../../../models/errors';
-import { ApiProfile } from '../../../models/IUser';
-import { userConverting } from '../../../converteitions';
-
-export interface APINotifyItem {
-  id: number;
-  content: string;
-  createdAt: string;
-  sender: ApiProfile;
-}
+import API from 'shared/api/interceptors';
+import { APINotifyItem, INotifyItem } from 'shared/models/INotification';
+import { IConfigAsyncThunk } from 'shared/models/errors';
+import { userConverting } from 'shared/converteitions';
 
 const getAllNotification = createAsyncThunk<INotifyItem[], undefined, IConfigAsyncThunk>(
   'notification/getAll',

@@ -1,4 +1,4 @@
-import { InvisibleIcon, VisibleIcon } from '../../../../../shared/assets';
+import { InvisibleIcon, VisibleIcon } from 'shared/assets';
 import { IVariantType } from '../model/IInput';
 
 export const allVariantType: IVariantType[] = [

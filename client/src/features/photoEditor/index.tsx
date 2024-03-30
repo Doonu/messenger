@@ -1,11 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
-import { IFilesPost } from '../../shared/models/IPost';
+import { IFilesPost } from 'shared/models/IPost';
 import { SActionChange, SActions, SaveImage, SContainer, SPicture } from './photoEditor.styled';
 import Toolbar from './ui/Toolbar';
 import { IActionType } from './model/IToolbar';
-import { useDraw } from '../../hooks/draw/draw';
-import { Draw } from '../../hooks/draw/draw.types';
-import BaseButton from '../../components/ui/buttons/baseButton';
+import { useDraw } from 'hooks/draw/draw';
+import { Draw } from 'hooks/draw/draw.types';
+import BaseButton from 'components/ui/buttons/baseButton';
 
 interface IPhotoEditor {
   image: IFilesPost;

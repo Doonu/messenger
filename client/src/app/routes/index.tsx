@@ -2,19 +2,19 @@ import { ComponentType, lazy } from 'react';
 
 // TODO: разобраться с этим
 // @ts-ignore
-const Dialog = lazy(() => import('../../pages/private/dialog'));
+const Dialog = lazy(() => import('pages/private/dialog'));
 // @ts-ignore
-const Favorite = lazy(() => import('../../pages/private/favorite'));
+const Favorite = lazy(() => import('pages/private/favorite'));
 // @ts-ignore
-const Login = lazy(() => import('../../pages/public/login'));
+const Login = lazy(() => import('pages/public/login'));
 // @ts-ignore
-const Registration = lazy(() => import('../../pages/public/registration'));
+const Registration = lazy(() => import('pages/public/registration'));
 // @ts-ignore
-const Feed = lazy(() => import('../../pages/private/feed/ui'));
+const Feed = lazy(() => import('pages/private/feed/ui'));
 // @ts-ignore
-const Profile = lazy(() => import('../../pages/private/profile'));
+const Profile = lazy(() => import('pages/private/profile'));
 // @ts-ignore
-const Users = lazy(() => import('../../pages/private/users'));
+const Users = lazy(() => import('pages/private/users'));
 
 export interface IRoute {
   path: string;

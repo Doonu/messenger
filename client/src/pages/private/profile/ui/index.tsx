@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { IUser } from '../../../../shared/models/IUser';
-import AllContainer from '../../../../components/layouts/all';
-import { getAllPost, getUser } from '../../../../shared/api';
-import getAllFriends from '../../../../shared/api/http/user/getAllFriends';
+import { IUser } from 'shared/models/IUser';
+import AllContainer from 'components/layouts/all';
+import { getAllPost, getUser } from 'shared/api';
+import getAllFriends from 'shared/api/http/user/getAllFriends';
 import ActionsProfile from './actionsProfile';
-import ObserverList from '../../../../components/custom/lists/ObserverList/ui';
-import { Post } from '../../../../widgets/items/post';
+import ObserverList from 'components/custom/lists/ObserverList/ui';
+import { Post } from 'widgets/items/post';
 import { DraggableContainer, SContent, SSidebars, ViewContainer } from './Profile.styled';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 import {
   selectorDeletedPost,
   selectorEditedPost,
@@ -17,13 +18,12 @@ import {
   selectorLoadingPosts,
   selectorPagePost,
   selectorPost,
-  selectorProfile,
   selectorWarningEdit,
-} from '../../../../entities';
-import { addPage, setAllPosts } from '../../../../entities/post/post.slice';
-import AddPost from '../../../../widgets/forms/addPost';
-import Friends from '../../../../features/friends';
-import SkeletonPost from '../../../../widgets/items/post/ui/skeleton';
+} from 'entities/post/post.selectors';
+import { addPage, setAllPosts } from 'entities/post/post.slice';
+import AddPost from 'widgets/forms/addPost';
+import Friends from 'features/friends';
+import SkeletonPost from 'widgets/items/post/ui/skeleton';
 
 const Profile = () => {
   const dispatch = useAppDispatch();

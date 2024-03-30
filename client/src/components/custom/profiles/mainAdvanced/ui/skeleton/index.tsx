@@ -6,7 +6,7 @@ import {
   SInputAbsoluteSkeleton,
   SInputSkeleton,
 } from './mainAdvancedProfileSkeleton.styled';
-import { BlockContainer } from '../../../../../../shared/styles/containers';
+import { BlockContainer } from 'shared/styles/containers';
 
 const SkeletonMainAdvancedProfile = () => {
   return (

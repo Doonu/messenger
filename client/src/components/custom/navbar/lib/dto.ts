@@ -1,4 +1,4 @@
-import { IRoute, RoutesNamesPrivate } from '../../../../app/routes';
+import { IRoute, RoutesNamesPrivate } from 'app/routes';
 import { AiFillHome, AiFillMessage } from 'react-icons/ai';
 import { FaUsers } from 'react-icons/fa';
 import { BsNewspaper } from 'react-icons/bs';

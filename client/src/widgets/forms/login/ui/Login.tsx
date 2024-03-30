@@ -11,10 +11,9 @@ import {
 } from './login.styled';
 import { SForm, SLogo, SLogoContainer, STitle } from './login.styled';
 import { ILogin } from '../model/ILogin';
-import { useAppDispatch } from '../../../../hooks/redux';
-import postLogin from '../../../../shared/api/http/auth/postLogin';
-import getProfile from '../../../../shared/api/http/user/getProfile';
-import { ContainerAuth } from '../../../../shared/styles/containers';
+import { useAppDispatch } from 'hooks/redux';
+import { postLogin, getProfile } from 'shared/api';
+import { ContainerAuth } from 'shared/styles/containers';
 
 //TODO: Сделать мобилку
 //TODO: Разбить на компоненты

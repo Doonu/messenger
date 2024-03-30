@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import AutosizeInput from '../../../../../components/ui/inputs/autosizeInput';
+import AutosizeInput from 'components/ui/inputs/autosizeInput';
 
 interface SDragFieldProps {
   isFocus: boolean;

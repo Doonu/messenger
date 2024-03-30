@@ -1,13 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPostState, IRecalculationOfComments } from './model/IPost';
-import postCreate from '../../shared/api/http/post/postCreate';
-import getAllPost from '../../shared/api/http/post/getAllPost';
-import deletePostById from '../../shared/api/http/post/deletePostById';
-import restorePostById from '../../shared/api/http/post/restorePostById';
-import toggleCommentsById from '../../shared/api/http/post/toggleCommentsById';
-import { ILikePost, IToggleCommentsById } from '../../shared/models/IPost';
-import likePost from '../../shared/api/http/post/likePost';
-import updatePost from '../../shared/api/http/post/updatePost';
+import { ILikePost, IToggleCommentsById } from 'shared/models/IPost';
+import likePost from 'shared/api/http/post/likePost';
+import {
+  updatePost,
+  postCreate,
+  getAllPost,
+  deletePostById,
+  restorePostById,
+  toggleCommentsById,
+} from 'shared/api';
 
 interface postsState {
   posts: IPostState[];

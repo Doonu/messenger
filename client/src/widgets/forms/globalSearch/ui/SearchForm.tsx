@@ -3,8 +3,8 @@ import { ISearch } from '../model/ISearch';
 import { ContainerSearch, SContainerForm } from './searchForm.styled';
 import { Formik } from 'formik';
 import { Form } from 'antd';
-import BaseInput from '../../../../components/ui/inputs/baseInput';
-import BaseButton from '../../../../components/ui/buttons/baseButton';
+import BaseInput from 'components/ui/inputs/baseInput';
+import BaseButton from 'components/ui/buttons/baseButton';
 
 const GlobalSearch = () => {
   //TODO: при нажатии на инпут загружается превью с вазможным результатом поиска с дебаунсом

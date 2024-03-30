@@ -1,16 +1,11 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiPostState, IPostState } from '../../../../entities/post/model/IPost';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
-import API from '../../interceptors';
+import { ApiPostState, IPostState } from 'entities/post/model/IPost';
+import { IConfigAsyncThunk } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
 
 type IPostUpdate = Pick<IPostState, 'content' | 'files' | 'isDisabledComments' | 'view' | 'id'> & {
   status: number;
 };
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
 
 const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
   'post/update',

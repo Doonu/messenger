@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { IUser } from './IUser';
+import { ApiProfile, IUser } from './IUser';
 
 export type Types = 'error' | 'warning' | 'info' | 'success' | undefined;
 export type Levels = 'low' | 'medium' | 'height' | undefined;
@@ -18,4 +18,11 @@ export interface INotification {
     level?: Levels;
   };
   notifications: INotifyItem[];
+}
+
+export interface APINotifyItem {
+  id: number;
+  content: string;
+  createdAt: string;
+  sender: ApiProfile;
 }

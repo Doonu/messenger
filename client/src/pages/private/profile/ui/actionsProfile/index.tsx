@@ -1,15 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
-import { MainPageProfile } from '../../../../../components/custom/profiles/mainPageProfile';
-import SocketApi from '../../../../../shared/api/socket/socket-api';
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
-import { selectorProfile } from '../../../../../entities';
+import { MainPageProfile } from 'components/custom/profiles/mainPageProfile';
+import SocketApi from 'shared/api/socket/socket-api';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 import { IActionsProfile } from './model/IActionsProfile';
-import getFriendRequest, {
-  IGetFriendRequest,
-} from '../../../../../shared/api/http/user/getFriendRequest';
-import { useFriendRequest } from '../../../../../shared/api/socket/friendRequest/useFriendRequest';
+import { IGetFriendRequest } from 'shared/models/IUser';
+import { useFriendRequest } from 'shared/api/socket/friendRequest/useFriendRequest';
 import { useParams } from 'react-router-dom';
-import deleteFriend from '../../../../../shared/api/http/user/deleteFriend';
+import { deleteFriend, getFriendRequest } from 'shared/api';
 
 const ActionsProfile: FC<IActionsProfile> = ({
   profilePage,

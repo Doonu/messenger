@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Button, Select, Tabs } from 'antd';
-import { SortedArrow } from '../../../../shared/assets/icons';
+import { SortedArrow } from 'shared/assets/icons';
 
 export const SOrderBy = styled.div`
   display: flex;

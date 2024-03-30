@@ -1,20 +1,14 @@
 import React, { FC } from 'react';
 import { SHead, SP } from './content.styled';
-import MainPostProfile from '../../../../../components/custom/profiles/mainPost';
-import { postTime } from '../../../../../shared/util/time';
+import MainPostProfile from 'components/custom/profiles/mainPost';
+import { postTime } from 'shared/util/time';
 import More from '../more';
-import { useAppSelector } from '../../../../../hooks/redux';
-import { IPostState } from '../../../../../entities/post/model/IPost';
-import { selectorEditedPost } from '../../../../../entities';
-import { IAllFiles } from '../../../../../shared/models/IPost';
+import { useAppSelector } from 'hooks/redux';
+import { selectorEditedPost } from 'entities/post/post.selectors';
 import Grid from './ui/grid';
-import { Carousel } from '../../../../../components/ui/carousel';
-import Files from '../../../../../features/files';
-
-interface IContent {
-  post: IPostState;
-  allFiles: IAllFiles;
-}
+import { Carousel } from 'components/ui/carousel';
+import Files from 'features/files';
+import { IContent } from './model/IPhoto';
 
 const Content: FC<IContent> = ({ post, allFiles }) => {
   const editedPost = useAppSelector(selectorEditedPost);

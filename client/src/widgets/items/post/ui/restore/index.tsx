@@ -1,17 +1,11 @@
-import React, { Dispatch, FC, SetStateAction } from 'react';
+import React, { FC } from 'react';
 import { SButtonContainer, SDelete, SRestore } from './restore.styled';
 import { SContainer } from './restore.styled';
-import { useAppDispatch } from '../../../../../hooks/redux';
-import restorePostById from '../../../../../shared/api/http/post/restorePostById';
-import { deletePost } from '../../../../../entities/post/post.slice';
-import { IAllFiles } from '../../../../../shared/models/IPost';
-import { photosFilter } from '../../../../../shared/util/filter';
-
-interface IRestoreProps {
-  postId: number;
-  setIsDeletedPost: Dispatch<SetStateAction<boolean>>;
-  setAllFiles: Dispatch<SetStateAction<IAllFiles>>;
-}
+import { useAppDispatch } from 'hooks/redux';
+import { restorePostById } from 'shared/api';
+import { deletePost } from 'entities/post/post.slice';
+import { photosFilter } from 'shared/util/filter';
+import { IRestoreProps } from './model/IRestore';
 
 const Restore: FC<IRestoreProps> = ({ postId, setIsDeletedPost, setAllFiles }) => {
   const dispatch = useAppDispatch();

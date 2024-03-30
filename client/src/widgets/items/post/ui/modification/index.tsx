@@ -1,10 +1,9 @@
-import React, { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
-import BaseButton from '../../../../../components/ui/buttons/baseButton';
-import { useAppDispatch } from '../../../../../hooks/redux';
-import { removeEditPost } from '../../../../../entities/post/post.slice';
-import MainPostProfile from '../../../../../components/custom/profiles/mainPost';
-import { postTime } from '../../../../../shared/util/time';
-import { IPostAndDrag } from '../../model/shared';
+import React, { ChangeEvent, FC, useState } from 'react';
+import BaseButton from 'components/ui/buttons/baseButton';
+import { useAppDispatch } from 'hooks/redux';
+import { removeEditPost } from 'entities/post/post.slice';
+import MainPostProfile from 'components/custom/profiles/mainPost';
+import { postTime } from 'shared/util/time';
 import {
   DragInput,
   SAutosizeInput,
@@ -14,23 +13,16 @@ import {
   SDragField,
   SHead,
 } from './modification.styled';
-import { IAllFiles } from '../../../../../shared/models/IPost';
-import updatePost from '../../../../../shared/api/http/post/updatePost';
-import ModalBase from '../../../../../components/navigation/modal/ui/ModalBase';
-import { WarningCountPhotos } from '../../../../../components/navigation/modal';
-import { PreviewPhoto } from '../../../../../components/navigation/modal/content/previewPhoto';
-import ActionIcons from '../../../../../features/actionIcons';
-import addPendingList from '../../../../../shared/api/http/files/addPendingList';
-import clearTrash from '../../../../../shared/api/http/files/clearTrash';
-import { extensionPhotoList, photosFilter } from '../../../../../shared/util/filter';
-import Files from '../../../../../features/files';
-import Photos from '../../../../../features/photos';
-
-interface IModification
-  extends Pick<IPostAndDrag, 'isDraggablePhotoInPost' | 'post' | 'handlerChange'> {
-  allFiles: IAllFiles;
-  setAllFiles: Dispatch<SetStateAction<IAllFiles>>;
-}
+import { IAllFiles } from 'shared/models/IPost';
+import { updatePost, addPendingList, clearTrash } from 'shared/api';
+import ModalBase from 'components/navigation/modal/ui/ModalBase';
+import { WarningCountPhotos } from 'components/navigation/modal';
+import { PreviewPhoto } from 'components/navigation/modal/content/previewPhoto';
+import ActionIcons from 'features/actionIcons';
+import { extensionPhotoList, photosFilter } from 'shared/util/filter';
+import Files from 'features/files';
+import Photos from 'features/photos';
+import { IModification } from './model/IModification';
 
 const Modification: FC<IModification> = ({
   post,

@@ -1,19 +1,17 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { SAutosizeInput, SButton, SContainer, SForm } from './comments.styled';
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
-import { selectorProfile } from '../../../../../entities';
-import SendIcon from '../../../../../shared/assets/icons/sendIcon';
-import getAllCommentsInPost from '../../../../../shared/api/http/comments/getAllCommentsInPost';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { selectorProfile } from 'entities/profile/profile.selectors';
+import SendIcon from 'shared/assets/icons/sendIcon';
+import { getAllCommentsInPost, createComment, deleteComments } from 'shared/api';
 import CommentItem from '../commentItem';
-import PhotoProfile from '../../../../../components/custom/profiles/photo';
-import createComment from '../../../../../shared/api/http/comments/createComment';
-import deleteComments from '../../../../../shared/api/http/comments/deleteComments';
+import PhotoProfile from 'components/custom/profiles/photo';
 import { CommentsProps } from '../../model/IComments';
-import { recalculationOfComments } from '../../../../../entities/post/post.slice';
-import Sorting from '../../../../../components/ui/sorting/ui';
+import { recalculationOfComments } from 'entities/post/post.slice';
+import Sorting from 'components/ui/sorting/ui';
 import { filterComments, IFilterCommentsKeys } from './lib/filterComments';
-import { ICommentsState } from '../../../../../entities/post/model/IPost';
-import BaseList from '../../../../../components/custom/lists/BaseList/ui';
+import { ICommentsState } from 'entities/post/model/IPost';
+import BaseList from 'components/custom/lists/BaseList/ui';
 
 const Comments: FC<CommentsProps> = ({ post }) => {
   const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import AllContainer from '../../../../components/layouts/all';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
+import AllContainer from 'components/layouts/all';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import {
   selectorEditedPost,
   selectorErrorPosts,
@@ -10,13 +10,13 @@ import {
   selectorHaseMore,
   selectorWarningEdit,
   selectorDeletedPost,
-} from '../../../../entities';
-import { getAllPost } from '../../../../shared/api';
-import { Post } from '../../../../widgets/items/post';
-import { addPage, setAllPosts } from '../../../../entities/post/post.slice';
-import AddPost from '../../../../widgets/forms/addPost';
-import SkeletonPost from '../../../../widgets/items/post/ui/skeleton';
-import ObserverList from '../../../../components/custom/lists/ObserverList/ui';
+} from 'entities/post/post.selectors';
+import { getAllPost } from 'shared/api';
+import { Post } from 'widgets/items/post';
+import { addPage, setAllPosts } from 'entities/post/post.slice';
+import AddPost from 'widgets/forms/addPost';
+import SkeletonPost from 'widgets/items/post/ui/skeleton';
+import ObserverList from 'components/custom/lists/ObserverList/ui';
 import { DraggableContainer, SContainerList } from './Feed.styled';
 
 const Feed = () => {

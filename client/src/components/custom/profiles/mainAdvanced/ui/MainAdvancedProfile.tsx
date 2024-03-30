@@ -1,5 +1,5 @@
 import React from 'react';
-import { BlockContainer } from '../../../../../shared/styles/containers';
+import { BlockContainer } from 'shared/styles/containers';
 import {
   SContent,
   SCount,
@@ -10,10 +10,10 @@ import {
   SProfileContainer,
   SUserStatistic,
 } from './mainAdvanced.styled';
-import { useAppSelector } from '../../../../../hooks/redux';
-import { selectorProfile, selectorProfileLoader } from '../../../../../entities';
+import { useAppSelector } from 'hooks/redux';
+import { selectorProfile, selectorProfileLoader } from 'entities/profile/profile.selectors';
 import SkeletonMainAdvancedProfile from './skeleton';
-import PhotoProfile from '../../photo';
+import PhotoProfile from 'components/custom/profiles/photo';
 
 const MainAdvancedProfile = () => {
   const user = useAppSelector(selectorProfile);

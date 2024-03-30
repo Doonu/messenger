@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
 import { SArrowDown, SContainer, SName, SProfileContainer } from './mainProfile.styled';
 import { IMain } from '../model/IMain';
-import { convertName } from '../../../../../shared/util/user';
+import { convertName } from 'shared/util/user';
 import { itemsDropdown } from '../lib/items';
-import { useAppSelector } from '../../../../../hooks/redux';
-import { selectorProfileLoader, selectorProfile } from '../../../../../entities';
+import { useAppSelector } from 'hooks/redux';
+import { selectorProfileLoader, selectorProfile } from 'entities/profile/profile.selectors';
 import { Dropdown } from 'antd';
 import SkeletonMainProfile from './skeleton';
-import PhotoProfile from '../../photo';
+import PhotoProfile from 'components/custom/profiles/photo';
 
 const MainProfile: FC<IMain> = () => {
   //TODO: В сплывающем окне, смена темы и выход из аккаунта

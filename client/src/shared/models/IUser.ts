@@ -31,3 +31,17 @@ export interface ApiProfile {
   imgSubstitute: string;
   friends: number[];
 }
+
+export interface IGetFriendRequest {
+  status: string | boolean;
+  reqId?: number;
+}
+
+export interface IGetUsersExceptFriends {
+  user: ApiProfile;
+  isSendFriend: boolean;
+}
+
+export interface IUserExcept extends IUser {
+  isSendFriend?: boolean;
+}

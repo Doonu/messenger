@@ -1,6 +1,6 @@
 import React, { FC, PropsWithChildren } from 'react';
 import { ConfigProvider } from 'antd';
-import antdTheme from '../../shared/styles/theme/antdTheme';
+import antdTheme from 'shared/styles/theme/antdTheme';
 
 const AntdConfigProvider: FC<PropsWithChildren> = ({ children }) => {
   //TODO: Доделать

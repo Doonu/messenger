@@ -1,12 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ICommentsState } from '../../../../entities/post/model/IPost';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
-import API from '../../interceptors';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
+import { ICommentsState } from 'entities/post/model/IPost';
+import API from 'shared/api/interceptors';
+import { IConfigAsyncThunk } from 'shared/models/errors';
 
 interface IGetAllCommentsInPost {
   postId: number;

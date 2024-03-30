@@ -1,8 +1,8 @@
 import React, { FC, ReactNode } from 'react';
-import BaseContainer from '../../base';
-import Sidebar from '../../../navigation/sidebar';
+import BaseContainer from 'components/layouts/base';
+import Sidebar from 'components/navigation/sidebar';
 import { SAffixContainer, SCenter, SMain } from './allContainer.styled';
-import MainAdvancedProfile from '../../../custom/profiles/mainAdvanced';
+import MainAdvancedProfile from 'components/custom/profiles/mainAdvanced';
 import { Affix } from 'antd';
 
 interface AllContainerProps {

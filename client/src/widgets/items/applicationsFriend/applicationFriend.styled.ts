@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BlockContainer } from '../../../shared/styles/containers';
+import { BlockContainer } from 'shared/styles/containers';
 import { Typography } from 'antd';
 
 export const SBlockContainer = styled(BlockContainer)`

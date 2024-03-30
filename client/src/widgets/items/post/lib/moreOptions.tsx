@@ -2,7 +2,7 @@ import { MenuProps } from 'antd';
 import React from 'react';
 import DeletePost from '../ui/more/deletePost';
 import ToggleComments from '../ui/more/toggleComments';
-import { IPostState } from '../../../../entities/post/model/IPost';
+import { IPostState } from 'entities/post/model/IPost';
 import EditPost from '../ui/more/editPost';
 
 interface IMoreItemsDropdown {

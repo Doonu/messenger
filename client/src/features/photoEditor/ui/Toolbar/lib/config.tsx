@@ -1,5 +1,5 @@
-import { IAction } from '../../../model/IToolbar';
-import { PaintBrush, Resizer, Text } from '../../../../../shared/assets/icons';
+import { IAction } from 'features/photoEditor/model/IToolbar';
+import { PaintBrush, Resizer, Text } from 'shared/assets/icons';
 
 export const arrayAction: IAction[] = [
   { type: 'burch', Icon: PaintBrush },

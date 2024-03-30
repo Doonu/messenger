@@ -1,15 +1,15 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { SContainer, STop } from './post.styled';
 import Restore from './restore';
-import { useAppDispatch } from '../../../../hooks/redux';
-import { IAllFiles } from '../../../../shared/models/IPost';
+import { useAppDispatch } from 'hooks/redux';
+import { IAllFiles } from 'shared/models/IPost';
 import Comments from './comments';
-import { switchWarningPost } from '../../../../entities/post/post.slice';
+import { switchWarningPost } from 'entities/post/post.slice';
 import { IPostAndDrag } from '../model/shared';
 import Content from './content';
 import Modification from './modification';
 import Actions from './actions';
-import { photosFilter } from '../../../../shared/util/filter';
+import { photosFilter } from 'shared/util/filter';
 
 const Post: FC<IPostAndDrag> = ({
   post,

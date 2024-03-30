@@ -1,12 +1,7 @@
 import React, { FC } from 'react';
-import BaseButton from '../../../../../components/ui/buttons/baseButton';
+import BaseButton from 'components/ui/buttons/baseButton';
 import { SContainer } from './addFriend.styled';
-
-interface IAddFriend {
-  addFriendHandler: () => void;
-  viewAddFriendService: boolean;
-  isSendFriend?: boolean;
-}
+import { IAddFriend } from './model/IAddFriend';
 
 const AddFriend: FC<IAddFriend> = ({ addFriendHandler, viewAddFriendService, isSendFriend }) => {
   return (

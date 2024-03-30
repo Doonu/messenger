@@ -1,16 +1,10 @@
 import React, { FC, useState } from 'react';
 import { SComment, SInfo, SShared } from './acions.styled';
-import LikeButton from '../../../../../components/ui/buttons/likesButton/likeButton';
-import likePost from '../../../../../shared/api/http/post/likePost';
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
-import { selectorProfile } from '../../../../../entities';
-import { IPostState } from '../../../../../entities/post/model/IPost';
-
-interface IActions {
-  post: IPostState;
-  commentLength: number;
-  onActiveComments: () => void;
-}
+import LikeButton from 'components/ui/buttons/likesButton/likeButton';
+import { likePost } from 'shared/api';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { selectorProfile } from 'entities/profile/profile.selectors';
+import { IActions } from './model/IActions';
 
 const Actions: FC<IActions> = ({ onActiveComments, commentLength, post }) => {
   const dispatch = useAppDispatch();

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "esnext",
     "moduleResolution": "nodenext",
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "outDir": "./build",
     "target": "es5",
     "lib": [
@@ -23,6 +23,6 @@
     "jsx": "react-jsx",
   },
   "include": [
-    "src"
+    "src/",
   ],
 }

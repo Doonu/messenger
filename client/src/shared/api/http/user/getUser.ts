@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiProfile, IUser } from '../../../models/IUser';
-import { IConfigAsyncThunk, IError } from '../../../models/errors';
-import API from '../../interceptors';
+import { ApiProfile, IUser } from 'shared/models/IUser';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../../entities/notification/notification.slice';
-import { userConverting } from '../../../converteitions';
+import { showMessage } from 'entities/notification/notification.slice';
+import { userConverting } from 'shared/converteitions';
 
 const getUser = createAsyncThunk<IUser, number, IConfigAsyncThunk>(
   'auth/getUser',

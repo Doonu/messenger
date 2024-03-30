@@ -1,6 +1,6 @@
-import { INotifyItem } from '../../../models/INotification';
-import { APINotifyItem } from '../../http/notification/getAllNotification';
-import { userConverting } from '../../../converteitions';
+import { INotifyItem } from 'shared/models/INotification';
+import { APINotifyItem } from 'shared/models/INotification';
+import { userConverting } from 'shared/converteitions';
 
 export const friendRequestConverting = (data: APINotifyItem): INotifyItem => {
   return {

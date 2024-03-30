@@ -1,11 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IConfigAsyncThunk } from '../../../models/errors';
-import API from '../../interceptors';
-
-export interface IGetFriendRequest {
-  status: string | boolean;
-  reqId?: number;
-}
+import { IConfigAsyncThunk } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
+import { IGetFriendRequest } from 'shared/models/IUser';
 
 const getFriendRequest = createAsyncThunk<IGetFriendRequest, number, IConfigAsyncThunk>(
   'auth/getFriendRequest',

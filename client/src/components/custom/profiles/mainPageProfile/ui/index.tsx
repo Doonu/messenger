@@ -10,13 +10,13 @@ import {
   SNavigate,
   SRow,
 } from './mainPageProfile.styled';
-import PhotoProfile from '../../photo';
-import { convertName } from '../../../../../shared/util/user';
-import { useAppSelector } from '../../../../../hooks/redux';
-import { selectorProfile } from '../../../../../entities';
+import PhotoProfile from 'components/custom/profiles/photo';
+import { convertName } from 'shared/util/user';
+import { useAppSelector } from 'hooks/redux';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 import { IMainPageProfile } from '../model/IMainPageProfile';
-import BaseButton from '../../../../ui/buttons/baseButton';
-import { postTime } from '../../../../../shared/util/time';
+import BaseButton from 'components/ui/buttons/baseButton';
+import { postTime } from 'shared/util/time';
 
 const MainPageProfile: FC<IMainPageProfile> = ({
   user,

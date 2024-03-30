@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import Word from '../../../../shared/assets/icons/word';
+import Word from 'shared/assets/icons/word';
 import { SClose, SContainer, SLink, SText } from './file.styles';
-import Pdf from '../../../../shared/assets/icons/pdf';
-import { IFilesPost } from '../../../../shared/models/IPost';
+import Pdf from 'shared/assets/icons/pdf';
+import { IFilesPost } from 'shared/models/IPost';
 
 interface IFile extends Pick<IFilesPost, 'originalName' | 'size' | 'url'> {
   onDelete: () => void;

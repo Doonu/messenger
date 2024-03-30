@@ -8,8 +8,8 @@ export const SSelect = styled(Select)<ISelectProps>`
   width: ${({ width }) => width};
 
   .ant-select-selection {
-    background: #313338 !important;
-    color: white;
+    background: ${({ theme }) => theme.colors.secondaryBg} !important;
+    color: ${({ theme }) => theme.colors.active};
   }
 
   &.ant-select-single.ant-select-show-arrow .ant-select-selection-item {

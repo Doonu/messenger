@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import getProfile from '../../shared/api/http/user/getProfile';
-import { IUser } from '../../shared/models/IUser';
+import { getProfile } from 'shared/api';
+import { IUser } from 'shared/models/IUser';
 
 export interface profileState {
   user: IUser;

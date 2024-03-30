@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { ArrowLeft, ArrowRight } from '../../../../../../shared/assets/icons';
 
 export const SContainer = styled.div`
   display: flex;
@@ -60,27 +59,6 @@ export const SContainerProfile = styled.div`
 export const SContainerInfo = styled.div`
   padding: 15px 0 15px 35px;
   background: ${({ theme }) => theme.colors.secondaryBg};
-`;
-
-export const SArrowLeft = styled(ArrowRight)`
-  position: absolute;
-  top: 45%;
-  left: 20px;
-  cursor: pointer;
-
-  &:hover {
-    opacity: 0.4;
-  }
-`;
-
-export const SArrowRight = styled(ArrowLeft)`
-  position: absolute;
-  top: 45%;
-  right: 20px;
-  cursor: pointer;
-  &:hover {
-    opacity: 0.4;
-  }
 `;
 
 export const Descriptions = styled.div`
