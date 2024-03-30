@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { INotification, INotifyItem } from './model/INotification';
+import { INotification, INotifyItem } from '../../shared/models/INotification';
 import { deleteAllNotifications, getAllNotification, deleteNotification } from '../../shared/api';
 
 const initialState: INotification = {

@@ -18,6 +18,12 @@ const antdTheme: ThemeConfig = {
       borderRadius: 12,
       colorBorder: 'transparent',
     },
+    Segmented: {
+      colorBgLayout: baseTheme.colors.secondaryBg,
+      colorTextLabel: baseTheme.colors.text,
+      itemHoverColor: baseTheme.colors.text,
+      colorBgElevated: baseTheme.colors.secondaryText,
+    },
   },
 };
 export default antdTheme;

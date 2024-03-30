@@ -1,45 +1,35 @@
 import React, { FC } from 'react';
 import { IUser } from '../../shared/models/IUser';
-import { SName, STitle, SUser, SUsers } from './friends.styled';
-import { BlockContainer } from '../../shared/styles/containers';
-import PhotoProfile from '../../components/custom/profiles/photo';
-import { convertName } from '../../shared/util/user';
-import { useNavigate } from 'react-router-dom';
+
+import ListFriends from './ui/listFriends';
+import { SContainer } from './friends.styled';
 
 interface IFriends {
   friends: IUser[];
   title: string;
-  count: number;
+  isOnlineFriends?: boolean;
 }
 
-const Friends: FC<IFriends> = ({ friends, title, count }) => {
-  const navigate = useNavigate();
+const Friends: FC<IFriends> = ({ friends, title, isOnlineFriends = false }) => {
+  const connectedUsers = friends.filter((friend) => friend.statusConnected);
+
+  const notConnectedUsers = isOnlineFriends
+    ? friends.filter((friend) => !friend.statusConnected)
+    : friends;
+
+  if (!friends.length) return null;
 
   return (
-    <BlockContainer>
-      <STitle>
-        <span>{title}</span> {count}
-      </STitle>
-      <SUsers>
-        {friends.slice(0, 4).map((friend) => (
-          <SUser
-            onClick={() => navigate(`/profile/${friend.id}`)}
-            title={convertName(friend.name)}
-            key={friend.id}
-          >
-            <PhotoProfile
-              status={friend.statusConnected}
-              statusTime={friend.timeConnected}
-              fontSize={30}
-              size={60}
-              img={friend.avatar}
-              name={friend.name}
-            />
-            <SName>{convertName(friend.name)}</SName>
-          </SUser>
-        ))}
-      </SUsers>
-    </BlockContainer>
+    <SContainer>
+      {isOnlineFriends && !!connectedUsers.length && (
+        <ListFriends
+          isBorder={!!notConnectedUsers.length}
+          title={'Друзья онлайн'}
+          users={connectedUsers}
+        />
+      )}
+      {!!friends.length && <ListFriends title={title} users={friends} />}
+    </SContainer>
   );
 };
 

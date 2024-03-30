@@ -17,7 +17,7 @@ export const SButton = styled(Button)<BaseButtonProps>`
     `};
 
   background: ${({ theme, bgTransparent }) => (bgTransparent ? 'transparent' : theme.colors.blue)};
-  color: ${({ theme }) => theme.colors.active};
+  color: ${({ theme, color }) => (color ? theme.colors.link : theme.colors.active)};
   border: none;
   border-radius: ${({ radius }) => (radius ? `${radius}px` : '')};
   max-height: ${({ height }) => height};

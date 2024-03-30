@@ -2,6 +2,7 @@ import authSlice from './auth/auth.slice';
 import notificationSlice from './notification/notification.slice';
 import userSlice from './profile/profile.slice';
 import postSlice from './post/post.slice';
+import friendsSlice from './friends/friends.slice';
 import { selectorProfileLoader, selectorProfile } from './profile/profile.selectors';
 import {
   selectorEditedPost,
@@ -14,7 +15,7 @@ import {
   selectorHaseMore,
 } from './post/post.selectors';
 
-export default { authSlice, notificationSlice, userSlice, postSlice };
+export default { authSlice, notificationSlice, userSlice, postSlice, friendsSlice };
 export {
   selectorEditedPost,
   selectorErrorPosts,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { SBaseContainer } from './registration.styled';
-import { Register } from '../../../../widgets/register';
+import { Register } from '../../../../widgets/forms/register';
 
 const Registration = () => {
   return (

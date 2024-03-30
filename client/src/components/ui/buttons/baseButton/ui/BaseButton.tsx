@@ -14,6 +14,7 @@ const BaseButton: FC<IBaseButton> = ({
   radius,
   leftIcon,
   rightIcon,
+  color,
   ...props
 }) => {
   return (
@@ -25,6 +26,7 @@ const BaseButton: FC<IBaseButton> = ({
       disabled={disabled}
       radius={radius}
       $isLeftIcon={!!leftIcon}
+      color={color}
       {...props}
     >
       {leftIcon}

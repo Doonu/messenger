@@ -1,16 +1,18 @@
-import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
-import { User } from "./models/users.model";
-import { InjectModel } from "@nestjs/sequelize";
-import { DeleteUserDto } from "./dto/delete-user.dto";
-import { RolesService } from "../roles/roles.service";
-import { AddRoleDto } from "./dto/add-role.dto";
-import { BanUserDto } from "./dto/ban-user.dto";
+import {HttpException, HttpStatus, Injectable} from "@nestjs/common";
+import {User} from "./models/users.model";
+import {InjectModel} from "@nestjs/sequelize";
+import {DeleteUserDto} from "./dto/delete-user.dto";
+import {RolesService} from "../roles/roles.service";
+import {AddRoleDto} from "./dto/add-role.dto";
+import {BanUserDto} from "./dto/ban-user.dto";
 import {RegisterUserDto} from "./dto/register-user.dto";
 import {ChangeSocketId} from "./dto/change-socketId";
 import {FriendRequest} from "./models/friendRequest.model";
 import {CreateFriendRequestDto} from "./dto/create-friendRequest.dto";
 import {AddFriendsDto} from "./dto/add-friends.dto";
 import {ChangeConnectedDto} from "./dto/change-connected.dto";
+import {IUserPossibleFriendsResponse} from "../../models/IUser";
+import {Op} from "sequelize";
 
 @Injectable()
 export class UsersService {
@@ -34,6 +36,67 @@ export class UsersService {
   // Получение всех пользователей
   async getAllUsers() {
     return await this.userRepository.findAll({ include: { all: true }});
+  }
+
+  // Получение всех пользователей кроме друзей
+  async getAllUsersExceptFriends(userId: number, search: string){
+    const friendsUser = await this.userRepository.findOne({where: {id: userId}})
+
+    const users = await this.userRepository.findAll({
+      where: {
+        id: {
+          [Op.not]: friendsUser.friends
+        },
+        name:{
+          [Op.iRegexp]: search
+        }
+      }
+    });
+
+    const usersFriendSender = await this.friendRequestRepository.findAll({
+      where: {
+        senderId: userId
+      },
+      include: {all: true}
+    })
+
+    const usersFriendRecipient = await this.friendRequestRepository.findAll({
+      where: {
+        recipientId: userId,
+      },
+      include: {all: true}
+    })
+
+    const allFriendReq = [...usersFriendRecipient, ...usersFriendSender]
+
+    return users.filter(user => {
+      if(user.id === userId) return false
+
+      for (let i = 0; i <= allFriendReq.length; i++){
+        const item = allFriendReq[i];
+
+        if(item?.senderId === user.id){
+          return false
+        }
+
+      }
+      return true
+    }).map(user => {
+      for (let i = 0; i <= allFriendReq.length; i++){
+        const item = allFriendReq[i];
+
+        if(item?.recipientId === user.id){
+          return {
+            user: user,
+            isSendFriend: true
+          }
+        }
+      }
+      return {
+        user: user,
+        isSendFriend: false
+      }
+    })
   }
 
   // Получение пользователя по id
@@ -90,10 +153,63 @@ export class UsersService {
     if(user) await user.update({statusConnected: dto.connected, timeConnected: Date.now()})
   }
 
+  //TODO: педедаелать
+
   // Получение друзей
-  async getFriends(dto: number){
-    const user = await this.userRepository.findByPk(dto)
+  async getAllFriends(id: number){
+    const user = await this.userRepository.findByPk(id)
     return await Promise.all(user.friends.map(async (el) => this.userRepository.findOne({ attributes: this.baseFieldUser, where: {id: el} })));
+  }
+
+  async getFriends(id: number, page: number, search: string){
+    let currentPage = page - 1;
+    const currentLimit = 5;
+
+    const user = await this.userRepository.findByPk(id)
+    const fullFriends =  await Promise.all(user.friends.slice(currentPage === 0 ? 0 : currentPage * currentLimit, (currentPage * currentLimit) + currentLimit).map(async (el) => this.userRepository.findOne({ attributes: this.baseFieldUser, where: {id: el} })));
+
+    if(search) return fullFriends.filter(friend => friend.name.includes(search))
+    return fullFriends
+  }
+
+  //TODO: педедаелать
+
+  // Получение возможных друзей
+  async getPossibleFriends(userId: number){
+    const result: IUserPossibleFriendsResponse[] = [];
+
+    const user = await this.userRepository.findByPk(userId)
+    //
+    // await Promise.all(user.friends.map(async friendX => {
+    //   const friendUser = await this.userRepository.findByPk(friendX);
+    //
+    //   await Promise.all(friendUser.friends.map(async friendY => {
+    //     if(friendY !== user.id && !user.friends.includes(friendY)){
+    //       if(!result.length){
+    //         const friendUser = await this.userRepository.findByPk(friendY);
+    //         result.push({
+    //           countPossibleFriends: [friendY],
+    //           user: friendUser
+    //         })
+    //       }
+    //
+    //       result.forEach((friendZ, index) => {
+    //         if(!friendZ.countPossibleFriends.includes(friendY)){
+    //           if(friendZ.user.id === friendUser.id){
+    //             result[index].countPossibleFriends.push(friendY)
+    //           } else {
+    //             result.push({
+    //               countPossibleFriends: [...friendZ.countPossibleFriends, friendY],
+    //               user: friendUser
+    //             })
+    //           }
+    //         }
+    //       })
+    //     }
+    //   }))
+    // }))
+
+    return result
   }
 
   // Добавление друзей
@@ -125,8 +241,8 @@ export class UsersService {
   }
 
   // Получение всех friend requests
-  async getFriendRequests(recipientId: string){
-      return await this.friendRequestRepository.findAll({where: {recipientId: recipientId}})
+  async getFriendRequests(recipientId: number){
+    return await this.friendRequestRepository.findAll({where: {recipientId: recipientId}, include: {all: true}})
   }
 
   // Получение friend request по двум id

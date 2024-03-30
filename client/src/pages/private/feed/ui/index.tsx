@@ -12,13 +12,12 @@ import {
   selectorDeletedPost,
 } from '../../../../entities';
 import { getAllPost } from '../../../../shared/api';
-import { Post } from '../../../../widgets/post';
+import { Post } from '../../../../widgets/items/post';
 import { addPage, setAllPosts } from '../../../../entities/post/post.slice';
-import AddPost from '../../../../widgets/addPost';
-import SkeletonPost from '../../../../widgets/post/ui/skeleton';
+import AddPost from '../../../../widgets/forms/addPost';
+import SkeletonPost from '../../../../widgets/items/post/ui/skeleton';
 import ObserverList from '../../../../components/custom/lists/ObserverList/ui';
-import { DraggableContainer } from './Feed.styled';
-//TODO: Оптимизировать компонент драгон-input, ререндер на каждый клик
+import { DraggableContainer, SContainerList } from './Feed.styled';
 
 const Feed = () => {
   const dispatch = useAppDispatch();
@@ -74,26 +73,28 @@ const Feed = () => {
       <AllContainer>
         <AddPost handlerChange={handlerChange} isDraggablePhoto={isDraggablePhoto} />
 
-        <ObserverList
-          list={posts}
-          itemContent={(el) => (
-            <Post
-              deletedPost={deletedPost}
-              warningEdit={warningEdit}
-              editedPost={editedPost}
-              posts={posts}
-              isDraggablePhotoInPost={isDraggablePhotoInPost}
-              handlerChange={handlerChangeInPost}
-              post={el}
-            />
-          )}
-          fetchNextPage={handlerNextPage}
-          hasMore={haseMore}
-          isPending={loadingPosts && page === 1}
-          notFoundMessage={errorMessage}
-          skeleton={() => <SkeletonPost />}
-          isFetching={loadingPosts && page > 1}
-        />
+        <SContainerList $isLength={!posts.length && !loadingPosts}>
+          <ObserverList
+            list={posts}
+            itemContent={(el) => (
+              <Post
+                deletedPost={deletedPost}
+                warningEdit={warningEdit}
+                editedPost={editedPost}
+                posts={posts}
+                isDraggablePhotoInPost={isDraggablePhotoInPost}
+                handlerChange={handlerChangeInPost}
+                post={el}
+              />
+            )}
+            fetchNextPage={handlerNextPage}
+            hasMore={haseMore}
+            isPending={loadingPosts && page === 1}
+            notFoundMessage={errorMessage}
+            skeleton={() => <SkeletonPost />}
+            isFetching={loadingPosts && page > 1}
+          />
+        </SContainerList>
       </AllContainer>
     </DraggableContainer>
   );

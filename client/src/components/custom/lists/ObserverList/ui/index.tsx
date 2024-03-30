@@ -45,7 +45,7 @@ const ObserverList = <T, K>({
   }, [inView]);
 
   return (
-    <div>
+    <>
       <SList>
         {list.map((el) => itemContent(el))}
         {isPending && [...new Array(5)].map(() => skeleton())}
@@ -53,7 +53,7 @@ const ObserverList = <T, K>({
       <ObserverBlock ref={ref} />
       {isFetching && <LoaderSmall />}
       {!list.length && !isPending && <Empty message={notFoundMessage} />}
-    </div>
+    </>
   );
 };
 

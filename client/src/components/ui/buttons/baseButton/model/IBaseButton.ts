@@ -12,4 +12,5 @@ export interface IBaseButton extends BaseButtonProps {
   rightIcon?: ReactNode;
   bgTransparent?: boolean;
   onClick?: () => void;
+  color?: BaseButtonVariants;
 }

@@ -22,20 +22,24 @@ import replace from './http/files/replace';
 
 import getProfile from './http/user/getProfile';
 import getUser from './http/user/getUser';
-import getFriends from './http/user/getFriends';
+import getAllFriends from './http/user/getAllFriends';
 import getFriendRequest from './http/user/getFriendRequest';
 import deleteFriend from './http/user/deleteFriend';
+import getAllFriendRequests from './http/user/getAllFriendRequests';
+import getFriends from './http/user/getAllFriends';
+import getUsersExceptFriends from './http/user/getUsersExceptFriends';
 
-import deleteNotification from './http/notification/deleteNotifigation';
+import deleteNotification from './http/notification/deleteNotification';
 import deleteAllNotifications from './http/notification/deleteAllNotification';
 import getAllNotification from './http/notification/getAllNotification';
 
 export {
   SocketApi,
+  getFriends,
   deleteNotification,
   deleteAllNotifications,
   getAllNotification,
-  getFriends,
+  getAllFriends,
   replace,
   postLogin,
   postRegistration,
@@ -56,4 +60,6 @@ export {
   getUser,
   getFriendRequest,
   deleteFriend,
+  getAllFriendRequests,
+  getUsersExceptFriends,
 };

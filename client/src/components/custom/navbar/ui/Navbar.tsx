@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, SDescription, SItem, SLink, SNotify } from './navbar.styled';
+import { Container, SDescription, SItem, SLink } from './navbar.styled';
 import { NavbarDto } from '../lib/dto';
 import { useLocation } from 'react-router-dom';
 import { useAppSelector } from '../../../../hooks/redux';
@@ -22,7 +22,6 @@ const Navbar = () => {
           <SLink $active={active} to={path} replace key={value.path}>
             <SItem>
               <value.component />
-              {false && <SNotify />}
               <SDescription>{value.description}</SDescription>
             </SItem>
           </SLink>
