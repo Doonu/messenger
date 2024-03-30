@@ -1,4 +1,4 @@
-import { RootState } from '../../app/store';
+import { RootState } from 'app/store';
 
 export const selectorWarningEdit = (state: RootState) => state.postSlice.warningEdit;
 export const selectorDeletedPost = (state: RootState) => state.postSlice.deletedPost;

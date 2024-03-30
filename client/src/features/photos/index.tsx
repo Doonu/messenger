@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { IPhotos } from './model/IPhotos';
-import HorizontalList from '../../components/custom/lists/HorizontalList';
-import { IFilesPost } from '../../shared/models/IPost';
-import { Photo } from '../../components/custom/photos/photo';
+import HorizontalList from 'components/custom/lists/HorizontalList';
+import { IFilesPost } from 'shared/models/IPost';
+import { Photo } from 'components/custom/photos/photo';
 
 const Photos: FC<IPhotos> = ({ setIsPreviewPhoto, loader, setData, data, setCurrentIndex }) => {
   const handleDelete = (id: string) => {

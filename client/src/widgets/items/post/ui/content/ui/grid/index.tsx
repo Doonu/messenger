@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { IPhoto } from '../../model/IPhoto';
 import { SContainer, SImg } from './Grid.styled';
-import { generateRadiusForPhoto } from '../../../../../../../shared/util/generateRadiusForPhoto';
+import { generateRadiusForPhoto } from 'shared/util/generateRadiusForPhoto';
 
 const Grid: FC<IPhoto> = ({ photos }) => {
   return (

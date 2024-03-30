@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { IUser } from '../../shared/models/IUser';
+import { IUser } from 'shared/models/IUser';
 
 import ListFriends from './ui/listFriends';
 import { SContainer } from './friends.styled';

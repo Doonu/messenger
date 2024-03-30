@@ -1,19 +1,14 @@
 import React from 'react';
-import { IAllFriendRequests } from '../../../shared/models/IFriendRequest';
 import { FC } from 'react';
-import { SocketApi } from '../../../shared/api';
-import PhotoProfile from '../../../components/custom/profiles/photo';
+import { SocketApi } from 'shared/api';
+import PhotoProfile from 'components/custom/profiles/photo';
 import { SButtons } from '../post/ui/modification/modification.styled';
-import BaseButton from '../../../components/ui/buttons/baseButton';
+import BaseButton from 'components/ui/buttons/baseButton';
 import { SContainer, SContent, SName } from './applicationFriend.styled';
 import { useNavigate } from 'react-router-dom';
-import { addFriend } from '../../../entities/friends/friends.slice';
-import { useAppDispatch } from '../../../hooks/redux';
-
-interface IItemApplicationsFriends {
-  request: IAllFriendRequests;
-  filterRequest: (id: number) => void;
-}
+import { addFriend } from 'entities/friends/friends.slice';
+import { useAppDispatch } from 'hooks/redux';
+import { IItemApplicationsFriends } from './model/IApplicationFriend';
 
 const ApplicationFriend: FC<IItemApplicationsFriends> = ({ request, filterRequest }) => {
   const dispatch = useAppDispatch();

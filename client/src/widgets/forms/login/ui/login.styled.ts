@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { Form } from 'antd';
 import { Link } from 'react-router-dom';
-import Input from '../../../../components/ui/inputs/baseInput';
-import Logo from '../../../../components/custom/logo';
-import BaseButton from '../../../../components/ui/buttons/baseButton';
+import Input from 'components/ui/inputs/baseInput';
+import Logo from 'components/custom/logo';
+import BaseButton from 'components/ui/buttons/baseButton';
 
 export const SForm = styled(Form)`
   display: flex;

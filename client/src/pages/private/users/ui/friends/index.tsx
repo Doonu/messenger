@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
 import { SContainerUsers } from '../user.styled';
-import Segmented from '../../../../../components/ui/segment';
-import SearchUsers from '../../../../../widgets/forms/searchUsers';
-import { ObserverList } from '../../../../../components/custom/lists/ObserverList';
-import { Friend } from '../../../../../widgets/items/friend';
+import Segmented from 'components/ui/segment';
+import SearchUsers from 'widgets/forms/searchUsers';
+import { ObserverList } from 'components/custom/lists/ObserverList';
+import { Friend } from 'widgets/items/friend';
 import { generateOptions } from '../../lib/options';
-import getFriends from '../../../../../shared/api/http/user/getFriends';
-import { addPage } from '../../../../../entities/friends/friends.slice';
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
+import getFriends from 'shared/api/http/user/getFriends';
+import { addPage } from 'entities/friends/friends.slice';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import {
   selectorErrorFriends,
   selectorFriends,
@@ -15,8 +15,8 @@ import {
   selectorLoadingFriends,
   selectorPageFriends,
   selectorSearch,
-} from '../../../../../entities/friends/friends.selectors';
-import { selectorProfile } from '../../../../../entities';
+} from 'entities/friends/friends.selectors';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 
 interface IFriends {
   handlerSearch: () => void;

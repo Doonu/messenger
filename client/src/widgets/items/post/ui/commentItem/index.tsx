@@ -14,18 +14,17 @@ import {
   SComment,
   SContainerRow,
 } from './commentItem.styled';
-import { postTime } from '../../../../../shared/util/time';
-import PhotoProfile from '../../../../../components/custom/profiles/photo';
-import { convertName } from '../../../../../shared/util/user';
-import { BgLike, Close, Like, Redaction } from '../../../../../shared/assets/icons';
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
-import likeComments from '../../../../../shared/api/http/comments/likeComments';
+import { postTime } from 'shared/util/time';
+import PhotoProfile from 'components/custom/profiles/photo';
+import { convertName } from 'shared/util/user';
+import { BgLike, Close, Like, Redaction } from 'shared/assets/icons';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { likeComments, updateComment } from 'shared/api';
 import { SAutosizeInput } from '../comments/comments.styled';
-import { selectorProfile } from '../../../../../entities';
-import BaseButton from '../../../../../components/ui/buttons/baseButton';
-import updateComment from '../../../../../shared/api/http/comments/updateComment';
+import { selectorProfile } from 'entities/profile/profile.selectors';
+import BaseButton from 'components/ui/buttons/baseButton';
 import { ICommentItem } from '../../model/ICommentItem';
-import { Slice } from '../../../../../components/custom/slice';
+import { Slice } from 'components/custom/slice';
 import { useNavigate } from 'react-router-dom';
 
 const CommentItem: FC<ICommentItem> = ({

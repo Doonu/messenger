@@ -1,10 +1,10 @@
 import React from 'react';
-import { IAllFiles } from '../../shared/models/IPost';
+import { IAllFiles } from 'shared/models/IPost';
 import { ChangeEvent, Dispatch, FC, SetStateAction, useRef, MouseEvent } from 'react';
 import { SContainer, SDivider } from './actionIcons.styled';
-import { Camera, Music, Poster, SFile, Video } from '../../shared/assets/icons';
-import { useAppDispatch } from '../../hooks/redux';
-import addPendingList from '../../shared/api/http/files/addPendingList';
+import { Camera, Music, Poster, SFile, Video } from 'shared/assets/icons';
+import { useAppDispatch } from 'hooks/redux';
+import { addPendingList } from 'shared/api';
 
 interface IIconsProps {
   data: IAllFiles;

@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { SButton, SCircle, SText } from './LikeButton.styled';
 import { ILikeButton } from '../model/ILikeButton';
-import { BgLike, Like } from '../../../../../../shared/assets/icons';
+import { BgLike, Like } from 'shared/assets/icons';
 
 const LikeButton: FC<ILikeButton> = ({ $isLike, children, onClick, ...props }) => {
   return (

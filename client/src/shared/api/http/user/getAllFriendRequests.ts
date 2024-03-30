@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../interceptors';
-import { IConfigAsyncThunk } from '../../../models/errors';
-import { userConverting } from '../../../converteitions';
-import { APIAllFriendRequests, IAllFriendRequests } from '../../../models/IFriendRequest';
+import API from 'shared/api/interceptors';
+import { IConfigAsyncThunk } from 'shared/models/errors';
+import { userConverting } from 'shared/converteitions';
+import { APIAllFriendRequests, IAllFriendRequests } from 'shared/models/IFriendRequest';
 
 const getAllFriendRequests = createAsyncThunk<IAllFriendRequests[], undefined, IConfigAsyncThunk>(
   'auth/getAllFriendRequest',

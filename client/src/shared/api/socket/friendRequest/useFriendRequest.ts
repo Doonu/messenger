@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import SocketApi from '../socket-api';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import { selectorProfile } from '../../../../entities';
-import { addNotification, showMessage } from '../../../../entities/notification/notification.slice';
-import { Types } from '../../../models/INotification';
-import { APINotifyItem } from '../../http/notification/getAllNotification';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { selectorProfile } from 'entities/profile/profile.selectors';
+import { addNotification, showMessage } from 'entities/notification/notification.slice';
+import { Types } from 'shared/models/INotification';
+import { APINotifyItem } from 'shared/models/INotification';
 import { friendRequestConverting } from './friendRequest.converting';
 
 interface IUseFriendRequest {

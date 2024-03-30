@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { SModal } from './modalBase.styled';
 import { IModal } from '../model/IModal';
 import { SButtons } from './modalBase.styled';
-import BaseButton from '../../../ui/buttons/baseButton';
+import BaseButton from 'components/ui/buttons/baseButton';
 
 const ModalBase: FC<IModal> = ({ children, onClose, top, isFooter = true, ...props }) => {
   return (

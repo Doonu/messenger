@@ -3,8 +3,8 @@ import React, { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { ObserverBlock, SList } from './ObserverList.styled';
 import { IObserverList } from '../model/IObserverList';
-import Empty from '../../../../ui/empty';
-import { LoaderSmall } from '../../../../ui/loaders';
+import Empty from 'components/ui/empty';
+import { LoaderSmall } from 'components/ui/loaders';
 
 /**
  *   data - Массив для рендера

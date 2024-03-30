@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { BlockContainer } from '../../../../shared/styles/containers';
+import { BlockContainer } from 'shared/styles/containers';
 
 interface ISContainer {
   $isWarning?: boolean;

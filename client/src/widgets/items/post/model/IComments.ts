@@ -1,4 +1,4 @@
-import { IPostState } from '../../../../entities/post/model/IPost';
+import { IPostState } from 'entities/post/model/IPost';
 
 export interface CommentsProps {
   post: IPostState;

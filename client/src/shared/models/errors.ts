@@ -1,4 +1,4 @@
-import { RootState } from '../../app/store';
+import { RootState } from 'app/store';
 
 export interface IError {
   ErrorID: string;

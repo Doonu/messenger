@@ -2,10 +2,10 @@ import React from 'react';
 import { SContainer } from './content.styled';
 import { useFormikContext } from 'formik';
 import { IPost } from '../../model/IPost';
-import { useAppSelector } from '../../../../../hooks/redux';
-import { selectorProfile } from '../../../../../entities';
-import PhotoProfile from '../../../../../components/custom/profiles/photo';
-import AutosizeInput from '../../../../../components/ui/inputs/autosizeInput';
+import { useAppSelector } from 'hooks/redux';
+import { selectorProfile } from 'entities/profile/profile.selectors';
+import PhotoProfile from 'components/custom/profiles/photo';
+import AutosizeInput from 'components/ui/inputs/autosizeInput';
 
 const Content = () => {
   const { values, setFieldValue } = useFormikContext<IPost>();

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Input } from 'antd';
-import { LoaderSmall } from '../../../loaders';
+import { LoaderSmall } from 'components/ui/loaders';
 
 interface SInputProps {
   border?: string;

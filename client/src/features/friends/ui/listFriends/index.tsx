@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { SContainer, SName, STitle, SUser, SUsers } from './ListFriends.styles';
-import { convertName } from '../../../../shared/util/user';
-import PhotoProfile from '../../../../components/custom/profiles/photo';
-import { IUser } from '../../../../shared/models/IUser';
+import { convertName } from 'shared/util/user';
+import PhotoProfile from 'components/custom/profiles/photo';
+import { IUser } from 'shared/models/IUser';
 import { useNavigate } from 'react-router-dom';
 
 interface IListFriends {

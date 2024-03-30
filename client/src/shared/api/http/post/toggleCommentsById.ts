@@ -1,14 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
-import API from '../../interceptors';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../../entities/notification/notification.slice';
-import { IToggleCommentsById } from '../../../models/IPost';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
+import { showMessage } from 'entities/notification/notification.slice';
+import { IToggleCommentsById } from 'shared/models/IPost';
 
 const toggleCommentsById = createAsyncThunk<
   IToggleCommentsById,

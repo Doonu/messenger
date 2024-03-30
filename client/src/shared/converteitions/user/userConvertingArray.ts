@@ -1,4 +1,4 @@
-import { ApiProfile, IUser } from '../../models/IUser';
+import { ApiProfile, IUser } from 'shared/models/IUser';
 
 export const userConvertingArray = (data: ApiProfile[]): IUser[] => {
   return data.map((user) => ({

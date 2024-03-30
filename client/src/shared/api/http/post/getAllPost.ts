@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiPostState, IPostState } from '../../../../entities/post/model/IPost';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
-import API from '../../interceptors';
+import { ApiPostState, IPostState } from 'entities/post/model/IPost';
+import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from 'shared/models/errors';
+import { RootState } from 'app/store';
+import API from 'shared/api/interceptors';
 import { AxiosError } from 'axios';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {

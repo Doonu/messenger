@@ -1,6 +1,6 @@
-import { IUser } from '../../shared/models/IUser';
+import { IUser } from 'shared/models/IUser';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import getFriends from '../../shared/api/http/user/getFriends';
+import getFriends from 'shared/api/http/user/getFriends';
 
 interface friendsState {
   friends: IUser[];

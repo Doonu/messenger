@@ -1,5 +1,5 @@
-import { useSocket } from '../../shared/api/socket/useSocket';
-import { useFriendRequest } from '../../shared/api/socket/friendRequest/useFriendRequest';
+import { useSocket } from 'shared/api/socket/useSocket';
+import { useFriendRequest } from 'shared/api';
 
 const SocketProviders = () => {
   useSocket();

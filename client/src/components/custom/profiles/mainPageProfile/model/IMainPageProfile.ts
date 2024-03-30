@@ -1,5 +1,5 @@
-import { IUser } from '../../../../../shared/models/IUser';
-import { IGetFriendRequest } from '../../../../../shared/api/http/user/getFriendRequest';
+import { IUser } from 'shared/models/IUser';
+import { IGetFriendRequest } from 'shared/models/IUser';
 
 export interface IMainPageProfile {
   user: IUser;

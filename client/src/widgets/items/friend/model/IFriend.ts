@@ -1,4 +1,4 @@
-import { IUserExcept } from '../../../../shared/api/http/user/getUsersExceptFriends';
+import { IUserExcept } from 'shared/models/IUser';
 
 export type IUserType = 'friend' | 'notFriend';
 

@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { Bell } from '../../../shared/assets/icons';
+import { Bell } from 'shared/assets/icons';
 import { Dropdown } from 'antd';
 import Header from './ui/header';
 import { SContent, SList, SNotificationBellStyled } from './ui/notificationBell.styled';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux';
-import { notificationSelectors } from '../../../entities/notification/notification.selectors';
-import { deleteAllNotifications, getAllNotification } from '../../../shared/api';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { notificationSelectors } from 'entities/notification/notification.selectors';
+import { deleteAllNotifications, getAllNotification } from 'shared/api';
 import NotifyItem from './ui/notifyItem';
 import Badge from '../signals/badge';
-import { selectorProfile } from '../../../entities';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 
 const NotificationBell = () => {
   const dispatch = useAppDispatch();

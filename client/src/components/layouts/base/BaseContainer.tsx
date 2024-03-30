@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
-import Header from '../../navigation/header';
-import { Content, Footer } from '../../../shared/styles/containers';
+import Header from 'components/navigation/header';
+import { Content, Footer } from 'shared/styles/containers';
 
 interface BaseContainerProps {
   children: ReactNode;

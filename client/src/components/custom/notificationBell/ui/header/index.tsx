@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Container } from './header.styled';
-import { Close } from '../../../../../shared/assets/icons';
+import { Close } from 'shared/assets/icons';
 
 interface IHeaderNotification {
   deleteAllNotification: () => void;

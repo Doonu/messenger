@@ -1,13 +1,13 @@
 import React, { FC, useState } from 'react';
 import { SContainer, SInfo, SName, SServices } from './friend.styled';
-import PhotoProfile from '../../../../components/custom/profiles/photo';
+import PhotoProfile from 'components/custom/profiles/photo';
 import { useNavigate } from 'react-router-dom';
 import { IFriend } from '../model/IFriend';
 import WriteMessage from './writeMessage';
 import AddFriend from './addFriend';
-import { useAppSelector } from '../../../../hooks/redux';
-import { selectorProfile } from '../../../../entities';
-import SocketApi from '../../../../shared/api/socket/socket-api';
+import { useAppSelector } from 'hooks/redux';
+import { selectorProfile } from 'entities/profile/profile.selectors';
+import SocketApi from 'shared/api/socket/socket-api';
 
 const Friend: FC<IFriend> = ({ user, type, isBorderFirst = true }) => {
   const profile = useAppSelector(selectorProfile);

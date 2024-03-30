@@ -1,18 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ApiProfile, IUser } from '../../../models/IUser';
-import { IConfigAsyncThunk, IError } from '../../../models/errors';
-import API from '../../interceptors';
-import { userConverting } from '../../../converteitions';
+import { IGetUsersExceptFriends, IUserExcept } from 'shared/models/IUser';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
+import { userConverting } from 'shared/converteitions';
 import { AxiosError } from 'axios';
-
-interface IGetUsersExceptFriends {
-  user: ApiProfile;
-  isSendFriend: boolean;
-}
-
-export interface IUserExcept extends IUser {
-  isSendFriend?: boolean;
-}
 
 const getUsersExceptFriends = createAsyncThunk<IUserExcept[], string, IConfigAsyncThunk>(
   'auth/usersExceptFriends',

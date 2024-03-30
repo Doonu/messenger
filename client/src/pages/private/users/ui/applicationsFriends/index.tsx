@@ -3,11 +3,11 @@ import {
   SBlockContainer,
   SListFriendRequest,
   STitle,
-} from '../../../../../widgets/items/applicationsFriend/applicationFriend.styled';
-import { useAppDispatch } from '../../../../../hooks/redux';
-import { IAllFriendRequests } from '../../../../../shared/models/IFriendRequest';
-import { getAllFriendRequests } from '../../../../../shared/api';
-import ApplicationFriend from '../../../../../widgets/items/applicationsFriend';
+} from 'widgets/items/applicationsFriend/applicationFriend.styled';
+import { useAppDispatch } from 'hooks/redux';
+import { IAllFriendRequests } from 'shared/models/IFriendRequest';
+import { getAllFriendRequests } from 'shared/api';
+import ApplicationFriend from 'widgets/items/applicationsFriend';
 
 const ApplicationsFriends = () => {
   const dispatch = useAppDispatch();

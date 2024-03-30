@@ -1,8 +1,8 @@
 import { MenuProps } from 'antd';
 import { Link } from 'react-router-dom';
 import React, { FC } from 'react';
-import { logout } from '../../../../../entities/auth/auth.slice';
-import { useAppDispatch } from '../../../../../hooks/redux';
+import { logout } from 'entities/auth/auth.slice';
+import { useAppDispatch } from 'hooks/redux';
 
 const Exit: FC = () => {
   const dispatch = useAppDispatch();

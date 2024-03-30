@@ -1,14 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../interceptors';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
-import { IFilesPost } from '../../../models/IPost';
+import API from 'shared/api/interceptors';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
+import { IFilesPost } from 'shared/models/IPost';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../../entities/notification/notification.slice';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
+import { showMessage } from 'entities/notification/notification.slice';
 
 interface IAddWaitList {
   files: any[];

@@ -2,8 +2,8 @@ import React from 'react';
 import { Container, SDescription, SItem, SLink } from './navbar.styled';
 import { NavbarDto } from '../lib/dto';
 import { useLocation } from 'react-router-dom';
-import { useAppSelector } from '../../../../hooks/redux';
-import { selectorProfile } from '../../../../entities';
+import { useAppSelector } from 'hooks/redux';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 
 //TODO: Перенести в widgets
 

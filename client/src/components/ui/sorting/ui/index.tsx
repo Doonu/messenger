@@ -3,7 +3,7 @@ import { TabsProps } from 'antd';
 
 import { SOrderBy, SButtonOrder, STabs, SSelect } from './Sorting.styled';
 import convertedSelect from '../lib';
-import useDevice from '../../../../hooks/useDevice';
+import useDevice from 'hooks/useDevice';
 
 interface SortingProps<OrderType> {
   tabs: TabsProps['items'];

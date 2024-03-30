@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-import BaseButton from '../../../../../components/ui/buttons/baseButton';
-import { Comment, Shared } from '../../../../../shared/assets/icons';
+import BaseButton from 'components/ui/buttons/baseButton';
+import { Comment, Shared } from 'shared/assets/icons';
 import React from 'react';
 
 export const SInfo = styled.div`

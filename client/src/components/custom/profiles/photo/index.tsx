@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { SContainer, SImg } from './photo.styled';
-import Online from '../../signals/online';
+import Online from 'components/custom/signals/online';
 
 interface IPhotoProfile {
   img: string;

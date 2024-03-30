@@ -1,4 +1,4 @@
-import { IFilesPost } from '../../../shared/models/IPost';
+import { IFilesPost } from 'shared/models/IPost';
 
 export interface IPostState {
   id: number;

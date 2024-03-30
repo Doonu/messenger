@@ -1,4 +1,4 @@
-import { RootState } from '../../app/store';
+import { RootState } from 'app/store';
 
 export const selectorFriends = (state: RootState) => state.friendsSlice.friends;
 export const selectorLoadingFriends = (state: RootState) => state.friendsSlice.loading;

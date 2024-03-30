@@ -1,12 +1,12 @@
 import React from 'react';
 import { SClose, SContent, SDate, SInfo, SNotifyItem, SUser } from './notifyItem.styled';
-import PhotoProfile from '../../../profiles/photo';
-import { INotifyItem } from '../../../../../shared/models/INotification';
-import { postTime } from '../../../../../shared/util/time';
+import PhotoProfile from 'components/custom/profiles/photo';
+import { INotifyItem } from 'shared/models/INotification';
+import { postTime } from 'shared/util/time';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../../../../hooks/redux';
-import { deleteNotification } from '../../../../../shared/api';
-import { Close } from '../../../../../shared/assets/icons';
+import { useAppDispatch } from 'hooks/redux';
+import { deleteNotification } from 'shared/api';
+import { Close } from 'shared/assets/icons';
 
 const NotifyItem = ({ sender, content, createdAt, id }: INotifyItem) => {
   const navigate = useNavigate();

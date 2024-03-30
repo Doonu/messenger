@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ArrowDown } from '../../../../../shared/assets/icons';
+import { ArrowDown } from 'shared/assets/icons';
 
 export const SProfileContainer = styled.div`
   display: flex;

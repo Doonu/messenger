@@ -3,26 +3,21 @@ import React, { FC, useState } from 'react';
 import { Formik } from 'formik';
 import { Form } from 'antd';
 import ContainerForm from './containerForm/ContainerForm';
-import { IPost } from '../model/IPost';
+import { IPost, IPostProps } from '../model/IPost';
 import { initialValues } from '../lib/initialValues';
-import { IAllFiles } from '../../../../shared/models/IPost';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import postCreate from '../../../../shared/api/http/post/postCreate';
-import ModalBase from '../../../../components/navigation/modal/ui/ModalBase';
-import { WarningCountPhotos } from '../../../../components/navigation/modal';
-import { PreviewPhoto } from '../../../../components/navigation/modal/content/previewPhoto';
-import { switchWarningPost } from '../../../../entities/post/post.slice';
-import { selectorEditedPost, selectorPost } from '../../../../entities';
+import { IAllFiles } from 'shared/models/IPost';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { postCreate } from 'shared/api';
+import ModalBase from 'components/navigation/modal/ui/ModalBase';
+import { WarningCountPhotos } from 'components/navigation/modal';
+import { PreviewPhoto } from 'components/navigation/modal/content/previewPhoto';
+import { switchWarningPost } from 'entities/post/post.slice';
+import { selectorEditedPost, selectorPost } from 'entities/post/post.selectors';
 
 //TODO: Сделать контайнер и сделать только в нем опасити
 //TODO: Сделать мазайку для картинок
 //TODO: Перенести в slice
 //TODO: Подумать -> создать в entities папочку с сохраненными формами(savedFilters/addPost)
-
-interface IPostProps {
-  isDraggablePhoto: boolean;
-  handlerChange: () => void;
-}
 
 const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
   const dispatch = useAppDispatch();

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BeautPen, Close, Magnifier } from '../../../../../shared/assets/icons';
+import { BeautPen, Close, Magnifier } from 'shared/assets/icons';
 
 export const SContainerPhoto = styled.div`
   position: relative;

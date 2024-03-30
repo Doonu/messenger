@@ -1,8 +1,8 @@
-import React, { ChangeEvent, Dispatch, FC, SetStateAction, useState } from 'react';
+import React, { ChangeEvent, FC, useState } from 'react';
 
 import Settings from '../settings/Settings';
 import { useFormikContext } from 'formik';
-import { IPost } from '../../model/IPost';
+import { IContainerFormProps, IPost } from '../../model/IPost';
 import {
   SContainer,
   SContainerIcons,
@@ -12,26 +12,17 @@ import {
 } from './containerForm.styled';
 import Content from '../content';
 import Features from '../features';
-import { IAllFiles } from '../../../../../shared/models/IPost';
-import { useAppDispatch, useAppSelector } from '../../../../../hooks/redux';
-import { selectorEditedPost, selectorPost, selectorProfileLoader } from '../../../../../entities';
-import { useOutsideClick } from '../../../../../hooks/outside';
-import ActionIcons from '../../../../../features/actionIcons';
-import BaseButton from '../../../../../components/ui/buttons/baseButton';
-import addPendingList from '../../../../../shared/api/http/files/addPendingList';
-import { extensionPhotoList } from '../../../../../shared/util/filter';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { selectorEditedPost, selectorPost } from 'entities/post/post.selectors';
+import { selectorProfileLoader } from 'entities/profile/profile.selectors';
+import { useOutsideClick } from 'hooks/outside';
+import ActionIcons from 'features/actionIcons';
+import BaseButton from 'components/ui/buttons/baseButton';
+import addPendingList from 'shared/api/http/files/addPendingList';
+import { extensionPhotoList } from 'shared/util/filter';
 import SkeletonAddPost from '../skeleton';
-import Files from '../../../../../features/files';
-import Photos from '../../../../../features/photos';
-
-interface IContainerFormProps {
-  isDraggablePhoto: boolean;
-  handlerChange: () => void;
-  data: IAllFiles;
-  setData: Dispatch<SetStateAction<IAllFiles>>;
-  setCurrentIndex: Dispatch<SetStateAction<number>>;
-  setIsPreviewPhoto: Dispatch<SetStateAction<boolean>>;
-}
+import Files from 'features/files';
+import Photos from 'features/photos';
 
 const ContainerForm: FC<IContainerFormProps> = ({
   isDraggablePhoto,

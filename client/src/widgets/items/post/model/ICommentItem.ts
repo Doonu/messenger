@@ -1,4 +1,4 @@
-import { ICommentsState } from '../../../../entities/post/model/IPost';
+import { ICommentsState } from 'entities/post/model/IPost';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface ICommentItem {

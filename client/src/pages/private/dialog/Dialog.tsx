@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseContainer from '../../../components/layouts/base';
+import BaseContainer from 'components/layouts/base';
 
 const Dialog = () => {
   return <BaseContainer>Dialogs</BaseContainer>;

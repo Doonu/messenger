@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { SContainer, SContainerName, SName, STime } from './mainPost.styled';
 import { IMainPost } from '../model/IMainPost';
-import { convertName } from '../../../../../shared/util/user';
-import PhotoProfile from '../../photo';
+import { convertName } from 'shared/util/user';
+import PhotoProfile from 'components/custom/profiles/photo';
 import { useNavigate } from 'react-router-dom';
 
 const MainPostProfile: FC<IMainPost> = ({ name, avatar, time, id, status, statusTime }) => {

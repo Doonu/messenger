@@ -2,16 +2,11 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Form } from 'antd';
 import { SContainerAuth, SInput, SInputForm, STitle, SBaseButton, SLink } from './register.styled';
-import { IRegister } from '../../../../shared/api/http/auth/model/register';
-import { useAppDispatch } from '../../../../hooks/redux';
+import { IRegister } from 'shared/api/http/auth/model/register';
+import { useAppDispatch } from 'hooks/redux';
 import { useNavigate } from 'react-router-dom';
-import postRegistration from '../../../../shared/api/http/auth/postRegistration';
-import getProfile from '../../../../shared/api/http/user/getProfile';
-//TODO: Избавиться от двух ошибок подряд
-
-interface IInitialValue extends IRegister {
-  repeatPassword: string;
-}
+import { postRegistration, getProfile } from 'shared/api';
+import { IInitialValue } from '../model/IInitialValueRegister';
 
 const Register = () => {
   const dispatch = useAppDispatch();

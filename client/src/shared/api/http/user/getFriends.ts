@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IConfigAsyncThunk, IError } from '../../../models/errors';
-import { ApiProfile, IUser } from '../../../models/IUser';
-import API from '../../interceptors';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
+import { ApiProfile, IUser } from 'shared/models/IUser';
+import API from 'shared/api/interceptors';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../../entities/notification/notification.slice';
-import { userConvertingArray } from '../../../converteitions';
+import { showMessage } from 'entities/notification/notification.slice';
+import { userConvertingArray } from 'shared/converteitions';
 
 interface IGetFriends {
   id: number;

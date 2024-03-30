@@ -1,15 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../interceptors';
+import API from 'shared/api/interceptors';
 
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../../entities/notification/notification.slice';
-import { IPostState, ApiPostState } from '../../../../entities/post/model/IPost';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
+import { showMessage } from 'entities/notification/notification.slice';
+import { IPostState, ApiPostState } from 'entities/post/model/IPost';
 
 type IPostCreate = Pick<IPostState, 'content' | 'isDisabledComments' | 'view' | 'files'> & {
   status: number;

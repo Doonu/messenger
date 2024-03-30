@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IUser } from '../../../models/IUser';
-import { IConfigAsyncThunk, IError } from '../../../models/errors';
-import API from '../../interceptors';
+import { IUser } from 'shared/models/IUser';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../../entities/notification/notification.slice';
+import { showMessage } from 'entities/notification/notification.slice';
 
 const deleteFriend = createAsyncThunk<IUser, number, IConfigAsyncThunk>(
   'auth/deleteFriends',

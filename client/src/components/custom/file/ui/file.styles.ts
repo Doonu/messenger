@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Close } from '../../../../shared/assets/icons';
+import { Close } from 'shared/assets/icons';
 import { Typography } from 'antd';
 
 export const SContainer = styled.a`

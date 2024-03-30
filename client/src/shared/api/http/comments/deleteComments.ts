@@ -1,13 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { ICommentsState } from '../../../../entities/post/model/IPost';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
-import API from '../../interceptors';
-import { showMessage } from '../../../../entities/notification/notification.slice';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
+import { ICommentsState } from 'entities/post/model/IPost';
+import { IConfigAsyncThunk } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
+import { showMessage } from 'entities/notification/notification.slice';
 
 const deleteComments = createAsyncThunk<ICommentsState, number, IConfigAsyncThunk>(
   'comments/deleteComment',

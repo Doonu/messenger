@@ -9,16 +9,17 @@ import deletePostById from './http/post/deletePostById';
 import restorePostById from './http/post/restorePostById';
 import toggleCommentsById from './http/post/toggleCommentsById';
 import likePost from './http/post/likePost';
+import updatePost from './http/post/updatePost';
 
 import getAllCommentsInPost from './http/comments/getAllCommentsInPost';
 import createComment from './http/comments/createComment';
 import deleteComments from './http/comments/deleteComments';
 import likeComments from './http/comments/likeComments';
 import updateComment from './http/comments/updateComment';
-import updatePost from './http/post/updatePost';
 
 import clearTrash from './http/files/clearTrash';
 import replace from './http/files/replace';
+import addPendingList from './http/files/addPendingList';
 
 import getProfile from './http/user/getProfile';
 import getUser from './http/user/getUser';
@@ -32,6 +33,8 @@ import getUsersExceptFriends from './http/user/getUsersExceptFriends';
 import deleteNotification from './http/notification/deleteNotification';
 import deleteAllNotifications from './http/notification/deleteAllNotification';
 import getAllNotification from './http/notification/getAllNotification';
+
+import { useFriendRequest } from './socket/friendRequest/useFriendRequest';
 
 export {
   SocketApi,
@@ -62,4 +65,6 @@ export {
   deleteFriend,
   getAllFriendRequests,
   getUsersExceptFriends,
+  useFriendRequest,
+  addPendingList,
 };

@@ -1,4 +1,4 @@
-import { IUser } from '../../../../../../shared/models/IUser';
+import { IUser } from 'shared/models/IUser';
 import { Dispatch, SetStateAction } from 'react';
 
 export interface IActionsProfile {

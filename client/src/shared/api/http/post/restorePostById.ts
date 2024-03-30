@@ -1,14 +1,9 @@
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../interceptors';
+import API from 'shared/api/interceptors';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../../entities/notification/notification.slice';
-import { IPostState } from '../../../../entities/post/model/IPost';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
+import { showMessage } from 'entities/notification/notification.slice';
+import { IPostState } from 'entities/post/model/IPost';
 
 interface IRestorePostById {
   postId: number;

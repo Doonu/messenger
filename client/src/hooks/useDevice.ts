@@ -1,6 +1,6 @@
 import { useMediaQuery } from 'react-responsive';
 
-import { breakpoints } from '../shared/styles/breakpoints';
+import { breakpoints } from 'shared/styles/breakpoints';
 
 const useDevice = () => {
   const isMobile = useMediaQuery({ query: `(max-width: ${breakpoints.mobile})` });

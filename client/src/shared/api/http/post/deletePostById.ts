@@ -1,14 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
-import API from '../../interceptors';
-import { showMessage } from '../../../../entities/notification/notification.slice';
-import { IPostState } from '../../../../entities/post/model/IPost';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
+import { showMessage } from 'entities/notification/notification.slice';
+import { IPostState } from 'entities/post/model/IPost';
 import { AxiosError } from 'axios';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
 
 const deletePostById = createAsyncThunk<IPostState, number, IConfigAsyncThunk>(
   'post/delete',

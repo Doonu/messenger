@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { BgLike, Like } from '../../../../../../shared/assets/icons';
+import { BgLike, Like } from 'shared/assets/icons';
 import { ILike } from '../model/ILikeButton';
 
 export const SButton = styled.div<ILike>`

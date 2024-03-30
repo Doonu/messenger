@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../../interceptors';
+import API from 'shared/api/interceptors';
 
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
+import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from 'shared/models/errors';
+import { RootState } from 'app/store';
 import { AxiosError } from 'axios';
-import { showMessage } from '../../../../entities/notification/notification.slice';
+import { showMessage } from 'entities/notification/notification.slice';
 import { ApiRegister, IPostRegister, IRegister } from './model/register';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {

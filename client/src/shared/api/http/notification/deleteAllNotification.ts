@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IConfigAsyncThunk } from '../../../models/errors';
-import API from '../../interceptors';
+import { IConfigAsyncThunk } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
 
 const deleteAllNotifications = createAsyncThunk<number, number, IConfigAsyncThunk>(
   'deleteAllNotifications',

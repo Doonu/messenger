@@ -1,11 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk } from '../../../models/errors';
-import { RootState } from '../../../../app/store';
-import API from '../../interceptors';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
+import { IConfigAsyncThunk } from 'shared/models/errors';
+import API from 'shared/api/interceptors';
 
 interface IClearTrash {
   status: number;

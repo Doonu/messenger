@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import MainProfile from '../../../custom/profiles/main';
+import MainProfile from 'components/custom/profiles/main';
 
 export const SContainer = styled.header`
   border-bottom: 1px solid ${({ theme }) => theme.colors.secondaryText};

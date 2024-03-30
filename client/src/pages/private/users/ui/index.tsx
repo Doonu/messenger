@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import AllContainer from '../../../../components/layouts/all';
+import AllContainer from 'components/layouts/all';
 import ApplicationsFriends from './applicationsFriends';
-import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
-import getFriends from '../../../../shared/api/http/user/getFriends';
-import { selectorProfile } from '../../../../entities';
-import { selectorSearch } from '../../../../entities/friends/friends.selectors';
-import { setAllFriends } from '../../../../entities/friends/friends.slice';
-import getUsersExceptFriends, {
-  IUserExcept,
-} from '../../../../shared/api/http/user/getUsersExceptFriends';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import getFriends from 'shared/api/http/user/getFriends';
+import { selectorProfile } from 'entities/profile/profile.selectors';
+import { selectorSearch } from 'entities/friends/friends.selectors';
+import { setAllFriends } from 'entities/friends/friends.slice';
+import { getUsersExceptFriends } from 'shared/api';
 import Friends from './friends';
 import AllUsers from './allUsers';
+import { IUserExcept } from 'shared/models/IUser';
 
 const Users = () => {
   const dispatch = useAppDispatch();
