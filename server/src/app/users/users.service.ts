@@ -39,7 +39,10 @@ export class UsersService {
   }
 
   // Получение всех пользователей кроме друзей
-  async getAllUsersExceptFriends(userId: number, search: string){
+  async getAllUsersExceptFriends(userId: number, search: string, page: number){
+    let currentPage = page - 1;
+    const currentLimit = 10;
+
     const friendsUser = await this.userRepository.findOne({where: {id: userId}})
 
     const users = await this.userRepository.findAll({
@@ -81,7 +84,7 @@ export class UsersService {
 
       }
       return true
-    }).map(user => {
+    }).slice(currentPage === 0 ? 0 : currentPage * currentLimit, (currentPage * currentLimit) + currentLimit).map(user => {
       for (let i = 0; i <= allFriendReq.length; i++){
         const item = allFriendReq[i];
 
@@ -163,7 +166,7 @@ export class UsersService {
 
   async getFriends(id: number, page: number, search: string){
     let currentPage = page - 1;
-    const currentLimit = 5;
+    const currentLimit = 10;
 
     const user = await this.userRepository.findByPk(id)
     const fullFriends =  await Promise.all(user.friends.slice(currentPage === 0 ? 0 : currentPage * currentLimit, (currentPage * currentLimit) + currentLimit).map(async (el) => this.userRepository.findOne({ attributes: this.baseFieldUser, where: {id: el} })));

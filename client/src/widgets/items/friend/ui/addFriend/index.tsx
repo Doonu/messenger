@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import BaseButton from 'components/ui/buttons/baseButton';
-import { SContainer } from './addFriend.styled';
+import { SContainer, SText } from './addFriend.styled';
 import { IAddFriend } from './model/IAddFriend';
 
 const AddFriend: FC<IAddFriend> = ({ addFriendHandler, viewAddFriendService, isSendFriend }) => {
@@ -11,7 +11,7 @@ const AddFriend: FC<IAddFriend> = ({ addFriendHandler, viewAddFriendService, isS
           Добавить в друзья
         </BaseButton>
       )}
-      {(viewAddFriendService || isSendFriend) && <div>Вы отправлии приглашение в друзья</div>}
+      {(viewAddFriendService || isSendFriend) && <SText>Вы отправлии приглашение в друзья</SText>}
     </SContainer>
   );
 };

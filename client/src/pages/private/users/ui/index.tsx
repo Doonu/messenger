@@ -15,22 +15,38 @@ const Users = () => {
   const dispatch = useAppDispatch();
 
   const user = useAppSelector(selectorProfile);
-
   const search = useAppSelector(selectorSearch);
 
   const [allUsers, setAllUsers] = useState<IUserExcept[]>([]);
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  const [pageUsers, setPageUsers] = useState(0);
+  const [haseMoreUsers, setHaseMore] = useState(true);
 
   const handlerGetFriends = () => {
     dispatch(getFriends({ id: user.id, page: 1, search }));
   };
 
   const handlerGetUsersExceptFriends = () => {
-    dispatch(getUsersExceptFriends(search))
+    dispatch(getUsersExceptFriends({ page: 1, search: search }))
       .unwrap()
       .then((data) => {
         setAllUsers(data);
+        setPageUsers((prev) => prev);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        setLoadingUsers(false);
+      });
+  };
+
+  const handlerNextPage = async () => {
+    dispatch(getUsersExceptFriends({ page: pageUsers + 1, search: search }))
+      .unwrap()
+      .then((data) => {
+        if (!data.length) setHaseMore(false);
+        setPageUsers((prev) => prev + 1);
+        setAllUsers((prevData) => [...prevData, ...data]);
+      });
   };
 
   const handlerSearch = () => {
@@ -51,7 +67,12 @@ const Users = () => {
     <AllContainer>
       <ApplicationsFriends />
       <Friends handlerSearch={handlerSearch} />
-      <AllUsers users={allUsers} />
+      <AllUsers
+        handlerNextPage={handlerNextPage}
+        loading={loadingUsers}
+        haseMore={haseMoreUsers}
+        users={allUsers}
+      />
     </AllContainer>
   );
 };

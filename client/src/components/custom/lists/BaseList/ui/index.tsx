@@ -10,11 +10,12 @@ const BaseList = <T, K>({
   hasMore,
   fetchNextPage,
   isBorderBottom = true,
+  isPadding = true,
 }: IBaseList<T, K>) => {
   return (
     <>
       {!!list.length && (
-        <SContainerComments $isBorder={isBorderBottom}>
+        <SContainerComments $isPadding={isPadding} $isBorder={isBorderBottom}>
           {list.map((item) => itemContent(item))}
         </SContainerComments>
       )}

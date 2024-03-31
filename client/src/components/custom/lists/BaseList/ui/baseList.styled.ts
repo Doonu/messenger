@@ -2,13 +2,19 @@ import styled, { css } from 'styled-components';
 
 interface ISContainerComments {
   $isBorder: boolean;
+  $isPadding: boolean;
 }
 
 export const SContainerComments = styled.div<ISContainerComments>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 15px;
+  
+  ${({ $isPadding }) =>
+    $isPadding &&
+    css`
+      gap: 10px;
+      padding: 15px;
+    `}}
 
   & > div:not(:last-child) {
     ${({ $isBorder, theme }) =>

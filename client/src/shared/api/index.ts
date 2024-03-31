@@ -33,6 +33,7 @@ import getUsersExceptFriends from './http/user/getUsersExceptFriends';
 import deleteNotification from './http/notification/deleteNotification';
 import deleteAllNotifications from './http/notification/deleteAllNotification';
 import getAllNotification from './http/notification/getAllNotification';
+import getAllNotificationCount from './http/notification/getAllNotificationCount';
 
 import { useFriendRequest } from './socket/friendRequest/useFriendRequest';
 
@@ -67,4 +68,5 @@ export {
   getUsersExceptFriends,
   useFriendRequest,
   addPendingList,
+  getAllNotificationCount,
 };
