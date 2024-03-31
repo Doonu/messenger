@@ -29,7 +29,14 @@ export class NotificationsService {
         await this.notificationsRepository.destroy({where: {userId: dto.userId}})
     }
 
-    async getAllNotifications(userId: number){
-        return await this.notificationsRepository.findAll({where: {userId: userId}, include: {all: true}})
+    async getAllNotifications(userId: number, page: number, limit: number){
+        let currentPage = page - 1;
+
+        return await this.notificationsRepository.findAll({where: {userId: userId}, include: {all: true}, limit: limit, offset: currentPage * limit})
+    }
+
+    async getAllNotificationsCount(userId: number){
+        const arrayNotification = await this.notificationsRepository.findAll({where: {userId: userId}, include: {all: true}})
+        return arrayNotification.length;
     }
 }

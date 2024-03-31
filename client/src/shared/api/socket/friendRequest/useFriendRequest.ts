@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import SocketApi from '../socket-api';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import { addNotification, showMessage } from 'entities/notification/notification.slice';
+import { addCount, addNotification, showMessage } from 'entities/notification/notification.slice';
 import { Types } from 'shared/models/INotification';
 import { APINotifyItem } from 'shared/models/INotification';
 import { friendRequestConverting } from './friendRequest.converting';
@@ -42,6 +42,7 @@ export const useFriendRequest = ({
     if (data.notification && !newFriendReqCallback) {
       const notification = friendRequestConverting(data.notification);
       dispatch(addNotification(notification));
+      dispatch(addCount());
     }
 
     if (newFriendReqCallback) {
@@ -55,6 +56,7 @@ export const useFriendRequest = ({
     if (data.notification && !acceptedRequestCallback) {
       const notification = friendRequestConverting(data.notification);
       dispatch(addNotification(notification));
+      dispatch(addCount());
     }
 
     messageView(data);
@@ -65,6 +67,7 @@ export const useFriendRequest = ({
     if (data.notification && !canselFriendRequestCallback) {
       const notification = friendRequestConverting(data.notification);
       dispatch(addNotification(notification));
+      dispatch(addCount());
     }
 
     messageView(data, 'error');
@@ -75,6 +78,7 @@ export const useFriendRequest = ({
     if (data.notification && !canselRequestCallback) {
       const notification = friendRequestConverting(data.notification);
       dispatch(addNotification(notification));
+      dispatch(addCount());
     }
 
     messageView(data, 'error');

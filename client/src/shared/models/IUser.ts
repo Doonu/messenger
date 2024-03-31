@@ -37,7 +37,7 @@ export interface IGetFriendRequest {
   reqId?: number;
 }
 
-export interface IGetUsersExceptFriends {
+export interface ApiGetUsersExceptFriends {
   user: ApiProfile;
   isSendFriend: boolean;
 }

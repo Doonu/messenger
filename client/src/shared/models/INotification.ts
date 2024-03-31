@@ -17,7 +17,13 @@ export interface INotification {
     type: Types;
     level?: Levels;
   };
+  count: number;
   notifications: INotifyItem[];
+  loading: boolean;
+  error: boolean;
+  page: number;
+  limit: number;
+  haseMore: boolean;
 }
 
 export interface APINotifyItem {

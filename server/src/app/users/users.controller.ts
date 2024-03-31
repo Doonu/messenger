@@ -43,8 +43,8 @@ export class UsersController {
   @ApiResponse({ status: 200, type: [User] })
   @UseGuards(JwtAuthGuard)
   @Post("/usersExceptFriends")
-  getAllExceptFriends(@Req() {userId}: any, @Body() {search}: ExceptFriendsDto){
-    return this.userService.getAllUsersExceptFriends(userId, search)
+  getAllExceptFriends(@Req() {userId}: any, @Body() { search, page }: ExceptFriendsDto){
+    return this.userService.getAllUsersExceptFriends(userId, search, page)
   }
 
   @ApiOperation({ summary: "Выдать роль" })

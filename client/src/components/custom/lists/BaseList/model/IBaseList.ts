@@ -7,4 +7,5 @@ export interface IBaseList<T, K> {
   hasMore: boolean;
   fetchNextPage: () => void;
   isBorderBottom: boolean;
+  isPadding?: boolean;
 }

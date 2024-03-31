@@ -32,10 +32,12 @@ const ApplicationFriend: FC<IItemApplicationsFriends> = ({ request, filterReques
   };
 
   return (
-    <SContainer key={request.id} onClick={() => navigate(`/profile/${request.sender.id}`)}>
+    <SContainer key={request.id}>
       <PhotoProfile size={70} img={request.sender.avatar} name={request.sender.name} />
       <SContent>
-        <SName>{request.sender.name}</SName>
+        <SName onClick={() => navigate(`/profile/${request.sender.id}`)}>
+          {request.sender.name}
+        </SName>
         <SButtons>
           <BaseButton height="30px" onClick={handlerFriendAcceptWS}>
             Принять предложение

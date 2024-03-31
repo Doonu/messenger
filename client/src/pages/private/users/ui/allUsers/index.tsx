@@ -4,12 +4,16 @@ import BaseButton from 'components/ui/buttons/baseButton';
 import { TbListSearch } from 'react-icons/tb';
 import { Friend } from 'widgets/items/friend';
 import { IUserExcept } from 'shared/models/IUser';
+import { ObserverList } from 'components/custom/lists/ObserverList';
 
 interface IAllUsers {
   users: IUserExcept[];
+  loading: boolean;
+  haseMore: boolean;
+  handlerNextPage: () => void;
 }
 
-const AllUsers: FC<IAllUsers> = ({ users }) => {
+const AllUsers: FC<IAllUsers> = ({ users, loading, haseMore, handlerNextPage }) => {
   return (
     <div>
       {!!users.length && (
@@ -25,9 +29,17 @@ const AllUsers: FC<IAllUsers> = ({ users }) => {
               Расширенный поиск
             </BaseButton>
           </STitle>
-          {users.map((user) => (
-            <Friend key={user.id} user={user} type="notFriend" />
-          ))}
+          <div>
+            <ObserverList
+              list={users}
+              itemContent={(user) => <Friend key={user.id} user={user} type="notFriend" />}
+              isPending={loading}
+              hasMore={haseMore}
+              fetchNextPage={handlerNextPage}
+              skeleton={() => <div>Загрузка...</div>}
+              notFoundMessage={'Пользователей не найдено'}
+            />
+          </div>
         </SContainerUsers>
       )}
     </div>
