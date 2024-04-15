@@ -4,7 +4,7 @@ import { ApiProfile, IUser } from 'shared/models/IUser';
 import API from 'shared/api/interceptors';
 import { AxiosError } from 'axios';
 import { showMessage } from 'entities/notification/notification.slice';
-import { userConvertingArray } from 'shared/converteitions';
+import { userArrayConverting } from 'shared/converteitions';
 
 const getAllFriends = createAsyncThunk<IUser[], number, IConfigAsyncThunk>(
   'auth/getAllFriends',
@@ -13,7 +13,7 @@ const getAllFriends = createAsyncThunk<IUser[], number, IConfigAsyncThunk>(
       url: `api/users/allFriends/${id}`,
     })
       .then(({ data }) => {
-        return userConvertingArray(data);
+        return userArrayConverting(data);
       })
       .catch(({ response }: AxiosError<IError>) => {
         const title = response?.data.message || 'Неизвестная ошибка';

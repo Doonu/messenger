@@ -149,6 +149,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
     getAllComments();
   }, [orderBy, orderDirection]);
 
+  /* TODO: Вынести в widget форму*/
   return (
     <SContainer>
       {!!comments.length && (
@@ -160,7 +161,6 @@ const Comments: FC<CommentsProps> = ({ post }) => {
           onChangeTabs={handlerOrderBy}
         />
       )}
-
       <BaseList
         list={comments}
         isBorderBottom={true}
@@ -179,7 +179,6 @@ const Comments: FC<CommentsProps> = ({ post }) => {
           />
         )}
       />
-
       <SForm>
         <PhotoProfile img={avatar} name={name} />
         <SAutosizeInput

@@ -1,6 +1,6 @@
 import { ApiProfile, IUser } from 'shared/models/IUser';
 
-export const userConvertingArray = (data: ApiProfile[]): IUser[] => {
+export const userArrayConverting = (data: ApiProfile[]): IUser[] => {
   return data.map((user) => ({
     name: user.name,
     email: user.email,

@@ -7,7 +7,7 @@ import WriteMessage from './writeMessage';
 import AddFriend from './addFriend';
 import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import SocketApi from 'shared/api/socket/socket-api';
+import { friendRequestWS } from 'shared/api';
 
 const Friend: FC<IFriend> = ({ user, type, isBorderFirst = true }) => {
   const profile = useAppSelector(selectorProfile);
@@ -17,11 +17,7 @@ const Friend: FC<IFriend> = ({ user, type, isBorderFirst = true }) => {
   const navigate = useNavigate();
 
   const handlerFriendRequestWS = () => {
-    SocketApi.socket?.emit('friend_request', {
-      to: user.id,
-      from: profile.id,
-    });
-
+    friendRequestWS({ to: user.id, from: profile.id });
     setViewAddFriendService(true);
   };
 

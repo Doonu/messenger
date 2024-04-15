@@ -5,14 +5,18 @@ import { LoaderSmall } from 'components/ui/loaders';
 interface SInputProps {
   border?: string;
   $minWidth?: string;
+  $isBgTransparent?: boolean;
 }
 
 export const SLoaderSmall = styled(LoaderSmall)``;
 
 export const SLabel = styled.label`
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   width: 100%;
   position: relative;
+
   & > div {
     position: absolute;
     right: 15px;
@@ -20,12 +24,17 @@ export const SLabel = styled.label`
   }
 `;
 
+export const SPrevIcon = styled.span`
+  display: block;
+`;
+
 export const SInput = styled(Input)<SInputProps>`
   border-color: transparent;
   outline: none !important;
   border-radius: ${({ border }) => border};
   padding-right: 45px;
-  background: ${({ theme }) => theme.colors.secondary};
+  background: ${({ theme, $isBgTransparent }) =>
+    $isBgTransparent ? 'transparent' : theme.colors.secondary};
   color: ${({ theme }) => theme.colors.active};
   width: 100%;
   height: ${({ height }) => height};
@@ -38,11 +47,13 @@ export const SInput = styled(Input)<SInputProps>`
   }
 
   &:focus {
-    border-color: ${({ theme }) => theme.colors.active};
+    border-color: ${({ theme, $isBgTransparent }) =>
+      $isBgTransparent ? 'transparent' : theme.colors.active};
   }
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.text};
+    border-color: ${({ theme, $isBgTransparent }) =>
+      $isBgTransparent ? 'transparent' : theme.colors.text};
   }
 `;
 

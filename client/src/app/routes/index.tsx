@@ -2,7 +2,7 @@ import { ComponentType, lazy } from 'react';
 
 // TODO: разобраться с этим
 // @ts-ignore
-const Dialog = lazy(() => import('pages/private/dialog'));
+const Dialogs = lazy(() => import('pages/private/dialogs'));
 // @ts-ignore
 const Favorite = lazy(() => import('pages/private/favorite'));
 // @ts-ignore
@@ -15,6 +15,8 @@ const Feed = lazy(() => import('pages/private/feed/ui'));
 const Profile = lazy(() => import('pages/private/profile'));
 // @ts-ignore
 const Users = lazy(() => import('pages/private/users'));
+// @ts-ignore
+const Chat = lazy(() => import('pages/private/chat/ui'));
 
 export interface IRoute {
   path: string;
@@ -29,6 +31,7 @@ export enum RoutesNamesPrivate {
   FAVORITE = '/favorite',
   FEED = '/',
   USERS = '/friends',
+  CHAT = '/dialog/:id',
 }
 
 export enum RoutesNamesPublic {
@@ -38,10 +41,11 @@ export enum RoutesNamesPublic {
 
 export const privateRoutes: IRoute[] = [
   { path: RoutesNamesPrivate.PROFILE, component: Profile, type: 'Profile' },
-  { path: RoutesNamesPrivate.DIALOG, component: Dialog, type: 'Dialog' },
+  { path: RoutesNamesPrivate.DIALOG, component: Dialogs, type: 'Dialog' },
   { path: RoutesNamesPrivate.FAVORITE, component: Favorite, type: 'Favorite' },
   { path: RoutesNamesPrivate.FEED, component: Feed, type: 'Feed' },
   { path: RoutesNamesPrivate.USERS, component: Users, type: 'Users' },
+  { path: RoutesNamesPrivate.CHAT, component: Chat, type: 'Chat' },
 ];
 
 export const publicRoutes: IRoute[] = [

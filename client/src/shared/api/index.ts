@@ -36,6 +36,20 @@ import getAllNotification from './http/notification/getAllNotification';
 import getAllNotificationCount from './http/notification/getAllNotificationCount';
 
 import { useFriendRequest } from './socket/friendRequest/useFriendRequest';
+import {
+  friendRequestWS,
+  friendAcceptWS,
+  cancellationAddFriendWS,
+  canselFriendReqWS,
+} from './socket/friendRequest';
+
+import { useDialogSocket } from './socket/dialog/useDialogSocket';
+import { createMessage } from './socket/dialog';
+
+import getAllDialogs from './http/dialogs/getAllDialogs';
+import getDialogById from './http/dialogs/getDialogById';
+import getAllMessagesByDialogId from './http/dialogs/getAllMessagesByDialogId';
+import createFixedMessage from './http/dialogs/createFixedMessage';
 
 export {
   SocketApi,
@@ -69,4 +83,14 @@ export {
   useFriendRequest,
   addPendingList,
   getAllNotificationCount,
+  getAllDialogs,
+  getDialogById,
+  friendRequestWS,
+  friendAcceptWS,
+  cancellationAddFriendWS,
+  canselFriendReqWS,
+  useDialogSocket,
+  createMessage,
+  getAllMessagesByDialogId,
+  createFixedMessage,
 };

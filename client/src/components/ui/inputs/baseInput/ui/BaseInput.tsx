@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { SIcon, SInput, SLabel, SLoaderSmall } from './baseInput.styled';
+import { SIcon, SInput, SLabel, SLoaderSmall, SPrevIcon } from './baseInput.styled';
 import { IInput, IVariantType } from '../model/IInput';
 import { allVariantType } from '../lib/variantType';
 
@@ -10,6 +10,8 @@ const Input: FC<IInput> = ({
   minWidth = 'inherit',
   sizeLoading = 15,
   loading,
+  isBgTransparent,
+  prevIcon,
   ...props
 }) => {
   const [variantType, setVariantType] = useState<IVariantType>();
@@ -37,12 +39,14 @@ const Input: FC<IInput> = ({
 
   return (
     <SLabel>
+      {!!prevIcon && <SPrevIcon>{prevIcon}</SPrevIcon>}
       <SInput
         border={generateBorderValue}
         autoComplete="off"
         type={variantType && variantType.type}
         height={height}
         $minWidth={minWidth}
+        $isBgTransparent={isBgTransparent}
         {...props}
       />
       {(variantType?.type === 'password' || variantType?.type === 'text') && !loading && (

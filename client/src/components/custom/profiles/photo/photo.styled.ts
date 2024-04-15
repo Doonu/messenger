@@ -13,7 +13,7 @@ export const SContainer = styled.div<IImgProps>`
   position: relative;
   background: ${({ color }) => color};
   font-size: ${({ fontSize }) => fontSize && `${fontSize}px`};
-  width: ${({ size }) => size && `${size}px`};
+  min-width: ${({ size }) => size && `${size}px`};
   height: ${({ size }) => size && `${size}px`};
   border-radius: 99%;
   display: flex;
