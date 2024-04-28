@@ -4,6 +4,8 @@ import { Role } from "../../roles/roles.model";
 import { UserRoles } from "../../roles/user-roles.model";
 import { Post } from "../../posts/posts.model";
 import {Comments} from "../../comments/comments.model";
+import {Dialog} from "../../dialogs/dialogs.model";
+import {UserDialog} from "../../dialogs/user-dialogs.model";
 
 interface UserCreationAttrs {
   email: string;
@@ -57,6 +59,9 @@ export class User extends Model<User, UserCreationAttrs> {
 
   @BelongsToMany(() => Role, () => UserRoles)
   roles: Role[];
+
+  @BelongsToMany(() => Dialog, () => UserDialog)
+  dialogs: Dialog[]
 
   @HasMany(() => Comments)
   comments: Comments[]

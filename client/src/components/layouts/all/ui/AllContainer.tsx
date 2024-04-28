@@ -9,11 +9,19 @@ interface AllContainerProps {
   children: ReactNode;
   left?: boolean;
   right?: boolean;
+  isFooter?: boolean;
+  $isSticky?: boolean;
 }
 
-const AllContainer: FC<AllContainerProps> = ({ children, left = true, right = true }) => {
+const AllContainer: FC<AllContainerProps> = ({
+  children,
+  left = true,
+  right = true,
+  isFooter = true,
+  $isSticky = false,
+}) => {
   return (
-    <BaseContainer>
+    <BaseContainer isFooter={isFooter}>
       <SMain>
         {left && (
           <Affix offsetTop={30}>
@@ -24,7 +32,9 @@ const AllContainer: FC<AllContainerProps> = ({ children, left = true, right = tr
             </SAffixContainer>
           </Affix>
         )}
-        <SCenter>{children}</SCenter>
+        <SCenter $isSticky={$isSticky} $isFooter={isFooter}>
+          {children}
+        </SCenter>
         {right && (
           <Affix offsetTop={30}>
             <SAffixContainer>

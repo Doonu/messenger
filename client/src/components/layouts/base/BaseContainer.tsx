@@ -5,14 +5,15 @@ import { Content, Footer } from 'shared/styles/containers';
 interface BaseContainerProps {
   children: ReactNode;
   isHeader?: boolean;
+  isFooter?: boolean;
 }
 
-const BaseContainer: FC<BaseContainerProps> = ({ isHeader = true, children }) => {
+const BaseContainer: FC<BaseContainerProps> = ({ isHeader = true, children, isFooter = true }) => {
   return (
     <>
       {isHeader && <Header />}
       <Content>{children}</Content>
-      <Footer>Footer</Footer>
+      {isFooter && <Footer>Footer</Footer>}
     </>
   );
 };

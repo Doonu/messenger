@@ -1,3 +1,3 @@
-import { WarningCountPhotos } from './content/warningCountPhotos';
+import Modal from './ui';
 
-export { WarningCountPhotos };
+export { Modal };

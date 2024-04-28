@@ -15,9 +15,9 @@ import {
 } from './modification.styled';
 import { IAllFiles } from 'shared/models/IPost';
 import { updatePost, addPendingList, clearTrash } from 'shared/api';
-import ModalBase from 'components/navigation/modal/ui/ModalBase';
-import { WarningCountPhotos } from 'components/navigation/modal';
-import { PreviewPhoto } from 'components/navigation/modal/content/previewPhoto';
+import Index from 'components/navigation/modal/ui';
+import { WarningCountPhotos } from 'components/custom/warningCountPhotos';
+import { PreviewPhoto } from 'features/previewPhoto';
 import ActionIcons from 'features/actionIcons';
 import { extensionPhotoList, photosFilter } from 'shared/util/filter';
 import Files from 'features/files';
@@ -116,10 +116,10 @@ const Modification: FC<IModification> = ({
 
   return (
     <SContainer onDragEnterCapture={handlerPhotoFocus} onDragLeaveCapture={handlerPhotoFocus}>
-      <ModalBase onClose={() => setIsWarningMessage(false)} width="400px" open={isWarningMessage}>
+      <Index onClose={() => setIsWarningMessage(false)} width="400px" open={isWarningMessage}>
         <WarningCountPhotos message={warningMessage} />
-      </ModalBase>
-      <ModalBase
+      </Index>
+      <Index
         isFooter={false}
         width="max-content"
         onClose={() => setIsPreviewPhoto(false)}
@@ -135,7 +135,7 @@ const Modification: FC<IModification> = ({
             description={content.toString().split('\n')}
           />
         )}
-      </ModalBase>
+      </Index>
       {isDraggablePhotoInPost && <DragInput multiple type="file" onChange={handlerPhoto} />}
       {isDraggablePhotoInPost && (
         <SDragField isFocus={isDraggablePhotoFocus}>

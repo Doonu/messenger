@@ -8,9 +8,9 @@ import { initialValues } from '../lib/initialValues';
 import { IAllFiles } from 'shared/models/IPost';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { postCreate } from 'shared/api';
-import ModalBase from 'components/navigation/modal/ui/ModalBase';
-import { WarningCountPhotos } from 'components/navigation/modal';
-import { PreviewPhoto } from 'components/navigation/modal/content/previewPhoto';
+import Index from 'components/navigation/modal/ui';
+import { WarningCountPhotos } from 'components/custom/warningCountPhotos';
+import { PreviewPhoto } from 'features/previewPhoto';
 import { switchWarningPost } from 'entities/post/post.slice';
 import { selectorEditedPost, selectorPost } from 'entities/post/post.selectors';
 
@@ -58,14 +58,14 @@ const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
     >
       {({ values, setFieldValue, handleSubmit }) => (
         <Form encType="multipart/form-data" layout="vertical" onFinish={handleSubmit}>
-          <ModalBase
+          <Index
             onClose={() => setFieldValue('isWarningModal', false)}
             width="400px"
             open={values.isWarningModal}
           >
             <WarningCountPhotos message={values.isWarningModalTitle} />
-          </ModalBase>
-          <ModalBase
+          </Index>
+          <Index
             isFooter={false}
             width="max-content"
             onClose={() => setIsPreviewPhoto(false)}
@@ -81,7 +81,7 @@ const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
                 description={values.content.toString().split('\n')}
               />
             )}
-          </ModalBase>
+          </Index>
           {allFiles && (
             <ContainerForm
               setIsPreviewPhoto={setIsPreviewPhoto}

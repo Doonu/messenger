@@ -1,6 +1,6 @@
 import React from 'react';
 import { FC } from 'react';
-import { SocketApi } from 'shared/api';
+import { cancellationAddFriendWS, friendAcceptWS } from 'shared/api';
 import PhotoProfile from 'components/custom/profiles/photo';
 import { SButtons } from '../post/ui/modification/modification.styled';
 import BaseButton from 'components/ui/buttons/baseButton';
@@ -15,19 +15,14 @@ const ApplicationFriend: FC<IItemApplicationsFriends> = ({ request, filterReques
   const navigate = useNavigate();
 
   const handlerFriendAcceptWS = () => {
-    SocketApi.socket?.emit('accept_friend_request', {
-      idFriendRequest: request?.id,
-    });
+    friendAcceptWS({ idFriendRequest: request?.id });
 
     filterRequest(request?.id);
     dispatch(addFriend(request.sender));
   };
 
   const handlerCancellationAddFriendWS = () => {
-    SocketApi.socket?.emit('cancellation_add_friend', {
-      idFriendRequest: request?.id,
-    });
-
+    cancellationAddFriendWS({ idFriendRequest: request?.id });
     filterRequest(request?.id);
   };
 

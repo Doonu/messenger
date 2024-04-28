@@ -12,8 +12,15 @@ export const SAffixContainer = styled.div`
   gap: 15px;
 `;
 
-export const SCenter = styled.div`
+interface SCenter {
+  $isFooter: boolean;
+  $isSticky?: boolean;
+}
+
+export const SCenter = styled.div<SCenter>`
+  display: flex;
+  flex-direction: ${({ $isSticky }) => ($isSticky ? 'row' : 'column')};
   margin: 0 auto;
   flex: 1;
-  min-height: calc(100vh - 200px);
+  min-height: ${({ $isFooter }) => ($isFooter ? 'calc(100vh - 200px)' : 'calc(100vh - 115px)')};
 `;

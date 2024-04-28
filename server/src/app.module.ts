@@ -16,8 +16,12 @@ import {CommentsModule} from "./app/comments/comments.module";
 import {ConfigModule} from "@nestjs/config";
 import {Comments} from "./app/comments/comments.model";
 import { FilesController } from './app/files/files.controller';
-import {FriendRequestService} from "./app/users/sockets/friendRequest/friendRequest.service";
 import { NotificationsModule } from './app/notifications/notifications.module';
+import { DialogsModule } from './app/dialogs/dialogs.module';
+import {UserDialog} from "./app/dialogs/user-dialogs.model";
+import {Dialog} from "./app/dialogs/dialogs.model";
+import { MessagesModule } from './app/messages/messages.module';
+import {Message} from "./app/messages/messages.model";
 
 @Module({
   controllers: [FilesController],
@@ -35,7 +39,7 @@ import { NotificationsModule } from './app/notifications/notifications.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, UserRoles, Post, Comments],
+      models: [User, Role, UserRoles, Post, Comments, UserDialog, Dialog, Message],
       autoLoadModels: true
     }),
     UsersModule,
@@ -44,7 +48,9 @@ import { NotificationsModule } from './app/notifications/notifications.module';
     FilesModule,
     PostsModule,
     CommentsModule,
-    NotificationsModule
+    NotificationsModule,
+    DialogsModule,
+    MessagesModule,
   ],
   exports: []
 })

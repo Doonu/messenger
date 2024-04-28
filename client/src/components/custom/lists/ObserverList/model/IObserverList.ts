@@ -9,4 +9,5 @@ export interface IObserverList<T, K> {
   notFoundMessage: string;
   isPending?: boolean;
   isFetching?: boolean;
+  position?: 'bottom' | 'top';
 }

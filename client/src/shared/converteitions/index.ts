@@ -1,4 +1,5 @@
-import { userConverting } from './user/userConverting';
-import { userConvertingArray } from './user/userConvertingArray';
+import { userConverting } from './user/user.converting';
+import { userArrayConverting } from './user/userArray.converting';
+import { messageConverting } from './message/message.converting';
 
-export { userConverting, userConvertingArray };
+export { userConverting, userArrayConverting, messageConverting };

@@ -11,12 +11,13 @@ import { Comments } from "../comments/comments.model";
 import { FriendRequestService } from "./sockets/friendRequest/friendRequest.service";
 import { FriendRequest } from "./models/friendRequest.model";
 import { NotificationsModule } from "../notifications/notifications.module";
+import {UserDialog} from "../dialogs/user-dialogs.model";
 
 @Module({
   controllers: [UsersController],
   providers: [UsersService, FriendRequestService],
   imports: [
-    SequelizeModule.forFeature([User, Role, UserRoles, Comments, FriendRequest]),
+    SequelizeModule.forFeature([User, Role, UserRoles, Comments, FriendRequest, UserDialog]),
     NotificationsModule,
     RolesModule,
     forwardRef(() => AuthModule)

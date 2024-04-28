@@ -1,13 +1,19 @@
 import React, { FC, useEffect, useState } from 'react';
 import { MainPageProfile } from 'components/custom/profiles/mainPageProfile';
-import SocketApi from 'shared/api/socket/socket-api';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import { IActionsProfile } from './model/IActionsProfile';
 import { IGetFriendRequest } from 'shared/models/IUser';
 import { useFriendRequest } from 'shared/api/socket/friendRequest/useFriendRequest';
 import { useParams } from 'react-router-dom';
-import { deleteFriend, getFriendRequest } from 'shared/api';
+import {
+  cancellationAddFriendWS,
+  deleteFriend,
+  friendAcceptWS,
+  friendRequestWS,
+  getFriendRequest,
+  canselFriendReqWS,
+} from 'shared/api';
 
 const ActionsProfile: FC<IActionsProfile> = ({
   profilePage,
@@ -21,31 +27,6 @@ const ActionsProfile: FC<IActionsProfile> = ({
   const idParam = params['id'];
 
   const [statusUser, setStatusUser] = useState<IGetFriendRequest>({ status: false });
-
-  const handlerFriendRequestWS = () => {
-    SocketApi.socket?.emit('friend_request', {
-      to: profilePage.id,
-      from: user.id,
-    });
-  };
-
-  const handlerFriendAcceptWS = () => {
-    SocketApi.socket?.emit('accept_friend_request', {
-      idFriendRequest: statusUser?.reqId,
-    });
-  };
-
-  const handlerCancellationAddFriendWS = () => {
-    SocketApi.socket?.emit('cancellation_add_friend', {
-      idFriendRequest: statusUser?.reqId,
-    });
-  };
-
-  const canselFriendReqWS = () => {
-    SocketApi.socket?.emit('cancellation_friend_request', {
-      idFriendRequest: statusUser?.reqId,
-    });
-  };
 
   const handlerCheckFriend = () => !!profileFriends.find((friend) => user.id === friend.id);
 
@@ -99,12 +80,12 @@ const ActionsProfile: FC<IActionsProfile> = ({
 
   return (
     <MainPageProfile
-      handlerCancelFriendRequest={canselFriendReqWS}
-      handlerCancelAddFriend={handlerCancellationAddFriendWS}
+      handlerCancelFriendRequest={() => canselFriendReqWS({ idFriendRequest: statusUser?.reqId })}
+      handlerCancelAddFriend={() => cancellationAddFriendWS({ idFriendRequest: statusUser?.reqId })}
       handlerDeleteFriend={handlerDeleteFriend}
       handlerCheckFriend={handlerCheckFriend}
-      handlerFriendRequestAccepted={handlerFriendAcceptWS}
-      friendRequest={handlerFriendRequestWS}
+      handlerFriendRequestAccepted={() => friendAcceptWS({ idFriendRequest: statusUser?.reqId })}
+      friendRequest={() => friendRequestWS({ to: profilePage.id, from: user.id })}
       statusFriendRequest={statusUser}
       user={profilePage}
     />

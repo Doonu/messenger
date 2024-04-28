@@ -10,6 +10,8 @@ export interface IInput extends InputProps {
   minWidth?: string;
   loading?: boolean;
   sizeLoading?: number;
+  isBgTransparent?: boolean;
+  prevIcon?: ReactNode;
 }
 
 export interface IVariantType {

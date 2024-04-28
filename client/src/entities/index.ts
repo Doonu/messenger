@@ -3,5 +3,6 @@ import notificationSlice from './notification/notification.slice';
 import userSlice from './profile/profile.slice';
 import postSlice from './post/post.slice';
 import friendsSlice from './friends/friends.slice';
+import dialogsSlice from './dialogs/dialogs.slice';
 
-export default { authSlice, notificationSlice, userSlice, postSlice, friendsSlice };
+export default { authSlice, notificationSlice, userSlice, postSlice, friendsSlice, dialogsSlice };

@@ -38,7 +38,15 @@ export class CommentsService {
         let sortOrderDirection = orderDirection == 0 ? 'DESC' : 'ASC'
         let currentPage = page - 1;
 
-        return await this.commentsRepository.findAll({where: {postId: id}, include: {all: true}, order: [[sortOrderBy, sortOrderDirection]], limit: limit, offset: currentPage * limit})
+        return await this.commentsRepository.findAll({
+            where:
+                {postId: id},
+            include:
+                {all: true},
+            order:
+                [[sortOrderBy, sortOrderDirection]],
+            limit: limit, offset: currentPage * limit
+        })
     }
 
     async toggleLikeComment(dto: ToggleLikeCommentDto, userId: number){

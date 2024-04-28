@@ -64,3 +64,18 @@ export const postTime = (time: string | number) => {
 
   return `${day} ${monthState[month]} в ${currentHours}:${currentMinute}`;
 };
+
+export const getTime = (time: string | number) => {
+  const timeNumber = new Date(time).getTime();
+
+  const hours = new Date(timeNumber).getHours();
+  const minute = new Date(timeNumber).getMinutes();
+  let hoursString = hours + '';
+  let minuteString = minute + '';
+
+  if (hours < 10) hoursString = `0${hours}`;
+
+  if (minute < 10) minuteString = `0${minute}`;
+
+  return `${hoursString}:${minuteString}`;
+};

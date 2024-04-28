@@ -19,11 +19,11 @@ export interface INotification {
   };
   count: number;
   notifications: INotifyItem[];
-  loading: boolean;
-  error: boolean;
+  isLoading: boolean;
+  isError: boolean;
   page: number;
   limit: number;
-  haseMore: boolean;
+  isHaseMore: boolean;
 }
 
 export interface APINotifyItem {

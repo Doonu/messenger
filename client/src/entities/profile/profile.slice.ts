@@ -4,12 +4,12 @@ import { IUser } from 'shared/models/IUser';
 
 export interface profileState {
   user: IUser;
-  loader: boolean;
+  isLoading: boolean;
 }
 
 const initialState: profileState = {
   user: {} as IUser,
-  loader: false,
+  isLoading: false,
 };
 
 export const profileSlice = createSlice({
@@ -24,13 +24,13 @@ export const profileSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getProfile.fulfilled, (state, { payload }: PayloadAction<IUser>) => {
       state.user = payload;
-      state.loader = false;
+      state.isLoading = false;
     });
     builder.addCase(getProfile.pending, (state) => {
-      state.loader = true;
+      state.isLoading = true;
     });
     builder.addCase(getProfile.rejected, (state) => {
-      state.loader = false;
+      state.isLoading = false;
     });
   },
 });
