@@ -11,15 +11,18 @@ const getDialogById = createAsyncThunk<IChat, number, IConfigAsyncThunk>(
       url: `api/dialogs/${id}`,
       method: 'GET',
     })
-      .then(({ data }) => ({
-        id: data.id,
-        dialogName: data.dialogName,
-        imgSubstitute: data.imgSubstitute,
-        participants: userArrayConverting(data.participants),
-        updatedAt: data.updatedAt,
-        isGroup: data.isGroup,
-        fixedMessage: data.fixedMessage && messageConverting(data.fixedMessage),
-      }))
+      .then(({ data }) => {
+        console.log(data);
+        return {
+          id: data.id,
+          dialogName: data.dialogName,
+          imgSubstitute: data.imgSubstitute,
+          participants: userArrayConverting(data.participants),
+          updatedAt: data.updatedAt,
+          isGroup: data.isGroup,
+          fixedMessage: data.fixedMessage && messageConverting(data.fixedMessage),
+        };
+      })
       .catch(({ response }) => {
         return rejectWithValue(response?.data);
       });

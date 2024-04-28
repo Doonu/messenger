@@ -71,4 +71,6 @@ export const SBack = styled.div`
   }
 `;
 
-export const SIcons = styled.div``;
+export const SIcons = styled.div`
+  display: grid;
+`;

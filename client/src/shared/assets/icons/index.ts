@@ -45,6 +45,7 @@ export const Redaction = styled(FaPen).attrs({
   size: 15,
 })`
   color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
 `;
 
 export const Video = styled(AiOutlinePlayCircle).attrs({
@@ -89,19 +90,26 @@ export const Poster = styled(GiTargetPoster).attrs({
 
 export const Like = styled(FaRegHeart)`
   color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
 `;
 
-export const BgLike = styled(IoMdHeart).attrs({})``;
+export const BgLike = styled(IoMdHeart).attrs({})`
+  cursor: pointer;
+`;
 
 export const Shared = styled(TbShare3)`
   color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
 `;
 
 export const Comment = styled(GoComment)`
   color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
 `;
 
-export const Close = styled(IoMdClose)`
+export const Close = styled(IoMdClose).attrs({
+  size: 20,
+})`
   color: ${({ theme }) => theme.colors.text};
   cursor: pointer;
 `;
@@ -110,24 +118,28 @@ export const Magnifier = styled(SlMagnifier).attrs({
   size: 20,
 })`
   color: ${({ theme }) => theme.colors.active};
+  cursor: pointer;
 `;
 
 export const BeautPen = styled(FaPenFancy).attrs({
   size: 20,
 })`
   color: ${({ theme }) => theme.colors.active};
+  cursor: pointer;
 `;
 
 export const ArrowRight = styled(MdArrowBackIos).attrs({
   size: 50,
 })`
   color: ${({ theme }) => theme.colors.active};
+  cursor: pointer;
 `;
 
 export const ArrowLeft = styled(MdArrowForwardIos).attrs({
   size: 50,
 })`
   color: ${({ theme }) => theme.colors.active};
+  cursor: pointer;
 `;
 
 export const PaintBrush = styled(FaPaintBrush).attrs(({ theme }) => ({

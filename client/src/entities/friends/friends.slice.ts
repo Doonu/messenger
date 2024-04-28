@@ -5,19 +5,19 @@ import getFriends from 'shared/api/http/user/getFriends';
 interface friendsState {
   friends: IUser[];
   page: number;
-  error: boolean;
-  haseMore: boolean;
-  loading: boolean;
+  isError: boolean;
+  isHaseMore: boolean;
+  isLoading: boolean;
 
   search: string;
 }
 
 const initialState: friendsState = {
   friends: [],
-  error: false,
+  isError: false,
   page: 1,
-  haseMore: true,
-  loading: false,
+  isHaseMore: true,
+  isLoading: false,
 
   search: '',
 };
@@ -28,8 +28,8 @@ export const friendsSlice = createSlice({
   reducers: {
     setAllFriends: (state, { payload }: PayloadAction<IUser[]>) => {
       state.friends = payload;
-      state.loading = true;
-      state.haseMore = true;
+      state.isLoading = true;
+      state.isHaseMore = true;
       state.page = 1;
     },
     addPage: (state) => {
@@ -44,18 +44,18 @@ export const friendsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getFriends.fulfilled, (state, { payload }) => {
-      if (payload.length === 0) state.haseMore = false;
+      if (payload.length === 0) state.isHaseMore = false;
       if (payload.length !== 0 && state.page !== 1) state.friends = [...state.friends, ...payload];
       if (state.page === 1) state.friends = payload;
 
-      state.loading = false;
+      state.isLoading = false;
     });
     builder.addCase(getFriends.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
     });
     builder.addCase(getFriends.rejected, (state) => {
-      state.error = true;
-      state.loading = false;
+      state.isError = true;
+      state.isLoading = false;
     });
   },
 });

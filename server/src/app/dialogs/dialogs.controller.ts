@@ -2,7 +2,6 @@ import {Body, Controller, Get, Param, Post, Query, Req, UseGuards} from '@nestjs
 import {DialogsService} from "./dialogs.service";
 import {DialogCreateDto} from "./dto/dialog-create.dto";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
-import {DialogCreateFixedDto} from "./dto/dialog-createfixed.dto";
 
 @Controller('dialogs')
 export class DialogsController {
@@ -25,11 +24,5 @@ export class DialogsController {
     @Post("")
     createDialog(@Req() {userId}: any, @Body(){ participantIds }: DialogCreateDto){
         return this.dialogService.create(userId, participantIds);
-    }
-
-    @UseGuards(JwtAuthGuard)
-    @Post("/createFixed")
-    createFixed(@Body() data: DialogCreateFixedDto){
-        return this.dialogService.createFixed(data.dialogId, data.messageId)
     }
 }

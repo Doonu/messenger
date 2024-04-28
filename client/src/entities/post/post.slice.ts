@@ -13,26 +13,26 @@ import {
 
 interface postsState {
   posts: IPostState[];
-  errorPosts: boolean;
-  loadingPosts: boolean;
+  isError: boolean;
+  isLoading: boolean;
   pagePost: number;
-  haseMore: boolean;
+  isHaseMore: boolean;
 
   deletedPost: IPostState[];
   editedPost: IPostState | undefined;
-  warningEdit: boolean;
+  isWarningEdit: boolean;
 }
 
 const initialState: postsState = {
   posts: [],
-  errorPosts: false,
-  loadingPosts: true,
+  isError: false,
+  isLoading: true,
   pagePost: 1,
-  haseMore: true,
+  isHaseMore: true,
 
   deletedPost: [],
   editedPost: undefined,
-  warningEdit: false,
+  isWarningEdit: false,
 };
 
 export const postSlice = createSlice({
@@ -44,22 +44,22 @@ export const postSlice = createSlice({
     },
     setAllPosts: (state, { payload }: PayloadAction<IPostState[]>) => {
       state.posts = payload;
-      state.loadingPosts = true;
-      state.haseMore = true;
+      state.isLoading = true;
+      state.isHaseMore = true;
       state.pagePost = 1;
     },
     editPost: (state, { payload }: PayloadAction<number>) => {
       if (!state.editedPost) {
         state.editedPost = state.posts.find((post) => post.id === payload);
       } else {
-        state.warningEdit = true;
+        state.isWarningEdit = true;
       }
     },
     addPage: (state) => {
       state.pagePost += 1;
     },
     switchWarningPost: (state, { payload }: PayloadAction<boolean>) => {
-      state.warningEdit = payload;
+      state.isWarningEdit = payload;
     },
     removeEditPost: (state) => {
       state.editedPost = undefined;
@@ -78,18 +78,18 @@ export const postSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getAllPost.fulfilled, (state, { payload }) => {
-      if (payload.length === 0) state.haseMore = false;
+      if (payload.length === 0) state.isHaseMore = false;
 
       if (payload.length !== 0) state.posts = [...state.posts, ...payload];
 
-      state.loadingPosts = false;
+      state.isLoading = false;
     });
     builder.addCase(getAllPost.pending, (state) => {
-      state.loadingPosts = true;
+      state.isLoading = true;
     });
     builder.addCase(getAllPost.rejected, (state) => {
-      state.errorPosts = true;
-      state.loadingPosts = false;
+      state.isError = true;
+      state.isLoading = false;
     });
 
     builder.addCase(postCreate.fulfilled, (state, { payload }) => {

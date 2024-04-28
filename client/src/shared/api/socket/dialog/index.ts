@@ -19,6 +19,15 @@ interface IUpdateMessage {
   id: number;
 }
 
+interface ICreateFixedMessage {
+  messageId: number;
+  dialogId?: number;
+}
+
+interface IDeleteFixedMessage {
+  dialogId?: number;
+}
+
 export const createMessage = ({ content, dialogId, userId }: ICreateMessage) => {
   SocketApi.socket?.emit('create_message', {
     content: content,
@@ -41,5 +50,18 @@ export const updateMessage = ({ content, dialogId, userId, id }: IUpdateMessage)
     dialogId: dialogId,
     userId: userId,
     id: id,
+  });
+};
+
+export const createFixedMessage = ({ messageId, dialogId }: ICreateFixedMessage) => {
+  SocketApi.socket?.emit('create_fixed_message', {
+    dialogId: dialogId,
+    messageId: messageId,
+  });
+};
+
+export const deleteFixedMessage = ({ dialogId }: IDeleteFixedMessage) => {
+  SocketApi.socket?.emit('delete_fixed_message', {
+    dialogId: dialogId,
   });
 };

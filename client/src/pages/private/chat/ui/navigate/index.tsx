@@ -1,16 +1,6 @@
-import React, { FC, useMemo } from 'react';
-import {
-  SBack,
-  SCansel,
-  SCenter,
-  SContainer,
-  SFutures,
-  SIcons,
-  SIconsTop,
-  SInfo,
-  SProfile,
-} from './navigate.styled';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import React, { Dispatch, FC, SetStateAction, useMemo } from 'react';
+
+import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -27,16 +17,33 @@ import { compositionRevert } from '../../lib/compositMessages';
 import { deleteMessage } from 'shared/api/socket/dialog';
 import { IDialog } from 'shared/models/IDialog';
 import { createFixedMessage } from 'shared/api';
+import {
+  SContainer,
+  SFutures,
+  SIcons,
+  SIconsTop,
+  SInfo,
+  SProfile,
+  SCenter,
+  SCansel,
+  SBack,
+} from './navigate.styled';
 
 interface INavigate {
   choiceMessages: number[];
   onCansel: () => void;
   allMessages: IChat[];
+  setInfoPlayers: Dispatch<SetStateAction<boolean>>;
   chat?: IDialog;
 }
 
-const Navigate: FC<INavigate> = ({ choiceMessages, onCansel, allMessages, chat }) => {
-  const dispatch = useAppDispatch();
+const Navigate: FC<INavigate> = ({
+  choiceMessages,
+  onCansel,
+  allMessages,
+  chat,
+  setInfoPlayers,
+}) => {
   const navigate = useNavigate();
 
   const params = useParams();
@@ -58,8 +65,6 @@ const Navigate: FC<INavigate> = ({ choiceMessages, onCansel, allMessages, chat }
     : filteredParticipants?.[0].timeConnected &&
       `был в сети ${postTime(filteredParticipants[0].timeConnected)}`;
 
-  const infoChat = !chat?.isGroup ? isInfoChat : `${chat?.participants?.length} участника`;
-
   const checkDelete = useMemo(() => {
     const initialMessages = compositionRevert(allMessages);
     const findMessages = initialMessages
@@ -78,7 +83,12 @@ const Navigate: FC<INavigate> = ({ choiceMessages, onCansel, allMessages, chat }
   };
 
   const handlerFixMessage = () => {
-    idParam && dispatch(createFixedMessage({ dialogId: +idParam, messageId: choiceMessages[0] }));
+    if (idParam) {
+      createFixedMessage({
+        messageId: choiceMessages[0],
+        dialogId: +idParam,
+      });
+    }
   };
 
   return (
@@ -91,9 +101,9 @@ const Navigate: FC<INavigate> = ({ choiceMessages, onCansel, allMessages, chat }
           <SFutures>
             <SIconsTop>
               {choiceMessages.length === 1 && (
-                <div onClick={handlerFixMessage}>
+                <SIcons onClick={handlerFixMessage}>
                   <BsPinAngleFill size={20} />
-                </div>
+                </SIcons>
               )}
               <FaRegStar size={20} />
               {checkDelete && <AiOutlineDelete onClick={handlerDelete} size={20} />}
@@ -111,7 +121,12 @@ const Navigate: FC<INavigate> = ({ choiceMessages, onCansel, allMessages, chat }
           </SBack>
           <SCenter>
             <SProfile>{generateInfoChat.nameDialog}</SProfile>
-            <SInfo>{infoChat}</SInfo>
+            {!chat?.isGroup && <SInfo>{isInfoChat}</SInfo>}
+            {chat?.isGroup && (
+              <SInfo onClick={() => setInfoPlayers(true)}>
+                {chat?.participants?.length} участника
+              </SInfo>
+            )}
           </SCenter>
           <SIcons>
             {generateInfoChat.imgDialog && generateInfoChat.nameDialog && (

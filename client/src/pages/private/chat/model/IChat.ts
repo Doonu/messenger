@@ -1,4 +1,5 @@
 import { IUser } from 'shared/models/IUser';
+import { APIMessage } from '../../../../shared/models/IMessage';
 
 export interface IMessageItem {
   id: number;
@@ -15,13 +16,19 @@ export interface IChat {
   messages: IMessageItem[];
 }
 
-export interface IDeleted {
+export interface APIDeleteMessage {
   messagesId: number[];
   dialogId: number;
+  isFixedDeleteMessage: boolean;
 }
 
-export interface IUpdate {
+export interface APIUpdateMessage {
   dialogId: number;
   id: number;
   content: string[];
+  updateFixedMessage: APIMessage;
+}
+
+export interface APIDeleteFixedMessage {
+  dialogId: number;
 }

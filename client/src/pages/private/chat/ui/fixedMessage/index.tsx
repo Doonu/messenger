@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { Dispatch, FC, SetStateAction } from 'react';
 import { IMessage } from 'shared/models/IMessage';
 import {
   SContainer,
@@ -11,16 +11,27 @@ import {
 import { BsPinAngleFill } from 'react-icons/bs';
 import { getTime } from 'shared/util/time';
 import { IoClose } from 'react-icons/io5';
+import { index } from 'shared/util/scrollTo';
+import { useParams } from 'react-router-dom';
+import { deleteFixedMessage } from 'shared/api/socket/dialog';
 
 interface IFixedMessage {
+  setFixedMessage: Dispatch<SetStateAction<IMessage | null | undefined>>;
   fixedMessage?: IMessage | null;
 }
 
 const FixedMessage: FC<IFixedMessage> = ({ fixedMessage }) => {
-  //TODO: Вынести в share
+  const params = useParams();
+  const idParam = params['id'];
+
   const scrollToFixedMessage = () => {
-    // @ts-ignore
-    document.getElementById(`${fixedMessage?.id}`).scrollIntoView({ behavior: 'smooth' });
+    index(fixedMessage?.id);
+  };
+
+  const handlerDeleteFixed = () => {
+    if (idParam) {
+      deleteFixedMessage({ dialogId: +idParam });
+    }
   };
 
   return (
@@ -35,7 +46,7 @@ const FixedMessage: FC<IFixedMessage> = ({ fixedMessage }) => {
           <SMessage>{fixedMessage?.content}</SMessage>
         </SContent>
       </SInfo>
-      <SContainerIcon>
+      <SContainerIcon onClick={handlerDeleteFixed}>
         <IoClose size={20} />
       </SContainerIcon>
     </SContainer>

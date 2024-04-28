@@ -15,11 +15,11 @@ const initialState: INotification = {
   },
   count: 0,
   notifications: [],
-  loading: false,
-  error: false,
+  isLoading: false,
+  isError: false,
   page: 1,
   limit: 5,
-  haseMore: true,
+  isHaseMore: true,
 };
 
 export const notificationSlice = createSlice({
@@ -45,20 +45,20 @@ export const notificationSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllNotification.fulfilled, (state, { payload }) => {
       if (payload.length !== 0) state.notifications = [...state.notifications, ...payload];
-      if (payload.length === 0) state.haseMore = false;
-      if (payload.length !== state.limit) state.haseMore = false;
+      if (payload.length === 0) state.isHaseMore = false;
+      if (payload.length !== state.limit) state.isHaseMore = false;
 
-      state.loading = false;
+      state.isLoading = false;
     });
     builder.addCase(getAllNotificationCount.fulfilled, (state, { payload }) => {
       state.count = payload;
     });
     builder.addCase(getAllNotification.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
     });
     builder.addCase(getAllNotification.rejected, (state) => {
-      state.error = true;
-      state.loading = false;
+      state.isError = true;
+      state.isLoading = false;
     });
     builder.addCase(deleteNotification.fulfilled, (state, { payload }) => {
       state.notifications = state.notifications.filter(

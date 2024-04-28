@@ -5,6 +5,7 @@ import {User} from "../users/models/users.model";
 import {Op} from "sequelize";
 import {UserDialog} from "./user-dialogs.model";
 import {Message} from "../messages/messages.model";
+import {Role} from "../roles/roles.model";
 
 @Injectable()
 export class DialogsService {
@@ -40,13 +41,23 @@ export class DialogsService {
     }
 
     async getById(id: number){
-        return  await this.dialogRepository.findOne({where: { id: id }, include: {all: true, include: [{all: true}]}})
-    }
-
-    async createFixed(dialogId: number, messageId: number){
-        const dialog = await this.dialogRepository.findOne({where: {id: dialogId}});
-        const findMessage = await this.messageRepository.findOne({where: {id: messageId}, include: {all: true}})
-        await dialog.update({ fixedMessageId: findMessage.id })
+        return await this.dialogRepository.findOne(
+            {
+                where: { id: id },
+                include: [
+                    {
+                        model: User,
+                        include: [{
+                            model: Role
+                        }]
+                    },
+                    {
+                        association: 'fixedMessage',
+                        include: ['author']
+                    }
+                ]
+            }
+        )
     }
 
     async create(userId: number, participantIds: number[]){
@@ -74,5 +85,17 @@ export class DialogsService {
         createdDialog.participants = arrayPlayers
 
         return await this.dialogRepository.findOne({where: {id: createdDialog.id}, include: {all: true}})
+    }
+
+    async createFixed(dialogId: number, messageId: number){
+        const dialog = await this.dialogRepository.findOne({where: {id: dialogId}});
+        const findMessage = await this.messageRepository.findOne({where: {id: messageId}, include: {all: true}})
+        await dialog.update({ fixedMessageId: findMessage.id })
+        return findMessage;
+    }
+
+    async deleteFixed(dialogId: number){
+        const dialog = await this.dialogRepository.findOne({where: {id: dialogId}});
+        await dialog.update({fixedMessageId: null})
     }
 }

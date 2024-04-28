@@ -4,9 +4,9 @@ import { IModal } from '../model/IModal';
 import { SButtons } from './modalBase.styled';
 import BaseButton from 'components/ui/buttons/baseButton';
 
-const ModalBase: FC<IModal> = ({ children, onClose, top, isFooter = true, ...props }) => {
+const Modal: FC<IModal> = ({ children, onClose, top = '20px', isFooter = true, ...props }) => {
   return (
-    <SModal top="20px" onCancel={onClose} {...props}>
+    <SModal top={top} onCancel={onClose} {...props}>
       <div>{children}</div>
       {isFooter && (
         <SButtons>
@@ -22,4 +22,4 @@ const ModalBase: FC<IModal> = ({ children, onClose, top, isFooter = true, ...pro
   );
 };
 
-export default ModalBase;
+export default Modal;

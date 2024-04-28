@@ -5,17 +5,17 @@ import { getAllDialogs } from 'shared/api';
 interface dialogsState {
   list: IDialog[];
   page: number;
-  error: boolean;
-  haseMore: boolean;
-  loading: boolean;
+  isError: boolean;
+  isHaseMore: boolean;
+  isLoading: boolean;
 }
 
 const initialState: dialogsState = {
   list: [],
-  error: false,
+  isError: false,
   page: 1,
-  haseMore: true,
-  loading: false,
+  isHaseMore: true,
+  isLoading: false,
 };
 
 export const dialogsSlice = createSlice({
@@ -28,17 +28,17 @@ export const dialogsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(getAllDialogs.fulfilled, (state, { payload }) => {
-      if (payload.length === 0) state.haseMore = false;
+      if (payload.length === 0) state.isHaseMore = false;
       if (payload.length !== 0 && state.page !== 1) state.list = [...state.list, ...payload];
       if (state.page === 1) state.list = payload;
-      state.loading = false;
+      state.isLoading = false;
     });
     builder.addCase(getAllDialogs.pending, (state) => {
-      state.loading = true;
+      state.isLoading = true;
     });
     builder.addCase(getAllDialogs.rejected, (state) => {
-      state.error = true;
-      state.loading = false;
+      state.isError = true;
+      state.isLoading = false;
     });
   },
 });

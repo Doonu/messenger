@@ -3,6 +3,7 @@ import {InjectModel} from "@nestjs/sequelize";
 import {Message} from "./messages.model";
 import {CreateMessageDto} from "./dto/create-message.dto";
 import {Op} from "sequelize";
+import {GetMessagesDto} from "./dto/get-messages.dto";
 
 @Injectable()
 export class MessagesService {
@@ -11,13 +12,27 @@ export class MessagesService {
     ) {
     }
 
+    async getById(id: number){
+        return await this.messageRepository.findOne({where: {id: id}, include: {all: true}})
+    }
+
     async create({userId, content, dialogId}: CreateMessageDto){
         const created = await this.messageRepository.create({userId, dialogId, content})
         return await this.messageRepository.findOne({where: {id: created.id}, include: {all: true}})
     }
 
-    async getAllByDialogId(dialogId: number){
-        return await this.messageRepository.findAll({where: {dialogId: dialogId}, include: {all: true}, order: [['createdAt', 'ASC']]})
+    async getAllByDialogId({page, dialogId, limit = 30}: GetMessagesDto){
+        let currentPage = page - 1;
+
+        const packMessages = await this.messageRepository.findAll({
+            where:
+                {dialogId: dialogId},
+            include: {all: true},
+            order: [['createdAt', 'DESC']],
+            limit: limit,
+            offset: currentPage * limit,
+        })
+        return packMessages.reverse()
     }
 
     async deleteById(id: number[]){

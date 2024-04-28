@@ -18,6 +18,8 @@ import { LoaderSmall } from 'components/ui/loaders';
  *   isFetching — Дозагрузка данных
  *
  *   isNotFound — Данные не найдены
+ *
+ *   position - С какой стороны прогрузка при скроле
  **/
 
 const ObserverList = <T, K>({
@@ -29,6 +31,7 @@ const ObserverList = <T, K>({
   itemContent,
   hasMore,
   skeleton,
+  position = 'bottom',
 }: IObserverList<T, K>) => {
   const { ref, inView, entry } = useInView({
     threshold: 0,
@@ -38,19 +41,25 @@ const ObserverList = <T, K>({
   const isFetchingNextPage =
     document.body.clientHeight < window.scrollY + 100 && hasMore && entry?.intersectionRatio === 1;
 
+  const isFetchingNextPageTop = window.scrollY === 0 && hasMore && entry?.intersectionRatio === 1;
+
   useEffect(() => {
-    if (isFetchingNextPage) {
+    if (
+      (position === 'bottom' && isFetchingNextPage) ||
+      (position === 'top' && isFetchingNextPageTop)
+    ) {
       fetchNextPage();
     }
   }, [inView]);
 
   return (
     <>
+      {position === 'top' && <ObserverBlock ref={ref} />}
       <SList>
         {list.map((el) => itemContent(el))}
         {isPending && [...new Array(5)].map(() => skeleton())}
       </SList>
-      <ObserverBlock ref={ref} />
+      {position === 'bottom' && <ObserverBlock ref={ref} />}
       {isFetching && <LoaderSmall />}
       {!list.length && !isPending && <Empty message={notFoundMessage} />}
     </>
