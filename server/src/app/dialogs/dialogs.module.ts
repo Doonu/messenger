@@ -10,13 +10,14 @@ import {FriendRequest} from "../users/models/friendRequest.model";
 import {Dialog} from "./dialogs.model";
 import {RolesService} from "../roles/roles.service";
 import {UserDialog} from "./user-dialogs.model";
-import {Message} from "../messages/messages.model";
+import {Message} from "../messages/models/messages.model";
+import {MessageReadStatus} from "../messages/models/messagesReadStatus.model";
 
 @Module({
   controllers: [DialogsController],
   providers: [DialogsService, UsersService, RolesService],
   imports: [
-      SequelizeModule.forFeature([User, Dialog, FriendRequest, UserDialog, Role, Message]),
+      SequelizeModule.forFeature([User, Dialog, FriendRequest, UserDialog, Role, Message, MessageReadStatus]),
       forwardRef(() => AuthModule)
   ],
   exports: [UsersService]

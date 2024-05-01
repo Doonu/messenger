@@ -8,6 +8,7 @@ export interface IMessage {
   createdAt: number;
   updatedAt: number;
   author: IUser;
+  readStatus: boolean;
 }
 
 export interface APIMessage {
@@ -18,4 +19,5 @@ export interface APIMessage {
   createdAt: number;
   updatedAt: number;
   author: ApiProfile;
+  readStatus: boolean;
 }

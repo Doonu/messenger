@@ -20,6 +20,7 @@ const getAllDialogs = createAsyncThunk<IDialog[], number, IConfigAsyncThunk>(
           participants: userArrayConverting(dialog.participants),
           updatedAt: dialog.updatedAt,
           isGroup: dialog.isGroup,
+          countNotReadMessages: dialog.countNotReadMessages,
         }));
       })
       .catch(({ response }) => {

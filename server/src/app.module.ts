@@ -21,7 +21,7 @@ import { DialogsModule } from './app/dialogs/dialogs.module';
 import {UserDialog} from "./app/dialogs/user-dialogs.model";
 import {Dialog} from "./app/dialogs/dialogs.model";
 import { MessagesModule } from './app/messages/messages.module';
-import {Message} from "./app/messages/messages.model";
+import {Message} from "./app/messages/models/messages.model";
 
 @Module({
   controllers: [FilesController],

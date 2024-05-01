@@ -1,4 +1,4 @@
-import React, { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent, RefObject } from 'react';
 import {
   SContainer,
   SContainerPhotoProfile,
@@ -16,6 +16,8 @@ interface IMessage extends IChat {
   handlerChoice: (id: number) => void;
   handlerUpdate: (event: MouseEvent<HTMLDivElement>, id: number) => void;
   choiceMessages: number[];
+  isRead: boolean;
+  chatRef: RefObject<HTMLDivElement>;
 }
 
 const Message: FC<IMessage> = ({
@@ -25,6 +27,8 @@ const Message: FC<IMessage> = ({
   author,
   choiceMessages,
   handlerUpdate,
+  isRead,
+  chatRef,
 }) => {
   return (
     <SContainer>
@@ -40,6 +44,8 @@ const Message: FC<IMessage> = ({
           {messages.map((messageItem, index) => (
             <MessageItem
               key={messageItem.id}
+              isRead={isRead}
+              chatRef={chatRef}
               handlerUpdate={handlerUpdate}
               choiceMessages={choiceMessages}
               handlerChoice={handlerChoice}

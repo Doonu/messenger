@@ -33,3 +33,26 @@ export const SChat = styled.div`
     border-radius: 15px;
   }
 `;
+
+interface ISNewMessage {
+  $view: boolean;
+}
+
+export const SNewMessage = styled.div<ISNewMessage>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  height: ${({ $view }) => ($view ? '40px' : '1px')};
+`;
+
+export const SContent = styled.div`
+  padding: 0 10px;
+`;
+
+export const SLine = styled.div`
+  flex-grow: 1;
+  border: none;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors.text};
+`;

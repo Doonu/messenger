@@ -7,6 +7,7 @@ export interface IMessageItem {
   createdAt: number;
   updatedAt: number;
   userId: number;
+  readStatus: boolean;
 }
 
 export interface IChat {
@@ -31,4 +32,9 @@ export interface APIUpdateMessage {
 
 export interface APIDeleteFixedMessage {
   dialogId: number;
+}
+
+export interface APIMessageRead {
+  dialogId: number;
+  messageId: number;
 }

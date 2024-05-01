@@ -4,8 +4,9 @@ import {InjectModel} from "@nestjs/sequelize";
 import {User} from "../users/models/users.model";
 import {Op} from "sequelize";
 import {UserDialog} from "./user-dialogs.model";
-import {Message} from "../messages/messages.model";
+import {Message} from "../messages/models/messages.model";
 import {Role} from "../roles/roles.model";
+import {MessageReadStatus} from "../messages/models/messagesReadStatus.model";
 
 @Injectable()
 export class DialogsService {
@@ -13,7 +14,8 @@ export class DialogsService {
         @InjectModel(Dialog) private dialogRepository: typeof Dialog,
         @InjectModel(User) private userRepository: typeof User,
         @InjectModel(UserDialog) private userDialogRepository: typeof UserDialog,
-        @InjectModel(Message) private messageRepository: typeof Message
+        @InjectModel(Message) private messageRepository: typeof Message,
+        @InjectModel(MessageReadStatus) private messageReadStatus: typeof MessageReadStatus
     ){
     }
 
@@ -36,12 +38,15 @@ export class DialogsService {
                     [Op.in]: dialogsId
                 }
             },
-            include: { all: true }
+            include: { all: true },
+            order: [['updatedAt', "DESC"]]
         })
     }
 
-    async getById(id: number){
-        return await this.dialogRepository.findOne(
+    async getById(id: number, userId: number){
+        const count = await this.messageReadStatus.findAll({where: {userId: userId, readStatus: false}})
+
+        const findDialog = await this.dialogRepository.findOne(
             {
                 where: { id: id },
                 include: [
@@ -58,6 +63,11 @@ export class DialogsService {
                 ]
             }
         )
+
+        return {
+            ...JSON.parse(JSON.stringify(findDialog)),
+            countNotReadMessages: count.length
+        }
     }
 
     async create(userId: number, participantIds: number[]){

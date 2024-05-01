@@ -7,6 +7,8 @@ import {DeleteMessagesDto} from "./dto/delete-messages.dto";
 import {UpdateMessageDto} from "./dto/update-message.dto";
 import {CreateFixedMessageDto} from "./dto/create-fixedMessage.dto";
 import {DeleteFixedMessageDto} from "./dto/delete-fixedMessage.dto";
+import {ReadMessageDto} from "./dto/read-message.dto";
+import {UsersService} from "../users/users.service";
 
 @WebSocketGateway({
     cors: {
@@ -16,7 +18,8 @@ import {DeleteFixedMessageDto} from "./dto/delete-fixedMessage.dto";
 export class MessagesRealtimeService{
     constructor(
         private messageService: MessagesService,
-        private dialogsService: DialogsService
+        private dialogsService: DialogsService,
+        private usersService: UsersService
     ) {
     }
 
@@ -24,17 +27,29 @@ export class MessagesRealtimeService{
 
     @SubscribeMessage("create_message")
     async handleCreateMessage(@MessageBody() dto: CreateMessageDto){
-        const activeDialog = await this.dialogsService.getById(dto.dialogId);
+        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
         const createdMessage = await this.messageService.create({userId: dto.userId, dialogId: dto.dialogId, content: dto.content })
+        await this.messageService.createMessageReadStatus({messageId: createdMessage.id, participants: activeDialog.participants, userId: dto.userId})
 
         activeDialog.participants.forEach(player => {
             this.server.to(player.socket_id).emit("new_message", createdMessage)
         })
     }
 
+    @SubscribeMessage("read_message")
+    async handleReadMessage(@MessageBody() dto: ReadMessageDto){
+        const user = await this.usersService.getUser(dto.userId)
+        await this.messageService.updateReadStatus(dto.messageId, dto.userId)
+
+        this.server.to(user.socket_id).emit("delivered_message", {
+            dialogId: dto.dialogId,
+            messageId: dto.messageId
+        })
+    }
+
     @SubscribeMessage("create_fixed_message")
     async handleCreateFixedMessage(@MessageBody() dto: CreateFixedMessageDto){
-        const activeDialog = await this.dialogsService.getById(dto.dialogId);
+        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
         const createdMessage = await this.dialogsService.createFixed(dto.dialogId, dto.messageId)
 
         activeDialog.participants.forEach(player => {
@@ -45,7 +60,7 @@ export class MessagesRealtimeService{
     @SubscribeMessage("update_message")
     async handleUpdateMessage(@MessageBody() dto: UpdateMessageDto){
         let updateFixedMessage = null;
-        const activeDialog = await this.dialogsService.getById(dto.dialogId);
+        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
         await this.messageService.updateById(dto.id, dto.userId, dto.content);
 
         if(dto.id === activeDialog.fixedMessageId){
@@ -64,7 +79,7 @@ export class MessagesRealtimeService{
 
     @SubscribeMessage("delete_fixed_message")
     async handleDeleteFixedMessage(@MessageBody() dto: DeleteFixedMessageDto){
-        const activeDialog = await this.dialogsService.getById(dto.dialogId);
+        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
         await this.dialogsService.deleteFixed(dto.dialogId)
 
         activeDialog.participants.forEach(player => {
@@ -79,7 +94,7 @@ export class MessagesRealtimeService{
     async handleDeleteMessages(@MessageBody() dto: DeleteMessagesDto){
         let isFixedDeleteMessage = false;
 
-        const activeDialog = await this.dialogsService.getById(dto.dialogId);
+        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
         await this.messageService.deleteById(dto.messagesId);
 
         if(dto.messagesId.find(el => el === activeDialog.fixedMessageId)){

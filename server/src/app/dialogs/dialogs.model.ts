@@ -2,7 +2,7 @@ import {BelongsTo, BelongsToMany, Column, DataType, ForeignKey, HasMany, Model, 
 import {User} from "../users/models/users.model";
 import {ApiProperty} from "@nestjs/swagger";
 import {UserDialog} from "./user-dialogs.model";
-import {Message} from "../messages/messages.model";
+import {Message} from "../messages/models/messages.model";
 
 interface DialogsModel {
     dialogId: number;

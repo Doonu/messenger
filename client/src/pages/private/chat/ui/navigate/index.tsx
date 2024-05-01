@@ -33,6 +33,7 @@ interface INavigate {
   choiceMessages: number[];
   onCansel: () => void;
   allMessages: IChat[];
+  newMessages: IChat[];
   setInfoPlayers: Dispatch<SetStateAction<boolean>>;
   chat?: IDialog;
 }
@@ -43,6 +44,7 @@ const Navigate: FC<INavigate> = ({
   allMessages,
   chat,
   setInfoPlayers,
+  newMessages,
 }) => {
   const navigate = useNavigate();
 
@@ -66,7 +68,7 @@ const Navigate: FC<INavigate> = ({
       `был в сети ${postTime(filteredParticipants[0].timeConnected)}`;
 
   const checkDelete = useMemo(() => {
-    const initialMessages = compositionRevert(allMessages);
+    const initialMessages = [...compositionRevert(allMessages), ...compositionRevert(newMessages)];
     const findMessages = initialMessages
       .filter((el) => choiceMessages.includes(el.id))
       .filter((el) => el.userId === user.id);
@@ -87,6 +89,7 @@ const Navigate: FC<INavigate> = ({
       createFixedMessage({
         messageId: choiceMessages[0],
         dialogId: +idParam,
+        userId: user.id,
       });
     }
   };

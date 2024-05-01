@@ -8,6 +8,7 @@ export interface IDialog {
   participants: IUser[];
   updatedAt: string;
   isGroup: boolean;
+  countNotReadMessages: number;
 }
 
 export interface IChat extends IDialog {
@@ -22,6 +23,7 @@ export interface APIDialog {
   updatedAt: string;
   isGroup: boolean;
   fixedMessage: APIMessage | null;
+  countNotReadMessages: number;
 }
 
 export interface APIChat extends APIDialog {

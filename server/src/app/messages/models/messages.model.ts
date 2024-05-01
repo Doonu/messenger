@@ -1,11 +1,11 @@
 import {BelongsTo, Column, DataType, ForeignKey, Model, Table} from "sequelize-typescript";
-import {User} from "../users/models/users.model";
-import {Dialog} from "../dialogs/dialogs.model";
+import {User} from "../../users/models/users.model";
+import {Dialog} from "../../dialogs/dialogs.model";
 
 interface MessagesCreate{
-    content: string[];
     dialogId: number;
     userId: number;
+    content: string[];
 }
 
 @Table({tableName: 'messages'})

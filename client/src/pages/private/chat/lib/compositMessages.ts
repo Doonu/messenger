@@ -14,6 +14,7 @@ export const compositionRevert = (initialMessages: IChat[]): IMessage[] => {
         createdAt: el.createdAt,
         updatedAt: el.updatedAt,
         author: author,
+        readStatus: el.readStatus,
       });
     });
   });
@@ -32,6 +33,7 @@ export const compositionMessages = (messages: IMessage[]): IChat[] => {
       userId: el.userId,
       createdAt: el.createdAt,
       updatedAt: el.updatedAt,
+      readStatus: el.readStatus,
     };
 
     const currentMessageAuthorId = currentMessages?.[currentMessages.length - 1]?.author.id;
@@ -60,6 +62,7 @@ export const addInCompositionMessages = (message: IMessage, messages: IChat[]): 
     createdAt: message.createdAt,
     updatedAt: message.updatedAt,
     userId: message.userId,
+    readStatus: message.readStatus,
   };
   const result: IChat[] = [...messages];
 
@@ -96,6 +99,21 @@ export const updateInCompositionMessages = (id: number, content: string[], messa
         return {
           ...message,
           content: content,
+        };
+      }
+      return message;
+    }),
+  }));
+};
+
+export const updateStatusRead = (messageId: number, messages: IChat[]) => {
+  return messages.map((el) => ({
+    ...el,
+    messages: el.messages.map((message) => {
+      if (message.id === messageId) {
+        return {
+          ...message,
+          readStatus: true,
         };
       }
       return message;

@@ -56,7 +56,7 @@ const ObserverList = <T, K>({
     <>
       {position === 'top' && <ObserverBlock ref={ref} />}
       <SList>
-        {list.map((el) => itemContent(el))}
+        {list.map((el, index) => itemContent(el, index))}
         {isPending && [...new Array(5)].map(() => skeleton())}
       </SList>
       {position === 'bottom' && <ObserverBlock ref={ref} />}

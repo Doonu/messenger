@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import {InjectModel} from "@nestjs/sequelize";
-import {Message} from "./messages.model";
-import {CreateMessageDto} from "./dto/create-message.dto";
+import {Message} from "./models/messages.model";
+import {CreateMessageDto, CreateMessageReadStatusDto} from "./dto/create-message.dto";
 import {Op} from "sequelize";
 import {GetMessagesDto} from "./dto/get-messages.dto";
+import {MessageReadStatus} from "./models/messagesReadStatus.model";
 
 @Injectable()
 export class MessagesService {
     constructor(
-        @InjectModel(Message) private messageRepository: typeof Message
+        @InjectModel(Message) private messageRepository: typeof Message,
+        @InjectModel(MessageReadStatus) private messageReadStatus: typeof MessageReadStatus
     ) {
     }
 
@@ -21,7 +23,18 @@ export class MessagesService {
         return await this.messageRepository.findOne({where: {id: created.id}, include: {all: true}})
     }
 
-    async getAllByDialogId({page, dialogId, limit = 30}: GetMessagesDto){
+    async createMessageReadStatus({messageId, participants, userId}: CreateMessageReadStatusDto){
+        participants.map(async user => {
+            await this.messageReadStatus.create({messageId: messageId, userId: user.id, readStatus: userId === user.id})
+        })
+    }
+
+    async updateReadStatus(messageId: number, userId: number){
+        const findMessage = await this.messageReadStatus.findOne({where: {messageId: messageId, userId: userId}})
+        await findMessage.update({readStatus: true})
+    }
+
+    async getAllByDialogId({page, dialogId, userId,limit = 30}: GetMessagesDto){
         let currentPage = page - 1;
 
         const packMessages = await this.messageRepository.findAll({
@@ -32,10 +45,27 @@ export class MessagesService {
             limit: limit,
             offset: currentPage * limit,
         })
-        return packMessages.reverse()
+
+        const updateMessages = await Promise.all(packMessages.map(async message => {
+            const messageStatus = await this.messageReadStatus.findOne({where: {messageId: message.id, userId: userId}})
+            return {
+                ...JSON.parse(JSON.stringify(message)),
+                readStatus: messageStatus.readStatus
+            }
+        }))
+
+        return updateMessages.reverse()
     }
 
     async deleteById(id: number[]){
+        await this.messageReadStatus.destroy({
+            where: {
+                messageId: {
+                    [Op.in]: id
+                }
+            }
+        })
+
         await this.messageRepository.destroy({
             where: {
                 id: {

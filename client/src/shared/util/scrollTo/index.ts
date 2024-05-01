@@ -1,8 +1,8 @@
 import { IScroll, IScrollToRef } from './scrollTo.types';
 
-export const index = (id?: number) => {
+export const scrollTo = (id?: number) => {
   // @ts-ignore
-  document.getElementById(`${id}`).scrollIntoView({ behavior: 'smooth' });
+  document.getElementById(`${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 };
 
 export const scrollToRef = ({ ref, isScrollFast }: IScrollToRef) => {

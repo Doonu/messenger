@@ -12,7 +12,6 @@ const getDialogById = createAsyncThunk<IChat, number, IConfigAsyncThunk>(
       method: 'GET',
     })
       .then(({ data }) => {
-        console.log(data);
         return {
           id: data.id,
           dialogName: data.dialogName,
@@ -21,6 +20,7 @@ const getDialogById = createAsyncThunk<IChat, number, IConfigAsyncThunk>(
           updatedAt: data.updatedAt,
           isGroup: data.isGroup,
           fixedMessage: data.fixedMessage && messageConverting(data.fixedMessage),
+          countNotReadMessages: data.countNotReadMessages,
         };
       })
       .catch(({ response }) => {

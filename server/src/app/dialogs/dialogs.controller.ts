@@ -16,8 +16,8 @@ export class DialogsController {
 
     @UseGuards(JwtAuthGuard)
     @Get(":id")
-    getDialog(@Param("id") id: number){
-        return this.dialogService.getById(id);
+    getDialog(@Param("id") id: number, @Req() {userId}: any){
+        return this.dialogService.getById(id, userId);
     }
 
     @UseGuards(JwtAuthGuard)

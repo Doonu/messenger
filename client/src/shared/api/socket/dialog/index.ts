@@ -6,6 +6,12 @@ interface ICreateMessage {
   userId: number;
 }
 
+interface IReadMessage {
+  userId: number;
+  messageId: number;
+  dialogId: number;
+}
+
 interface IDeleteMessage {
   messagesId: number[];
   dialogId?: number;
@@ -21,11 +27,13 @@ interface IUpdateMessage {
 
 interface ICreateFixedMessage {
   messageId: number;
+  userId: number;
   dialogId?: number;
 }
 
 interface IDeleteFixedMessage {
   dialogId?: number;
+  userId: number;
 }
 
 export const createMessage = ({ content, dialogId, userId }: ICreateMessage) => {
@@ -53,15 +61,25 @@ export const updateMessage = ({ content, dialogId, userId, id }: IUpdateMessage)
   });
 };
 
-export const createFixedMessage = ({ messageId, dialogId }: ICreateFixedMessage) => {
+export const createFixedMessage = ({ messageId, dialogId, userId }: ICreateFixedMessage) => {
   SocketApi.socket?.emit('create_fixed_message', {
     dialogId: dialogId,
     messageId: messageId,
+    userId: userId,
   });
 };
 
-export const deleteFixedMessage = ({ dialogId }: IDeleteFixedMessage) => {
+export const deleteFixedMessage = ({ dialogId, userId }: IDeleteFixedMessage) => {
   SocketApi.socket?.emit('delete_fixed_message', {
     dialogId: dialogId,
+    userId: userId,
+  });
+};
+
+export const readMessage = ({ messageId, dialogId, userId }: IReadMessage) => {
+  SocketApi.socket?.emit('read_message', {
+    dialogId: dialogId,
+    userId: userId,
+    messageId: messageId,
   });
 };

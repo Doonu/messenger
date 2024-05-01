@@ -169,7 +169,7 @@ export class UsersService {
     const currentLimit = 10;
 
     const user = await this.userRepository.findByPk(id)
-    const fullFriends =  await Promise.all(user.friends.slice(currentPage === 0 ? 0 : currentPage * currentLimit, (currentPage * currentLimit) + currentLimit).map(async (el) => this.userRepository.findOne({ attributes: this.baseFieldUser, where: {id: el} })));
+    const fullFriends = await Promise.all(user.friends.slice(currentPage === 0 ? 0 : currentPage * currentLimit, (currentPage * currentLimit) + currentLimit).map(async (el) => this.userRepository.findOne({ attributes: this.baseFieldUser, where: {id: el} })));
 
     if(search) return fullFriends.filter(friend => friend.name.includes(search))
     return fullFriends
