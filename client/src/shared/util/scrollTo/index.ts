@@ -1,6 +1,6 @@
 import { IScroll, IScrollToRef } from './scrollTo.types';
 
-export const scrollTo = (id?: number) => {
+export const scrollToById = (id?: number) => {
   // @ts-ignore
   document.getElementById(`${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 };

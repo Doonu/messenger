@@ -29,7 +29,7 @@ export class MessagesRealtimeService{
     async handleCreateMessage(@MessageBody() dto: CreateMessageDto){
         const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
         const createdMessage = await this.messageService.create({userId: dto.userId, dialogId: dto.dialogId, content: dto.content })
-        await this.messageService.createMessageReadStatus({messageId: createdMessage.id, participants: activeDialog.participants, userId: dto.userId})
+        await this.messageService.createMessageReadStatus({messageId: createdMessage.id, participants: activeDialog.participants, userId: dto.userId, dialogId: dto.dialogId})
 
         activeDialog.participants.forEach(player => {
             this.server.to(player.socket_id).emit("new_message", createdMessage)
@@ -95,7 +95,7 @@ export class MessagesRealtimeService{
         let isFixedDeleteMessage = false;
 
         const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
-        await this.messageService.deleteById(dto.messagesId);
+        await this.messageService.deleteById(dto.messagesId, dto.dialogId);
 
         if(dto.messagesId.find(el => el === activeDialog.fixedMessageId)){
             isFixedDeleteMessage = true;

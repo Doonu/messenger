@@ -1,4 +1,4 @@
-import React, { MouseEvent, FC, useState, RefObject } from 'react';
+import React, { MouseEvent, FC, useState, RefObject, useEffect } from 'react';
 import { SChoiceMessage, SContainer, SContent, SFutures, SInfo, SP } from './messageItem.styled';
 import { LuPencil } from 'react-icons/lu';
 import { PiShareFatLight } from 'react-icons/pi';
@@ -31,8 +31,11 @@ const MessageItem: FC<IMessage> = ({
   isRead,
   chatRef,
 }) => {
-  const { ref, entry } = useInView({
-    threshold: 0,
+  const params = useParams();
+  const idParam = params['id'];
+
+  const { ref, entry, inView } = useInView({
+    threshold: 1,
     initialInView: true,
     skip: isRead,
     root: chatRef.current,
@@ -49,8 +52,10 @@ const MessageItem: FC<IMessage> = ({
     },
   });
 
-  const params = useParams();
-  const idParam = params['id'];
+  useEffect(() => {
+    if (!messageItem.readStatus && inView && idParam)
+      readMessage({ messageId: messageItem.id, dialogId: +idParam, userId: user.id });
+  }, [inView]);
 
   const [isShow, setIsShow] = useState(false);
   const isNotFirstElement = index !== 0;

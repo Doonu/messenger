@@ -10,4 +10,6 @@ export interface IObserverList<T, K> {
   isPending?: boolean;
   isFetching?: boolean;
   position?: 'bottom' | 'top';
+  isEmpty?: boolean;
+  gap?: number;
 }

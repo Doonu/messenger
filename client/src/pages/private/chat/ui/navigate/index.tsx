@@ -15,7 +15,7 @@ import BaseButton from 'components/ui/buttons/baseButton';
 import { IChat } from '../../model/IChat';
 import { compositionRevert } from '../../lib/compositMessages';
 import { deleteMessage } from 'shared/api/socket/dialog';
-import { IDialog } from 'shared/models/IDialog';
+import { IDialogChat } from 'shared/models/IDialog';
 import { createFixedMessage } from 'shared/api';
 import {
   SContainer,
@@ -35,7 +35,7 @@ interface INavigate {
   allMessages: IChat[];
   newMessages: IChat[];
   setInfoPlayers: Dispatch<SetStateAction<boolean>>;
-  chat?: IDialog;
+  chat?: IDialogChat;
 }
 
 const Navigate: FC<INavigate> = ({

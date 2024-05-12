@@ -20,6 +20,7 @@ export const SClose = styled(Close)`
   align-self: flex-end;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.text};
+
   &:hover {
     color: ${({ theme }) => theme.colors.white};
   }

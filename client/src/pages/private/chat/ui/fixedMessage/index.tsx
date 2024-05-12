@@ -11,7 +11,7 @@ import {
 import { BsPinAngleFill } from 'react-icons/bs';
 import { getTime } from 'shared/util/time';
 import { IoClose } from 'react-icons/io5';
-import { scrollTo } from 'shared/util/scrollTo';
+import { scrollToById } from 'shared/util/scrollTo';
 import { useParams } from 'react-router-dom';
 import { deleteFixedMessage } from 'shared/api/socket/dialog';
 import { useAppSelector } from 'hooks/redux';
@@ -29,7 +29,7 @@ const FixedMessage: FC<IFixedMessage> = ({ fixedMessage }) => {
   const user = useAppSelector(selectorProfile);
 
   const scrollToFixedMessage = () => {
-    scrollTo(fixedMessage?.id);
+    scrollToById(fixedMessage?.id);
   };
 
   const handlerDeleteFixed = () => {

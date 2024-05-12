@@ -1,7 +1,7 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from 'hooks/redux';
 import { useParams } from 'react-router-dom';
-import { IDialog } from 'shared/models/IDialog';
+import { IDialogChat } from 'shared/models/IDialog';
 import { useDialogSocket, getDialogById } from 'shared/api';
 import { APIMessage, IMessage } from 'shared/models/IMessage';
 import { getAllMessagesByDialogId } from 'shared/api';
@@ -27,7 +27,7 @@ import {
   APIMessageRead,
 } from '../model/IChat';
 import FixedMessage from './fixedMessage';
-import { scrollTo, scrollToRef } from 'shared/util/scrollTo';
+import { scrollToById } from 'shared/util/scrollTo';
 import ChatInfo from 'features/chatInfo';
 import { ObserverList } from 'components/custom/lists/ObserverList';
 import Modal from 'components/navigation/modal/ui';
@@ -42,13 +42,12 @@ const Chat = () => {
   const chatRef = useRef<HTMLDivElement | null>(null);
   const newMessageRef = useRef<HTMLDivElement | null>(null);
 
-  const [chat, setChat] = useState<IDialog>(); // Получение информацию о чате
+  const [chat, setChat] = useState<IDialogChat>(); // Получение информацию о чате
   const [choiceMessages, setChoiceMessages] = useState<number[]>([]); // Выбор сообщений
   const [editedMessage, setEditedMessage] = useState<IMessage | null>(); // Редактируемое сообщение
   const [fixedMessage, setFixedMessage] = useState<IMessage | null>(); // Фиксированное сообщение
   const [infoPlayers, setInfoPlayers] = useState(false); // Открытие модального окна
   const [isRead, setIsRead] = useState(true); // Возможность читать
-  const [isUpdateScroll, setIsUpdateScroll] = useState(false); // Обновление скролла
 
   const [messages, setMessages] = useState<IChat[]>([]);
   const [newMessages, setNewMessages] = useState<IChat[]>([]);
@@ -62,13 +61,15 @@ const Chat = () => {
     if (idParam && data.dialogId === +idParam) {
       const convertingData = messageConverting(data);
 
+      //TODO: Сделать чтоб скрол обновлялся если все сообщения прочитаны(когда в самом низу)
       setNewMessages((prev) => {
         if (prev.length) return addInCompositionMessages(convertingData, prev);
+
         setMessages((prev) => addInCompositionMessages(convertingData, prev));
         return prev;
       });
 
-      setIsUpdateScroll(true);
+      scrollToDown('start', 'smooth');
     }
   };
 
@@ -138,15 +139,13 @@ const Chat = () => {
         .then((data) => {
           setChat(data);
           setFixedMessage(data.fixedMessage);
-
-          getAllMessages();
         })
         .catch(() => {});
   };
 
-  const getAllMessages = async () => {
+  const getAllMessages = () => {
     if (idParam) {
-      await dispatch(getAllMessagesByDialogId({ dialogId: +idParam, page: 1, limit }))
+      dispatch(getAllMessagesByDialogId({ dialogId: +idParam, page: 1, limit }))
         .unwrap()
         .then((data) => {
           if (!data.length) setIsMore(false);
@@ -159,6 +158,8 @@ const Chat = () => {
           setPage(1);
           setMessages(compositionMessages(allMessages));
           setNewMessages(compositionMessages(newMessages));
+
+          if (!newMessages.length) scrollToDown('end');
         })
         .catch(() => {})
         .finally(() => {
@@ -170,7 +171,7 @@ const Chat = () => {
   const nextPageGetAllMessages = async (currentPage?: number, isUsingScroll = true) => {
     if (idParam) {
       setIsLoading(true);
-      const currentHeight = chatRef.current?.scrollHeight;
+      const initialHeight = chatRef.current?.scrollHeight;
       await dispatch(
         getAllMessagesByDialogId({
           dialogId: +idParam,
@@ -193,26 +194,33 @@ const Chat = () => {
           setMessages((prev) => [...compositionMessages(allMessages), ...prev]);
           if (newMessages.length)
             setNewMessages((prev) => [...compositionMessages(newMessages), ...prev]);
+
+          requestAnimationFrame(() => {
+            const newHeight = chatRef.current?.scrollHeight;
+
+            if (newHeight && initialHeight && chatRef.current && isUsingScroll) {
+              chatRef.current.scrollTop = newHeight - initialHeight;
+            }
+
+            if (!isUsingScroll) {
+              scrollToDown('end');
+            }
+          });
         })
         .catch(() => {})
-        .finally(() => {
-          setIsLoading(false);
-        });
-
-      requestAnimationFrame(() => {
-        const newHeight = chatRef.current?.scrollHeight;
-        if (newHeight && currentHeight && chatRef.current)
-          chatRef.current.scrollTop = newHeight - currentHeight;
-
-        if (!isUsingScroll) {
-          newMessageRef.current?.scrollIntoView({ block: 'end' });
-        }
-      });
+        .finally(() => setIsLoading(false));
     }
   };
 
   const scrollToEditionMessage = () => {
-    scrollTo(editedMessage?.id);
+    scrollToById(editedMessage?.id);
+  };
+
+  const scrollToDown = (
+    block: ScrollIntoViewOptions['block'],
+    behavior?: ScrollIntoViewOptions['behavior']
+  ) => {
+    newMessageRef.current?.scrollIntoView({ block: block, behavior: behavior || 'auto' });
   };
 
   const handlerUpdate = (event: MouseEvent<HTMLDivElement>, id: number) => {
@@ -238,22 +246,12 @@ const Chat = () => {
 
   useEffect(() => {
     handlerGetChat();
+    if (messages.length) getAllMessages();
   }, []);
 
   useEffect(() => {
     if (messages.length) setIsRead(false);
   }, [messages]);
-
-  useEffect(() => {
-    if (!newMessages.length) newMessageRef.current?.scrollIntoView({ block: 'end' });
-  }, [newMessages]);
-
-  useEffect(() => {
-    if (isUpdateScroll) {
-      setIsUpdateScroll(false);
-      scrollToRef({ ref: chatRef, isScrollFast: false });
-    }
-  }, [isUpdateScroll]);
 
   return (
     <AllContainer isFooter={false} $isSticky>
@@ -276,8 +274,8 @@ const Chat = () => {
           <ObserverList
             list={messages}
             notFoundMessage="Напишите сообщение"
-            isPending={isLoading && page === 0}
-            isFetching={isLoading && page > 1}
+            isPending={isLoading}
+            isFetching={isLoading}
             fetchNextPage={nextPageGetAllMessages}
             itemContent={(el, index) => (
               <Message
@@ -293,6 +291,7 @@ const Chat = () => {
             skeleton={() => <div>...Загрузка</div>}
             hasMore={isMore}
             position="top"
+            isEmpty={!!(messages.length + newMessages.length)}
           />
           <div>
             <SNewMessage $view={!!newMessages.length} ref={newMessageRef}>
@@ -305,7 +304,7 @@ const Chat = () => {
               )}
             </SNewMessage>
             {!!newMessages.length && (
-              <div>
+              <SChat>
                 {newMessages.map((el, index) => (
                   <Message
                     key={JSON.stringify(el.messages) + index}
@@ -317,7 +316,7 @@ const Chat = () => {
                     {...el}
                   />
                 ))}
-              </div>
+              </SChat>
             )}
           </div>
         </SChat>

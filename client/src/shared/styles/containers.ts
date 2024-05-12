@@ -47,3 +47,7 @@ export const Footer = styled.footer`
   margin-top: 15px;
   min-height: 70px;
 `;
+
+export const ContainerByIcon = styled.div`
+  display: flex;
+`;

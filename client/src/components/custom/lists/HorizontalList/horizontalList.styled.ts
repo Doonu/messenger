@@ -10,6 +10,7 @@ export const SList = styled.div`
   flex-wrap: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
+  padding-bottom: 5px;
 
   &::-webkit-scrollbar {
     background: ${({ theme }) => theme.colors.secondaryBg};

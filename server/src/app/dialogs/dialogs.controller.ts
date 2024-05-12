@@ -22,7 +22,7 @@ export class DialogsController {
 
     @UseGuards(JwtAuthGuard)
     @Post("")
-    createDialog(@Req() {userId}: any, @Body(){ participantIds }: DialogCreateDto){
-        return this.dialogService.create(userId, participantIds);
+    createDialog(@Req() {userId}: any, @Body(){ participantIds, nameChat }: DialogCreateDto){
+        return this.dialogService.create(userId, participantIds, nameChat);
     }
 }

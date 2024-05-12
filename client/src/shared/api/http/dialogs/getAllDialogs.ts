@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIDialog, IDialog } from 'shared/models/IDialog';
 import { IConfigAsyncThunk } from 'shared/models/errors';
 import API from '../../interceptors';
-import { userArrayConverting } from 'shared/converteitions';
+import { messageConverting, userArrayConverting } from 'shared/converteitions';
 
 const getAllDialogs = createAsyncThunk<IDialog[], number, IConfigAsyncThunk>(
   'dialogs/getAll',
@@ -21,6 +21,8 @@ const getAllDialogs = createAsyncThunk<IDialog[], number, IConfigAsyncThunk>(
           updatedAt: dialog.updatedAt,
           isGroup: dialog.isGroup,
           countNotReadMessages: dialog.countNotReadMessages,
+          readStatusLastMessage: dialog.readStatusLastMessage,
+          lastMessage: dialog.lastMessage && messageConverting(dialog.lastMessage),
         }));
       })
       .catch(({ response }) => {

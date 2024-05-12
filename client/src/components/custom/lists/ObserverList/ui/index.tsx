@@ -32,6 +32,8 @@ const ObserverList = <T, K>({
   hasMore,
   skeleton,
   position = 'bottom',
+  isEmpty,
+  gap = 15,
 }: IObserverList<T, K>) => {
   const { ref, inView, entry } = useInView({
     threshold: 0,
@@ -55,13 +57,13 @@ const ObserverList = <T, K>({
   return (
     <>
       {position === 'top' && <ObserverBlock ref={ref} />}
-      <SList>
+      <SList $gap={gap}>
         {list.map((el, index) => itemContent(el, index))}
         {isPending && [...new Array(5)].map(() => skeleton())}
       </SList>
       {position === 'bottom' && <ObserverBlock ref={ref} />}
       {isFetching && <LoaderSmall />}
-      {!list.length && !isPending && <Empty message={notFoundMessage} />}
+      {isEmpty || (!list.length && !isPending && <Empty message={notFoundMessage} />)}
     </>
   );
 };

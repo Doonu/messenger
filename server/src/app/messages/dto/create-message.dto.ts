@@ -10,4 +10,5 @@ export class CreateMessageReadStatusDto{
     readonly participants: User[];
     readonly messageId: number;
     readonly userId: number;
+    readonly dialogId: number;
 }

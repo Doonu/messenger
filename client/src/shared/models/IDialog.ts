@@ -9,9 +9,11 @@ export interface IDialog {
   updatedAt: string;
   isGroup: boolean;
   countNotReadMessages: number;
+  readStatusLastMessage: boolean;
+  lastMessage: IMessage | null;
 }
 
-export interface IChat extends IDialog {
+export interface IDialogChat extends Omit<IDialog, 'lastMessage' | 'readStatusLastMessage'> {
   fixedMessage: IMessage | null;
 }
 
@@ -24,8 +26,10 @@ export interface APIDialog {
   isGroup: boolean;
   fixedMessage: APIMessage | null;
   countNotReadMessages: number;
+  readStatusLastMessage: boolean;
+  lastMessage: APIMessage | null;
 }
 
-export interface APIChat extends APIDialog {
+export interface APIDialogChat extends Omit<APIDialog, 'lastMessage' | 'readStatusLastMessage'> {
   fixedMessage: APIMessage | null;
 }
