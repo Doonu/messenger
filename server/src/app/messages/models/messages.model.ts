@@ -6,6 +6,7 @@ interface MessagesCreate{
     dialogId: number;
     userId: number;
     content: string[];
+    status: string;
 }
 
 @Table({tableName: 'messages'})
@@ -19,6 +20,9 @@ export class Message extends Model<Message, MessagesCreate>{
     @ForeignKey(() => Dialog)
     @Column({type: DataType.INTEGER})
     dialogId: number;
+
+    @Column({ type: DataType.STRING, allowNull: false })
+    status: string;
 
     @ForeignKey(() => User)
     @Column({type: DataType.INTEGER})

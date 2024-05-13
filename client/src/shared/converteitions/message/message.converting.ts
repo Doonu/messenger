@@ -10,4 +10,5 @@ export const messageConverting = (data: APIMessage): IMessage => ({
   updatedAt: data.updatedAt,
   author: userConverting(data.author),
   readStatus: data.readStatus,
+  status: data.status,
 });

@@ -7,8 +7,9 @@ export interface IMessage {
   userId: number;
   createdAt: number;
   updatedAt: number;
-  author: IUser;
+  author: IUser | null;
   readStatus: boolean;
+  status: 'main' | 'info';
 }
 
 export interface APIMessage {
@@ -20,4 +21,5 @@ export interface APIMessage {
   updatedAt: number;
   author: ApiProfile;
   readStatus: boolean;
+  status: 'main' | 'info';
 }

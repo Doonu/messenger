@@ -7,6 +7,7 @@ import {UserDialog} from "./user-dialogs.model";
 import {Message} from "../messages/models/messages.model";
 import {Role} from "../roles/roles.model";
 import {MessageReadStatus} from "../messages/models/messagesReadStatus.model";
+import {MessagesService} from "../messages/messages.service";
 
 @Injectable()
 export class DialogsService {
@@ -15,7 +16,8 @@ export class DialogsService {
         @InjectModel(User) private userRepository: typeof User,
         @InjectModel(UserDialog) private userDialogRepository: typeof UserDialog,
         @InjectModel(Message) private messageRepository: typeof Message,
-        @InjectModel(MessageReadStatus) private messageReadStatus: typeof MessageReadStatus
+        @InjectModel(MessageReadStatus) private messageReadStatus: typeof MessageReadStatus,
+        private messagesService: MessagesService
     ){
     }
 
@@ -62,6 +64,26 @@ export class DialogsService {
     }
 
     async getById(id: number, userId: number){
+        return await this.dialogRepository.findOne(
+            {
+                where: { id: id },
+                include: [
+                    {
+                        model: User,
+                        include: [{
+                            model: Role
+                        }]
+                    },
+                    {
+                        association: 'fixedMessage',
+                        include: ['author']
+                    }
+                ]
+            }
+        )
+    }
+
+    async getByIdAndCount(id: number, userId: number){
         const findDialog = await this.dialogRepository.findOne(
             {
                 where: { id: id },
@@ -88,12 +110,34 @@ export class DialogsService {
         }
     }
 
+    async deleteUserInDialog(id: number, participant: number){
+        const findDialog = await this.dialogRepository.findOne(
+            {
+                where: { id: id },
+                include: [
+                    {
+                        model: User,
+                        include: [{
+                            model: Role
+                        }]
+                    }
+                ]
+            }
+        );
+        const filterParticipants = findDialog.participants.filter(user => user.id !== +participant);
+        const user = await this.userRepository.findOne({where: {id: participant}})
+        const message = await this.messagesService.create({userId: participant, dialogId: id, content: [`${user.name} вышел из груупы`], status: 'info'});
+        await this.messagesService.createMessageReadStatus({dialogId: id, userId: participant, messageId: message.id, participants: findDialog.participants});
+
+        await findDialog.$set("participants", filterParticipants)
+        findDialog.participants = filterParticipants
+    }
+
     async create(userId: number, participantIds: number[], nameChat?: string){
         if(participantIds.length === 1){
             const linkDialogs = await this.userDialogRepository.findAll({
                 where: {
-                    userId: userId,
-
+                    userId: userId
                 },
             })
 

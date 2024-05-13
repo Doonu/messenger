@@ -63,12 +63,12 @@ const Dialog: FC<IDialog> = ({
         </STop>
         <SBottom>
           <SLastMessage>
-            {isPhotoSecondary && (
+            {isPhotoSecondary && lastMessage?.author && (
               <PhotoProfile
                 size={25}
                 fontSize={12}
-                name={lastMessage.author.name}
-                img={lastMessage.author.avatar}
+                name={lastMessage?.author.name}
+                img={lastMessage?.author.avatar}
               />
             )}
             <SMessage>{message}</SMessage>

@@ -35,7 +35,7 @@ interface INavigate {
   allMessages: IChat[];
   newMessages: IChat[];
   setInfoPlayers: Dispatch<SetStateAction<boolean>>;
-  chat?: IDialogChat;
+  chat?: IDialogChat | null;
 }
 
 const Navigate: FC<INavigate> = ({
@@ -62,10 +62,10 @@ const Navigate: FC<INavigate> = ({
     type: chat?.isGroup,
   });
 
-  const isInfoChat = filteredParticipants?.[0].statusConnected
+  const isInfoChat = filteredParticipants?.[0]?.statusConnected
     ? 'Онлайн'
-    : filteredParticipants?.[0].timeConnected &&
-      `был в сети ${postTime(filteredParticipants[0].timeConnected)}`;
+    : filteredParticipants?.[0]?.timeConnected &&
+      `был в сети ${postTime(filteredParticipants[0]?.timeConnected)}`;
 
   const checkDelete = useMemo(() => {
     const initialMessages = [...compositionRevert(allMessages), ...compositionRevert(newMessages)];

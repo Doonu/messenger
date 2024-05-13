@@ -8,17 +8,11 @@ import { LoaderSmall } from 'components/ui/loaders';
 
 /**
  *   data - Массив для рендера
- *
  *   itemContent - ReactNode для рендера
- *
  *   fetchNextPage — Callback при прокрутке в конце списка
- *
  *   isPending — Первичная загрузка данных
- *
  *   isFetching — Дозагрузка данных
- *
  *   isNotFound — Данные не найдены
- *
  *   position - С какой стороны прогрузка при скроле
  **/
 

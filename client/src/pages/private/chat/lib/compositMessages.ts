@@ -15,6 +15,7 @@ export const compositionRevert = (initialMessages: IChat[]): IMessage[] => {
         updatedAt: el.updatedAt,
         author: author,
         readStatus: el.readStatus,
+        status: el.status,
       });
     });
   });
@@ -34,15 +35,25 @@ export const compositionMessages = (messages: IMessage[]): IChat[] => {
       createdAt: el.createdAt,
       updatedAt: el.updatedAt,
       readStatus: el.readStatus,
+      status: el.status,
     };
 
-    const currentMessageAuthorId = currentMessages?.[currentMessages.length - 1]?.author.id;
+    if (newMessage.status === 'info') {
+      currentMessages.push({
+        author: null,
+        createdAt: null,
+        dialogId: el.dialogId,
+        messages: [newMessage],
+      });
+    }
 
-    if (currentMessageAuthorId === el.author.id) {
+    const currentMessageAuthorId = currentMessages?.[currentMessages.length - 1]?.author?.id;
+
+    if (currentMessageAuthorId === el?.author?.id && newMessage.status === 'main') {
       currentMessages[currentMessages.length - 1].messages.push(newMessage);
     }
 
-    if (currentMessageAuthorId !== el.author.id) {
+    if (currentMessageAuthorId !== el?.author?.id && newMessage.status === 'main') {
       currentMessages.push({
         author: el.author,
         createdAt: el.createdAt,
@@ -63,14 +74,30 @@ export const addInCompositionMessages = (message: IMessage, messages: IChat[]): 
     updatedAt: message.updatedAt,
     userId: message.userId,
     readStatus: message.readStatus,
+    status: message.status,
   };
   const result: IChat[] = [...messages];
 
-  if (messages?.[messages?.length - 1]?.author.id === message?.author.id) {
+  if (newMessage.status === 'info') {
+    result.push({
+      author: null,
+      createdAt: null,
+      dialogId: message.dialogId,
+      messages: [newMessage],
+    });
+  }
+
+  if (
+    messages?.[messages?.length - 1]?.author?.id === message?.author?.id &&
+    newMessage.status === 'main'
+  ) {
     result?.[result?.length - 1].messages.push(newMessage);
   }
 
-  if (messages?.[messages?.length - 1]?.author.id !== message?.author.id) {
+  if (
+    messages?.[messages?.length - 1]?.author?.id !== message?.author?.id &&
+    newMessage.status === 'main'
+  ) {
     result.push({
       author: message?.author,
       createdAt: message.createdAt,

@@ -36,6 +36,11 @@ interface IDeleteFixedMessage {
   userId: number;
 }
 
+interface IOutUserOfChat {
+  dialogId: number;
+  participant: number;
+}
+
 export const createMessage = ({ content, dialogId, userId }: ICreateMessage) => {
   SocketApi.socket?.emit('create_message', {
     content: content,
@@ -81,5 +86,12 @@ export const readMessage = ({ messageId, dialogId, userId }: IReadMessage) => {
     dialogId: dialogId,
     userId: userId,
     messageId: messageId,
+  });
+};
+
+export const userOutOfChat = ({ dialogId, participant }: IOutUserOfChat) => {
+  SocketApi.socket?.emit('user_out_chat', {
+    dialogId: dialogId,
+    participant: participant,
   });
 };

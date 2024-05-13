@@ -44,7 +44,7 @@ const FixedMessage: FC<IFixedMessage> = ({ fixedMessage }) => {
         <BsPinAngleFill size={20} />
         <SContent>
           <SName>
-            <span>{fixedMessage?.author.name}</span>
+            <span>{fixedMessage?.author?.name}</span>
             {fixedMessage && getTime(fixedMessage.createdAt)}
           </SName>
           <SMessage>{fixedMessage?.content}</SMessage>

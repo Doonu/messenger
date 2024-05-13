@@ -1,6 +1,6 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
-import { useAppDispatch } from 'hooks/redux';
-import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IDialogChat } from 'shared/models/IDialog';
 import { useDialogSocket, getDialogById } from 'shared/api';
 import { APIMessage, IMessage } from 'shared/models/IMessage';
@@ -25,6 +25,7 @@ import {
   APIUpdateMessage,
   APIDeleteFixedMessage,
   APIMessageRead,
+  APIOutUserOfChat,
 } from '../model/IChat';
 import FixedMessage from './fixedMessage';
 import { scrollToById } from 'shared/util/scrollTo';
@@ -32,17 +33,18 @@ import ChatInfo from 'features/chatInfo';
 import { ObserverList } from 'components/custom/lists/ObserverList';
 import Modal from 'components/navigation/modal/ui';
 import { filterNewMessages } from '../lib/filterNewMessages';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 
 const Chat = () => {
   const dispatch = useAppDispatch();
 
   const params = useParams();
   const idParam = params['id'];
+  const navigate = useNavigate();
 
-  const chatRef = useRef<HTMLDivElement | null>(null);
-  const newMessageRef = useRef<HTMLDivElement | null>(null);
+  const user = useAppSelector(selectorProfile);
 
-  const [chat, setChat] = useState<IDialogChat>(); // Получение информацию о чате
+  const [chat, setChat] = useState<IDialogChat | null>(null); // Получение информацию о чате
   const [choiceMessages, setChoiceMessages] = useState<number[]>([]); // Выбор сообщений
   const [editedMessage, setEditedMessage] = useState<IMessage | null>(); // Редактируемое сообщение
   const [fixedMessage, setFixedMessage] = useState<IMessage | null>(); // Фиксированное сообщение
@@ -56,18 +58,21 @@ const Chat = () => {
   const [isMore, setIsMore] = useState(true);
   const limit = 50;
 
+  const chatRef = useRef<HTMLDivElement | null>(null);
+  const newMessageRef = useRef<HTMLDivElement | null>(null);
+  const chatRefState = useRef(chat);
+  const newMessagesRefState = useRef<IChat[]>([]);
+
   /*WebSocket*/
   const createMessageCallback = async (data: APIMessage) => {
     if (idParam && data.dialogId === +idParam) {
       const convertingData = messageConverting(data);
 
-      //TODO: Сделать чтоб скрол обновлялся если все сообщения прочитаны(когда в самом низу)
-      setNewMessages((prev) => {
-        if (prev.length) return addInCompositionMessages(convertingData, prev);
-
+      if (newMessagesRefState.current.length) {
+        setNewMessages((prev) => addInCompositionMessages(convertingData, prev));
+      } else {
         setMessages((prev) => addInCompositionMessages(convertingData, prev));
-        return prev;
-      });
+      }
 
       scrollToDown('start', 'smooth');
     }
@@ -122,6 +127,34 @@ const Chat = () => {
               prev.countNotReadMessages === 0 ? 0 : prev.countNotReadMessages - 1,
           }
       );
+    }
+  };
+
+  const deleteUserOfChatCallback = (data: APIOutUserOfChat) => {
+    if (idParam && data.dialogId === +idParam) {
+      if (data.participant === user.id) {
+        navigate(`/dialog`);
+      }
+
+      const filterParticipants = chatRefState.current?.participants.filter(
+        (el) => el.id !== data.participant
+      );
+
+      filterParticipants &&
+        setChat(
+          (prev) =>
+            prev && {
+              ...prev,
+              participants: filterParticipants,
+            }
+        );
+      const convertingData = messageConverting(data.message);
+
+      if (newMessagesRefState.current.length) {
+        setNewMessages((prev) => addInCompositionMessages(convertingData, prev));
+      } else {
+        setMessages((prev) => addInCompositionMessages(convertingData, prev));
+      }
     }
   };
 
@@ -242,6 +275,7 @@ const Chat = () => {
     createFixedMessageCallback,
     deleteFixedMessageCallback,
     messageReadCallback,
+    deleteUserOfChatCallback,
   });
 
   useEffect(() => {
@@ -253,10 +287,18 @@ const Chat = () => {
     if (messages.length) setIsRead(false);
   }, [messages]);
 
+  useEffect(() => {
+    chatRefState.current = chat;
+  }, [chat]);
+
+  useEffect(() => {
+    newMessagesRefState.current = newMessages;
+  }, [newMessages]);
+
   return (
     <AllContainer isFooter={false} $isSticky>
       <Modal isFooter={false} onClose={() => setInfoPlayers(false)} open={infoPlayers} top="15%">
-        <ChatInfo {...chat} />
+        <ChatInfo setChat={setChat} chat={chat} />
       </Modal>
       <SContainer>
         <Navigate

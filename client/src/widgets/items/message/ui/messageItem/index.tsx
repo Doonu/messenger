@@ -62,20 +62,37 @@ const MessageItem: FC<IMessage> = ({
   const isChoice = choiceMessages.includes(messageItem.id);
   const user = useAppSelector(selectorProfile);
 
+  const handlerOnMouseEnter = () => {
+    if (messageItem.status === 'main') setIsShow(true);
+  };
+
+  const handlerOnMouseLeave = () => {
+    if (messageItem.status === 'main') setIsShow(false);
+  };
+
+  const handlerClickMessage = () => {
+    if (messageItem.status === 'main') {
+      handlerChoice(messageItem.id);
+    }
+  };
+
   return (
     <>
       <SContainer
         $isFirstElement={isNotFirstElement}
+        $status={messageItem.status}
         $isChoice={isChoice}
-        onClick={() => handlerChoice(messageItem.id)}
-        onMouseEnter={() => setIsShow(true)}
-        onMouseLeave={() => setIsShow(false)}
+        onClick={handlerClickMessage}
+        onMouseEnter={handlerOnMouseEnter}
+        onMouseLeave={handlerOnMouseLeave}
         id={`${messageItem.id}`}
       >
         <SInfo>
           <SContent>
             {messageItem.content.map((content, i) => (
-              <SP key={messageItem.id + i}>{content}</SP>
+              <SP key={messageItem.id + i} $status={messageItem.status}>
+                {content}
+              </SP>
             ))}
           </SContent>
         </SInfo>

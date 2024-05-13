@@ -1,5 +1,5 @@
-import React, { FC, useState } from 'react';
-import { IDialog } from 'shared/models/IDialog';
+import React, { Dispatch, FC, SetStateAction, useState } from 'react';
+import { IDialogChat } from 'shared/models/IDialog';
 import {
   AllPlayers,
   SAddPlayer,
@@ -18,26 +18,42 @@ import { GoPlusCircle } from 'react-icons/go';
 import ItemPlayer from './ui/ItemPlayer';
 import Navigate from './ui/Navigate';
 import { IUser } from '../../shared/models/IUser';
+import { userOutOfChat } from 'shared/api/socket/dialog/index';
+import { useAppSelector } from '../../hooks/redux';
+import { selectorProfile } from '../../entities/profile/profile.selectors';
 
-const ChatInfo: FC<Partial<IDialog>> = (chat) => {
+interface IChatInfo {
+  chat: Partial<IDialogChat | null>;
+  setChat: Dispatch<SetStateAction<IDialogChat | null>>;
+}
+
+const ChatInfo: FC<IChatInfo> = ({ chat }) => {
+  const user = useAppSelector(selectorProfile);
+
   const [users, setUsers] = useState<IUser[]>(chat?.participants || []);
+
+  const handlerOutChat = () => {
+    if (chat?.id) {
+      userOutOfChat({ dialogId: chat.id, participant: user.id });
+    }
+  };
 
   return (
     <SContainer>
       <STitle>Информация</STitle>
       <SChatInfo>
-        {chat.imgSubstitute && chat.dialogName && (
+        {chat?.imgSubstitute && chat.dialogName && (
           <PhotoProfile size={60} img={chat.imgSubstitute} name={chat.dialogName} />
         )}
         <SInfo>
-          <SName>{chat.dialogName}</SName>
-          <SText>{chat.participants?.length} участников</SText>
+          <SName>{chat?.dialogName}</SName>
+          <SText>{chat?.participants?.length} участников</SText>
         </SInfo>
       </SChatInfo>
       <SBr />
       <div>
         <SForm>
-          <Navigate setUsers={setUsers} participants={chat.participants} />
+          <Navigate setUsers={setUsers} participants={chat?.participants} />
           <SAddPlayer>
             <GoPlusCircle size={40} />
             <div>Добавить участников</div>
@@ -49,7 +65,7 @@ const ChatInfo: FC<Partial<IDialog>> = (chat) => {
           </AllPlayers>
         </SForm>
       </div>
-      <SExit>Выйти из группы</SExit>
+      <SExit onClick={handlerOutChat}>Выйти из группы</SExit>
     </SContainer>
   );
 };

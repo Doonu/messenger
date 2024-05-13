@@ -20,8 +20,8 @@ export class MessagesService {
         return await this.messageRepository.findOne({where: {id: id}, include: {all: true}})
     }
 
-    async create({userId, content, dialogId}: CreateMessageDto){
-        const created = await this.messageRepository.create({userId, dialogId, content})
+    async create({userId, content, dialogId, status = 'main'}: CreateMessageDto){
+        const created = await this.messageRepository.create({userId, dialogId, content, status: status})
         const dialog = await this.dialogRepository.findByPk(dialogId)
         await dialog.update({lastMessageId: created.id})
         return await this.messageRepository.findOne({where: {id: created.id}, include: {all: true}})

@@ -32,14 +32,18 @@ const Message: FC<IMessage> = ({
 }) => {
   return (
     <SContainer>
-      <SContainerPhotoProfile>
-        <PhotoProfile img={author.avatar} name={author.name} />
-      </SContainerPhotoProfile>
+      {author && (
+        <SContainerPhotoProfile>
+          <PhotoProfile img={author.avatar} name={author.name} />
+        </SContainerPhotoProfile>
+      )}
       <SMessagesUser>
-        <STitle>
-          <SName>{author.name}</SName>
-          <span>{getTime(createdAt)}</span>
-        </STitle>
+        {author && (
+          <STitle>
+            <SName>{author?.name}</SName>
+            {createdAt && <span>{getTime(createdAt)}</span>}
+          </STitle>
+        )}
         <SMessageBlock>
           {messages.map((messageItem, index) => (
             <MessageItem

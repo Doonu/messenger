@@ -8,11 +8,12 @@ export interface IMessageItem {
   updatedAt: number;
   userId: number;
   readStatus: boolean;
+  status: 'main' | 'info';
 }
 
 export interface IChat {
-  author: IUser;
-  createdAt: number;
+  author: IUser | null;
+  createdAt: number | null;
   dialogId: number;
   messages: IMessageItem[];
 }
@@ -37,4 +38,10 @@ export interface APIDeleteFixedMessage {
 export interface APIMessageRead {
   dialogId: number;
   messageId: number;
+}
+
+export interface APIOutUserOfChat {
+  dialogId: number;
+  message: APIMessage;
+  participant: number;
 }
