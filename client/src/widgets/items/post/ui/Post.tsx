@@ -3,7 +3,6 @@ import { SContainer, STop } from './post.styled';
 import Restore from './restore';
 import { useAppDispatch } from 'hooks/redux';
 import { IAllFiles } from 'shared/models/IPost';
-import Comments from './comments';
 import { switchWarningPost } from 'entities/post/post.slice';
 import { IPostAndDrag } from '../model/shared';
 import Content from './content';
@@ -19,6 +18,7 @@ const Post: FC<IPostAndDrag> = ({
   posts,
   editedPost,
   warningEdit,
+  openComments,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -27,12 +27,7 @@ const Post: FC<IPostAndDrag> = ({
   const [allFiles, setAllFiles] = useState<IAllFiles>({ photos: [], files: [] });
 
   const [isDeletedPost, setIsDeletedPost] = useState(false);
-  const [isCommentsActive, setIsCommentsActive] = useState(false);
   const [isEditPost, setIsEditPost] = useState(false);
-
-  const handleActiveComments = () => {
-    setIsCommentsActive((prev) => !prev);
-  };
 
   const handlerDeletePost = () => {
     if (deletedPost.find((postD) => postD.id === post.id)) {
@@ -50,10 +45,6 @@ const Post: FC<IPostAndDrag> = ({
   useEffect(() => {
     handlerDeletePost();
   }, [deletedPost]);
-
-  useEffect(() => {
-    if (post.isDisabledComments) setIsCommentsActive(false);
-  }, [post.isDisabledComments]);
 
   useEffect(() => {
     post.id === editedPost?.id ? setIsEditPost(true) : setIsEditPost(false);
@@ -103,14 +94,9 @@ const Post: FC<IPostAndDrag> = ({
           </>
         )}
         {!isDeletedPost && (
-          <Actions
-            post={post}
-            onActiveComments={handleActiveComments}
-            commentLength={post.comments}
-          />
+          <Actions post={post} onActiveComments={openComments} commentLength={post.comments} />
         )}
       </STop>
-      {isCommentsActive && !isDeletedPost && <Comments post={post} />}
     </SContainer>
   );
 };

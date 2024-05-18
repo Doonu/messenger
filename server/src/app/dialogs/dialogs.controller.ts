@@ -26,10 +26,4 @@ export class DialogsController {
     createDialog(@Req() {userId}: any, @Body(){ participantIds, nameChat }: DialogCreateDto){
         return this.dialogService.create(userId, participantIds, nameChat);
     }
-
-    @UseGuards(JwtAuthGuard)
-    @Delete("/users/:id")
-    deleteUserInDialog(@Param('id') id: number, @Query() {participant}: DialogDeleteUserDto){
-        return this.dialogService.deleteUserInDialog(id, participant);
-    }
 }

@@ -1,8 +1,7 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import { SAutosizeInput, SButton, SContainer, SForm } from './comments.styled';
+import { SAutosizeInput, SButton, SContainer, Send, SForm } from './comments.styled';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import SendIcon from 'shared/assets/icons/sendIcon';
 import { getAllCommentsInPost, createComment, deleteComments } from 'shared/api';
 import CommentItem from '../commentItem';
 import PhotoProfile from 'components/custom/profiles/photo';
@@ -149,7 +148,6 @@ const Comments: FC<CommentsProps> = ({ post }) => {
     getAllComments();
   }, [orderBy, orderDirection]);
 
-  /* TODO: Вынести в widget форму*/
   return (
     <SContainer>
       {!!comments.length && (
@@ -192,7 +190,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
           draggable="false"
         />
         <SButton onClick={handlerCreateComment}>
-          <SendIcon />
+          <Send />
         </SButton>
       </SForm>
     </SContainer>

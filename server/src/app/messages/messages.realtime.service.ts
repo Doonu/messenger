@@ -95,7 +95,7 @@ export class MessagesRealtimeService{
 
     @SubscribeMessage("user_out_chat")
     async userOutOfChat(@MessageBody() dto: DeleteUserChatDto){
-        const findDialog = await this.dialogsService.getById(dto.dialogId, dto.participant)
+        const findDialog = await this.dialogsService.getById(dto.dialogId)
 
         const saveEmitParticipants = findDialog.participants;
         const filterParticipants = findDialog.participants.filter(user => user.id !== +dto.participant);
@@ -119,7 +119,7 @@ export class MessagesRealtimeService{
     async handleDeleteMessages(@MessageBody() dto: DeleteMessagesDto){
         let isFixedDeleteMessage = false;
 
-        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
+        const activeDialog = await this.dialogsService.getByIdAndCount(dto.dialogId, dto.userId);
         await this.messageService.deleteById(dto.messagesId, dto.dialogId);
 
         if(dto.messagesId.find(el => el === activeDialog.fixedMessageId)){

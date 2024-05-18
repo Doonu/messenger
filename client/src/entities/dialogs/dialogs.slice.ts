@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDialog } from 'shared/models/IDialog';
 import { getAllDialogs } from 'shared/api';
 
@@ -25,12 +25,14 @@ export const dialogsSlice = createSlice({
     addPage: (state) => {
       state.page += 1;
     },
+    setDialogs: (state, { payload }: PayloadAction<IDialog[]>) => {
+      state.list = payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllDialogs.fulfilled, (state, { payload }) => {
       if (payload.length === 0) state.isHaseMore = false;
-      if (payload.length !== 0 && state.page !== 1) state.list = [...state.list, ...payload];
-      if (state.page === 1) state.list = payload;
+      if (payload.length !== 0) state.list = [...state.list, ...payload];
       state.isLoading = false;
     });
     builder.addCase(getAllDialogs.pending, (state) => {
@@ -43,5 +45,5 @@ export const dialogsSlice = createSlice({
   },
 });
 
-export const { addPage } = dialogsSlice.actions;
+export const { addPage, setDialogs } = dialogsSlice.actions;
 export default dialogsSlice.reducer;

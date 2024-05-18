@@ -63,7 +63,7 @@ export class DialogsService {
         }))
     }
 
-    async getById(id: number, userId: number){
+    async getById(id: number){
         return await this.dialogRepository.findOne(
             {
                 where: { id: id },
@@ -108,29 +108,6 @@ export class DialogsService {
             ...JSON.parse(JSON.stringify(findDialog)),
             countNotReadMessages: count.length
         }
-    }
-
-    async deleteUserInDialog(id: number, participant: number){
-        const findDialog = await this.dialogRepository.findOne(
-            {
-                where: { id: id },
-                include: [
-                    {
-                        model: User,
-                        include: [{
-                            model: Role
-                        }]
-                    }
-                ]
-            }
-        );
-        const filterParticipants = findDialog.participants.filter(user => user.id !== +participant);
-        const user = await this.userRepository.findOne({where: {id: participant}})
-        const message = await this.messagesService.create({userId: participant, dialogId: id, content: [`${user.name} вышел из груупы`], status: 'info'});
-        await this.messagesService.createMessageReadStatus({dialogId: id, userId: participant, messageId: message.id, participants: findDialog.participants});
-
-        await findDialog.$set("participants", filterParticipants)
-        findDialog.participants = filterParticipants
     }
 
     async create(userId: number, participantIds: number[], nameChat?: string){

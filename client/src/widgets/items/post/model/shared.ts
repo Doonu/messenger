@@ -11,4 +11,5 @@ export interface IPostAndDrag extends IPost {
   warningEdit: boolean;
   editedPost: IPostState | undefined;
   deletedPost: IPostState[];
+  openComments: () => void;
 }

@@ -19,7 +19,7 @@ import { selectorEditedPost, selectorPost } from 'entities/post/post.selectors';
 //TODO: Перенести в slice
 //TODO: Подумать -> создать в entities папочку с сохраненными формами(savedFilters/addPost)
 
-const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
+const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerSetDraggablePhoto }) => {
   const dispatch = useAppDispatch();
 
   const editedPost = useAppSelector(selectorEditedPost);
@@ -89,7 +89,7 @@ const AddPost: FC<IPostProps> = ({ isDraggablePhoto, handlerChange }) => {
               setData={setAllFiles}
               data={allFiles}
               isDraggablePhoto={isDraggablePhoto}
-              handlerChange={handlerChange}
+              handlerChange={handlerSetDraggablePhoto}
             />
           )}
         </Form>

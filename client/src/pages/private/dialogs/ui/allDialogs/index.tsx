@@ -42,7 +42,7 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
   };
 
   useEffect(() => {
-    handlerGetDialogs();
+    !dialogs.length && handlerGetDialogs();
   }, []);
 
   return (

@@ -22,5 +22,5 @@ export interface IContainerFormProps {
 
 export interface IPostProps {
   isDraggablePhoto: boolean;
-  handlerChange: () => void;
+  handlerSetDraggablePhoto: () => void;
 }

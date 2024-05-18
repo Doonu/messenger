@@ -12,12 +12,12 @@ import {
   selectorDeletedPost,
 } from 'entities/post/post.selectors';
 import { getAllPost } from 'shared/api';
-import { Post } from 'widgets/items/post';
 import { addPage, setAllPosts } from 'entities/post/post.slice';
 import AddPost from 'widgets/forms/addPost';
 import SkeletonPost from 'widgets/items/post/ui/skeleton';
 import ObserverList from 'components/custom/lists/ObserverList/ui';
 import { DraggableContainer, SContainerList } from './Feed.styled';
+import CollapsePost from '../../../../components/custom/collapseAllPost';
 
 const Feed = () => {
   const dispatch = useAppDispatch();
@@ -71,17 +71,18 @@ const Feed = () => {
   return (
     <DraggableContainer onDragEnterCapture={handlerPhotoDrag} onDragLeaveCapture={handlerPhotoDrag}>
       <AllContainer>
-        <AddPost handlerChange={handlerChange} isDraggablePhoto={isDraggablePhoto} />
+        <AddPost handlerSetDraggablePhoto={handlerChange} isDraggablePhoto={isDraggablePhoto} />
 
         <SContainerList $isLength={!posts.length && !loadingPosts}>
           <ObserverList
             list={posts}
             itemContent={(el) => (
-              <Post
-                deletedPost={deletedPost}
-                warningEdit={warningEdit}
+              <CollapsePost
+                key={el.id}
                 editedPost={editedPost}
+                warningEdit={warningEdit}
                 posts={posts}
+                deletedPost={deletedPost}
                 isDraggablePhotoInPost={isDraggablePhotoInPost}
                 handlerChange={handlerChangeInPost}
                 post={el}
