@@ -13,7 +13,6 @@ export const SBlockContainer = styled(BlockContainer)`
 export const STags = styled.div`
   display: grid;
   gap: 10px;
-  height: 45px;
 `;
 
 export const STag = styled.div`

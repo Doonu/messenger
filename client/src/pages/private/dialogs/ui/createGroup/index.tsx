@@ -1,12 +1,5 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import {
-  SBaseButton,
-  SContainer,
-  SFormCreate,
-  SFormSearch,
-  SFriends,
-  SHeader,
-} from './createGroup.styled';
+import { SBaseButton, SContainer, SFormCreate, SFriends, SHeader } from './createGroup.styled';
 import Input from 'components/ui/inputs/baseInput';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import {
@@ -22,13 +15,11 @@ import { ObserverList } from 'components/custom/lists/ObserverList';
 import { addPage } from 'entities/friends/friends.slice';
 import PickFriend from 'widgets/items/pickFriend';
 import { IUser } from 'shared/models/IUser';
-import { SClose, STag, STags } from '../dialogs.styled';
+import { SClose } from '../dialogs.styled';
 import { Affix } from 'antd';
-import HorizontalList from 'components/custom/lists/HorizontalList';
-import { ContainerByIcon } from 'shared/styles/containers';
-import debounce from 'lodash.debounce';
 import createDialog from 'shared/api/http/dialogs/createDialog';
 import { useNavigate } from 'react-router-dom';
+import SearchAndFilterTags from 'widgets/forms/searchAndFilterTags';
 
 interface ICreateGroup {
   changeStage: () => void;
@@ -68,8 +59,6 @@ const CreateGroup: FC<ICreateGroup> = ({ changeStage }) => {
 
   const searchFriends = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
 
-  const debounceSearch = debounce(searchFriends, 500);
-
   const pickUser = (user: IUser) => {
     const findUserInUsersPick = usersPick.find((el) => el.id === user.id);
 
@@ -85,11 +74,6 @@ const CreateGroup: FC<ICreateGroup> = ({ changeStage }) => {
   const clearSearch = () => {
     setSearch('');
     setSearchView('');
-  };
-
-  const filterPickUser = (userId: number) => {
-    const filterUserIds = usersPick.filter((userInPick) => userInPick.id !== userId);
-    setUsersPick(filterUserIds);
   };
 
   const handlerCreateChat = () => {
@@ -108,29 +92,13 @@ const CreateGroup: FC<ICreateGroup> = ({ changeStage }) => {
         <h2>Создание чата</h2>
         <SClose onClick={changeStage} />
       </SHeader>
-      <SFormSearch>
-        <Input
-          value={searchView}
-          isBgTransparent
-          onInput={debounceSearch}
-          onChange={(e) => setSearchView(e.target.value)}
-          placeholder="Введите имя"
-        />
-        <STags>
-          <HorizontalList
-            list={usersPick}
-            itemContent={(el) => (
-              <STag key={el.id}>
-                <div>{el.name}</div>
-                <ContainerByIcon>
-                  <SClose size={5} onClick={() => filterPickUser(el.id)} />
-                </ContainerByIcon>
-              </STag>
-            )}
-            loading={false}
-          />
-        </STags>
-      </SFormSearch>
+      <SearchAndFilterTags
+        search={searchView}
+        setSearch={setSearchView}
+        handlerSearch={searchFriends}
+        setUsersPick={setUsersPick}
+        picks={usersPick}
+      />
       <SFriends>
         <ObserverList
           list={friends}

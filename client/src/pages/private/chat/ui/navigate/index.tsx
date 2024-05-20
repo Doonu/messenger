@@ -2,7 +2,6 @@ import React, { Dispatch, FC, SetStateAction, useMemo } from 'react';
 
 import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import PhotoProfile from 'components/custom/profiles/photo';
 import { generateChatInfo } from 'shared/util/generateChat';
@@ -26,8 +25,8 @@ import {
   SProfile,
   SCenter,
   SCansel,
-  SBack,
 } from './navigate.styled';
+import Back from 'components/custom/back';
 
 interface INavigate {
   choiceMessages: number[];
@@ -118,10 +117,7 @@ const Navigate: FC<INavigate> = ({
       )}
       {!choiceMessages.length && (
         <>
-          <SBack onClick={() => navigate(-1)}>
-            <IoIosArrowBack size={25} />
-            Назад
-          </SBack>
+          <Back />
           <SCenter>
             <SProfile>{generateInfoChat.nameDialog}</SProfile>
             {!chat?.isGroup && <SInfo>{isInfoChat}</SInfo>}

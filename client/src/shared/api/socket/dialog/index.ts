@@ -41,6 +41,12 @@ interface IOutUserOfChat {
   participant: number;
 }
 
+interface IAddNewUsers {
+  participants: number[];
+  userId: number;
+  dialogId: number;
+}
+
 export const createMessage = ({ content, dialogId, userId }: ICreateMessage) => {
   SocketApi.socket?.emit('create_message', {
     content: content,
@@ -93,5 +99,13 @@ export const userOutOfChat = ({ dialogId, participant }: IOutUserOfChat) => {
   SocketApi.socket?.emit('user_out_chat', {
     dialogId: dialogId,
     participant: participant,
+  });
+};
+
+export const addNewUsers = ({ userId, participants, dialogId }: IAddNewUsers) => {
+  SocketApi.socket?.emit('user_add_chat', {
+    participants: participants,
+    userId: userId,
+    dialogId: dialogId,
   });
 };

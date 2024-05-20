@@ -38,6 +38,25 @@ export class UsersService {
     return await this.userRepository.findAll({ include: { all: true }});
   }
 
+
+  async getAllUsersExceptExceptions(userId: number,search: string, page: number,exceptions: number[]){
+    let currentPage = page - 1;
+    const currentLimit = 20;
+
+    return await this.userRepository.findAll({
+      where: {
+        id: {
+          [Op.not]: [...exceptions, userId]
+        },
+        name: {
+          [Op.iRegexp]: search
+        }
+      },
+      limit: currentLimit,
+      offset: currentPage * currentLimit
+    })
+  }
+
   // Получение всех пользователей кроме друзей
   async getAllUsersExceptFriends(userId: number, search: string, page: number){
     let currentPage = page - 1;
@@ -105,6 +124,14 @@ export class UsersService {
   // Получение пользователя по id
   async getUser(id: number) {
     return await this.userRepository.findOne({ attributes: this.baseFieldUser, where: { id: id }, include: { all: true} });
+  }
+
+  async getUsersByIds(ids: number[]){
+    return await this.userRepository.findAll({where: {
+      id: {
+          [Op.in]: ids
+        }
+    }})
   }
 
   // Удаление пользователя по id

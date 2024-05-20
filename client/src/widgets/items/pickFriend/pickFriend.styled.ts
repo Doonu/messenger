@@ -6,6 +6,8 @@ export const SContainer = styled.div`
   padding: 0 10px 10px 10px;
   border-bottom: 1px solid ${({ theme }) => theme.colors.bg};
   color: ${({ theme }) => theme.colors.link};
+  cursor: pointer;
+
   &:last-child {
     border-bottom: 0;
   }

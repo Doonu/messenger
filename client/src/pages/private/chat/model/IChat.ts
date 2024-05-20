@@ -1,4 +1,4 @@
-import { IUser } from 'shared/models/IUser';
+import { ApiProfile, IUser } from 'shared/models/IUser';
 import { APIMessage } from '../../../../shared/models/IMessage';
 
 export interface IMessageItem {
@@ -44,4 +44,10 @@ export interface APIOutUserOfChat {
   dialogId: number;
   message: APIMessage;
   participant: number;
+}
+
+export interface APINewUsers {
+  dialogId: number;
+  messages: APIMessage[];
+  participants: ApiProfile[];
 }

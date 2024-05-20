@@ -9,7 +9,7 @@ import Navigate from './navigate';
 import { SChat, SContainer, SContent, SLine, SNewMessage } from './chat.styled';
 import AllContainer from 'components/layouts/all';
 import { Message } from 'widgets/items/message';
-import { messageConverting } from 'shared/converteitions';
+import { messageConverting, userArrayConverting } from 'shared/converteitions';
 import CreateMessage from 'widgets/forms/createMessage';
 import {
   addInCompositionMessages,
@@ -26,6 +26,7 @@ import {
   APIDeleteFixedMessage,
   APIMessageRead,
   APIOutUserOfChat,
+  APINewUsers,
 } from '../model/IChat';
 import FixedMessage from './fixedMessage';
 import { scrollToById } from 'shared/util/scrollTo';
@@ -158,6 +159,29 @@ const Chat = () => {
     }
   };
 
+  const updateUsersInChat = (data: APINewUsers) => {
+    if (idParam && data.dialogId === +idParam) {
+      setInfoPlayers(false);
+      setChat(
+        (prev) =>
+          prev && {
+            ...prev,
+            participants: [...prev.participants, ...userArrayConverting(data.participants)],
+          }
+      );
+
+      data.messages.forEach((el) => {
+        const convertingData = messageConverting(el);
+
+        if (newMessagesRefState.current.length) {
+          setNewMessages((prev) => addInCompositionMessages(convertingData, prev));
+        } else {
+          setMessages((prev) => addInCompositionMessages(convertingData, prev));
+        }
+      });
+    }
+  };
+
   /*WebSocket*/
 
   const handlerChoice = (id: number) => {
@@ -276,6 +300,7 @@ const Chat = () => {
     deleteFixedMessageCallback,
     messageReadCallback,
     deleteUserOfChatCallback,
+    updateUsersInChat,
   });
 
   useEffect(() => {
@@ -298,7 +323,7 @@ const Chat = () => {
   return (
     <AllContainer isFooter={false} $isSticky>
       <Modal isFooter={false} onClose={() => setInfoPlayers(false)} open={infoPlayers} top="15%">
-        <ChatInfo setChat={setChat} chat={chat} />
+        <ChatInfo chat={chat} />
       </Modal>
       <SContainer>
         <Navigate

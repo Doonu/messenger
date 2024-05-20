@@ -2,7 +2,7 @@ import {BelongsTo, Column, DataType, ForeignKey, Model, Table} from "sequelize-t
 import {User} from "../../users/models/users.model";
 import {Dialog} from "../../dialogs/dialogs.model";
 
-interface MessagesCreate{
+export interface MessagesCreate{
     dialogId: number;
     userId: number;
     content: string[];

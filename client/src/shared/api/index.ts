@@ -29,6 +29,7 @@ import deleteFriend from './http/user/deleteFriend';
 import getAllFriendRequests from './http/user/getAllFriendRequests';
 import getFriends from './http/user/getAllFriends';
 import getUsersExceptFriends from './http/user/getUsersExceptFriends';
+import getUsersExceptInChat from './http/user/getUsersExceptInChat';
 
 import deleteNotification from './http/notification/deleteNotification';
 import deleteAllNotifications from './http/notification/deleteAllNotification';
@@ -92,4 +93,5 @@ export {
   createMessage,
   getAllMessagesByDialogId,
   createFixedMessage,
+  getUsersExceptInChat,
 };

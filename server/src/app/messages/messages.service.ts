@@ -43,22 +43,27 @@ export class MessagesService {
 
         const packMessages = await this.messageRepository.findAll({
             where:
-                {dialogId: dialogId},
+                {
+                    dialogId: dialogId
+                },
             include: {all: true},
             order: [['createdAt', 'DESC']],
             limit: limit,
             offset: currentPage * limit,
-        })
+        });
 
         const updateMessages = await Promise.all(packMessages.map(async message => {
-            const messageStatus = await this.messageReadStatus.findOne({where: {messageId: message.id, userId: userId}})
-            return {
+            const messageStatus = await this.messageReadStatus.findOne({where: {messageId: message.id, userId: userId}});
+
+            return  {
                 ...JSON.parse(JSON.stringify(message)),
-                readStatus: messageStatus.readStatus
+                readStatus: messageStatus?.readStatus
             }
         }))
 
-        return updateMessages.reverse()
+        const filteredMessages = updateMessages.filter(el => el.readStatus !== undefined)
+
+        return filteredMessages.reverse();
     }
 
     async deleteById(id: number[], dialogId: number){

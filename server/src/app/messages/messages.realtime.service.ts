@@ -10,8 +10,7 @@ import {DeleteFixedMessageDto} from "./dto/delete-fixedMessage.dto";
 import {ReadMessageDto} from "./dto/read-message.dto";
 import {UsersService} from "../users/users.service";
 import {DeleteUserChatDto} from "./dto/delete-UserChat.dto";
-import {User} from "../users/models/users.model";
-import {Role} from "../roles/roles.model";
+import {AddNewUserInChatDto} from "./dto/add-newUserInChat.dto";
 
 @WebSocketGateway({
     cors: {
@@ -92,6 +91,30 @@ export class MessagesRealtimeService{
         })
     }
 
+    @SubscribeMessage("user_add_chat")
+    async handlerAddNewUser(@MessageBody() dto: AddNewUserInChatDto){
+        const activeDialog = await this.dialogsService.getById(dto.dialogId);
+
+        const users = await this.usersService.getUsersByIds(dto.participants);
+        const allUsers = [...activeDialog.participants, ...users]
+
+        const messages = await Promise.all(users.map(async user => {
+            const message = await this.messageService.create({userId: user.id, dialogId: dto.dialogId, content: [`${user.name} присоединился к группе`], status: 'info'});
+            await this.messageService.createMessageReadStatus({dialogId: dto.dialogId, userId: dto.userId, messageId: message.id, participants: allUsers});
+            return message;
+        }))
+
+        await activeDialog.$set("participants", allUsers)
+        activeDialog.participants = allUsers
+
+        activeDialog.participants.forEach(player => {
+            this.server.to(player.socket_id).emit('add_new_user', {
+                messages: messages,
+                dialogId: activeDialog.id,
+                participants: users,
+            })
+        })
+    }
 
     @SubscribeMessage("user_out_chat")
     async userOutOfChat(@MessageBody() dto: DeleteUserChatDto){
