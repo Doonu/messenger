@@ -4,6 +4,7 @@ import Collapse from '../../ui/collapse';
 import { Post } from 'widgets/items/post';
 import Comments from 'widgets/items/post/ui/comments';
 
+//TODO: Положить рядом со списком
 const CollapsePost: FC<Omit<IPostAndDrag, 'openComments'>> = ({
   post,
   isDraggablePhotoInPost,

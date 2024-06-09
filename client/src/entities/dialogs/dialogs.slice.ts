@@ -8,6 +8,7 @@ interface dialogsState {
   isError: boolean;
   isHaseMore: boolean;
   isLoading: boolean;
+  search: string;
 }
 
 const initialState: dialogsState = {
@@ -16,6 +17,7 @@ const initialState: dialogsState = {
   page: 1,
   isHaseMore: true,
   isLoading: false,
+  search: '',
 };
 
 export const dialogsSlice = createSlice({
@@ -28,11 +30,15 @@ export const dialogsSlice = createSlice({
     setDialogs: (state, { payload }: PayloadAction<IDialog[]>) => {
       state.list = payload;
     },
+    setSearch: (state, { payload }: PayloadAction<string>) => {
+      state.search = payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllDialogs.fulfilled, (state, { payload }) => {
       if (payload.length === 0) state.isHaseMore = false;
-      if (payload.length !== 0) state.list = [...state.list, ...payload];
+      if (payload.length !== 0 && state.page !== 1) state.list = [...state.list, ...payload];
+      else state.list = payload;
       state.isLoading = false;
     });
     builder.addCase(getAllDialogs.pending, (state) => {
@@ -45,5 +51,5 @@ export const dialogsSlice = createSlice({
   },
 });
 
-export const { addPage, setDialogs } = dialogsSlice.actions;
+export const { addPage, setDialogs, setSearch } = dialogsSlice.actions;
 export default dialogsSlice.reducer;

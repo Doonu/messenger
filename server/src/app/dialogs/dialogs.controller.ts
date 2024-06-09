@@ -11,8 +11,8 @@ export class DialogsController {
 
     @UseGuards(JwtAuthGuard)
     @Get("")
-    getDialogs(@Query("page") page: number,@Req() {userId}: any){
-        return this.dialogService.getAll(userId, page);
+    getDialogs(@Query("page") page: number, @Query('search') search: string, @Req() {userId}: any){
+        return this.dialogService.getAll({userId, search, page});
     }
 
     @UseGuards(JwtAuthGuard)

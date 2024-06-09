@@ -1,5 +1,6 @@
 import { IMessage } from 'shared/models/IMessage';
 import { IChat, IMessageItem } from '../model/IChat';
+import { v4 as uuidv4 } from 'uuid';
 
 export const compositionRevert = (initialMessages: IChat[]): IMessage[] => {
   const currentMessages: IMessage[] = [];
@@ -40,6 +41,7 @@ export const compositionMessages = (messages: IMessage[]): IChat[] => {
 
     if (newMessage.status === 'info') {
       currentMessages.push({
+        id: uuidv4(),
         author: null,
         createdAt: null,
         dialogId: el.dialogId,
@@ -55,6 +57,7 @@ export const compositionMessages = (messages: IMessage[]): IChat[] => {
 
     if (currentMessageAuthorId !== el?.author?.id && newMessage.status === 'main') {
       currentMessages.push({
+        id: uuidv4(),
         author: el.author,
         createdAt: el.createdAt,
         dialogId: el.dialogId,
@@ -80,6 +83,7 @@ export const addInCompositionMessages = (message: IMessage, messages: IChat[]): 
 
   if (newMessage.status === 'info') {
     result.push({
+      id: uuidv4(),
       author: null,
       createdAt: null,
       dialogId: message.dialogId,
@@ -99,6 +103,7 @@ export const addInCompositionMessages = (message: IMessage, messages: IChat[]): 
     newMessage.status === 'main'
   ) {
     result.push({
+      id: uuidv4(),
       author: message?.author,
       createdAt: message.createdAt,
       messages: [newMessage],

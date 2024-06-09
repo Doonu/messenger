@@ -11,6 +11,7 @@ import {ReadMessageDto} from "./dto/read-message.dto";
 import {UsersService} from "../users/users.service";
 import {DeleteUserChatDto} from "./dto/delete-UserChat.dto";
 import {AddNewUserInChatDto} from "./dto/add-newUserInChat.dto";
+import {UpdateChatNameDto} from "./dto/update-chatName.dto";
 
 @WebSocketGateway({
     cors: {
@@ -35,6 +36,32 @@ export class MessagesRealtimeService{
 
         activeDialog.participants.forEach(player => {
             this.server.to(player.socket_id).emit("new_message", createdMessage)
+        })
+    }
+
+    @SubscribeMessage("update_dialogName")
+    async handleUpdateNameChat(@MessageBody() dto: UpdateChatNameDto){
+        const activeDialog = await this.dialogsService.getById(dto.dialogId);
+        const userRenameDialog = await this.usersService.getUser(dto.userId);
+
+        await activeDialog.update({dialogName: dto.dialogName})
+
+        const createdMessage = await this.messageService.create(
+            {
+                userId: dto.userId,
+                dialogId: dto.dialogId,
+                content: [`Пользователь ${userRenameDialog.name} переименовал беседу в: ${dto.dialogName}`],
+                status: 'info'
+            }
+        );
+        await this.messageService.createMessageReadStatus({messageId: createdMessage.id, participants: activeDialog.participants, userId: dto.userId, dialogId: dto.dialogId});
+
+        activeDialog.participants.forEach(player => {
+            this.server.to(player.socket_id).emit('new_dialogName', {
+                dialogId: dto.dialogId,
+                message: createdMessage,
+                dialogName: dto.dialogName
+            })
         })
     }
 

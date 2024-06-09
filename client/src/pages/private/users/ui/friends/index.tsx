@@ -61,7 +61,9 @@ const Friends: FC<IFriends> = ({ handlerSearch }) => {
       <div>
         <ObserverList
           list={choiceUser === 'all' ? friends : notConnectedUsers}
-          itemContent={(user) => <Friend isBorderFirst={false} user={user} type="friend" />}
+          itemContent={(user) => (
+            <Friend key={user.id} isBorderFirst={false} user={user} type="friend" />
+          )}
           fetchNextPage={handlerNextPage}
           hasMore={haseMore}
           notFoundMessage={errorMessage}

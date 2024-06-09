@@ -8,6 +8,7 @@ import {Message} from "../messages/models/messages.model";
 import {Role} from "../roles/roles.model";
 import {MessageReadStatus} from "../messages/models/messagesReadStatus.model";
 import {MessagesService} from "../messages/messages.service";
+import {IGetAll} from "./models/IGetAll";
 
 @Injectable()
 export class DialogsService {
@@ -17,11 +18,10 @@ export class DialogsService {
         @InjectModel(UserDialog) private userDialogRepository: typeof UserDialog,
         @InjectModel(Message) private messageRepository: typeof Message,
         @InjectModel(MessageReadStatus) private messageReadStatus: typeof MessageReadStatus,
-        private messagesService: MessagesService
     ){
     }
 
-    async getAll(userId: number, page: number){
+    async getAll({userId, search, page}: IGetAll){
         let currentPage = page - 1;
         const limit = 20;
 
@@ -34,12 +34,21 @@ export class DialogsService {
 
         const dialogsId = dialogs.map(dialog => dialog.dialogId)
 
+        const whereDialogs = {
+            id: {
+                [Op.in]: dialogsId
+            }
+        };
+
+        if (search) {
+            whereDialogs[Op.or] = [
+                { dialogName: { [Op.iRegexp]: search } },
+                { dialogName: null }
+            ];
+        }
+
         const resultDialogs = await this.dialogRepository.findAll({
-            where: {
-                id: {
-                    [Op.in]: dialogsId
-                }
-            },
+            where: whereDialogs,
             include: [
                 {
                     association: 'participants',
@@ -52,7 +61,12 @@ export class DialogsService {
             order: [['updatedAt', "DESC"]]
         })
 
-        return Promise.all(resultDialogs.map(async dialog => {
+        const filteredNameParticipants = resultDialogs.filter(el => {
+            const searchUser = el.participants.find(user => user.id !== userId);
+            return searchUser.name.includes(search);
+        })
+
+        return Promise.all(filteredNameParticipants.map(async dialog => {
             const count = await this.messageReadStatus.findAll({where: {userId, readStatus: false, dialogId: dialog.id}})
 
             return {

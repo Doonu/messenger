@@ -41,6 +41,12 @@ interface IOutUserOfChat {
   participant: number;
 }
 
+interface IUpdateNameChat {
+  dialogId: number;
+  userId: number;
+  dialogName: string;
+}
+
 interface IAddNewUsers {
   participants: number[];
   userId: number;
@@ -99,6 +105,14 @@ export const userOutOfChat = ({ dialogId, participant }: IOutUserOfChat) => {
   SocketApi.socket?.emit('user_out_chat', {
     dialogId: dialogId,
     participant: participant,
+  });
+};
+
+export const updateNameChat = ({ dialogName, dialogId, userId }: IUpdateNameChat) => {
+  SocketApi.socket?.emit('update_dialogName', {
+    dialogName: dialogName,
+    dialogId: dialogId,
+    userId: userId,
   });
 };
 

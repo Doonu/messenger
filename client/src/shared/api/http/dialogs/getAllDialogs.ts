@@ -4,13 +4,18 @@ import { IConfigAsyncThunk } from 'shared/models/errors';
 import API from '../../interceptors';
 import { messageConverting, userArrayConverting } from 'shared/converteitions';
 
-const getAllDialogs = createAsyncThunk<IDialog[], number, IConfigAsyncThunk>(
+interface IGetAllDialogs {
+  page: number;
+  search: string;
+}
+
+const getAllDialogs = createAsyncThunk<IDialog[], IGetAllDialogs, IConfigAsyncThunk>(
   'dialogs/getAll',
-  (page, { rejectWithValue }) => {
+  ({ search, page }, { rejectWithValue }) => {
     return API<APIDialog[]>({
       url: `api/dialogs`,
       method: 'GET',
-      params: { page },
+      params: { page, search },
     })
       .then(({ data }) => {
         return data.map((dialog) => ({

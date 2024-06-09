@@ -3,31 +3,15 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IDialogChat } from 'shared/models/IDialog';
 import { useDialogSocket, getDialogById } from 'shared/api';
-import { APIMessage, IMessage } from 'shared/models/IMessage';
+import { IMessage } from 'shared/models/IMessage';
 import { getAllMessagesByDialogId } from 'shared/api';
 import Navigate from './navigate';
 import { SChat, SContainer, SContent, SLine, SNewMessage } from './chat.styled';
 import AllContainer from 'components/layouts/all';
 import { Message } from 'widgets/items/message';
-import { messageConverting, userArrayConverting } from 'shared/converteitions';
 import CreateMessage from 'widgets/forms/createMessage';
-import {
-  addInCompositionMessages,
-  compositionMessages,
-  compositionRevert,
-  deleteInCompositionMessages,
-  updateInCompositionMessages,
-  updateStatusRead,
-} from '../lib/compositMessages';
-import {
-  IChat,
-  APIDeleteMessage,
-  APIUpdateMessage,
-  APIDeleteFixedMessage,
-  APIMessageRead,
-  APIOutUserOfChat,
-  APINewUsers,
-} from '../model/IChat';
+import { compositionMessages, compositionRevert } from '../lib/compositMessages';
+import { IChat } from '../model/IChat';
 import FixedMessage from './fixedMessage';
 import { scrollToById } from 'shared/util/scrollTo';
 import ChatInfo from 'features/chatInfo';
@@ -35,12 +19,23 @@ import { ObserverList } from 'components/custom/lists/ObserverList';
 import Modal from 'components/navigation/modal/ui';
 import { filterNewMessages } from '../lib/filterNewMessages';
 import { selectorProfile } from 'entities/profile/profile.selectors';
+import {
+  createFixedMessageCallback,
+  createMessageCallback,
+  deleteFixedMessageCallback,
+  deleteMessageCallback,
+  deleteUserOfChatCallback,
+  messageReadCallback,
+  updateMessageCallback,
+  updateNameChatCallback,
+  updateUsersInChatCallback,
+} from '../lib/handlers.realTime';
 
 const Chat = () => {
   const dispatch = useAppDispatch();
 
   const params = useParams();
-  const idParam = params['id'];
+  const idParam = Number(params['id']);
   const navigate = useNavigate();
 
   const user = useAppSelector(selectorProfile);
@@ -64,126 +59,6 @@ const Chat = () => {
   const chatRefState = useRef(chat);
   const newMessagesRefState = useRef<IChat[]>([]);
 
-  /*WebSocket*/
-  const createMessageCallback = async (data: APIMessage) => {
-    if (idParam && data.dialogId === +idParam) {
-      const convertingData = messageConverting(data);
-
-      if (newMessagesRefState.current.length) {
-        setNewMessages((prev) => addInCompositionMessages(convertingData, prev));
-      } else {
-        setMessages((prev) => addInCompositionMessages(convertingData, prev));
-      }
-
-      scrollToDown('start', 'smooth');
-    }
-  };
-
-  const deleteMessageCallback = ({
-    dialogId,
-    messagesId,
-    isFixedDeleteMessage,
-  }: APIDeleteMessage) => {
-    if (idParam && dialogId === +idParam) {
-      setMessages((prev) => deleteInCompositionMessages(messagesId, prev));
-      setNewMessages((prev) => deleteInCompositionMessages(messagesId, prev));
-      setChoiceMessages([]);
-      if (isFixedDeleteMessage) setFixedMessage(null);
-    }
-  };
-
-  const updateMessageCallback = (data: APIUpdateMessage) => {
-    if (idParam && data.dialogId === +idParam) {
-      setMessages((prev) => updateInCompositionMessages(data.id, data.content, prev));
-      setNewMessages((prev) => updateInCompositionMessages(data.id, data.content, prev));
-      setChoiceMessages([]);
-      setEditedMessage(null);
-      if (data.updateFixedMessage) setFixedMessage(messageConverting(data.updateFixedMessage));
-    }
-  };
-
-  const createFixedMessageCallback = (data: APIMessage) => {
-    if (idParam && data.dialogId === +idParam) {
-      const convertingData = messageConverting(data);
-      setFixedMessage(convertingData);
-      setChoiceMessages([]);
-    }
-  };
-
-  const deleteFixedMessageCallback = (data: APIDeleteFixedMessage) => {
-    if (idParam && data.dialogId === +idParam) {
-      setFixedMessage(null);
-      setChoiceMessages([]);
-    }
-  };
-
-  const messageReadCallback = (data: APIMessageRead) => {
-    if (idParam && data.dialogId === +idParam) {
-      setNewMessages((prev) => updateStatusRead(data.messageId, prev));
-      setChat(
-        (prev) =>
-          prev && {
-            ...prev,
-            countNotReadMessages:
-              prev.countNotReadMessages === 0 ? 0 : prev.countNotReadMessages - 1,
-          }
-      );
-    }
-  };
-
-  const deleteUserOfChatCallback = (data: APIOutUserOfChat) => {
-    if (idParam && data.dialogId === +idParam) {
-      if (data.participant === user.id) {
-        navigate(`/dialog`);
-      }
-
-      const filterParticipants = chatRefState.current?.participants.filter(
-        (el) => el.id !== data.participant
-      );
-
-      filterParticipants &&
-        setChat(
-          (prev) =>
-            prev && {
-              ...prev,
-              participants: filterParticipants,
-            }
-        );
-      const convertingData = messageConverting(data.message);
-
-      if (newMessagesRefState.current.length) {
-        setNewMessages((prev) => addInCompositionMessages(convertingData, prev));
-      } else {
-        setMessages((prev) => addInCompositionMessages(convertingData, prev));
-      }
-    }
-  };
-
-  const updateUsersInChat = (data: APINewUsers) => {
-    if (idParam && data.dialogId === +idParam) {
-      setInfoPlayers(false);
-      setChat(
-        (prev) =>
-          prev && {
-            ...prev,
-            participants: [...prev.participants, ...userArrayConverting(data.participants)],
-          }
-      );
-
-      data.messages.forEach((el) => {
-        const convertingData = messageConverting(el);
-
-        if (newMessagesRefState.current.length) {
-          setNewMessages((prev) => addInCompositionMessages(convertingData, prev));
-        } else {
-          setMessages((prev) => addInCompositionMessages(convertingData, prev));
-        }
-      });
-    }
-  };
-
-  /*WebSocket*/
-
   const handlerChoice = (id: number) => {
     if (!choiceMessages.includes(id)) setChoiceMessages((prev) => [...prev, id]);
     else setChoiceMessages((prev) => prev.filter((el) => el !== id));
@@ -191,32 +66,38 @@ const Chat = () => {
 
   const handlerGetChat = () => {
     if (idParam)
-      dispatch(getDialogById(+idParam))
+      dispatch(getDialogById(idParam))
         .unwrap()
         .then((data) => {
           setChat(data);
           setFixedMessage(data.fixedMessage);
+          getAllMessages();
         })
         .catch(() => {});
   };
 
   const getAllMessages = () => {
     if (idParam) {
-      dispatch(getAllMessagesByDialogId({ dialogId: +idParam, page: 1, limit }))
+      dispatch(getAllMessagesByDialogId({ dialogId: idParam, page: 1, limit }))
         .unwrap()
         .then((data) => {
           if (!data.length) setIsMore(false);
+
+          console.log(1);
+
           const { newMessages, allMessages } = filterNewMessages({
             fetchedData: data,
             limit,
             callback: (page) => nextPageGetAllMessages(page, false),
           });
 
+          console.log(2);
+
           setPage(1);
           setMessages(compositionMessages(allMessages));
           setNewMessages(compositionMessages(newMessages));
 
-          if (!newMessages.length) scrollToDown('end');
+          scrollToDown('start');
         })
         .catch(() => {})
         .finally(() => {
@@ -226,12 +107,14 @@ const Chat = () => {
   };
 
   const nextPageGetAllMessages = async (currentPage?: number, isUsingScroll = true) => {
+    console.log(3);
+
     if (idParam) {
       setIsLoading(true);
       const initialHeight = chatRef.current?.scrollHeight;
       await dispatch(
         getAllMessagesByDialogId({
-          dialogId: +idParam,
+          dialogId: idParam,
           page: currentPage ? currentPage : page + 1,
           limit,
         })
@@ -259,9 +142,7 @@ const Chat = () => {
               chatRef.current.scrollTop = newHeight - initialHeight;
             }
 
-            if (!isUsingScroll) {
-              scrollToDown('end');
-            }
+            scrollToDown('start');
           });
         })
         .catch(() => {})
@@ -293,19 +174,80 @@ const Chat = () => {
   const handlerDeleteEditMessage = () => setEditedMessage(null);
 
   useDialogSocket({
-    createMessageCallback,
-    deleteMessageCallback,
-    updateMessageCallback,
-    createFixedMessageCallback,
-    deleteFixedMessageCallback,
-    messageReadCallback,
-    deleteUserOfChatCallback,
-    updateUsersInChat,
+    createMessageCallback: (data) =>
+      createMessageCallback({
+        data,
+        setMessages,
+        setNewMessages,
+        scrollTo: scrollToDown,
+        id: idParam,
+        ref: newMessagesRefState,
+      }),
+    deleteMessageCallback: (data) =>
+      deleteMessageCallback({
+        data,
+        id: idParam,
+        setMessages,
+        setFixedMessage,
+        setNewMessages,
+        setChoiceMessages,
+      }),
+    updateMessageCallback: (data) =>
+      updateMessageCallback({
+        data,
+        id: idParam,
+        setFixedMessage,
+        setMessages,
+        setNewMessages,
+        setChoiceMessages,
+        setEditedMessage,
+      }),
+    createFixedMessageCallback: (data) =>
+      createFixedMessageCallback({
+        data,
+        id: idParam,
+        setFixedMessage,
+        setChoiceMessages,
+      }),
+    deleteFixedMessageCallback: (data) =>
+      deleteFixedMessageCallback({ setFixedMessage, setChoiceMessages, id: idParam, data }),
+    messageReadCallback: (data) =>
+      messageReadCallback({ setNewMessages, data, setChat, id: idParam }),
+    deleteUserOfChatCallback: (data) =>
+      deleteUserOfChatCallback({
+        id: idParam,
+        userId: user.id,
+        setChat,
+        chatRefState,
+        data,
+        newMessagesRefState,
+        setNewMessages,
+        setMessages,
+        navigate,
+      }),
+    updateUsersInChatCallback: (data) =>
+      updateUsersInChatCallback({
+        id: idParam,
+        setChat,
+        data,
+        newMessagesRefState,
+        setNewMessages,
+        setMessages,
+        setInfoPlayers,
+      }),
+    updateNameChatCallback: (data) =>
+      updateNameChatCallback({
+        id: idParam,
+        data,
+        setChat,
+        newMessagesRefState,
+        setNewMessages,
+        setMessages,
+      }),
   });
 
   useEffect(() => {
     handlerGetChat();
-    if (messages.length) getAllMessages();
   }, []);
 
   useEffect(() => {
@@ -344,9 +286,9 @@ const Chat = () => {
             isPending={isLoading}
             isFetching={isLoading}
             fetchNextPage={nextPageGetAllMessages}
-            itemContent={(el, index) => (
+            itemContent={(el) => (
               <Message
-                key={JSON.stringify(el.messages) + index}
+                key={el.id}
                 isRead={isRead}
                 chatRef={chatRef}
                 handlerUpdate={handlerUpdate}
@@ -360,8 +302,8 @@ const Chat = () => {
             position="top"
             isEmpty={!!(messages.length + newMessages.length)}
           />
-          <div>
-            <SNewMessage $view={!!newMessages.length} ref={newMessageRef}>
+          <div ref={newMessageRef}>
+            <SNewMessage $view={!!newMessages.length}>
               {!!newMessages.length && (
                 <>
                   <SLine />
@@ -372,9 +314,9 @@ const Chat = () => {
             </SNewMessage>
             {!!newMessages.length && (
               <SChat>
-                {newMessages.map((el, index) => (
+                {newMessages.map((el) => (
                   <Message
-                    key={JSON.stringify(el.messages) + index}
+                    key={el.id}
                     isRead={isRead}
                     chatRef={chatRef}
                     handlerUpdate={handlerUpdate}

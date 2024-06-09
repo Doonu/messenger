@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { SPaddingForModal } from '../../chatInfo.styled';
+import { Typography } from 'antd';
 
 export const STitle = styled(SPaddingForModal)`
   color: ${({ theme }) => theme.colors.active};
@@ -14,14 +15,18 @@ export const SChatInfo = styled(SPaddingForModal)`
   gap: 20px;
 `;
 
-export const SName = styled.div`
-  font-size: 25px;
-  color: ${({ theme }) => theme.colors.active};
-`;
-
 export const SInfo = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+`;
+
+export const SName = styled(Typography.Text)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 25px;
+  color: ${({ theme }) => theme.colors.active};
 `;
 
 export const SText = styled.div`

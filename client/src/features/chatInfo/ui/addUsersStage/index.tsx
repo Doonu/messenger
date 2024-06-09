@@ -119,7 +119,7 @@ const AddUsersStage: FC<IAddUsersStage> = ({ chat, switchStage }) => {
         <ObserverList
           list={friendsException}
           itemContent={(user) => (
-            <PickFriend usersPick={usersPick} pickUser={pickUser} user={user} />
+            <PickFriend key={user.id} usersPick={usersPick} pickUser={pickUser} user={user} />
           )}
           fetchNextPage={handlerNextPage}
           hasMore={haseMore}

@@ -12,6 +12,7 @@ import {
   selectorHaseMore,
   selectorLoading,
   selectorPage,
+  selectorSearch,
 } from 'entities/dialogs/dialogs.selectors';
 
 interface IAllDialogs {
@@ -26,15 +27,16 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
   const page = useAppSelector(selectorPage);
   const haseMore = useAppSelector(selectorHaseMore);
   const error = useAppSelector(selectorError);
+  const search = useAppSelector(selectorSearch);
 
   const errorMessage = error ? 'Произошла ошибка' : 'Диалоги не найдены';
 
   const handlerGetDialogs = () => {
-    dispatch(getAllDialogs(1));
+    dispatch(getAllDialogs({ page: 1, search: search }));
   };
 
   const handlerNextPage = () => {
-    dispatch(getAllDialogs(page + 1))
+    dispatch(getAllDialogs({ page: page + 1, search: search }))
       .unwrap()
       .then(() => {
         dispatch(addPage());
@@ -42,8 +44,8 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
   };
 
   useEffect(() => {
-    !dialogs.length && handlerGetDialogs();
-  }, []);
+    handlerGetDialogs();
+  }, [search]);
 
   return (
     <>

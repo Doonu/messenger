@@ -12,6 +12,7 @@ export interface IMessageItem {
 }
 
 export interface IChat {
+  id: string;
   author: IUser | null;
   createdAt: number | null;
   dialogId: number;
@@ -50,4 +51,10 @@ export interface APINewUsers {
   dialogId: number;
   messages: APIMessage[];
   participants: ApiProfile[];
+}
+
+export interface APINewNameChat {
+  dialogId: number;
+  message: APIMessage;
+  dialogName: string;
 }

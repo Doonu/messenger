@@ -3,6 +3,9 @@ import { BlockContainer } from 'shared/styles/containers';
 import { Close } from '../../../../shared/assets/icons';
 
 export const SDialogList = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 260px);
   border-top: 1px solid ${({ theme }) => theme.colors.secondaryText};
 `;
 

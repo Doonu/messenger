@@ -103,7 +103,7 @@ const CreateGroup: FC<ICreateGroup> = ({ changeStage }) => {
         <ObserverList
           list={friends}
           itemContent={(user) => (
-            <PickFriend usersPick={usersPick} pickUser={pickUser} user={user} />
+            <PickFriend key={user.id} usersPick={usersPick} pickUser={pickUser} user={user} />
           )}
           fetchNextPage={handlerNextPage}
           hasMore={haseMore}

@@ -10,6 +10,7 @@ import {
   APIMessageRead,
   APIOutUserOfChat,
   APINewUsers,
+  APINewNameChat,
 } from 'pages/private/chat/model/IChat';
 
 interface IUseDialogSocket {
@@ -20,7 +21,8 @@ interface IUseDialogSocket {
   deleteFixedMessageCallback?: (data: APIDeleteFixedMessage) => void;
   messageReadCallback?: (data: APIMessageRead) => void;
   deleteUserOfChatCallback?: (data: APIOutUserOfChat) => void;
-  updateUsersInChat?: (data: APINewUsers) => void;
+  updateUsersInChatCallback?: (data: APINewUsers) => void;
+  updateNameChatCallback?: (data: APINewNameChat) => void;
 }
 
 export const useDialogSocket = ({
@@ -31,7 +33,8 @@ export const useDialogSocket = ({
   deleteFixedMessageCallback,
   messageReadCallback,
   deleteUserOfChatCallback,
-  updateUsersInChat,
+  updateUsersInChatCallback,
+  updateNameChatCallback,
 }: IUseDialogSocket) => {
   const user = useAppSelector(selectorProfile);
 
@@ -64,7 +67,11 @@ export const useDialogSocket = ({
   };
 
   const addNewUser = (data: APINewUsers) => {
-    updateUsersInChat && updateUsersInChat(data);
+    updateUsersInChatCallback && updateUsersInChatCallback(data);
+  };
+
+  const newNameChat = (data: APINewNameChat) => {
+    updateNameChatCallback && updateNameChatCallback(data);
   };
 
   const connectSocket = () => {
@@ -76,6 +83,7 @@ export const useDialogSocket = ({
     SocketApi.socket?.on('delivered_message', readMessage);
     SocketApi.socket?.on('delete_user_chat', userOutOfChat);
     SocketApi.socket?.on('add_new_user', addNewUser);
+    SocketApi.socket?.on('new_dialogName', newNameChat);
   };
 
   useEffect(() => {
@@ -90,6 +98,7 @@ export const useDialogSocket = ({
       SocketApi.socket?.off('delivered_message', readMessage);
       SocketApi.socket?.off('delete_user_chat', userOutOfChat);
       SocketApi.socket?.off('add_new_user', addNewUser);
+      SocketApi.socket?.off('new_dialogName', newNameChat);
     };
   }, [user.id]);
 };
