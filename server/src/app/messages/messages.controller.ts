@@ -10,10 +10,12 @@ export class MessagesController {
     @UseGuards(JwtAuthGuard)
     @Get("")
     getAllMessages(@Query("dialogId") dialogId: number, @Query('page') page: number, @Query('limit') limit: number, @Req() {userId}: any){
-        return this.messagesService.getAllByDialogId({page, dialogId, limit, userId})
+        return this.messagesService.getOldMessagesByDialogId({page, dialogId, limit, userId})
     }
 
     @UseGuards(JwtAuthGuard)
     @Get("/newMessages")
-    getAllNewMessages(){}
+    getAllNewMessages(@Query("dialogId") dialogId: number, @Req() {userId}: any){
+        return this.messagesService.getNewMessagesByDialogId(dialogId, userId)
+    }
 }

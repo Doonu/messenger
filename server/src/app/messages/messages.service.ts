@@ -38,7 +38,18 @@ export class MessagesService {
         await findMessage.update({readStatus: true})
     }
 
-    async getAllByDialogId({page, dialogId, userId,limit = 30}: GetMessagesDto){
+    async getReadStatusMessages(packMessages: Message[], userId: number, status: boolean){
+        return await Promise.all(packMessages.map(async message => {
+            const messageStatus = await this.messageReadStatus.findOne({where: {messageId: message.id, userId: userId}});
+
+            return  {
+                ...JSON.parse(JSON.stringify(message)),
+                readStatus: messageStatus.readStatus
+            }
+        })).then(data => data.filter(el => el.readStatus === status))
+    }
+
+    async getOldMessagesByDialogId({page, dialogId, userId,limit = 30}: GetMessagesDto){
         let currentPage = page - 1;
 
         const packMessages = await this.messageRepository.findAll({
@@ -52,18 +63,21 @@ export class MessagesService {
             offset: currentPage * limit,
         });
 
-        const updateMessages = await Promise.all(packMessages.map(async message => {
-            const messageStatus = await this.messageReadStatus.findOne({where: {messageId: message.id, userId: userId}});
+        const messages = await this.getReadStatusMessages(packMessages, userId, true);
 
-            return  {
-                ...JSON.parse(JSON.stringify(message)),
-                readStatus: messageStatus?.readStatus
-            }
-        }))
+        return messages.reverse();
+    }
 
-        const filteredMessages = updateMessages.filter(el => el.readStatus !== undefined)
+    async getNewMessagesByDialogId(dialogId: number, userId: number){
+        const packMessages = await this.messageRepository.findAll({
+            where: {dialogId: dialogId},
+            include: {all: true},
+            order: [['createdAt', 'DESC']],
+        });
 
-        return filteredMessages.reverse();
+        const messages = await this.getReadStatusMessages(packMessages, userId, false);
+
+        return messages.reverse();
     }
 
     async deleteById(id: number[], dialogId: number){

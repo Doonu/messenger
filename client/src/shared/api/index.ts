@@ -49,10 +49,12 @@ import { createMessage, createFixedMessage } from './socket/dialog';
 
 import getAllDialogs from './http/dialogs/getAllDialogs';
 import getDialogById from './http/dialogs/getDialogById';
-import getAllMessagesByDialogId from './http/dialogs/getAllMessagesByDialogId';
+import getOldMessagesByDialogId from './http/dialogs/getOldMessagesByDialogId';
+import getNewMessagesByDialog from './http/dialogs/getNewMessagesByDialog';
 
 export {
   SocketApi,
+  getNewMessagesByDialog,
   getFriends,
   deleteNotification,
   deleteAllNotifications,
@@ -91,7 +93,7 @@ export {
   canselFriendReqWS,
   dialogHook,
   createMessage,
-  getAllMessagesByDialogId,
+  getOldMessagesByDialogId,
   createFixedMessage,
   getUsersExceptInChat,
 };

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { IDialogChat } from 'shared/models/IDialog';
 import { dialogHook, getDialogById } from 'shared/api';
 import { IMessage } from 'shared/models/IMessage';
-import { getAllMessagesByDialogId } from 'shared/api';
+import { getOldMessagesByDialogId } from 'shared/api';
 import Navigate from './navigate';
 import { SChat, SContainer, SContent, SLine, SNewMessage } from './chat.styled';
 import AllContainer from 'components/layouts/all';
@@ -17,7 +17,7 @@ import { scrollToById } from 'shared/util/scrollTo';
 import ChatInfo from 'features/chatInfo';
 import { ObserverList } from 'components/custom/lists/ObserverList';
 import Modal from 'components/navigation/modal/ui';
-import { filterNewMessages } from '../lib/filterNewMessages';
+import { getNewMessagesByDialog } from 'shared/api';
 
 const Chat = () => {
   const dispatch = useAppDispatch();
@@ -57,27 +57,19 @@ const Chat = () => {
         .then((data) => {
           setChat(data);
           setFixedMessage(data.fixedMessage);
-          if (!messages.length) getAllMessages();
         })
         .catch(() => {});
   };
 
-  const getAllMessages = () => {
+  const getOldMessages = () => {
     if (idParam) {
-      dispatch(getAllMessagesByDialogId({ dialogId: idParam, page: 1, limit }))
+      dispatch(getOldMessagesByDialogId({ dialogId: idParam, page: 1, limit }))
         .unwrap()
         .then((data) => {
-          const { newMessages, allMessages } = filterNewMessages({
-            fetchedData: data,
-            limit,
-            callback: () => {},
-          });
-
           setPage(1);
-          setMessages(compositionMessages(allMessages));
-          setNewMessages(compositionMessages(newMessages));
+          setMessages(compositionMessages(data));
 
-          if (allMessages.length) setIsMore(true);
+          if (data.length) setIsMore(true);
         })
         .catch(() => {})
         .finally(() => {
@@ -86,12 +78,26 @@ const Chat = () => {
     }
   };
 
-  const nextPageGetAllMessages = async (currentPage?: number, isUsingScroll = true) => {
+  const getNewMessages = () => {
+    if (idParam) {
+      dispatch(getNewMessagesByDialog(idParam))
+        .unwrap()
+        .then((data) => {
+          setNewMessages(compositionMessages(data));
+
+          scrollToDown('start');
+        })
+        .catch(() => {});
+    }
+  };
+
+  const nextPageGetAllMessages = async (currentPage?: number) => {
     if (idParam) {
       setIsLoading(true);
       const initialHeight = chatRef.current?.scrollHeight;
+
       await dispatch(
-        getAllMessagesByDialogId({
+        getOldMessagesByDialogId({
           dialogId: idParam,
           page: currentPage ? currentPage : page + 1,
           limit,
@@ -101,29 +107,19 @@ const Chat = () => {
         .then((data) => {
           if (data.length !== limit) setIsMore(false);
 
-          const { newMessages, allMessages } = filterNewMessages({
-            fetchedData: data,
-            limit,
-            currentPage,
-            callback: (page) => nextPageGetAllMessages(page, false),
-          });
-
           setPage((prev) => prev + 1);
-          setMessages((prev) => [...compositionMessages(allMessages), ...prev]);
-          if (newMessages.length)
-            setNewMessages((prev) => [...compositionMessages(newMessages), ...prev]);
+          setMessages((prev) => [...compositionMessages(data), ...prev]);
         })
         .catch(() => {})
         .finally(() => setIsLoading(false));
 
+      //Вот это все можно перенести в observer список
       requestAnimationFrame(() => {
         const newHeight = chatRef.current?.scrollHeight;
 
         if (newHeight && initialHeight && chatRef.current) {
           chatRef.current.scrollTop = newHeight - initialHeight;
         }
-
-        if (!isUsingScroll) scrollToDown('end');
       });
     }
   };
@@ -171,10 +167,11 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    if (messages.length) {
-      scrollToDown('start');
+    if (chat?.id) {
+      getOldMessages();
+      getNewMessages();
     }
-  }, [messages.length]);
+  }, [chat?.id]);
 
   useEffect(() => {
     newMessagesRefState.current = newMessages;
@@ -228,8 +225,8 @@ const Chat = () => {
             position="top"
             isEmpty={!!(messages.length + newMessages.length)}
           />
-          <div ref={newMessageRef}>
-            <SNewMessage $view={!!newMessages.length}>
+          <div>
+            <SNewMessage ref={newMessageRef} $view={!!newMessages.length}>
               {!!newMessages.length && (
                 <>
                   <SLine />
