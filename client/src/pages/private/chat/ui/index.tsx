@@ -18,18 +18,6 @@ import ChatInfo from 'features/chatInfo';
 import { ObserverList } from 'components/custom/lists/ObserverList';
 import Modal from 'components/navigation/modal/ui';
 import { filterNewMessages } from '../lib/filterNewMessages';
-import { selectorProfile } from 'entities/profile/profile.selectors';
-import {
-  createFixedMessageCallback,
-  createMessageCallback,
-  deleteFixedMessageCallback,
-  deleteMessageCallback,
-  deleteUserOfChatCallback,
-  messageReadCallback,
-  updateMessageCallback,
-  updateNameChatCallback,
-  updateUsersInChatCallback,
-} from '../lib/handlers.realTime';
 
 const Chat = () => {
   const dispatch = useAppDispatch();
@@ -37,8 +25,6 @@ const Chat = () => {
   const params = useParams();
   const idParam = Number(params['id']);
   const navigate = useNavigate();
-
-  const user = useAppSelector(selectorProfile);
 
   const [chat, setChat] = useState<IDialogChat | null>(null); // Получение информацию о чате
   const [choiceMessages, setChoiceMessages] = useState<number[]>([]); // Выбор сообщений
@@ -51,7 +37,7 @@ const Chat = () => {
   const [newMessages, setNewMessages] = useState<IChat[]>([]);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [isMore, setIsMore] = useState(true);
+  const [isMore, setIsMore] = useState(false);
   const limit = 50;
 
   const chatRef = useRef<HTMLDivElement | null>(null);
@@ -71,7 +57,7 @@ const Chat = () => {
         .then((data) => {
           setChat(data);
           setFixedMessage(data.fixedMessage);
-          getAllMessages();
+          if (!messages.length) getAllMessages();
         })
         .catch(() => {});
   };
@@ -81,23 +67,17 @@ const Chat = () => {
       dispatch(getAllMessagesByDialogId({ dialogId: idParam, page: 1, limit }))
         .unwrap()
         .then((data) => {
-          if (!data.length) setIsMore(false);
-
-          console.log(1);
-
           const { newMessages, allMessages } = filterNewMessages({
             fetchedData: data,
             limit,
-            callback: (page) => nextPageGetAllMessages(page, false),
+            callback: () => {},
           });
-
-          console.log(2);
 
           setPage(1);
           setMessages(compositionMessages(allMessages));
           setNewMessages(compositionMessages(newMessages));
 
-          scrollToDown('start');
+          if (allMessages.length) setIsMore(true);
         })
         .catch(() => {})
         .finally(() => {
@@ -107,8 +87,6 @@ const Chat = () => {
   };
 
   const nextPageGetAllMessages = async (currentPage?: number, isUsingScroll = true) => {
-    console.log(3);
-
     if (idParam) {
       setIsLoading(true);
       const initialHeight = chatRef.current?.scrollHeight;
@@ -134,19 +112,19 @@ const Chat = () => {
           setMessages((prev) => [...compositionMessages(allMessages), ...prev]);
           if (newMessages.length)
             setNewMessages((prev) => [...compositionMessages(newMessages), ...prev]);
-
-          requestAnimationFrame(() => {
-            const newHeight = chatRef.current?.scrollHeight;
-
-            if (newHeight && initialHeight && chatRef.current && isUsingScroll) {
-              chatRef.current.scrollTop = newHeight - initialHeight;
-            }
-
-            scrollToDown('start');
-          });
         })
         .catch(() => {})
         .finally(() => setIsLoading(false));
+
+      requestAnimationFrame(() => {
+        const newHeight = chatRef.current?.scrollHeight;
+
+        if (newHeight && initialHeight && chatRef.current) {
+          chatRef.current.scrollTop = newHeight - initialHeight;
+        }
+
+        if (!isUsingScroll) scrollToDown('end');
+      });
     }
   };
 
@@ -174,76 +152,18 @@ const Chat = () => {
   const handlerDeleteEditMessage = () => setEditedMessage(null);
 
   useDialogSocket({
-    createMessageCallback: (data) =>
-      createMessageCallback({
-        data,
-        setMessages,
-        setNewMessages,
-        scrollTo: scrollToDown,
-        id: idParam,
-        ref: newMessagesRefState,
-      }),
-    deleteMessageCallback: (data) =>
-      deleteMessageCallback({
-        data,
-        id: idParam,
-        setMessages,
-        setFixedMessage,
-        setNewMessages,
-        setChoiceMessages,
-      }),
-    updateMessageCallback: (data) =>
-      updateMessageCallback({
-        data,
-        id: idParam,
-        setFixedMessage,
-        setMessages,
-        setNewMessages,
-        setChoiceMessages,
-        setEditedMessage,
-      }),
-    createFixedMessageCallback: (data) =>
-      createFixedMessageCallback({
-        data,
-        id: idParam,
-        setFixedMessage,
-        setChoiceMessages,
-      }),
-    deleteFixedMessageCallback: (data) =>
-      deleteFixedMessageCallback({ setFixedMessage, setChoiceMessages, id: idParam, data }),
-    messageReadCallback: (data) =>
-      messageReadCallback({ setNewMessages, data, setChat, id: idParam }),
-    deleteUserOfChatCallback: (data) =>
-      deleteUserOfChatCallback({
-        id: idParam,
-        userId: user.id,
-        setChat,
-        chatRefState,
-        data,
-        newMessagesRefState,
-        setNewMessages,
-        setMessages,
-        navigate,
-      }),
-    updateUsersInChatCallback: (data) =>
-      updateUsersInChatCallback({
-        id: idParam,
-        setChat,
-        data,
-        newMessagesRefState,
-        setNewMessages,
-        setMessages,
-        setInfoPlayers,
-      }),
-    updateNameChatCallback: (data) =>
-      updateNameChatCallback({
-        id: idParam,
-        data,
-        setChat,
-        newMessagesRefState,
-        setNewMessages,
-        setMessages,
-      }),
+    id: idParam,
+    setNewMessages,
+    setMessages,
+    scrollTo: scrollToDown,
+    newMessagesRefState,
+    setFixedMessage,
+    setChoiceMessages,
+    setEditedMessage,
+    setChat,
+    setInfoPlayers,
+    navigate,
+    chatRefState,
   });
 
   useEffect(() => {
@@ -251,16 +171,22 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    if (messages.length) setIsRead(false);
-  }, [messages]);
+    if (messages.length) {
+      scrollToDown('start');
+    }
+  }, [messages.length]);
+
+  useEffect(() => {
+    newMessagesRefState.current = newMessages;
+
+    if (newMessages.length) {
+      setIsRead(false);
+    }
+  }, [newMessages.length]);
 
   useEffect(() => {
     chatRefState.current = chat;
   }, [chat]);
-
-  useEffect(() => {
-    newMessagesRefState.current = newMessages;
-  }, [newMessages]);
 
   return (
     <AllContainer isFooter={false} $isSticky>

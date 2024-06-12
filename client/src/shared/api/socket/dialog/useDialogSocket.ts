@@ -1,8 +1,8 @@
 import SocketApi from '../socket-api';
-import { useEffect } from 'react';
+import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
 import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import { APIMessage } from '../../../models/IMessage';
+import { APIMessage, IMessage } from '../../../models/IMessage';
 import {
   APIUpdateMessage,
   APIDeleteMessage,
@@ -11,67 +11,142 @@ import {
   APIOutUserOfChat,
   APINewUsers,
   APINewNameChat,
+  IChat,
 } from 'pages/private/chat/model/IChat';
+import {
+  createFixedMessageCallback,
+  createMessageCallback,
+  deleteFixedMessageCallback,
+  deleteMessageCallback,
+  deleteUserOfChatCallback,
+  messageReadCallback,
+  updateMessageCallback,
+  updateNameChatCallback,
+  updateUsersInChatCallback,
+} from '../../../../pages/private/chat/lib/handlers.realTime';
+import { IDialogChat } from '../../../models/IDialog';
+import { NavigateFunction } from 'react-router-dom';
 
 interface IUseDialogSocket {
-  createMessageCallback?: (data: APIMessage) => void;
-  deleteMessageCallback?: (data: APIDeleteMessage) => void;
-  updateMessageCallback?: (data: APIUpdateMessage) => void;
-  createFixedMessageCallback?: (data: APIMessage) => void;
-  deleteFixedMessageCallback?: (data: APIDeleteFixedMessage) => void;
-  messageReadCallback?: (data: APIMessageRead) => void;
-  deleteUserOfChatCallback?: (data: APIOutUserOfChat) => void;
-  updateUsersInChatCallback?: (data: APINewUsers) => void;
-  updateNameChatCallback?: (data: APINewNameChat) => void;
+  id: number;
+  setNewMessages: Dispatch<SetStateAction<IChat[]>>;
+  setMessages: Dispatch<SetStateAction<IChat[]>>;
+  scrollTo: (
+    block: ScrollIntoViewOptions['block'],
+    behavior?: ScrollIntoViewOptions['behavior']
+  ) => void;
+  newMessagesRefState: MutableRefObject<IChat[]>;
+  setChoiceMessages: Dispatch<SetStateAction<number[]>>;
+  setFixedMessage: Dispatch<SetStateAction<IMessage | null | undefined>>;
+  setEditedMessage: Dispatch<SetStateAction<IMessage | null | undefined>>;
+  setChat: Dispatch<SetStateAction<IDialogChat | null>>;
+  navigate: NavigateFunction;
+  chatRefState: MutableRefObject<IDialogChat | null>;
+  setInfoPlayers: Dispatch<SetStateAction<boolean>>;
 }
 
 export const useDialogSocket = ({
-  createMessageCallback,
-  deleteMessageCallback,
-  updateMessageCallback,
-  createFixedMessageCallback,
-  deleteFixedMessageCallback,
-  messageReadCallback,
-  deleteUserOfChatCallback,
-  updateUsersInChatCallback,
-  updateNameChatCallback,
+  id,
+  setMessages,
+  setNewMessages,
+  scrollTo,
+  newMessagesRefState,
+  setChoiceMessages,
+  setFixedMessage,
+  setEditedMessage,
+  setChat,
+  chatRefState,
+  navigate,
+  setInfoPlayers,
 }: IUseDialogSocket) => {
   const user = useAppSelector(selectorProfile);
 
   const createdMessage = (data: APIMessage) => {
-    createMessageCallback && createMessageCallback(data);
+    createMessageCallback({
+      data,
+      setMessages,
+      setNewMessages,
+      scrollTo,
+      id,
+      ref: newMessagesRefState,
+    });
   };
 
   const deletedMessage = (data: APIDeleteMessage) => {
-    deleteMessageCallback && deleteMessageCallback(data);
+    deleteMessageCallback({
+      data,
+      id,
+      setMessages,
+      setFixedMessage,
+      setNewMessages,
+      setChoiceMessages,
+    });
   };
 
   const updateMessage = (data: APIUpdateMessage) => {
-    updateMessageCallback && updateMessageCallback(data);
+    updateMessageCallback({
+      data,
+      id,
+      setFixedMessage,
+      setMessages,
+      setNewMessages,
+      setChoiceMessages,
+      setEditedMessage,
+    });
   };
 
   const createdFixedMessage = (data: APIMessage) => {
-    createFixedMessageCallback && createFixedMessageCallback(data);
+    createFixedMessageCallback({
+      data,
+      id,
+      setFixedMessage,
+      setChoiceMessages,
+    });
   };
 
   const deleteFixedMessage = (data: APIDeleteFixedMessage) => {
-    deleteFixedMessageCallback && deleteFixedMessageCallback(data);
+    deleteFixedMessageCallback({ setFixedMessage, setChoiceMessages, id, data });
   };
 
   const readMessage = (data: APIMessageRead) => {
-    messageReadCallback && messageReadCallback(data);
+    messageReadCallback({ setNewMessages, data, setChat, id });
   };
 
   const userOutOfChat = (data: APIOutUserOfChat) => {
-    deleteUserOfChatCallback && deleteUserOfChatCallback(data);
+    deleteUserOfChatCallback({
+      id,
+      userId: user.id,
+      setChat,
+      chatRefState,
+      data,
+      newMessagesRefState,
+      setNewMessages,
+      setMessages,
+      navigate,
+    });
   };
 
   const addNewUser = (data: APINewUsers) => {
-    updateUsersInChatCallback && updateUsersInChatCallback(data);
+    updateUsersInChatCallback({
+      id,
+      setChat,
+      data,
+      newMessagesRefState,
+      setNewMessages,
+      setMessages,
+      setInfoPlayers,
+    });
   };
 
   const newNameChat = (data: APINewNameChat) => {
-    updateNameChatCallback && updateNameChatCallback(data);
+    updateNameChatCallback({
+      id,
+      data,
+      setChat,
+      newMessagesRefState,
+      setNewMessages,
+      setMessages,
+    });
   };
 
   const connectSocket = () => {
