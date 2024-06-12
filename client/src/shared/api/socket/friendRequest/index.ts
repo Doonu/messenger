@@ -1,13 +1,5 @@
 import SocketApi from '../socket-api';
-
-interface IHandlerFriendRequestWS {
-  to: number;
-  from: number;
-}
-
-interface IBaseFriendReq {
-  idFriendRequest?: number;
-}
+import { IBaseFriendReq, IHandlerFriendRequestWS } from './friendRequest.type';
 
 // Добавление в друзья
 export const friendRequestWS = ({ to, from }: IHandlerFriendRequestWS) => {

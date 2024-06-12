@@ -12,4 +12,8 @@ export class MessagesController {
     getAllMessages(@Query("dialogId") dialogId: number, @Query('page') page: number, @Query('limit') limit: number, @Req() {userId}: any){
         return this.messagesService.getAllByDialogId({page, dialogId, limit, userId})
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("/newMessages")
+    getAllNewMessages(){}
 }

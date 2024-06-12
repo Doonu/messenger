@@ -1,57 +1,15 @@
 import { SocketApi } from '../../index';
-
-interface ICreateMessage {
-  content: string[];
-  dialogId?: number;
-  userId: number;
-}
-
-interface IReadMessage {
-  userId: number;
-  messageId: number;
-  dialogId: number;
-}
-
-interface IDeleteMessage {
-  messagesId: number[];
-  dialogId?: number;
-  userId: number;
-}
-
-interface IUpdateMessage {
-  content: string[];
-  dialogId?: number;
-  userId: number;
-  id: number;
-}
-
-interface ICreateFixedMessage {
-  messageId: number;
-  userId: number;
-  dialogId?: number;
-}
-
-interface IDeleteFixedMessage {
-  dialogId?: number;
-  userId: number;
-}
-
-interface IOutUserOfChat {
-  dialogId: number;
-  participant: number;
-}
-
-interface IUpdateNameChat {
-  dialogId: number;
-  userId: number;
-  dialogName: string;
-}
-
-interface IAddNewUsers {
-  participants: number[];
-  userId: number;
-  dialogId: number;
-}
+import {
+  ICreateMessage,
+  ICreateFixedMessage,
+  IDeleteFixedMessage,
+  IDeleteMessage,
+  IReadMessage,
+  IUpdateMessage,
+  IUpdateNameChat,
+  IOutUserOfChat,
+  IAddNewUsers,
+} from './dialog.type';
 
 export const createMessage = ({ content, dialogId, userId }: ICreateMessage) => {
   SocketApi.socket?.emit('create_message', {

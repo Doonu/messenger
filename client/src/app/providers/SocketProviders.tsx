@@ -1,9 +1,9 @@
 import { useSocket } from 'shared/api/socket/useSocket';
-import { useFriendRequest } from 'shared/api';
+import { friendRequestHook } from 'shared/api';
 
 const SocketProviders = () => {
   useSocket();
-  useFriendRequest({});
+  friendRequestHook({});
   return null;
 };
 

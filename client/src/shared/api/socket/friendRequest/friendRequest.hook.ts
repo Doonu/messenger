@@ -4,22 +4,10 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import { addCount, addNotification, showMessage } from 'entities/notification/notification.slice';
 import { Types } from 'shared/models/INotification';
-import { APINotifyItem } from 'shared/models/INotification';
 import { friendRequestConverting } from './friendRequest.converting';
+import { IResponseNotification, IUseFriendRequest } from './friendRequest.type';
 
-interface IUseFriendRequest {
-  newFriendReqCallback?: (data: IResponseNotification) => void;
-  acceptedRequestCallback?: () => void;
-  canselFriendRequestCallback?: () => void;
-  canselRequestCallback?: () => void;
-}
-
-export interface IResponseNotification {
-  message: string;
-  notification: APINotifyItem;
-}
-
-export const useFriendRequest = ({
+export const friendRequestHook = ({
   newFriendReqCallback,
   acceptedRequestCallback,
   canselRequestCallback,

@@ -1,8 +1,8 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { useAppDispatch } from 'hooks/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IDialogChat } from 'shared/models/IDialog';
-import { useDialogSocket, getDialogById } from 'shared/api';
+import { dialogHook, getDialogById } from 'shared/api';
 import { IMessage } from 'shared/models/IMessage';
 import { getAllMessagesByDialogId } from 'shared/api';
 import Navigate from './navigate';
@@ -151,7 +151,7 @@ const Chat = () => {
 
   const handlerDeleteEditMessage = () => setEditedMessage(null);
 
-  useDialogSocket({
+  dialogHook({
     id: idParam,
     setNewMessages,
     setMessages,

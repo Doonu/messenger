@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import { IActionsProfile } from './model/IActionsProfile';
 import { IGetFriendRequest } from 'shared/models/IUser';
-import { useFriendRequest } from 'shared/api/socket/friendRequest/useFriendRequest';
+import { friendRequestHook } from 'shared/api/socket/friendRequest/friendRequest.hook';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   cancellationAddFriendWS,
@@ -73,7 +73,7 @@ const ActionsProfile: FC<IActionsProfile> = ({
     }
   };
 
-  useFriendRequest({
+  friendRequestHook({
     newFriendReqCallback: handlerNewFriendReq,
     acceptedRequestCallback: handlerAddFriend,
     canselFriendRequestCallback: baseHandler,

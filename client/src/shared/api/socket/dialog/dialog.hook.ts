@@ -1,8 +1,8 @@
 import SocketApi from '../socket-api';
-import { Dispatch, MutableRefObject, SetStateAction, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import { APIMessage, IMessage } from '../../../models/IMessage';
+import { APIMessage } from '../../../models/IMessage';
 import {
   APIUpdateMessage,
   APIDeleteMessage,
@@ -11,7 +11,6 @@ import {
   APIOutUserOfChat,
   APINewUsers,
   APINewNameChat,
-  IChat,
 } from 'pages/private/chat/model/IChat';
 import {
   createFixedMessageCallback,
@@ -23,29 +22,11 @@ import {
   updateMessageCallback,
   updateNameChatCallback,
   updateUsersInChatCallback,
-} from '../../../../pages/private/chat/lib/handlers.realTime';
-import { IDialogChat } from '../../../models/IDialog';
-import { NavigateFunction } from 'react-router-dom';
+} from 'pages/private/chat/lib/handlers.realTime';
 
-interface IUseDialogSocket {
-  id: number;
-  setNewMessages: Dispatch<SetStateAction<IChat[]>>;
-  setMessages: Dispatch<SetStateAction<IChat[]>>;
-  scrollTo: (
-    block: ScrollIntoViewOptions['block'],
-    behavior?: ScrollIntoViewOptions['behavior']
-  ) => void;
-  newMessagesRefState: MutableRefObject<IChat[]>;
-  setChoiceMessages: Dispatch<SetStateAction<number[]>>;
-  setFixedMessage: Dispatch<SetStateAction<IMessage | null | undefined>>;
-  setEditedMessage: Dispatch<SetStateAction<IMessage | null | undefined>>;
-  setChat: Dispatch<SetStateAction<IDialogChat | null>>;
-  navigate: NavigateFunction;
-  chatRefState: MutableRefObject<IDialogChat | null>;
-  setInfoPlayers: Dispatch<SetStateAction<boolean>>;
-}
+import { IUseDialogSocket } from './dialog.type';
 
-export const useDialogSocket = ({
+export const dialogHook = ({
   id,
   setMessages,
   setNewMessages,
