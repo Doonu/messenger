@@ -45,17 +45,20 @@ const MessageItem: FC<IMessage> = ({
         !messageItem.readStatus &&
         idParam &&
         user.id !== messageItem.userId &&
-        entry?.intersectionRatio === 0
+        entry?.intersectionRatio === 1
       ) {
+        console.log(messageItem.readStatus, entry?.intersectionRatio);
         readMessage({ messageId: messageItem.id, dialogId: +idParam, userId: user.id });
       }
     },
   });
 
   useEffect(() => {
-    if (!messageItem.readStatus && inView && idParam)
+    if (!messageItem.readStatus && inView && idParam && entry?.intersectionRatio === 1) {
+      console.log(messageItem.readStatus, entry?.intersectionRatio);
       readMessage({ messageId: messageItem.id, dialogId: +idParam, userId: user.id });
-  }, [inView]);
+    }
+  }, [inView, entry?.intersectionRatio]);
 
   const [isShow, setIsShow] = useState(false);
   const isNotFirstElement = index !== 0;

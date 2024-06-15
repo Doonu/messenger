@@ -86,6 +86,7 @@ const Chat = () => {
           setNewMessages(compositionMessages(data));
 
           scrollToDown('start');
+          setIsRead(false);
         })
         .catch(() => {});
     }
@@ -175,10 +176,6 @@ const Chat = () => {
 
   useEffect(() => {
     newMessagesRefState.current = newMessages;
-
-    if (newMessages.length) {
-      setIsRead(false);
-    }
   }, [newMessages.length]);
 
   useEffect(() => {
