@@ -18,6 +18,7 @@ const getDialogById = createAsyncThunk<IDialogChat, number, IConfigAsyncThunk>(
           imgSubstitute: data.imgSubstitute,
           participants: userArrayConverting(data.participants),
           updatedAt: data.updatedAt,
+          createdAt: data.createdAt,
           isGroup: data.isGroup,
           fixedMessage: data.fixedMessage && messageConverting(data.fixedMessage),
           countNotReadMessages: data.countNotReadMessages,

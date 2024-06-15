@@ -6,7 +6,22 @@ export const SDialogList = styled.div`
   display: flex;
   flex-direction: column;
   height: calc(100vh - 260px);
+  overflow: auto;
   border-top: 1px solid ${({ theme }) => theme.colors.secondaryText};
+
+  &::-webkit-scrollbar {
+    width: 0;
+    margin: 5px !important;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 15px;
+  }
 `;
 
 export const SBlockContainer = styled(BlockContainer)`

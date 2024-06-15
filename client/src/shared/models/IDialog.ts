@@ -7,6 +7,7 @@ export interface IDialog {
   imgSubstitute: string;
   participants: IUser[];
   updatedAt: string;
+  createdAt: string;
   isGroup: boolean;
   countNotReadMessages: number;
   readStatusLastMessage: boolean;
@@ -23,6 +24,7 @@ export interface APIDialog {
   dialogName: string;
   participants: ApiProfile[];
   updatedAt: string;
+  createdAt: string;
   isGroup: boolean;
   fixedMessage: APIMessage | null;
   countNotReadMessages: number;

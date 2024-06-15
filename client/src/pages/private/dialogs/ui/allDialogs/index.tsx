@@ -4,7 +4,7 @@ import Dialog from 'widgets/items/dialog';
 import SearchDialogs from 'widgets/forms/searchDialogs';
 import { ObserverList } from 'components/custom/lists/ObserverList';
 import getAllDialogs from 'shared/api/http/dialogs/getAllDialogs';
-import { addPage } from 'entities/dialogs/dialogs.slice';
+import { addNewMessage, addPage } from 'entities/dialogs/dialogs.slice';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import {
   selectorDialogs,
@@ -14,6 +14,8 @@ import {
   selectorPage,
   selectorSearch,
 } from 'entities/dialogs/dialogs.selectors';
+import { dialogHook } from 'shared/api';
+import { messageConverting } from 'shared/converteitions';
 
 interface IAllDialogs {
   changeStage: () => void;
@@ -35,13 +37,17 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
     dispatch(getAllDialogs({ page: 1, search: search }));
   };
 
-  const handlerNextPage = () => {
+  const handlerNextPage = async () => {
     dispatch(getAllDialogs({ page: page + 1, search: search }))
       .unwrap()
       .then(() => {
         dispatch(addPage());
       });
   };
+
+  dialogHook({
+    createMessage: (data) => dispatch(addNewMessage(messageConverting(data))),
+  });
 
   useEffect(() => {
     handlerGetDialogs();

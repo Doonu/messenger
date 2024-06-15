@@ -41,7 +41,7 @@ const Friends: FC<IFriends> = ({ handlerSearch }) => {
 
   const errorMessage = error ? 'Произошла ошибка' : 'Друзья не найдены';
 
-  const handlerNextPage = () => {
+  const handlerNextPage = async () => {
     dispatch(getFriends({ id: user.id, page: page + 1, search }))
       .unwrap()
       .then(() => {

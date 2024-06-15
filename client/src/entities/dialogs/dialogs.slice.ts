@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDialog } from 'shared/models/IDialog';
 import { getAllDialogs } from 'shared/api';
+import { IMessage } from '../../shared/models/IMessage';
 
 interface dialogsState {
   list: IDialog[];
@@ -33,6 +34,20 @@ export const dialogsSlice = createSlice({
     setSearch: (state, { payload }: PayloadAction<string>) => {
       state.search = payload;
     },
+    addNewMessage: (state, { payload }: PayloadAction<IMessage | null>) => {
+      const findDialog = state.list.find((el) => el.id === payload?.dialogId);
+
+      if (findDialog && payload) {
+        findDialog.lastMessage = payload;
+        findDialog.countNotReadMessages += 1;
+        findDialog.readStatusLastMessage = false;
+        findDialog.updatedAt = payload.updatedAt;
+
+        state.list = [
+          ...state.list.sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt)),
+        ];
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllDialogs.fulfilled, (state, { payload }) => {
@@ -51,5 +66,5 @@ export const dialogsSlice = createSlice({
   },
 });
 
-export const { addPage, setDialogs, setSearch } = dialogsSlice.actions;
+export const { addPage, setDialogs, setSearch, addNewMessage } = dialogsSlice.actions;
 export default dialogsSlice.reducer;

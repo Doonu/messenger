@@ -4,8 +4,8 @@ import { APIMessage } from '../../../../shared/models/IMessage';
 export interface IMessageItem {
   id: number;
   content: string[];
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
   userId: number;
   readStatus: boolean;
   status: 'main' | 'info';
@@ -14,7 +14,7 @@ export interface IMessageItem {
 export interface IChat {
   id: string;
   author: IUser | null;
-  createdAt: number | null;
+  createdAt: string | null;
   dialogId: number;
   messages: IMessageItem[];
 }

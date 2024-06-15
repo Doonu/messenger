@@ -1,9 +1,9 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
-import { useAppDispatch } from 'hooks/redux';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IDialogChat } from 'shared/models/IDialog';
 import { dialogHook, getDialogById } from 'shared/api';
-import { IMessage } from 'shared/models/IMessage';
+import { APIMessage, IMessage } from 'shared/models/IMessage';
 import { getOldMessagesByDialogId } from 'shared/api';
 import Navigate from './navigate';
 import { SChat, SContainer, SContent, SLine, SNewMessage } from './chat.styled';
@@ -11,17 +11,39 @@ import AllContainer from 'components/layouts/all';
 import { Message } from 'widgets/items/message';
 import CreateMessage from 'widgets/forms/createMessage';
 import { compositionMessages, compositionRevert } from '../lib/compositMessages';
-import { IChat } from '../model/IChat';
+import {
+  APIDeleteFixedMessage,
+  APIDeleteMessage,
+  APIMessageRead,
+  APINewNameChat,
+  APINewUsers,
+  APIOutUserOfChat,
+  APIUpdateMessage,
+  IChat,
+} from '../model/IChat';
 import FixedMessage from './fixedMessage';
 import { scrollToById } from 'shared/util/scrollTo';
 import ChatInfo from 'features/chatInfo';
 import { ObserverList } from 'components/custom/lists/ObserverList';
 import Modal from 'components/navigation/modal/ui';
 import { getNewMessagesByDialog } from 'shared/api';
+import {
+  createFixedMessageCallback,
+  createMessageCallback,
+  deleteFixedMessageCallback,
+  deleteMessageCallback,
+  deleteUserOfChatCallback,
+  messageReadCallback,
+  updateMessageCallback,
+  updateNameChatCallback,
+  updateUsersInChatCallback,
+} from '../lib/handlers.realTime';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 
 const Chat = () => {
   const dispatch = useAppDispatch();
 
+  const user = useAppSelector(selectorProfile);
   const params = useParams();
   const idParam = Number(params['id']);
   const navigate = useNavigate();
@@ -61,6 +83,20 @@ const Chat = () => {
         .catch(() => {});
   };
 
+  const getNewMessages = () => {
+    if (idParam) {
+      dispatch(getNewMessagesByDialog(idParam))
+        .unwrap()
+        .then((data) => {
+          setNewMessages(compositionMessages(data));
+
+          scrollToDown('start');
+          setIsRead(false);
+        })
+        .catch(() => {});
+    }
+  };
+
   const getOldMessages = () => {
     if (idParam) {
       dispatch(getOldMessagesByDialogId({ dialogId: idParam, page: 1, limit }))
@@ -78,24 +114,9 @@ const Chat = () => {
     }
   };
 
-  const getNewMessages = () => {
-    if (idParam) {
-      dispatch(getNewMessagesByDialog(idParam))
-        .unwrap()
-        .then((data) => {
-          setNewMessages(compositionMessages(data));
-
-          scrollToDown('start');
-          setIsRead(false);
-        })
-        .catch(() => {});
-    }
-  };
-
-  const nextPageGetAllMessages = async (currentPage?: number) => {
+  const nextPageGetOldMessages = async (currentPage?: number) => {
     if (idParam) {
       setIsLoading(true);
-      const initialHeight = chatRef.current?.scrollHeight;
 
       await dispatch(
         getOldMessagesByDialogId({
@@ -113,15 +134,6 @@ const Chat = () => {
         })
         .catch(() => {})
         .finally(() => setIsLoading(false));
-
-      //Вот это все можно перенести в observer список
-      requestAnimationFrame(() => {
-        const newHeight = chatRef.current?.scrollHeight;
-
-        if (newHeight && initialHeight && chatRef.current) {
-          chatRef.current.scrollTop = newHeight - initialHeight;
-        }
-      });
     }
   };
 
@@ -149,18 +161,76 @@ const Chat = () => {
   const handlerDeleteEditMessage = () => setEditedMessage(null);
 
   dialogHook({
-    id: idParam,
-    setNewMessages,
-    setMessages,
-    scrollTo: scrollToDown,
-    newMessagesRefState,
-    setFixedMessage,
-    setChoiceMessages,
-    setEditedMessage,
-    setChat,
-    setInfoPlayers,
-    navigate,
-    chatRefState,
+    createMessage: (data: APIMessage) =>
+      createMessageCallback({
+        data,
+        setMessages,
+        setNewMessages,
+        scrollTo: scrollToDown,
+        id: idParam,
+        ref: newMessagesRefState,
+      }),
+    deleteMessage: (data: APIDeleteMessage) =>
+      deleteMessageCallback({
+        data,
+        id: idParam,
+        setMessages,
+        setFixedMessage,
+        setNewMessages,
+        setChoiceMessages,
+      }),
+    updateMessage: (data: APIUpdateMessage) =>
+      updateMessageCallback({
+        data,
+        id: idParam,
+        setFixedMessage,
+        setMessages,
+        setNewMessages,
+        setChoiceMessages,
+        setEditedMessage,
+      }),
+    createFixedMessage: (data: APIMessage) =>
+      createFixedMessageCallback({
+        data,
+        id: idParam,
+        setFixedMessage,
+        setChoiceMessages,
+      }),
+    deleteFixedMessage: (data: APIDeleteFixedMessage) =>
+      deleteFixedMessageCallback({ setFixedMessage, setChoiceMessages, id: idParam, data }),
+    readMessage: (data: APIMessageRead) =>
+      messageReadCallback({ setNewMessages, data, setChat, id: idParam }),
+    deleteUserOutOfChat: (data: APIOutUserOfChat) =>
+      deleteUserOfChatCallback({
+        data,
+        id: idParam,
+        userId: user.id,
+        setChat,
+        chatRefState,
+        newMessagesRefState,
+        setNewMessages,
+        setMessages,
+        navigate,
+      }),
+    addNewUser: (data: APINewUsers) =>
+      updateUsersInChatCallback({
+        data,
+        id: idParam,
+        setChat,
+        newMessagesRefState,
+        setNewMessages,
+        setMessages,
+        setInfoPlayers,
+      }),
+    newNameChat: (data: APINewNameChat) =>
+      updateNameChatCallback({
+        data,
+        id: idParam,
+        setChat,
+        newMessagesRefState,
+        setNewMessages,
+        setMessages,
+      }),
   });
 
   useEffect(() => {
@@ -205,7 +275,8 @@ const Chat = () => {
             notFoundMessage="Напишите сообщение"
             isPending={isLoading}
             isFetching={isLoading}
-            fetchNextPage={nextPageGetAllMessages}
+            refContainer={chatRef}
+            fetchNextPage={nextPageGetOldMessages}
             itemContent={(el) => (
               <Message
                 key={el.id}

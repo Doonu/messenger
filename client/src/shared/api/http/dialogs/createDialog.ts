@@ -23,6 +23,7 @@ const createDialog = createAsyncThunk<IDialog, ICreateDialog, IConfigAsyncThunk>
         imgSubstitute: data.imgSubstitute,
         participants: userArrayConverting(data.participants),
         updatedAt: data.updatedAt,
+        createdAt: data.createdAt,
         isGroup: data.isGroup,
         countNotReadMessages: data.countNotReadMessages,
         readStatusLastMessage: data.readStatusLastMessage,

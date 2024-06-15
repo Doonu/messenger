@@ -1,25 +1,24 @@
-import { Dispatch, MutableRefObject, SetStateAction } from 'react';
-import { IChat } from 'pages/private/chat/model/IChat';
-import { IMessage } from '../../../models/IMessage';
-import { IDialogChat } from '../../../models/IDialog';
-import { NavigateFunction } from 'react-router-dom';
+import { APIMessage } from '../../../models/IMessage';
+import {
+  APIDeleteFixedMessage,
+  APIDeleteMessage,
+  APIMessageRead,
+  APINewNameChat,
+  APINewUsers,
+  APIOutUserOfChat,
+  APIUpdateMessage,
+} from 'pages/private/chat/model/IChat';
 
 export interface IUseDialogSocket {
-  id: number;
-  setNewMessages: Dispatch<SetStateAction<IChat[]>>;
-  setMessages: Dispatch<SetStateAction<IChat[]>>;
-  scrollTo: (
-    block: ScrollIntoViewOptions['block'],
-    behavior?: ScrollIntoViewOptions['behavior']
-  ) => void;
-  newMessagesRefState: MutableRefObject<IChat[]>;
-  setChoiceMessages: Dispatch<SetStateAction<number[]>>;
-  setFixedMessage: Dispatch<SetStateAction<IMessage | null | undefined>>;
-  setEditedMessage: Dispatch<SetStateAction<IMessage | null | undefined>>;
-  setChat: Dispatch<SetStateAction<IDialogChat | null>>;
-  navigate: NavigateFunction;
-  chatRefState: MutableRefObject<IDialogChat | null>;
-  setInfoPlayers: Dispatch<SetStateAction<boolean>>;
+  createMessage?: (data: APIMessage) => void;
+  deleteMessage?: (data: APIDeleteMessage) => void;
+  updateMessage?: (data: APIUpdateMessage) => void;
+  createFixedMessage?: (data: APIMessage) => void;
+  deleteFixedMessage?: (data: APIDeleteFixedMessage) => void;
+  readMessage?: (data: APIMessageRead) => void;
+  deleteUserOutOfChat?: (data: APIOutUserOfChat) => void;
+  addNewUser?: (data: APINewUsers) => void;
+  newNameChat?: (data: APINewNameChat) => void;
 }
 
 export interface ICreateMessage {

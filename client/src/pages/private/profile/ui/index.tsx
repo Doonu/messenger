@@ -89,7 +89,7 @@ const Profile = () => {
       });
   };
 
-  const handlerNextPage = () => {
+  const handlerNextPage = async () => {
     if (idParam)
       dispatch(getAllPost({ page: page + 1, userId: +idParam }))
         .unwrap()

@@ -1,7 +1,5 @@
 import SocketApi from '../socket-api';
 import { useEffect } from 'react';
-import { useAppSelector } from 'hooks/redux';
-import { selectorProfile } from 'entities/profile/profile.selectors';
 import { APIMessage } from '../../../models/IMessage';
 import {
   APIUpdateMessage,
@@ -12,122 +10,58 @@ import {
   APINewUsers,
   APINewNameChat,
 } from 'pages/private/chat/model/IChat';
-import {
-  createFixedMessageCallback,
-  createMessageCallback,
-  deleteFixedMessageCallback,
-  deleteMessageCallback,
-  deleteUserOfChatCallback,
-  messageReadCallback,
-  updateMessageCallback,
-  updateNameChatCallback,
-  updateUsersInChatCallback,
-} from 'pages/private/chat/lib/handlers.realTime';
 
 import { IUseDialogSocket } from './dialog.type';
+import { useAppSelector } from 'hooks/redux';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 
 export const dialogHook = ({
-  id,
-  setMessages,
-  setNewMessages,
-  scrollTo,
-  newMessagesRefState,
-  setChoiceMessages,
-  setFixedMessage,
-  setEditedMessage,
-  setChat,
-  chatRefState,
-  navigate,
-  setInfoPlayers,
+  deleteUserOutOfChat: deleteUserOutOfChatCallback,
+  deleteFixedMessage: deleteFixedMessageCallback,
+  createFixedMessage,
+  readMessage: readMessageCallback,
+  updateMessage: updateMessageCallback,
+  deleteMessage,
+  createMessage,
+  addNewUser: addNewUserCallback,
+  newNameChat: newNameChatCallback,
 }: IUseDialogSocket) => {
   const user = useAppSelector(selectorProfile);
 
   const createdMessage = (data: APIMessage) => {
-    createMessageCallback({
-      data,
-      setMessages,
-      setNewMessages,
-      scrollTo,
-      id,
-      ref: newMessagesRefState,
-    });
+    if (createMessage) createMessage(data);
   };
 
   const deletedMessage = (data: APIDeleteMessage) => {
-    deleteMessageCallback({
-      data,
-      id,
-      setMessages,
-      setFixedMessage,
-      setNewMessages,
-      setChoiceMessages,
-    });
+    if (deleteMessage) deleteMessage(data);
   };
 
   const updateMessage = (data: APIUpdateMessage) => {
-    updateMessageCallback({
-      data,
-      id,
-      setFixedMessage,
-      setMessages,
-      setNewMessages,
-      setChoiceMessages,
-      setEditedMessage,
-    });
+    if (updateMessageCallback) updateMessageCallback(data);
   };
 
   const createdFixedMessage = (data: APIMessage) => {
-    createFixedMessageCallback({
-      data,
-      id,
-      setFixedMessage,
-      setChoiceMessages,
-    });
+    if (createFixedMessage) createFixedMessage(data);
   };
 
   const deleteFixedMessage = (data: APIDeleteFixedMessage) => {
-    deleteFixedMessageCallback({ setFixedMessage, setChoiceMessages, id, data });
+    if (deleteFixedMessageCallback) deleteFixedMessageCallback(data);
   };
 
   const readMessage = (data: APIMessageRead) => {
-    messageReadCallback({ setNewMessages, data, setChat, id });
+    if (readMessageCallback) readMessageCallback(data);
   };
 
-  const userOutOfChat = (data: APIOutUserOfChat) => {
-    deleteUserOfChatCallback({
-      id,
-      userId: user.id,
-      setChat,
-      chatRefState,
-      data,
-      newMessagesRefState,
-      setNewMessages,
-      setMessages,
-      navigate,
-    });
+  const deleteUserOutOfChat = (data: APIOutUserOfChat) => {
+    if (deleteUserOutOfChatCallback) deleteUserOutOfChatCallback(data);
   };
 
   const addNewUser = (data: APINewUsers) => {
-    updateUsersInChatCallback({
-      id,
-      setChat,
-      data,
-      newMessagesRefState,
-      setNewMessages,
-      setMessages,
-      setInfoPlayers,
-    });
+    if (addNewUserCallback) addNewUserCallback(data);
   };
 
   const newNameChat = (data: APINewNameChat) => {
-    updateNameChatCallback({
-      id,
-      data,
-      setChat,
-      newMessagesRefState,
-      setNewMessages,
-      setMessages,
-    });
+    if (newNameChatCallback) newNameChatCallback(data);
   };
 
   const connectSocket = () => {
@@ -137,7 +71,7 @@ export const dialogHook = ({
     SocketApi.socket?.on('new_fixed_message', createdFixedMessage);
     SocketApi.socket?.on('remove_fixed_message', deleteFixedMessage);
     SocketApi.socket?.on('delivered_message', readMessage);
-    SocketApi.socket?.on('delete_user_chat', userOutOfChat);
+    SocketApi.socket?.on('delete_user_chat', deleteUserOutOfChat);
     SocketApi.socket?.on('add_new_user', addNewUser);
     SocketApi.socket?.on('new_dialogName', newNameChat);
   };
@@ -152,7 +86,7 @@ export const dialogHook = ({
       SocketApi.socket?.off('new_fixed_message', createdFixedMessage);
       SocketApi.socket?.off('remove_fixed_message', deleteFixedMessage);
       SocketApi.socket?.off('delivered_message', readMessage);
-      SocketApi.socket?.off('delete_user_chat', userOutOfChat);
+      SocketApi.socket?.off('delete_user_chat', deleteUserOutOfChat);
       SocketApi.socket?.off('add_new_user', addNewUser);
       SocketApi.socket?.off('new_dialogName', newNameChat);
     };

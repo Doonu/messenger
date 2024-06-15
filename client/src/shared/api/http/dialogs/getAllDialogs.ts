@@ -24,6 +24,7 @@ const getAllDialogs = createAsyncThunk<IDialog[], IGetAllDialogs, IConfigAsyncTh
           imgSubstitute: dialog.imgSubstitute,
           participants: userArrayConverting(dialog.participants),
           updatedAt: dialog.updatedAt,
+          createdAt: dialog.createdAt,
           isGroup: dialog.isGroup,
           countNotReadMessages: dialog.countNotReadMessages,
           readStatusLastMessage: dialog.readStatusLastMessage,

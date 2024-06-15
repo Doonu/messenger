@@ -49,7 +49,7 @@ const CreateGroup: FC<ICreateGroup> = ({ changeStage }) => {
     dispatch(getFriends({ id: user.id, page: 1, search: search }));
   };
 
-  const handlerNextPage = () => {
+  const handlerNextPage = async () => {
     dispatch(getFriends({ id: user.id, page: page + 1, search }))
       .unwrap()
       .then(() => {

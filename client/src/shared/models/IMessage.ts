@@ -5,8 +5,8 @@ export interface IMessage {
   content: string[];
   dialogId: number;
   userId: number;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
   author: IUser | null;
   readStatus: boolean;
   status: 'main' | 'info';
@@ -17,8 +17,8 @@ export interface APIMessage {
   content: string[];
   dialogId: number;
   userId: number;
-  createdAt: number;
-  updatedAt: number;
+  createdAt: string;
+  updatedAt: string;
   author: ApiProfile;
   readStatus: boolean;
   status: 'main' | 'info';

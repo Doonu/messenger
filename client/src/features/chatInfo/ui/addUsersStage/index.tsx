@@ -72,7 +72,7 @@ const AddUsersStage: FC<IAddUsersStage> = ({ chat, switchStage }) => {
       });
   };
 
-  const handlerNextPage = () => {
+  const handlerNextPage = async () => {
     const usersId = chat?.participants?.map((el) => el.id);
 
     setLoading(true);

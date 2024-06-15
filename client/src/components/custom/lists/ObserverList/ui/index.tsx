@@ -28,6 +28,7 @@ const ObserverList = <T, K>({
   position = 'bottom',
   isEmpty,
   gap = 15,
+  refContainer,
 }: IObserverList<T, K>) => {
   const { ref, inView, entry } = useInView({
     threshold: 0,
@@ -39,12 +40,26 @@ const ObserverList = <T, K>({
 
   const isFetchingNextPageTop = window.scrollY === 0 && hasMore && entry?.intersectionRatio === 1;
 
+  const nextPageTop = async () => {
+    const initialHeight = refContainer.current?.scrollHeight;
+
+    await fetchNextPage();
+
+    requestAnimationFrame(() => {
+      const newHeight = refContainer.current?.scrollHeight;
+
+      if (newHeight && initialHeight && refContainer.current) {
+        refContainer.current.scrollTop = newHeight - initialHeight;
+      }
+    });
+  };
+
   useEffect(() => {
-    if (
-      (position === 'bottom' && isFetchingNextPage) ||
-      (position === 'top' && isFetchingNextPageTop)
-    ) {
+    if (position === 'bottom' && isFetchingNextPage) {
       fetchNextPage();
+    }
+    if (position === 'top' && isFetchingNextPageTop) {
+      nextPageTop();
     }
   }, [inView]);
 
