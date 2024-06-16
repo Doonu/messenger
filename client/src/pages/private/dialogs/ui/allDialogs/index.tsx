@@ -40,7 +40,6 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
   };
 
   const handlerNextPage = async () => {
-    console.log('Я тута');
     dispatch(getAllDialogs({ page: page + 1, search: search }))
       .unwrap()
       .then(() => {

@@ -47,7 +47,6 @@ const MessageItem: FC<IMessage> = ({
         user.id !== messageItem.userId &&
         entry?.intersectionRatio === 1
       ) {
-        console.log(messageItem.readStatus, entry?.intersectionRatio);
         readMessage({ messageId: messageItem.id, dialogId: +idParam, userId: user.id });
       }
     },
@@ -55,7 +54,6 @@ const MessageItem: FC<IMessage> = ({
 
   useEffect(() => {
     if (!messageItem.readStatus && inView && idParam && entry?.intersectionRatio === 1) {
-      console.log(messageItem.readStatus, entry?.intersectionRatio);
       readMessage({ messageId: messageItem.id, dialogId: +idParam, userId: user.id });
     }
   }, [inView, entry?.intersectionRatio]);
