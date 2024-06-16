@@ -45,6 +45,7 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
       .then(() => {
         dispatch(addPage());
       });
+    console.log('Hello');
   };
 
   dialogHook({
