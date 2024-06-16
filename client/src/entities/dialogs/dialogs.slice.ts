@@ -52,8 +52,8 @@ export const dialogsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllDialogs.fulfilled, (state, { payload }) => {
       if (payload.length === 0) state.isHaseMore = false;
-      if (payload.length !== 0 && state.page !== 1) state.list = [...state.list, ...payload];
-      else state.list = payload;
+      if (payload.length !== 0) state.list = [...state.list, ...payload];
+
       state.isLoading = false;
     });
     builder.addCase(getAllDialogs.pending, (state) => {

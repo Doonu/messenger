@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { SDialogList } from '../dialogs.styled';
 import Dialog from 'widgets/items/dialog';
 import SearchDialogs from 'widgets/forms/searchDialogs';
@@ -24,6 +24,8 @@ interface IAllDialogs {
 const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
   const dispatch = useAppDispatch();
 
+  const refDialogs = useRef<HTMLDivElement>(null);
+
   const dialogs = useAppSelector(selectorDialogs);
   const loading = useAppSelector(selectorLoading);
   const page = useAppSelector(selectorPage);
@@ -38,6 +40,7 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
   };
 
   const handlerNextPage = async () => {
+    console.log('Я тута');
     dispatch(getAllDialogs({ page: page + 1, search: search }))
       .unwrap()
       .then(() => {
@@ -56,16 +59,18 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
   return (
     <>
       <SearchDialogs changeServiceCreate={changeStage} />
-      <SDialogList>
+      <SDialogList ref={refDialogs}>
         <ObserverList
           list={dialogs}
-          isPending={loading}
+          isPending={loading && page === 1}
           itemContent={(dialog) => <Dialog key={dialog.id} {...dialog} />}
           fetchNextPage={handlerNextPage}
           hasMore={haseMore}
+          isFetching={loading && page > 1}
           skeleton={() => <div>...Загрузка</div>}
           notFoundMessage={errorMessage}
           gap={0}
+          refContainer={refDialogs}
         />
       </SDialogList>
     </>

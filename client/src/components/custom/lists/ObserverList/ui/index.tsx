@@ -36,17 +36,20 @@ const ObserverList = <T, K>({
   });
 
   const isFetchingNextPage =
-    document.body.clientHeight < window.scrollY + 100 && hasMore && entry?.intersectionRatio === 1;
+    document.body.clientHeight <
+      (window.scrollY + 100 !== 100 || (refContainer?.current?.scrollHeight || 0) + 100) &&
+    hasMore &&
+    entry?.intersectionRatio === 1;
 
   const isFetchingNextPageTop = window.scrollY === 0 && hasMore && entry?.intersectionRatio === 1;
 
   const nextPageTop = async () => {
-    const initialHeight = refContainer.current?.scrollHeight;
+    const initialHeight = refContainer?.current?.scrollHeight;
 
     await fetchNextPage();
 
     requestAnimationFrame(() => {
-      const newHeight = refContainer.current?.scrollHeight;
+      const newHeight = refContainer?.current?.scrollHeight;
 
       if (newHeight && initialHeight && refContainer.current) {
         refContainer.current.scrollTop = newHeight - initialHeight;

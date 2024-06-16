@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 
 export interface IObserverList<T, K> {
   list: T[];
@@ -7,7 +7,7 @@ export interface IObserverList<T, K> {
   hasMore: boolean;
   skeleton: () => React.ReactNode;
   notFoundMessage: string;
-  refContainer?: any;
+  refContainer?: RefObject<HTMLDivElement>;
   isPending?: boolean;
   isFetching?: boolean;
   position?: 'bottom' | 'top';

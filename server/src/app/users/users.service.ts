@@ -183,8 +183,6 @@ export class UsersService {
     if(user) await user.update({statusConnected: dto.connected, timeConnected: Date.now()})
   }
 
-  //TODO: педедаелать
-
   // Получение друзей
   async getAllFriends(id: number){
     const user = await this.userRepository.findByPk(id)

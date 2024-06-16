@@ -23,13 +23,11 @@ export class DialogsService {
 
     async getAll({userId, search, page}: IGetAll){
         let currentPage = page - 1;
-        const limit = 20;
+        const limit = 10;
 
         const dialogs = await this.userDialogRepository.findAll({
             where: { userId },
             include: {all: true},
-            limit: limit,
-            offset: currentPage * limit
         })
 
         const dialogsId = dialogs.map(dialog => dialog.dialogId)
@@ -64,7 +62,7 @@ export class DialogsService {
         const filteredNameParticipants = resultDialogs.filter(el => {
             const searchUser = el.participants.find(user => user.id !== userId);
             return searchUser.name.includes(search);
-        })
+        }).splice(currentPage * limit, (currentPage + 1) * limit)
 
         return Promise.all(filteredNameParticipants.map(async dialog => {
             const count = await this.messageReadStatus.findAll({where: {userId, readStatus: false, dialogId: dialog.id}})
