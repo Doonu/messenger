@@ -10,7 +10,7 @@ interface IGetAllMessagesByDialogId {
   limit: number;
 }
 
-const getAllMessagesByDialogId = createAsyncThunk<
+const getOldMessagesByDialogId = createAsyncThunk<
   IMessage[],
   IGetAllMessagesByDialogId,
   IConfigAsyncThunk
@@ -28,4 +28,4 @@ const getAllMessagesByDialogId = createAsyncThunk<
     });
 });
 
-export default getAllMessagesByDialogId;
+export default getOldMessagesByDialogId;

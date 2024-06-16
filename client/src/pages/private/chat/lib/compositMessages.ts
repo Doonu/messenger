@@ -1,5 +1,6 @@
 import { IMessage } from 'shared/models/IMessage';
 import { IChat, IMessageItem } from '../model/IChat';
+import { v4 as uuidv4 } from 'uuid';
 
 export const compositionRevert = (initialMessages: IChat[]): IMessage[] => {
   const currentMessages: IMessage[] = [];
@@ -15,6 +16,7 @@ export const compositionRevert = (initialMessages: IChat[]): IMessage[] => {
         updatedAt: el.updatedAt,
         author: author,
         readStatus: el.readStatus,
+        status: el.status,
       });
     });
   });
@@ -34,16 +36,28 @@ export const compositionMessages = (messages: IMessage[]): IChat[] => {
       createdAt: el.createdAt,
       updatedAt: el.updatedAt,
       readStatus: el.readStatus,
+      status: el.status,
     };
 
-    const currentMessageAuthorId = currentMessages?.[currentMessages.length - 1]?.author.id;
+    if (newMessage.status === 'info') {
+      currentMessages.push({
+        id: uuidv4(),
+        author: null,
+        createdAt: null,
+        dialogId: el.dialogId,
+        messages: [newMessage],
+      });
+    }
 
-    if (currentMessageAuthorId === el.author.id) {
+    const currentMessageAuthorId = currentMessages?.[currentMessages.length - 1]?.author?.id;
+
+    if (currentMessageAuthorId === el?.author?.id && newMessage.status === 'main') {
       currentMessages[currentMessages.length - 1].messages.push(newMessage);
     }
 
-    if (currentMessageAuthorId !== el.author.id) {
+    if (currentMessageAuthorId !== el?.author?.id && newMessage.status === 'main') {
       currentMessages.push({
+        id: uuidv4(),
         author: el.author,
         createdAt: el.createdAt,
         dialogId: el.dialogId,
@@ -63,15 +77,33 @@ export const addInCompositionMessages = (message: IMessage, messages: IChat[]): 
     updatedAt: message.updatedAt,
     userId: message.userId,
     readStatus: message.readStatus,
+    status: message.status,
   };
   const result: IChat[] = [...messages];
 
-  if (messages?.[messages?.length - 1]?.author.id === message?.author.id) {
+  if (newMessage.status === 'info') {
+    result.push({
+      id: uuidv4(),
+      author: null,
+      createdAt: null,
+      dialogId: message.dialogId,
+      messages: [newMessage],
+    });
+  }
+
+  if (
+    messages?.[messages?.length - 1]?.author?.id === message?.author?.id &&
+    newMessage.status === 'main'
+  ) {
     result?.[result?.length - 1].messages.push(newMessage);
   }
 
-  if (messages?.[messages?.length - 1]?.author.id !== message?.author.id) {
+  if (
+    messages?.[messages?.length - 1]?.author?.id !== message?.author?.id &&
+    newMessage.status === 'main'
+  ) {
     result.push({
+      id: uuidv4(),
       author: message?.author,
       createdAt: message.createdAt,
       messages: [newMessage],

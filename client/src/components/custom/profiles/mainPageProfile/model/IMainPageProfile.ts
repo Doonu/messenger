@@ -10,4 +10,5 @@ export interface IMainPageProfile {
   handlerDeleteFriend: () => void;
   handlerCancelAddFriend: () => void;
   handlerCancelFriendRequest: () => void;
+  handlerWriteMessage: () => void;
 }

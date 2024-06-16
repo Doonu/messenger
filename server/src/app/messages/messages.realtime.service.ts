@@ -9,6 +9,9 @@ import {CreateFixedMessageDto} from "./dto/create-fixedMessage.dto";
 import {DeleteFixedMessageDto} from "./dto/delete-fixedMessage.dto";
 import {ReadMessageDto} from "./dto/read-message.dto";
 import {UsersService} from "../users/users.service";
+import {DeleteUserChatDto} from "./dto/delete-UserChat.dto";
+import {AddNewUserInChatDto} from "./dto/add-newUserInChat.dto";
+import {UpdateChatNameDto} from "./dto/update-chatName.dto";
 
 @WebSocketGateway({
     cors: {
@@ -27,12 +30,38 @@ export class MessagesRealtimeService{
 
     @SubscribeMessage("create_message")
     async handleCreateMessage(@MessageBody() dto: CreateMessageDto){
-        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
+        const activeDialog = await this.dialogsService.getByIdAndCount(dto.dialogId, dto.userId);
         const createdMessage = await this.messageService.create({userId: dto.userId, dialogId: dto.dialogId, content: dto.content })
-        await this.messageService.createMessageReadStatus({messageId: createdMessage.id, participants: activeDialog.participants, userId: dto.userId})
+        await this.messageService.createMessageReadStatus({messageId: createdMessage.id, participants: activeDialog.participants, userId: dto.userId, dialogId: dto.dialogId})
 
         activeDialog.participants.forEach(player => {
             this.server.to(player.socket_id).emit("new_message", createdMessage)
+        })
+    }
+
+    @SubscribeMessage("update_dialogName")
+    async handleUpdateNameChat(@MessageBody() dto: UpdateChatNameDto){
+        const activeDialog = await this.dialogsService.getById(dto.dialogId);
+        const userRenameDialog = await this.usersService.getUser(dto.userId);
+
+        await activeDialog.update({dialogName: dto.dialogName})
+
+        const createdMessage = await this.messageService.create(
+            {
+                userId: dto.userId,
+                dialogId: dto.dialogId,
+                content: [`Пользователь ${userRenameDialog.name} переименовал беседу в: ${dto.dialogName}`],
+                status: 'info'
+            }
+        );
+        await this.messageService.createMessageReadStatus({messageId: createdMessage.id, participants: activeDialog.participants, userId: dto.userId, dialogId: dto.dialogId});
+
+        activeDialog.participants.forEach(player => {
+            this.server.to(player.socket_id).emit('new_dialogName', {
+                dialogId: dto.dialogId,
+                message: createdMessage,
+                dialogName: dto.dialogName
+            })
         })
     }
 
@@ -49,7 +78,7 @@ export class MessagesRealtimeService{
 
     @SubscribeMessage("create_fixed_message")
     async handleCreateFixedMessage(@MessageBody() dto: CreateFixedMessageDto){
-        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
+        const activeDialog = await this.dialogsService.getByIdAndCount(dto.dialogId, dto.userId);
         const createdMessage = await this.dialogsService.createFixed(dto.dialogId, dto.messageId)
 
         activeDialog.participants.forEach(player => {
@@ -60,7 +89,7 @@ export class MessagesRealtimeService{
     @SubscribeMessage("update_message")
     async handleUpdateMessage(@MessageBody() dto: UpdateMessageDto){
         let updateFixedMessage = null;
-        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
+        const activeDialog = await this.dialogsService.getByIdAndCount(dto.dialogId, dto.userId);
         await this.messageService.updateById(dto.id, dto.userId, dto.content);
 
         if(dto.id === activeDialog.fixedMessageId){
@@ -79,7 +108,7 @@ export class MessagesRealtimeService{
 
     @SubscribeMessage("delete_fixed_message")
     async handleDeleteFixedMessage(@MessageBody() dto: DeleteFixedMessageDto){
-        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
+        const activeDialog = await this.dialogsService.getByIdAndCount(dto.dialogId, dto.userId);
         await this.dialogsService.deleteFixed(dto.dialogId)
 
         activeDialog.participants.forEach(player => {
@@ -89,13 +118,59 @@ export class MessagesRealtimeService{
         })
     }
 
+    @SubscribeMessage("user_add_chat")
+    async handlerAddNewUser(@MessageBody() dto: AddNewUserInChatDto){
+        const activeDialog = await this.dialogsService.getById(dto.dialogId);
+
+        const users = await this.usersService.getUsersByIds(dto.participants);
+        const allUsers = [...activeDialog.participants, ...users]
+
+        const messages = await Promise.all(users.map(async user => {
+            const message = await this.messageService.create({userId: user.id, dialogId: dto.dialogId, content: [`${user.name} присоединился к группе`], status: 'info'});
+            await this.messageService.createMessageReadStatus({dialogId: dto.dialogId, userId: dto.userId, messageId: message.id, participants: allUsers});
+            return message;
+        }))
+
+        await activeDialog.$set("participants", allUsers)
+        activeDialog.participants = allUsers
+
+        activeDialog.participants.forEach(player => {
+            this.server.to(player.socket_id).emit('add_new_user', {
+                messages: messages,
+                dialogId: activeDialog.id,
+                participants: users,
+            })
+        })
+    }
+
+    @SubscribeMessage("user_out_chat")
+    async userOutOfChat(@MessageBody() dto: DeleteUserChatDto){
+        const findDialog = await this.dialogsService.getById(dto.dialogId)
+
+        const saveEmitParticipants = findDialog.participants;
+        const filterParticipants = findDialog.participants.filter(user => user.id !== +dto.participant);
+        const user = await this.usersService.getUser(dto.participant)
+        const message = await this.messageService.create({userId: dto.participant, dialogId: dto.dialogId, content: [`${user.name} вышел из груупы`], status: 'info'});
+        await this.messageService.createMessageReadStatus({dialogId: dto.dialogId, userId: dto.participant, messageId: message.id, participants: findDialog.participants});
+
+        await findDialog.$set("participants", filterParticipants)
+        findDialog.participants = filterParticipants
+
+        saveEmitParticipants.forEach(player => {
+            this.server.to(player.socket_id).emit("delete_user_chat", {
+                participant: dto.participant,
+                dialogId: findDialog.id,
+                message: message,
+            })
+        })
+    }
 
     @SubscribeMessage("delete_messages")
     async handleDeleteMessages(@MessageBody() dto: DeleteMessagesDto){
         let isFixedDeleteMessage = false;
 
-        const activeDialog = await this.dialogsService.getById(dto.dialogId, dto.userId);
-        await this.messageService.deleteById(dto.messagesId);
+        const activeDialog = await this.dialogsService.getByIdAndCount(dto.dialogId, dto.userId);
+        await this.messageService.deleteById(dto.messagesId, dto.dialogId);
 
         if(dto.messagesId.find(el => el === activeDialog.fixedMessageId)){
             isFixedDeleteMessage = true;

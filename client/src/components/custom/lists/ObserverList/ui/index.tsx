@@ -8,17 +8,11 @@ import { LoaderSmall } from 'components/ui/loaders';
 
 /**
  *   data - Массив для рендера
- *
  *   itemContent - ReactNode для рендера
- *
  *   fetchNextPage — Callback при прокрутке в конце списка
- *
  *   isPending — Первичная загрузка данных
- *
  *   isFetching — Дозагрузка данных
- *
  *   isNotFound — Данные не найдены
- *
  *   position - С какой стороны прогрузка при скроле
  **/
 
@@ -32,6 +26,9 @@ const ObserverList = <T, K>({
   hasMore,
   skeleton,
   position = 'bottom',
+  isEmpty,
+  gap = 15,
+  refContainer,
 }: IObserverList<T, K>) => {
   const { ref, inView, entry } = useInView({
     threshold: 0,
@@ -39,29 +36,46 @@ const ObserverList = <T, K>({
   });
 
   const isFetchingNextPage =
-    document.body.clientHeight < window.scrollY + 100 && hasMore && entry?.intersectionRatio === 1;
+    document.body.clientHeight <
+      (window.scrollY + 100 !== 100 || (refContainer?.current?.scrollHeight || 0) + 100) &&
+    hasMore &&
+    entry?.intersectionRatio === 1;
 
   const isFetchingNextPageTop = window.scrollY === 0 && hasMore && entry?.intersectionRatio === 1;
 
+  const nextPageTop = async () => {
+    const initialHeight = refContainer?.current?.scrollHeight;
+
+    await fetchNextPage();
+
+    requestAnimationFrame(() => {
+      const newHeight = refContainer?.current?.scrollHeight;
+
+      if (newHeight && initialHeight && refContainer.current) {
+        refContainer.current.scrollTop = newHeight - initialHeight;
+      }
+    });
+  };
+
   useEffect(() => {
-    if (
-      (position === 'bottom' && isFetchingNextPage) ||
-      (position === 'top' && isFetchingNextPageTop)
-    ) {
+    if (position === 'bottom' && isFetchingNextPage) {
       fetchNextPage();
+    }
+    if (position === 'top' && isFetchingNextPageTop) {
+      nextPageTop();
     }
   }, [inView]);
 
   return (
     <>
       {position === 'top' && <ObserverBlock ref={ref} />}
-      <SList>
+      <SList $gap={gap}>
         {list.map((el, index) => itemContent(el, index))}
         {isPending && [...new Array(5)].map(() => skeleton())}
       </SList>
       {position === 'bottom' && <ObserverBlock ref={ref} />}
       {isFetching && <LoaderSmall />}
-      {!list.length && !isPending && <Empty message={notFoundMessage} />}
+      {isEmpty || (!list.length && !isPending && <Empty message={notFoundMessage} />)}
     </>
   );
 };

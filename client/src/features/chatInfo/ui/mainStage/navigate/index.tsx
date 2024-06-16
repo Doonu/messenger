@@ -1,6 +1,6 @@
 import React, { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import Segmented from 'components/ui/segment';
-import { generateOptions } from '../../lib/options';
+import { generateOptions } from '../../../lib/options';
 import { IUser } from 'shared/models/IUser';
 import { Close, Magnifier } from 'shared/assets/icons';
 import { SContainer } from './navigate.styled';

@@ -5,10 +5,12 @@ import {CreateMessageDto, CreateMessageReadStatusDto} from "./dto/create-message
 import {Op} from "sequelize";
 import {GetMessagesDto} from "./dto/get-messages.dto";
 import {MessageReadStatus} from "./models/messagesReadStatus.model";
+import {Dialog} from "../dialogs/dialogs.model";
 
 @Injectable()
 export class MessagesService {
     constructor(
+        @InjectModel(Dialog) private dialogRepository: typeof Dialog,
         @InjectModel(Message) private messageRepository: typeof Message,
         @InjectModel(MessageReadStatus) private messageReadStatus: typeof MessageReadStatus
     ) {
@@ -18,14 +20,16 @@ export class MessagesService {
         return await this.messageRepository.findOne({where: {id: id}, include: {all: true}})
     }
 
-    async create({userId, content, dialogId}: CreateMessageDto){
-        const created = await this.messageRepository.create({userId, dialogId, content})
+    async create({userId, content, dialogId, status = 'main'}: CreateMessageDto){
+        const created = await this.messageRepository.create({userId, dialogId, content, status: status})
+        const dialog = await this.dialogRepository.findByPk(dialogId)
+        await dialog.update({lastMessageId: created.id})
         return await this.messageRepository.findOne({where: {id: created.id}, include: {all: true}})
     }
 
-    async createMessageReadStatus({messageId, participants, userId}: CreateMessageReadStatusDto){
+    async createMessageReadStatus({messageId, participants, userId, dialogId}: CreateMessageReadStatusDto){
         participants.map(async user => {
-            await this.messageReadStatus.create({messageId: messageId, userId: user.id, readStatus: userId === user.id})
+            await this.messageReadStatus.create({messageId: messageId, userId: user.id, readStatus: userId === user.id, dialogId: dialogId})
         })
     }
 
@@ -34,30 +38,49 @@ export class MessagesService {
         await findMessage.update({readStatus: true})
     }
 
-    async getAllByDialogId({page, dialogId, userId,limit = 30}: GetMessagesDto){
+    async getReadStatusMessages(packMessages: Message[], userId: number, status: boolean){
+        return await Promise.all(packMessages.map(async message => {
+            const messageStatus = await this.messageReadStatus.findOne({where: {messageId: message.id, userId: userId}});
+
+            return  {
+                ...JSON.parse(JSON.stringify(message)),
+                readStatus: messageStatus.readStatus
+            }
+        })).then(data => data.filter(el => el.readStatus === status))
+    }
+
+    async getOldMessagesByDialogId({page, dialogId, userId,limit = 30}: GetMessagesDto){
         let currentPage = page - 1;
 
         const packMessages = await this.messageRepository.findAll({
             where:
-                {dialogId: dialogId},
+                {
+                    dialogId: dialogId
+                },
             include: {all: true},
             order: [['createdAt', 'DESC']],
             limit: limit,
             offset: currentPage * limit,
-        })
+        });
 
-        const updateMessages = await Promise.all(packMessages.map(async message => {
-            const messageStatus = await this.messageReadStatus.findOne({where: {messageId: message.id, userId: userId}})
-            return {
-                ...JSON.parse(JSON.stringify(message)),
-                readStatus: messageStatus.readStatus
-            }
-        }))
+        const messages = await this.getReadStatusMessages(packMessages, userId, true);
 
-        return updateMessages.reverse()
+        return messages.reverse();
     }
 
-    async deleteById(id: number[]){
+    async getNewMessagesByDialogId(dialogId: number, userId: number){
+        const packMessages = await this.messageRepository.findAll({
+            where: {dialogId: dialogId},
+            include: {all: true},
+            order: [['createdAt', 'DESC']],
+        });
+
+        const messages = await this.getReadStatusMessages(packMessages, userId, false);
+
+        return messages.reverse();
+    }
+
+    async deleteById(id: number[], dialogId: number){
         await this.messageReadStatus.destroy({
             where: {
                 messageId: {
@@ -73,6 +96,11 @@ export class MessagesService {
                 }
             }
         })
+
+        const dialog = await this.dialogRepository.findByPk(dialogId)
+        const lastDialogMessage = await this.messageRepository.findAll({where: {dialogId: dialogId}})
+
+        await dialog.update({lastMessageId: lastDialogMessage[lastDialogMessage?.length - 1]?.id})
     }
 
     async updateById(id: number, userId: number, content: string[]){

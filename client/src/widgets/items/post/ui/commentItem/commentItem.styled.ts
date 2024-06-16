@@ -40,14 +40,15 @@ export const SLike = styled.div`
   display: flex;
   align-items: center;
   gap: 5px;
-
   cursor: pointer;
+  color: ${({ theme }) => theme.colors.active};
 `;
 
 export const SNameContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 export const SName = styled(Typography.Text)`

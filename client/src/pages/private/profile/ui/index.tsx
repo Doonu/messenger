@@ -7,7 +7,6 @@ import { getAllPost, getUser } from 'shared/api';
 import getAllFriends from 'shared/api/http/user/getAllFriends';
 import ActionsProfile from './actionsProfile';
 import ObserverList from 'components/custom/lists/ObserverList/ui';
-import { Post } from 'widgets/items/post';
 import { DraggableContainer, SContent, SSidebars, ViewContainer } from './Profile.styled';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import {
@@ -24,6 +23,7 @@ import { addPage, setAllPosts } from 'entities/post/post.slice';
 import AddPost from 'widgets/forms/addPost';
 import Friends from 'features/friends';
 import SkeletonPost from 'widgets/items/post/ui/skeleton';
+import CollapsePost from 'components/custom/collapseAllPost';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -89,7 +89,7 @@ const Profile = () => {
       });
   };
 
-  const handlerNextPage = () => {
+  const handlerNextPage = async () => {
     if (idParam)
       dispatch(getAllPost({ page: page + 1, userId: +idParam }))
         .unwrap()
@@ -122,12 +122,17 @@ const Profile = () => {
 
         <SContent>
           <ViewContainer>
-            {isMe && <AddPost handlerChange={handlerChange} isDraggablePhoto={isDraggablePhoto} />}
-
+            {isMe && (
+              <AddPost
+                handlerSetDraggablePhoto={handlerChange}
+                isDraggablePhoto={isDraggablePhoto}
+              />
+            )}
             <ObserverList
               list={posts}
               itemContent={(el) => (
-                <Post
+                <CollapsePost
+                  key={el.id}
                   editedPost={editedPost}
                   warningEdit={warningEdit}
                   posts={posts}

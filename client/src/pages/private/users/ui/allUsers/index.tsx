@@ -10,7 +10,7 @@ interface IAllUsers {
   users: IUserExcept[];
   loading: boolean;
   haseMore: boolean;
-  handlerNextPage: () => void;
+  handlerNextPage: () => Promise<void>;
 }
 
 const AllUsers: FC<IAllUsers> = ({ users, loading, haseMore, handlerNextPage }) => {

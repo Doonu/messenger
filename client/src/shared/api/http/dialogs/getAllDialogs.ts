@@ -2,15 +2,20 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIDialog, IDialog } from 'shared/models/IDialog';
 import { IConfigAsyncThunk } from 'shared/models/errors';
 import API from '../../interceptors';
-import { userArrayConverting } from 'shared/converteitions';
+import { messageConverting, userArrayConverting } from 'shared/converteitions';
 
-const getAllDialogs = createAsyncThunk<IDialog[], number, IConfigAsyncThunk>(
+interface IGetAllDialogs {
+  page: number;
+  search: string;
+}
+
+const getAllDialogs = createAsyncThunk<IDialog[], IGetAllDialogs, IConfigAsyncThunk>(
   'dialogs/getAll',
-  (page, { rejectWithValue }) => {
+  ({ search, page }, { rejectWithValue }) => {
     return API<APIDialog[]>({
       url: `api/dialogs`,
       method: 'GET',
-      params: { page },
+      params: { page, search },
     })
       .then(({ data }) => {
         return data.map((dialog) => ({
@@ -19,8 +24,11 @@ const getAllDialogs = createAsyncThunk<IDialog[], number, IConfigAsyncThunk>(
           imgSubstitute: dialog.imgSubstitute,
           participants: userArrayConverting(dialog.participants),
           updatedAt: dialog.updatedAt,
+          createdAt: dialog.createdAt,
           isGroup: dialog.isGroup,
           countNotReadMessages: dialog.countNotReadMessages,
+          readStatusLastMessage: dialog.readStatusLastMessage,
+          lastMessage: dialog.lastMessage && messageConverting(dialog.lastMessage),
         }));
       })
       .catch(({ response }) => {

@@ -17,7 +17,7 @@ const SkeletonPost = () => {
       </STop>
       <br />
       <br />
-      <Skeleton active paragraph={{ rows: 8 }} />
+      <Skeleton active paragraph={{ rows: 2 }} />
       <br />
       <Space>
         <Skeleton.Button />

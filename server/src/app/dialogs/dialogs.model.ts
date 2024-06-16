@@ -30,8 +30,14 @@ export class Dialog extends Model<Dialog, DialogsModel>{
     @ForeignKey(() => Message)
     fixedMessageId: number;
 
-    @BelongsTo(() => Message)
+    @ForeignKey(() => Message)
+    lastMessageId: number;
+
+    @BelongsTo(() => Message, { foreignKey: 'fixedMessageId' })
     fixedMessage: Message;
+
+    @BelongsTo(() => Message, { foreignKey: 'lastMessageId' })
+    lastMessage: Message;
 
     @BelongsToMany(() => User, () => UserDialog)
     participants: User[];

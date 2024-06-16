@@ -59,18 +59,6 @@ export const SCenter = styled.div`
   gap: 5px;
 `;
 
-export const SBack = styled.div`
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  cursor: pointer;
-  transition: 0.5s;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.active};
-  }
-`;
-
 export const SIcons = styled.div`
   display: grid;
 `;

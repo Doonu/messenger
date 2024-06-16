@@ -10,6 +10,7 @@ import { AddRoleDto } from "./dto/add-role.dto";
 import { BanUserDto } from "./dto/ban-user.dto";
 import {RegisterUserDto} from "./dto/register-user.dto";
 import {ExceptFriendsDto} from "./dto/exceptFriends.dto";
+import {GetAllUsersExceptionsDto} from "./dto/getAll-usersExceptions.dto";
 
 @ApiTags("Пользователи")
 @Controller("users")
@@ -86,6 +87,15 @@ export class UsersController {
   @Get("/allFriends/:id")
   getAllFriends(@Param("id") id: number){
     return this.userService.getAllFriends(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post("/allUsersExceptions")
+  getAllUsersExceptions(
+      @Req() {userId}: any,
+      @Body() dto: GetAllUsersExceptionsDto
+  ){
+    return this.userService.getAllUsersExceptExceptions(userId, dto.search, dto.page, dto.exceptions);
   }
 
   @UseGuards(JwtAuthGuard)

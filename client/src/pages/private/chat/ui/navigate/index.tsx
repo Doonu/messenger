@@ -2,7 +2,6 @@ import React, { Dispatch, FC, SetStateAction, useMemo } from 'react';
 
 import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import { IoIosArrowBack } from 'react-icons/io';
 import { useNavigate, useParams } from 'react-router-dom';
 import PhotoProfile from 'components/custom/profiles/photo';
 import { generateChatInfo } from 'shared/util/generateChat';
@@ -15,7 +14,7 @@ import BaseButton from 'components/ui/buttons/baseButton';
 import { IChat } from '../../model/IChat';
 import { compositionRevert } from '../../lib/compositMessages';
 import { deleteMessage } from 'shared/api/socket/dialog';
-import { IDialog } from 'shared/models/IDialog';
+import { IDialogChat } from 'shared/models/IDialog';
 import { createFixedMessage } from 'shared/api';
 import {
   SContainer,
@@ -26,8 +25,8 @@ import {
   SProfile,
   SCenter,
   SCansel,
-  SBack,
 } from './navigate.styled';
+import Back from 'components/custom/back';
 
 interface INavigate {
   choiceMessages: number[];
@@ -35,7 +34,7 @@ interface INavigate {
   allMessages: IChat[];
   newMessages: IChat[];
   setInfoPlayers: Dispatch<SetStateAction<boolean>>;
-  chat?: IDialog;
+  chat?: IDialogChat | null;
 }
 
 const Navigate: FC<INavigate> = ({
@@ -62,10 +61,10 @@ const Navigate: FC<INavigate> = ({
     type: chat?.isGroup,
   });
 
-  const isInfoChat = filteredParticipants?.[0].statusConnected
+  const isInfoChat = filteredParticipants?.[0]?.statusConnected
     ? 'Онлайн'
-    : filteredParticipants?.[0].timeConnected &&
-      `был в сети ${postTime(filteredParticipants[0].timeConnected)}`;
+    : filteredParticipants?.[0]?.timeConnected &&
+      `был в сети ${postTime(filteredParticipants[0]?.timeConnected)}`;
 
   const checkDelete = useMemo(() => {
     const initialMessages = [...compositionRevert(allMessages), ...compositionRevert(newMessages)];
@@ -118,10 +117,7 @@ const Navigate: FC<INavigate> = ({
       )}
       {!choiceMessages.length && (
         <>
-          <SBack onClick={() => navigate(-1)}>
-            <IoIosArrowBack size={25} />
-            Назад
-          </SBack>
+          <Back />
           <SCenter>
             <SProfile>{generateInfoChat.nameDialog}</SProfile>
             {!chat?.isGroup && <SInfo>{isInfoChat}</SInfo>}

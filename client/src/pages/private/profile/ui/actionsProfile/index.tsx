@@ -4,8 +4,8 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import { IActionsProfile } from './model/IActionsProfile';
 import { IGetFriendRequest } from 'shared/models/IUser';
-import { useFriendRequest } from 'shared/api/socket/friendRequest/useFriendRequest';
-import { useParams } from 'react-router-dom';
+import { friendRequestHook } from 'shared/api/socket/friendRequest/friendRequest.hook';
+import { useNavigate, useParams } from 'react-router-dom';
 import {
   cancellationAddFriendWS,
   deleteFriend,
@@ -14,12 +14,14 @@ import {
   getFriendRequest,
   canselFriendReqWS,
 } from 'shared/api';
+import createDialog from '../../../../../shared/api/http/dialogs/createDialog';
 
 const ActionsProfile: FC<IActionsProfile> = ({
   profilePage,
   profileFriends,
   setProfileFriends,
 }) => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const params = useParams();
   const user = useAppSelector(selectorProfile);
@@ -37,6 +39,12 @@ const ActionsProfile: FC<IActionsProfile> = ({
         setStatusUser(data);
       })
       .catch(() => {});
+  };
+
+  const handlerWriteMessage = () => {
+    dispatch(createDialog({ participantIds: [profilePage.id] }))
+      .unwrap()
+      .then(({ id }) => navigate(`/dialog/${id}`));
   };
 
   const handlerDeleteFriend = () => {
@@ -65,7 +73,7 @@ const ActionsProfile: FC<IActionsProfile> = ({
     }
   };
 
-  useFriendRequest({
+  friendRequestHook({
     newFriendReqCallback: handlerNewFriendReq,
     acceptedRequestCallback: handlerAddFriend,
     canselFriendRequestCallback: baseHandler,
@@ -88,6 +96,7 @@ const ActionsProfile: FC<IActionsProfile> = ({
       friendRequest={() => friendRequestWS({ to: profilePage.id, from: user.id })}
       statusFriendRequest={statusUser}
       user={profilePage}
+      handlerWriteMessage={handlerWriteMessage}
     />
   );
 };

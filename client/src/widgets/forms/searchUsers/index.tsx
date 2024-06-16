@@ -7,6 +7,7 @@ import { selectorSearch } from 'entities/friends/friends.selectors';
 import { setSearch } from 'entities/friends/friends.slice';
 import { ISearchUsers } from './model/ISearch';
 
+//TODO: Совместить два компонента, в создание группы в диалогах и в друзьях
 const SearchUsers: FC<ISearchUsers> = ({ handlerSearch }) => {
   const dispatch = useAppDispatch();
 

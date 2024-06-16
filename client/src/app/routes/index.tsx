@@ -2,7 +2,7 @@ import { ComponentType, lazy } from 'react';
 
 // TODO: разобраться с этим
 // @ts-ignore
-const Dialogs = lazy(() => import('pages/private/dialogs'));
+const Dialogs = lazy(() => import('pages/private/dialogs/ui'));
 // @ts-ignore
 const Favorite = lazy(() => import('pages/private/favorite'));
 // @ts-ignore

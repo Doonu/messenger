@@ -1,130 +1,71 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
-import { useAppDispatch } from 'hooks/redux';
-import { useParams } from 'react-router-dom';
-import { IDialog } from 'shared/models/IDialog';
-import { useDialogSocket, getDialogById } from 'shared/api';
+import { useAppDispatch, useAppSelector } from 'hooks/redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { IDialogChat } from 'shared/models/IDialog';
+import { dialogHook, getDialogById } from 'shared/api';
 import { APIMessage, IMessage } from 'shared/models/IMessage';
-import { getAllMessagesByDialogId } from 'shared/api';
+import { getOldMessagesByDialogId } from 'shared/api';
 import Navigate from './navigate';
 import { SChat, SContainer, SContent, SLine, SNewMessage } from './chat.styled';
 import AllContainer from 'components/layouts/all';
 import { Message } from 'widgets/items/message';
-import { messageConverting } from 'shared/converteitions';
 import CreateMessage from 'widgets/forms/createMessage';
+import { compositionMessages, compositionRevert } from '../lib/compositMessages';
 import {
-  addInCompositionMessages,
-  compositionMessages,
-  compositionRevert,
-  deleteInCompositionMessages,
-  updateInCompositionMessages,
-  updateStatusRead,
-} from '../lib/compositMessages';
-import {
-  IChat,
-  APIDeleteMessage,
-  APIUpdateMessage,
   APIDeleteFixedMessage,
+  APIDeleteMessage,
   APIMessageRead,
+  APINewNameChat,
+  APINewUsers,
+  APIOutUserOfChat,
+  APIUpdateMessage,
+  IChat,
 } from '../model/IChat';
 import FixedMessage from './fixedMessage';
-import { scrollTo, scrollToRef } from 'shared/util/scrollTo';
+import { scrollToById } from 'shared/util/scrollTo';
 import ChatInfo from 'features/chatInfo';
 import { ObserverList } from 'components/custom/lists/ObserverList';
 import Modal from 'components/navigation/modal/ui';
-import { filterNewMessages } from '../lib/filterNewMessages';
+import { getNewMessagesByDialog } from 'shared/api';
+import {
+  createFixedMessageCallback,
+  createMessageCallback,
+  deleteFixedMessageCallback,
+  deleteMessageCallback,
+  deleteUserOfChatCallback,
+  messageReadCallback,
+  updateMessageCallback,
+  updateNameChatCallback,
+  updateUsersInChatCallback,
+} from '../lib/handlers.realTime';
+import { selectorProfile } from 'entities/profile/profile.selectors';
 
 const Chat = () => {
   const dispatch = useAppDispatch();
 
+  const user = useAppSelector(selectorProfile);
   const params = useParams();
-  const idParam = params['id'];
+  const idParam = Number(params['id']);
+  const navigate = useNavigate();
 
-  const chatRef = useRef<HTMLDivElement | null>(null);
-  const newMessageRef = useRef<HTMLDivElement | null>(null);
-
-  const [chat, setChat] = useState<IDialog>(); // Получение информацию о чате
+  const [chat, setChat] = useState<IDialogChat | null>(null); // Получение информацию о чате
   const [choiceMessages, setChoiceMessages] = useState<number[]>([]); // Выбор сообщений
   const [editedMessage, setEditedMessage] = useState<IMessage | null>(); // Редактируемое сообщение
   const [fixedMessage, setFixedMessage] = useState<IMessage | null>(); // Фиксированное сообщение
   const [infoPlayers, setInfoPlayers] = useState(false); // Открытие модального окна
   const [isRead, setIsRead] = useState(true); // Возможность читать
-  const [isUpdateScroll, setIsUpdateScroll] = useState(false); // Обновление скролла
 
   const [messages, setMessages] = useState<IChat[]>([]);
   const [newMessages, setNewMessages] = useState<IChat[]>([]);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [isMore, setIsMore] = useState(true);
+  const [isMore, setIsMore] = useState(false);
   const limit = 50;
 
-  /*WebSocket*/
-  const createMessageCallback = async (data: APIMessage) => {
-    if (idParam && data.dialogId === +idParam) {
-      const convertingData = messageConverting(data);
-
-      setNewMessages((prev) => {
-        if (prev.length) return addInCompositionMessages(convertingData, prev);
-        setMessages((prev) => addInCompositionMessages(convertingData, prev));
-        return prev;
-      });
-
-      setIsUpdateScroll(true);
-    }
-  };
-
-  const deleteMessageCallback = ({
-    dialogId,
-    messagesId,
-    isFixedDeleteMessage,
-  }: APIDeleteMessage) => {
-    if (idParam && dialogId === +idParam) {
-      setMessages((prev) => deleteInCompositionMessages(messagesId, prev));
-      setNewMessages((prev) => deleteInCompositionMessages(messagesId, prev));
-      setChoiceMessages([]);
-      if (isFixedDeleteMessage) setFixedMessage(null);
-    }
-  };
-
-  const updateMessageCallback = (data: APIUpdateMessage) => {
-    if (idParam && data.dialogId === +idParam) {
-      setMessages((prev) => updateInCompositionMessages(data.id, data.content, prev));
-      setNewMessages((prev) => updateInCompositionMessages(data.id, data.content, prev));
-      setChoiceMessages([]);
-      setEditedMessage(null);
-      if (data.updateFixedMessage) setFixedMessage(messageConverting(data.updateFixedMessage));
-    }
-  };
-
-  const createFixedMessageCallback = (data: APIMessage) => {
-    if (idParam && data.dialogId === +idParam) {
-      const convertingData = messageConverting(data);
-      setFixedMessage(convertingData);
-      setChoiceMessages([]);
-    }
-  };
-
-  const deleteFixedMessageCallback = (data: APIDeleteFixedMessage) => {
-    if (idParam && data.dialogId === +idParam) {
-      setFixedMessage(null);
-      setChoiceMessages([]);
-    }
-  };
-
-  const messageReadCallback = (data: APIMessageRead) => {
-    if (idParam && data.dialogId === +idParam) {
-      setNewMessages((prev) => updateStatusRead(data.messageId, prev));
-      setChat(
-        (prev) =>
-          prev && {
-            ...prev,
-            countNotReadMessages:
-              prev.countNotReadMessages === 0 ? 0 : prev.countNotReadMessages - 1,
-          }
-      );
-    }
-  };
-
-  /*WebSocket*/
+  const chatRef = useRef<HTMLDivElement | null>(null);
+  const newMessageRef = useRef<HTMLDivElement | null>(null);
+  const chatRefState = useRef(chat);
+  const newMessagesRefState = useRef<IChat[]>([]);
 
   const handlerChoice = (id: number) => {
     if (!choiceMessages.includes(id)) setChoiceMessages((prev) => [...prev, id]);
@@ -133,32 +74,38 @@ const Chat = () => {
 
   const handlerGetChat = () => {
     if (idParam)
-      dispatch(getDialogById(+idParam))
+      dispatch(getDialogById(idParam))
         .unwrap()
         .then((data) => {
           setChat(data);
           setFixedMessage(data.fixedMessage);
-
-          getAllMessages();
         })
         .catch(() => {});
   };
 
-  const getAllMessages = async () => {
+  const getNewMessages = () => {
     if (idParam) {
-      await dispatch(getAllMessagesByDialogId({ dialogId: +idParam, page: 1, limit }))
+      dispatch(getNewMessagesByDialog(idParam))
         .unwrap()
         .then((data) => {
-          if (!data.length) setIsMore(false);
-          const { newMessages, allMessages } = filterNewMessages({
-            fetchedData: data,
-            limit,
-            callback: (page) => nextPageGetAllMessages(page, false),
-          });
+          setNewMessages(compositionMessages(data));
 
+          scrollToDown('start');
+          setIsRead(false);
+        })
+        .catch(() => {});
+    }
+  };
+
+  const getOldMessages = () => {
+    if (idParam) {
+      dispatch(getOldMessagesByDialogId({ dialogId: idParam, page: 1, limit }))
+        .unwrap()
+        .then((data) => {
           setPage(1);
-          setMessages(compositionMessages(allMessages));
-          setNewMessages(compositionMessages(newMessages));
+          setMessages(compositionMessages(data));
+
+          if (data.length) setIsMore(true);
         })
         .catch(() => {})
         .finally(() => {
@@ -167,13 +114,13 @@ const Chat = () => {
     }
   };
 
-  const nextPageGetAllMessages = async (currentPage?: number, isUsingScroll = true) => {
+  const nextPageGetOldMessages = async (currentPage?: number) => {
     if (idParam) {
       setIsLoading(true);
-      const currentHeight = chatRef.current?.scrollHeight;
+
       await dispatch(
-        getAllMessagesByDialogId({
-          dialogId: +idParam,
+        getOldMessagesByDialogId({
+          dialogId: idParam,
           page: currentPage ? currentPage : page + 1,
           limit,
         })
@@ -182,37 +129,23 @@ const Chat = () => {
         .then((data) => {
           if (data.length !== limit) setIsMore(false);
 
-          const { newMessages, allMessages } = filterNewMessages({
-            fetchedData: data,
-            limit,
-            currentPage,
-            callback: (page) => nextPageGetAllMessages(page, false),
-          });
-
           setPage((prev) => prev + 1);
-          setMessages((prev) => [...compositionMessages(allMessages), ...prev]);
-          if (newMessages.length)
-            setNewMessages((prev) => [...compositionMessages(newMessages), ...prev]);
+          setMessages((prev) => [...compositionMessages(data), ...prev]);
         })
         .catch(() => {})
-        .finally(() => {
-          setIsLoading(false);
-        });
-
-      requestAnimationFrame(() => {
-        const newHeight = chatRef.current?.scrollHeight;
-        if (newHeight && currentHeight && chatRef.current)
-          chatRef.current.scrollTop = newHeight - currentHeight;
-
-        if (!isUsingScroll) {
-          newMessageRef.current?.scrollIntoView({ block: 'end' });
-        }
-      });
+        .finally(() => setIsLoading(false));
     }
   };
 
   const scrollToEditionMessage = () => {
-    scrollTo(editedMessage?.id);
+    scrollToById(editedMessage?.id);
+  };
+
+  const scrollToDown = (
+    block: ScrollIntoViewOptions['block'],
+    behavior?: ScrollIntoViewOptions['behavior']
+  ) => {
+    newMessageRef.current?.scrollIntoView({ block: block, behavior: behavior || 'auto' });
   };
 
   const handlerUpdate = (event: MouseEvent<HTMLDivElement>, id: number) => {
@@ -227,13 +160,77 @@ const Chat = () => {
 
   const handlerDeleteEditMessage = () => setEditedMessage(null);
 
-  useDialogSocket({
-    createMessageCallback,
-    deleteMessageCallback,
-    updateMessageCallback,
-    createFixedMessageCallback,
-    deleteFixedMessageCallback,
-    messageReadCallback,
+  dialogHook({
+    createMessage: (data: APIMessage) =>
+      createMessageCallback({
+        data,
+        setMessages,
+        setNewMessages,
+        scrollTo: scrollToDown,
+        id: idParam,
+        ref: newMessagesRefState,
+      }),
+    deleteMessage: (data: APIDeleteMessage) =>
+      deleteMessageCallback({
+        data,
+        id: idParam,
+        setMessages,
+        setFixedMessage,
+        setNewMessages,
+        setChoiceMessages,
+      }),
+    updateMessage: (data: APIUpdateMessage) =>
+      updateMessageCallback({
+        data,
+        id: idParam,
+        setFixedMessage,
+        setMessages,
+        setNewMessages,
+        setChoiceMessages,
+        setEditedMessage,
+      }),
+    createFixedMessage: (data: APIMessage) =>
+      createFixedMessageCallback({
+        data,
+        id: idParam,
+        setFixedMessage,
+        setChoiceMessages,
+      }),
+    deleteFixedMessage: (data: APIDeleteFixedMessage) =>
+      deleteFixedMessageCallback({ setFixedMessage, setChoiceMessages, id: idParam, data }),
+    readMessage: (data: APIMessageRead) =>
+      messageReadCallback({ setNewMessages, data, setChat, id: idParam }),
+    deleteUserOutOfChat: (data: APIOutUserOfChat) =>
+      deleteUserOfChatCallback({
+        data,
+        id: idParam,
+        userId: user.id,
+        setChat,
+        chatRefState,
+        newMessagesRefState,
+        setNewMessages,
+        setMessages,
+        navigate,
+      }),
+    addNewUser: (data: APINewUsers) =>
+      updateUsersInChatCallback({
+        data,
+        id: idParam,
+        setChat,
+        newMessagesRefState,
+        setNewMessages,
+        setMessages,
+        setInfoPlayers,
+      }),
+    newNameChat: (data: APINewNameChat) =>
+      updateNameChatCallback({
+        data,
+        id: idParam,
+        setChat,
+        newMessagesRefState,
+        setNewMessages,
+        setMessages,
+      }),
   });
 
   useEffect(() => {
@@ -241,24 +238,24 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    if (messages.length) setIsRead(false);
-  }, [messages]);
-
-  useEffect(() => {
-    if (!newMessages.length) newMessageRef.current?.scrollIntoView({ block: 'end' });
-  }, [newMessages]);
-
-  useEffect(() => {
-    if (isUpdateScroll) {
-      setIsUpdateScroll(false);
-      scrollToRef({ ref: chatRef, isScrollFast: false });
+    if (chat?.id) {
+      getOldMessages();
+      getNewMessages();
     }
-  }, [isUpdateScroll]);
+  }, [chat?.id]);
+
+  useEffect(() => {
+    newMessagesRefState.current = newMessages;
+  }, [newMessages.length]);
+
+  useEffect(() => {
+    chatRefState.current = chat;
+  }, [chat]);
 
   return (
     <AllContainer isFooter={false} $isSticky>
       <Modal isFooter={false} onClose={() => setInfoPlayers(false)} open={infoPlayers} top="15%">
-        <ChatInfo {...chat} />
+        <ChatInfo chat={chat} />
       </Modal>
       <SContainer>
         <Navigate
@@ -276,12 +273,13 @@ const Chat = () => {
           <ObserverList
             list={messages}
             notFoundMessage="Напишите сообщение"
-            isPending={isLoading && page === 0}
-            isFetching={isLoading && page > 1}
-            fetchNextPage={nextPageGetAllMessages}
-            itemContent={(el, index) => (
+            isPending={isLoading}
+            isFetching={isLoading}
+            refContainer={chatRef}
+            fetchNextPage={nextPageGetOldMessages}
+            itemContent={(el) => (
               <Message
-                key={JSON.stringify(el.messages) + index}
+                key={el.id}
                 isRead={isRead}
                 chatRef={chatRef}
                 handlerUpdate={handlerUpdate}
@@ -293,9 +291,10 @@ const Chat = () => {
             skeleton={() => <div>...Загрузка</div>}
             hasMore={isMore}
             position="top"
+            isEmpty={!!(messages.length + newMessages.length)}
           />
           <div>
-            <SNewMessage $view={!!newMessages.length} ref={newMessageRef}>
+            <SNewMessage ref={newMessageRef} $view={!!newMessages.length}>
               {!!newMessages.length && (
                 <>
                   <SLine />
@@ -305,10 +304,10 @@ const Chat = () => {
               )}
             </SNewMessage>
             {!!newMessages.length && (
-              <div>
-                {newMessages.map((el, index) => (
+              <SChat>
+                {newMessages.map((el) => (
                   <Message
-                    key={JSON.stringify(el.messages) + index}
+                    key={el.id}
                     isRead={isRead}
                     chatRef={chatRef}
                     handlerUpdate={handlerUpdate}
@@ -317,7 +316,7 @@ const Chat = () => {
                     {...el}
                   />
                 ))}
-              </div>
+              </SChat>
             )}
           </div>
         </SChat>

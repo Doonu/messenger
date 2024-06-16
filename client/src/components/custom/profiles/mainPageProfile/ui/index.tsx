@@ -27,6 +27,7 @@ const MainPageProfile: FC<IMainPageProfile> = ({
   handlerDeleteFriend,
   handlerCancelFriendRequest,
   handlerCancelAddFriend,
+  handlerWriteMessage,
 }) => {
   const profile = useAppSelector(selectorProfile);
   const isMyProfile = profile.id === user.id;
@@ -81,7 +82,7 @@ const MainPageProfile: FC<IMainPageProfile> = ({
                 Удалить из друзей
               </BaseButton>
             )}
-            <SMessage />
+            {!isMyProfile && <SMessage onClick={handlerWriteMessage} />}
           </SActions>
         </SRow>
         <SRow>Подробнее</SRow>

@@ -3,7 +3,17 @@ import { IDialog } from 'shared/models/IDialog';
 import PhotoProfile from 'components/custom/profiles/photo';
 import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import { SBottom, SContainer, SInfo, STime, STitle, STop } from './dialog.styled';
+import {
+  SBadge,
+  SBottom,
+  SContainer,
+  SInfo,
+  SLastMessage,
+  SMessage,
+  STime,
+  STitle,
+  STop,
+} from './dialog.styled';
 import { postTime } from 'shared/util/time';
 import { useNavigate } from 'react-router-dom';
 import { generateChatInfo } from 'shared/util/generateChat';
@@ -15,6 +25,9 @@ const Dialog: FC<IDialog> = ({
   dialogName,
   updatedAt,
   isGroup,
+  countNotReadMessages,
+  readStatusLastMessage,
+  lastMessage,
 }) => {
   const navigate = useNavigate();
   const user = useAppSelector(selectorProfile);
@@ -27,11 +40,14 @@ const Dialog: FC<IDialog> = ({
     dialogName: dialogName,
     users: filteredUsers,
   });
+  const message = lastMessage?.content.join('');
 
   const handlerDialog = () => navigate(`/dialog/${id}`);
 
+  const isPhotoSecondary = lastMessage?.author;
+
   return (
-    <SContainer onClick={handlerDialog}>
+    <SContainer $isRead={readStatusLastMessage} onClick={handlerDialog}>
       {generateInfoChat.nameDialog && generateInfoChat.imgDialog && (
         <PhotoProfile
           status={generateInfoChat.statusDialog}
@@ -45,7 +61,20 @@ const Dialog: FC<IDialog> = ({
           <STitle>{generateInfoChat.nameDialog}</STitle>
           <STime>{postTime(updatedAt)}</STime>
         </STop>
-        <SBottom>Последнее сообщение беседы</SBottom>
+        <SBottom>
+          <SLastMessage>
+            {isPhotoSecondary && lastMessage?.author && (
+              <PhotoProfile
+                size={25}
+                fontSize={12}
+                name={lastMessage?.author.name}
+                img={lastMessage?.author.avatar}
+              />
+            )}
+            <SMessage>{message}</SMessage>
+          </SLastMessage>
+          <SBadge count={countNotReadMessages} />
+        </SBottom>
       </SInfo>
     </SContainer>
   );

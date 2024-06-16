@@ -29,13 +29,14 @@ import deleteFriend from './http/user/deleteFriend';
 import getAllFriendRequests from './http/user/getAllFriendRequests';
 import getFriends from './http/user/getAllFriends';
 import getUsersExceptFriends from './http/user/getUsersExceptFriends';
+import getUsersExceptInChat from './http/user/getUsersExceptInChat';
 
 import deleteNotification from './http/notification/deleteNotification';
 import deleteAllNotifications from './http/notification/deleteAllNotification';
 import getAllNotification from './http/notification/getAllNotification';
 import getAllNotificationCount from './http/notification/getAllNotificationCount';
 
-import { useFriendRequest } from './socket/friendRequest/useFriendRequest';
+import { friendRequestHook } from './socket/friendRequest/friendRequest.hook';
 import {
   friendRequestWS,
   friendAcceptWS,
@@ -43,15 +44,17 @@ import {
   canselFriendReqWS,
 } from './socket/friendRequest';
 
-import { useDialogSocket } from './socket/dialog/useDialogSocket';
+import { dialogHook } from './socket/dialog/dialog.hook';
 import { createMessage, createFixedMessage } from './socket/dialog';
 
 import getAllDialogs from './http/dialogs/getAllDialogs';
 import getDialogById from './http/dialogs/getDialogById';
-import getAllMessagesByDialogId from './http/dialogs/getAllMessagesByDialogId';
+import getOldMessagesByDialogId from './http/dialogs/getOldMessagesByDialogId';
+import getNewMessagesByDialog from './http/dialogs/getNewMessagesByDialog';
 
 export {
   SocketApi,
+  getNewMessagesByDialog,
   getFriends,
   deleteNotification,
   deleteAllNotifications,
@@ -79,7 +82,7 @@ export {
   deleteFriend,
   getAllFriendRequests,
   getUsersExceptFriends,
-  useFriendRequest,
+  friendRequestHook,
   addPendingList,
   getAllNotificationCount,
   getAllDialogs,
@@ -88,8 +91,9 @@ export {
   friendAcceptWS,
   cancellationAddFriendWS,
   canselFriendReqWS,
-  useDialogSocket,
+  dialogHook,
   createMessage,
-  getAllMessagesByDialogId,
+  getOldMessagesByDialogId,
   createFixedMessage,
+  getUsersExceptInChat,
 };

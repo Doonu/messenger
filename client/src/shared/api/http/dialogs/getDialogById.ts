@@ -1,13 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { APIChat, IChat } from 'shared/models/IDialog';
+import { APIDialogChat, IDialogChat } from 'shared/models/IDialog';
 import API from '../../interceptors';
 import { messageConverting, userArrayConverting } from 'shared/converteitions';
 import { IConfigAsyncThunk } from 'shared/models/errors';
 
-const getDialogById = createAsyncThunk<IChat, number, IConfigAsyncThunk>(
+const getDialogById = createAsyncThunk<IDialogChat, number, IConfigAsyncThunk>(
   'dialog/getById',
   (id, { rejectWithValue }) => {
-    return API<APIChat>({
+    return API<APIDialogChat>({
       url: `api/dialogs/${id}`,
       method: 'GET',
     })
@@ -18,6 +18,7 @@ const getDialogById = createAsyncThunk<IChat, number, IConfigAsyncThunk>(
           imgSubstitute: data.imgSubstitute,
           participants: userArrayConverting(data.participants),
           updatedAt: data.updatedAt,
+          createdAt: data.createdAt,
           isGroup: data.isGroup,
           fixedMessage: data.fixedMessage && messageConverting(data.fixedMessage),
           countNotReadMessages: data.countNotReadMessages,

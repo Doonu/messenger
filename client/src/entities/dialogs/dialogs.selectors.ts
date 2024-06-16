@@ -5,3 +5,4 @@ export const selectorLoading = (state: RootState) => state.dialogsSlice.isLoadin
 export const selectorPage = (state: RootState) => state.dialogsSlice.page;
 export const selectorHaseMore = (state: RootState) => state.dialogsSlice.isHaseMore;
 export const selectorError = (state: RootState) => state.dialogsSlice.isError;
+export const selectorSearch = (state: RootState) => state.dialogsSlice.search;

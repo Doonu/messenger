@@ -22,16 +22,16 @@ const Router = () => {
         <Routes>
           {isAuth
             ? privateRoutes.map((route) => (
-                <>
-                  <Route key={route.path} path={route.path} element={<route.component />} />
-                  {route.path && <Route key={route.path} path="/*" element={<Feed />} />}
-                </>
+                <React.Fragment key={route.path}>
+                  <Route path={route.path} element={<route.component />} />
+                  {route.path && <Route path="/*" element={<Feed />} />}
+                </React.Fragment>
               ))
             : publicRoutes.map((route) => (
-                <>
-                  <Route key={route.path} path={route.path} element={<route.component />} />
-                  {route.path && <Route key={route.path} path="/*" element={<Login />} />}
-                </>
+                <React.Fragment key={route.path}>
+                  <Route path={route.path} element={<route.component />} />
+                  {route.path && <Route path="/*" element={<Login />} />}
+                </React.Fragment>
               ))}
         </Routes>
       </Suspense>

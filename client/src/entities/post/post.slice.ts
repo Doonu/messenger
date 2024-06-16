@@ -79,7 +79,6 @@ export const postSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllPost.fulfilled, (state, { payload }) => {
       if (payload.length === 0) state.isHaseMore = false;
-
       if (payload.length !== 0) state.posts = [...state.posts, ...payload];
 
       state.isLoading = false;

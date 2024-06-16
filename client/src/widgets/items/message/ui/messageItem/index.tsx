@@ -1,4 +1,4 @@
-import React, { MouseEvent, FC, useState, RefObject } from 'react';
+import React, { MouseEvent, FC, useState, RefObject, useEffect } from 'react';
 import { SChoiceMessage, SContainer, SContent, SFutures, SInfo, SP } from './messageItem.styled';
 import { LuPencil } from 'react-icons/lu';
 import { PiShareFatLight } from 'react-icons/pi';
@@ -31,8 +31,11 @@ const MessageItem: FC<IMessage> = ({
   isRead,
   chatRef,
 }) => {
-  const { ref, entry } = useInView({
-    threshold: 0,
+  const params = useParams();
+  const idParam = params['id'];
+
+  const { ref, entry, inView } = useInView({
+    threshold: 1,
     initialInView: true,
     skip: isRead,
     root: chatRef.current,
@@ -42,35 +45,55 @@ const MessageItem: FC<IMessage> = ({
         !messageItem.readStatus &&
         idParam &&
         user.id !== messageItem.userId &&
-        entry?.intersectionRatio === 0
+        entry?.intersectionRatio === 1
       ) {
         readMessage({ messageId: messageItem.id, dialogId: +idParam, userId: user.id });
       }
     },
   });
 
-  const params = useParams();
-  const idParam = params['id'];
+  useEffect(() => {
+    if (!messageItem.readStatus && inView && idParam && entry?.intersectionRatio === 1) {
+      readMessage({ messageId: messageItem.id, dialogId: +idParam, userId: user.id });
+    }
+  }, [inView, entry?.intersectionRatio]);
 
   const [isShow, setIsShow] = useState(false);
   const isNotFirstElement = index !== 0;
   const isChoice = choiceMessages.includes(messageItem.id);
   const user = useAppSelector(selectorProfile);
 
+  const handlerOnMouseEnter = () => {
+    if (messageItem.status === 'main') setIsShow(true);
+  };
+
+  const handlerOnMouseLeave = () => {
+    if (messageItem.status === 'main') setIsShow(false);
+  };
+
+  const handlerClickMessage = () => {
+    if (messageItem.status === 'main') {
+      handlerChoice(messageItem.id);
+    }
+  };
+
   return (
     <>
       <SContainer
         $isFirstElement={isNotFirstElement}
+        $status={messageItem.status}
         $isChoice={isChoice}
-        onClick={() => handlerChoice(messageItem.id)}
-        onMouseEnter={() => setIsShow(true)}
-        onMouseLeave={() => setIsShow(false)}
+        onClick={handlerClickMessage}
+        onMouseEnter={handlerOnMouseEnter}
+        onMouseLeave={handlerOnMouseLeave}
         id={`${messageItem.id}`}
       >
         <SInfo>
           <SContent>
             {messageItem.content.map((content, i) => (
-              <SP key={messageItem.id + i}>{content}</SP>
+              <SP key={messageItem.id + i} $status={messageItem.status}>
+                {content}
+              </SP>
             ))}
           </SContent>
         </SInfo>

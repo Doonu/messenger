@@ -1,11 +1,10 @@
 import styled, { css } from 'styled-components';
-import { BlockContainer } from 'shared/styles/containers';
 
 interface ISContainer {
   $isWarning?: boolean;
 }
 
-export const SContainer = styled(BlockContainer)<ISContainer>`
+export const SContainer = styled.div<ISContainer>`
   padding: 0;
   max-width: 100%;
 

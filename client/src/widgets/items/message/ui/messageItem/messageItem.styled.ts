@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 interface ISFuture {
   $isFirstElement: boolean;
@@ -6,16 +6,18 @@ interface ISFuture {
 
 interface ISContainer extends ISFuture {
   $isChoice: boolean;
+  $status: 'main' | 'info';
 }
 
 export const SContainer = styled.div<ISContainer>`
   position: relative;
   z-index: ${({ $isChoice }) => ($isChoice ? 0 : 1)};
-  padding: ${({ $isFirstElement }) =>
-    $isFirstElement ? '5px 95px 5px 85px' : '30px 95px 5px 85px'};
+  padding: ${({ $isFirstElement, $status }) =>
+    $isFirstElement ? '5px 95px 5px 85px' : $status === 'info' ? '0px' : '30px 95px 5px 85px'};
   width: 100%;
   height: 150%;
   background: ${({ $isChoice, theme }) => $isChoice && theme.colors.secondaryText};
+  text-align: ${({ $status }) => $status === 'info' && 'center'};
 `;
 
 export const SChoiceMessage = styled.div<ISFuture>`
@@ -31,10 +33,16 @@ export const SContent = styled.div`
   gap: 4px;
 `;
 
-export const SP = styled.div`
+export const SP = styled.div<Pick<ISContainer, '$status'>>`
   word-wrap: break-word;
   color: ${({ theme }) => theme.colors.white};
   font-size: 16px;
+
+  ${({ $status }) =>
+    $status === 'info' &&
+    css`
+      color: ${({ theme }) => theme.colors.text};
+    `}
 `;
 
 export const SFutures = styled.div<ISFuture>`

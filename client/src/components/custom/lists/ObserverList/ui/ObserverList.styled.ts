@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 
-export const SList = styled.div`
+interface ISList {
+  $gap: number;
+}
+
+export const SList = styled.div<ISList>`
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: ${({ $gap }) => $gap && `${$gap}px`};
 `;
 
 export const ObserverBlock = styled.div``;

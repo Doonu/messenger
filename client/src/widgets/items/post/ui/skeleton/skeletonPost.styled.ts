@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 export const SContainerSkeleton = styled(SContainer)`
   padding: 15px;
+  border: 1px solid ${({ theme }) => theme.colors.secondaryText};
+  border-radius: 8px;
 `;
 
 export const STop = styled.div`

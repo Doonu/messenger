@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDialog } from 'shared/models/IDialog';
 import { getAllDialogs } from 'shared/api';
+import { IMessage } from '../../shared/models/IMessage';
 
 interface dialogsState {
   list: IDialog[];
@@ -8,6 +9,7 @@ interface dialogsState {
   isError: boolean;
   isHaseMore: boolean;
   isLoading: boolean;
+  search: string;
 }
 
 const initialState: dialogsState = {
@@ -16,6 +18,7 @@ const initialState: dialogsState = {
   page: 1,
   isHaseMore: true,
   isLoading: false,
+  search: '',
 };
 
 export const dialogsSlice = createSlice({
@@ -25,12 +28,32 @@ export const dialogsSlice = createSlice({
     addPage: (state) => {
       state.page += 1;
     },
+    setDialogs: (state, { payload }: PayloadAction<IDialog[]>) => {
+      state.list = payload;
+    },
+    setSearch: (state, { payload }: PayloadAction<string>) => {
+      state.search = payload;
+    },
+    addNewMessage: (state, { payload }: PayloadAction<IMessage | null>) => {
+      const findDialog = state.list.find((el) => el.id === payload?.dialogId);
+
+      if (findDialog && payload) {
+        findDialog.lastMessage = payload;
+        findDialog.countNotReadMessages += 1;
+        findDialog.readStatusLastMessage = false;
+        findDialog.updatedAt = payload.updatedAt;
+
+        state.list = [
+          ...state.list.sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt)),
+        ];
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getAllDialogs.fulfilled, (state, { payload }) => {
       if (payload.length === 0) state.isHaseMore = false;
-      if (payload.length !== 0 && state.page !== 1) state.list = [...state.list, ...payload];
-      if (state.page === 1) state.list = payload;
+      if (payload.length !== 0) state.list = [...state.list, ...payload];
+
       state.isLoading = false;
     });
     builder.addCase(getAllDialogs.pending, (state) => {
@@ -43,5 +66,5 @@ export const dialogsSlice = createSlice({
   },
 });
 
-export const { addPage } = dialogsSlice.actions;
+export const { addPage, setDialogs, setSearch, addNewMessage } = dialogsSlice.actions;
 export default dialogsSlice.reducer;
