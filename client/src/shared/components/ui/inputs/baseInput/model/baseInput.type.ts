@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 
 export type InputBorder = 'all' | 'right' | 'left' | 'none' | 'rightNone';
 
-export interface IInput extends InputProps {
+export interface BaseInputType extends InputProps {
   border?: InputBorder;
   height?: string;
   type?: string;

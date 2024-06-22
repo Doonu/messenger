@@ -3,17 +3,20 @@ import { Formik } from 'formik';
 import {
   SBaseButton,
   SFormContainer,
-  SInput,
   SInputForm,
   SLink,
   SLinkWrap,
   SSubTitle,
 } from './login.styled';
 import { SForm, SLogo, SLogoContainer, STitle } from './login.styled';
-import { ILogin } from '../model/ILogin';
+import { ILoginState } from '../model/login.type';
 import { useAppDispatch } from 'hooks/redux';
 import { postLogin, getProfile } from 'shared/api';
 import { ContainerAuth } from 'shared/styles/containers';
+import { addressRules, passwordRules } from '../lib/login.rules';
+import { initialValue } from '../lib/login.initialValue';
+import { auth } from 'shared/strings/auth';
+import Input from 'shared/components/ui/inputs/baseInput';
 
 //TODO: Сделать мобилку
 //TODO: Разбить на компоненты
@@ -21,12 +24,7 @@ import { ContainerAuth } from 'shared/styles/containers';
 const Login = () => {
   const dispatch = useAppDispatch();
 
-  const initialValue: ILogin = {
-    email: '',
-    password: '',
-  };
-
-  const formSubmit = (values: ILogin) => {
+  const formSubmit = (values: ILoginState) => {
     dispatch(postLogin(values))
       .unwrap()
       .then(() => {
@@ -47,63 +45,50 @@ const Login = () => {
         validateOnMount={false}
         onSubmit={formSubmit}
       >
-        {({ handleSubmit, setFieldValue, values, errors, handleBlur }) => (
+        {({ handleSubmit, setValues, values, errors, handleBlur }) => (
           <SForm layout="vertical" onFinish={handleSubmit}>
             <SFormContainer>
-              <STitle>С возвращением!</STitle>
-              <SSubTitle>Мы так рады видеть вас!</SSubTitle>
+              <STitle>{auth.welcomeBack}!</STitle>
+              <SSubTitle>{auth.weGladSeeYou}!</SSubTitle>
               <SInputForm
                 help={errors.email}
-                label="Адрес электронной почты"
-                name="Адрес электронной почты"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Пожалуйста введите адрес электронной почты',
-                    whitespace: true,
-                  },
-                  {
-                    type: 'email',
-                    message: 'Адрес электронной почты невалидный',
-                    whitespace: false,
-                  },
-                ]}
+                label={auth.email}
+                name={auth.email}
+                rules={addressRules}
               >
-                <SInput
-                  border="none"
-                  name="email"
-                  onChange={(e) => setFieldValue('email', e.target.value)}
+                <Input
+                  name={auth.email}
+                  onChange={(e) => setValues({ ...values, email: e.target.value })}
                   value={values.email}
+                  border="none"
+                  height="40px"
                 />
               </SInputForm>
               <SInputForm
                 help={errors.password}
-                label="Пароль"
-                name="Пароль"
-                rules={[
-                  { required: true, message: 'Пожалуйста введите пароль', whitespace: false },
-                  { min: 4, message: 'Минимальное кол-во символов: 4', whitespace: false },
-                  { max: 16, message: 'Максимальное кол-во символов: 16', whitespace: false },
-                ]}
+                label={auth.password}
+                name={auth.password}
+                rules={passwordRules}
               >
-                <SInput
+                <Input
                   border="none"
-                  name="password"
+                  name={auth.password}
                   type="password"
+                  height="40px"
                   onBlur={handleBlur}
-                  onChange={(e) => setFieldValue('password', e.target.value)}
+                  onChange={(e) => setValues({ ...values, password: e.target.value })}
                   value={values.password}
                 />
               </SInputForm>
-              <SLink to={'/'}>Забыли пароль?</SLink>
-              <SBaseButton htmlType="submit">Вход</SBaseButton>
+              <SLink to={'/'}>{auth.forgotYourPassword}?</SLink>
+              <SBaseButton htmlType="submit">{auth.entrance}</SBaseButton>
               <SLinkWrap>
-                Нужна учетная запись? <SLink to={'/registration'}>Зарегестрироваться</SLink>
+                {auth.needAnAccount}? <SLink to={'/registration'}>{auth.register}</SLink>
               </SLinkWrap>
             </SFormContainer>
             <SLogoContainer>
               <SLogo shadow />
-              <STitle>Discord - Messenger</STitle>
+              <STitle>{auth.name}</STitle>
             </SLogoContainer>
           </SForm>
         )}

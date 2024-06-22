@@ -113,6 +113,7 @@ const CommentItem: FC<ICommentItem> = ({
               $position={true}
               placeholder="Написать комментарий..."
               draggable="false"
+              bordered={false}
             />
             <SContainerButtons>
               <BaseButton onClick={handlerCansel} bgTransparent={true}>

@@ -26,6 +26,7 @@ export const SDialogList = styled.div`
 
 export const SBlockContainer = styled(BlockContainer)`
   padding: 0;
+  overflow: hidden;
 `;
 
 export const STags = styled.div`

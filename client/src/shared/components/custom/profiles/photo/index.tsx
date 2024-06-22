@@ -27,16 +27,16 @@ const PhotoProfile: FC<IPhotoProfile> = ({
   const isName = name && img[0] === '#' && name[0];
 
   if (img?.[0] !== '#') {
-    return <SImg size={size} src={img} isAbsolute={isAbsolute} top={top} left={left} />;
+    return <SImg $size={size} src={img} $isAbsolute={isAbsolute} $top={top} $left={left} />;
   }
   return (
     <SContainer
-      fontSize={fontSize}
-      size={size}
-      color={img}
-      isAbsolute={isAbsolute}
-      top={top}
-      left={left}
+      $fontSize={fontSize}
+      $size={size}
+      $color={img}
+      $isAbsolute={isAbsolute}
+      $top={top}
+      $left={left}
     >
       {isName && name[0]}
       {status && <Online />}

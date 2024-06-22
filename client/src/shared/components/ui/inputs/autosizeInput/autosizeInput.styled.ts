@@ -2,17 +2,21 @@ import styled, { css } from 'styled-components';
 import TextareaAutosize from 'react-textarea-autosize';
 import { IPositionProps } from './';
 
-export const SInput = styled(TextareaAutosize)<IPositionProps>`
+interface IInput extends Omit<IPositionProps, 'isDrag'> {
+  $isDrag?: boolean;
+}
+
+export const SInput = styled(TextareaAutosize)<IInput>`
   color: ${({ theme }) => theme.colors.active};
   font-size: 18px;
-  max-width: ${({ isMaxWidth }) => (isMaxWidth ? '720px' : 'none')};
+  max-width: ${({ $isMaxWidth }) => ($isMaxWidth ? '720px' : 'none')};
   min-height: ${({ minRows }) => (minRows === 1 ? '40px' : '60px')};
   padding-left: 10px;
   height: unset;
   display: inline;
 
-  ${({ isDrag }) =>
-    isDrag &&
+  ${({ $isDrag }) =>
+    $isDrag &&
     css`
       margin: -10px -20px -10px 0px;
     `}

@@ -68,7 +68,7 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
           isFetching={loading && page > 1}
           skeleton={() => <div>...Загрузка</div>}
           notFoundMessage={errorMessage}
-          gap={0}
+          gap={2}
           refContainer={refDialogs}
         />
       </SDialogList>

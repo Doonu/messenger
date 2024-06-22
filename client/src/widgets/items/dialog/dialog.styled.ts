@@ -13,9 +13,6 @@ export const SContainer = styled.div<ISContainer>`
   border-bottom: 1px solid ${({ theme }) => theme.colors.secondaryText};
   cursor: pointer;
   background: ${({ $isRead, theme }) => !$isRead && theme.colors.secondaryText};
-  &:last-child {
-    border-radius: 0 0 8px 8px;
-  }
 
   &:hover {
     background: ${({ theme }) => theme.colors.secondaryText};
