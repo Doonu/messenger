@@ -49,6 +49,8 @@ const CreateGroup: FC<ICreateGroup> = ({ changeStage }) => {
     dispatch(getFriends({ id: user.id, page: 1, search: search }));
   };
 
+  const searchFriends = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
+
   const handlerNextPage = async () => {
     dispatch(getFriends({ id: user.id, page: page + 1, search }))
       .unwrap()
@@ -56,8 +58,6 @@ const CreateGroup: FC<ICreateGroup> = ({ changeStage }) => {
         dispatch(addPage());
       });
   };
-
-  const searchFriends = (e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value);
 
   const pickUser = (user: IUser) => {
     const findUserInUsersPick = usersPick.find((el) => el.id === user.id);

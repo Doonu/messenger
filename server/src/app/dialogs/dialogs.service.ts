@@ -61,7 +61,9 @@ export class DialogsService {
 
         const filteredNameParticipants = resultDialogs.filter(el => {
             const searchUser = el.participants.find(user => user.id !== userId);
-            return searchUser.name.includes(search);
+            if(el.dialogName) return el.dialogName.toLowerCase().includes(search.toLowerCase())
+
+            return searchUser.name.toLowerCase().includes(search.toLowerCase());
         }).splice(currentPage * limit, (currentPage + 1) * limit)
 
         return Promise.all(filteredNameParticipants.map(async dialog => {
