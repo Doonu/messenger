@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AllContainer from 'components/layouts/all';
+import AllContainer from 'shared/components/layouts/all';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import {
   selectorEditedPost,
@@ -15,9 +15,9 @@ import { getAllPost } from 'shared/api';
 import { addPage, setAllPosts } from 'entities/post/post.slice';
 import AddPost from 'widgets/forms/addPost';
 import SkeletonPost from 'widgets/items/post/ui/skeleton';
-import ObserverList from 'components/custom/lists/ObserverList/ui';
+import ObserverList from 'shared/components/custom/lists/ObserverList/ui';
 import { DraggableContainer, SContainerList } from './Feed.styled';
-import CollapsePost from '../../../../components/custom/collapseAllPost';
+import CollapsePost from 'shared/components/custom/collapseAllPost';
 
 const Feed = () => {
   const dispatch = useAppDispatch();

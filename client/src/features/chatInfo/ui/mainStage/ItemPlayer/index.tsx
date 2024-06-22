@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import PhotoProfile from 'components/custom/profiles/photo';
+import PhotoProfile from 'shared/components/custom/profiles/photo';
 import { IUser } from 'shared/models/IUser';
 import { SContainer, SInfoConnected, SName, SProfileInfo } from './ItemPlayer.styled';
 import { convertName } from 'shared/util/user';

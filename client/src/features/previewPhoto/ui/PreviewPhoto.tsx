@@ -13,12 +13,12 @@ import {
 } from './previewPhoto.styled';
 import getProfile from 'shared/api/http/user/getProfile';
 import { useAppDispatch } from 'hooks/redux';
-import MainPostProfile from 'components/custom/profiles/mainPost';
-import { Like } from 'components/ui/buttons/likesButton/like';
-import { Slice } from 'components/custom/slice';
+import MainPostProfile from 'shared/components/custom/profiles/mainPost';
+import { Like } from 'shared/components/ui/buttons/likesButton/like';
+import { Slice } from 'shared/components/custom/slice';
 import { IAllFiles, IFilesPost } from 'shared/models/IPost';
 import PhotoEditor from 'features/photoEditor';
-import Carousel from 'components/ui/carousel/ui';
+import Carousel from 'shared/components/ui/carousel/ui';
 import { IUser } from 'shared/models/IUser';
 import replace from 'shared/api/http/files/replace';
 

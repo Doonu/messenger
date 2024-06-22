@@ -4,7 +4,7 @@ import { ThemeProvider } from 'styled-components';
 import { darkTheme } from 'shared/styles/theme/theme';
 import { GlobalStyles } from 'shared/styles/global';
 import { Provider } from 'react-redux';
-import Notification from 'components/ui/notification/Notification';
+import Notification from 'shared/components/ui/notification/Notification';
 import Router from 'app/router';
 import AntdConfigProvider from './AntdConfigProvider';
 import AuthProvider from './AuthProvider';

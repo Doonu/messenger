@@ -2,15 +2,15 @@ import React, { Dispatch, FC, SetStateAction, useMemo } from 'react';
 
 import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import { useNavigate, useParams } from 'react-router-dom';
-import PhotoProfile from 'components/custom/profiles/photo';
+import { useParams } from 'react-router-dom';
+import PhotoProfile from 'shared/components/custom/profiles/photo';
 import { generateChatInfo } from 'shared/util/generateChat';
 import { postTime } from 'shared/util/time';
 import { IoClose } from 'react-icons/io5';
 import { BsPinAngleFill } from 'react-icons/bs';
 import { FaRegStar } from 'react-icons/fa';
 import { AiOutlineDelete } from 'react-icons/ai';
-import BaseButton from 'components/ui/buttons/baseButton';
+import BaseButton from 'shared/components/ui/buttons/baseButton';
 import { IChat } from '../../model/IChat';
 import { compositionRevert } from '../../lib/compositMessages';
 import { deleteMessage } from 'shared/api/socket/dialog';
@@ -26,7 +26,7 @@ import {
   SCenter,
   SCansel,
 } from './navigate.styled';
-import Back from 'components/custom/back';
+import Back from 'shared/components/custom/back';
 
 interface INavigate {
   choiceMessages: number[];
@@ -45,8 +45,6 @@ const Navigate: FC<INavigate> = ({
   setInfoPlayers,
   newMessages,
 }) => {
-  const navigate = useNavigate();
-
   const params = useParams();
   const idParam = params['id'];
 

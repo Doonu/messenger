@@ -1,8 +1,8 @@
 import React, { ChangeEvent, FC, useState } from 'react';
-import BaseButton from 'components/ui/buttons/baseButton';
+import BaseButton from 'shared/components/ui/buttons/baseButton';
 import { useAppDispatch } from 'hooks/redux';
 import { removeEditPost } from 'entities/post/post.slice';
-import MainPostProfile from 'components/custom/profiles/mainPost';
+import MainPostProfile from 'shared/components/custom/profiles/mainPost';
 import { postTime } from 'shared/util/time';
 import {
   DragInput,
@@ -15,8 +15,8 @@ import {
 } from './modification.styled';
 import { IAllFiles } from 'shared/models/IPost';
 import { updatePost, addPendingList, clearTrash } from 'shared/api';
-import Index from 'components/navigation/modal/ui';
-import { WarningCountPhotos } from 'components/custom/warningCountPhotos';
+import Index from 'shared/components/navigation/modal/ui';
+import { WarningCountPhotos } from 'shared/components/custom/warningCountPhotos';
 import { PreviewPhoto } from 'features/previewPhoto';
 import ActionIcons from 'features/actionIcons';
 import { extensionPhotoList, photosFilter } from 'shared/util/filter';

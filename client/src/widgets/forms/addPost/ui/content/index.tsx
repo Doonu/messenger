@@ -4,8 +4,8 @@ import { useFormikContext } from 'formik';
 import { IPost } from '../../model/IPost';
 import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import PhotoProfile from 'components/custom/profiles/photo';
-import AutosizeInput from 'components/ui/inputs/autosizeInput';
+import PhotoProfile from 'shared/components/custom/profiles/photo';
+import AutosizeInput from 'shared/components/ui/inputs/autosizeInput';
 
 const Content = () => {
   const { values, setFieldValue } = useFormikContext<IPost>();

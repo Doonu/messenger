@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import BaseButton from 'components/ui/buttons/baseButton';
+import BaseButton from 'shared/components/ui/buttons/baseButton';
 import { SContainer, SText } from './addFriend.styled';
 import { IAddFriend } from './model/IAddFriend';
 

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import AutosizeInput from 'components/ui/inputs/autosizeInput';
+import AutosizeInput from 'shared/components/ui/inputs/autosizeInput';
 import { IoSend } from 'react-icons/io5';
 
 export const SContainer = styled.div`

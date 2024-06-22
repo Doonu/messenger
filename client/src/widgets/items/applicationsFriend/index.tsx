@@ -1,9 +1,9 @@
 import React from 'react';
 import { FC } from 'react';
 import { cancellationAddFriendWS, friendAcceptWS } from 'shared/api';
-import PhotoProfile from 'components/custom/profiles/photo';
+import PhotoProfile from 'shared/components/custom/profiles/photo';
 import { SButtons } from '../post/ui/modification/modification.styled';
-import BaseButton from 'components/ui/buttons/baseButton';
+import BaseButton from 'shared/components/ui/buttons/baseButton';
 import { SContainer, SContent, SName } from './applicationFriend.styled';
 import { useNavigate } from 'react-router-dom';
 import { addFriend } from 'entities/friends/friends.slice';

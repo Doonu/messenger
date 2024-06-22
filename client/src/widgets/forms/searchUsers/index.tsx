@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Magnifier } from 'shared/assets/icons';
 import { SBaseButton, SContainer } from './searchUsers.styled';
-import BaseInput from 'components/ui/inputs/baseInput';
+import BaseInput from 'shared/components/ui/inputs/baseInput';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { selectorSearch } from 'entities/friends/friends.selectors';
 import { setSearch } from 'entities/friends/friends.slice';

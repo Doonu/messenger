@@ -1,10 +1,10 @@
 import React, { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
-import Segmented from 'components/ui/segment';
+import Segmented from 'shared/components/ui/segment';
 import { generateOptions } from '../../../lib/options';
 import { IUser } from 'shared/models/IUser';
 import { Close, Magnifier } from 'shared/assets/icons';
 import { SContainer } from './navigate.styled';
-import BaseInput from 'components/ui/inputs/baseInput';
+import BaseInput from 'shared/components/ui/inputs/baseInput';
 
 interface INavigate {
   setUsers: Dispatch<SetStateAction<IUser[]>>;

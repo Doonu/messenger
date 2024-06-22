@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import AutosizeInput from 'components/ui/inputs/autosizeInput';
+import AutosizeInput from 'shared/components/ui/inputs/autosizeInput';
 
 export const SContainer = styled.div`
   padding: 15px;

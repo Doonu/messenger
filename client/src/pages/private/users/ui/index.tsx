@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AllContainer from 'components/layouts/all';
+import AllContainer from 'shared/components/layouts/all';
 import ApplicationsFriends from './applicationsFriends';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import getFriends from 'shared/api/http/user/getFriends';

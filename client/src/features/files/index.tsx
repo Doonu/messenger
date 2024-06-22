@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
-import HorizontalList from 'components/custom/lists/HorizontalList';
+import HorizontalList from 'shared/components/custom/lists/HorizontalList';
 import { IFilesPost } from 'shared/models/IPost';
-import { File } from 'components/custom/file';
+import { File } from 'shared/components/custom/file';
 import { IFilesProps } from './model/IFiles';
 
 const Files: FC<IFilesProps> = ({ data, setData, loader = false, isModify = true }) => {

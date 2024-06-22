@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { SBaseButton, SContainer, SFormCreate, SFriends, SHeader } from './createGroup.styled';
-import Input from 'components/ui/inputs/baseInput';
+import Input from 'shared/components/ui/inputs/baseInput';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import {
   selectorErrorFriends,
@@ -11,7 +11,7 @@ import {
 } from 'entities/friends/friends.selectors';
 import getFriends from 'shared/api/http/user/getFriends';
 import { selectorProfile } from 'entities/profile/profile.selectors';
-import { ObserverList } from 'components/custom/lists/ObserverList';
+import { ObserverList } from 'shared/components/custom/lists/ObserverList';
 import { addPage } from 'entities/friends/friends.slice';
 import PickFriend from 'widgets/items/pickFriend';
 import { IUser } from 'shared/models/IUser';
