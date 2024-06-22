@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import SearchAndFilterTags from 'widgets/forms/searchAndFilterTags';
 import { IUser } from 'shared/models/IUser';
-import { ObserverList } from 'components/custom/lists/ObserverList';
+import { ObserverList } from 'shared/components/custom/lists/ObserverList';
 import PickFriend from 'widgets/items/pickFriend';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import getUsersExceptInChat from 'shared/api/http/user/getUsersExceptInChat';

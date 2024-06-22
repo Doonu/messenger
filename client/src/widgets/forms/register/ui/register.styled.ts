@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { Form } from 'antd';
 import { Link } from 'react-router-dom';
-import Input from 'components/ui/inputs/baseInput';
-import BaseButton from 'components/ui/buttons/baseButton';
+import Input from 'shared/components/ui/inputs/baseInput';
+import BaseButton from 'shared/components/ui/buttons/baseButton';
 import { ContainerAuth } from 'shared/styles/containers';
 
 export const SContainerAuth = styled(ContainerAuth)`

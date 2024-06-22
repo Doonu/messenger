@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import AllContainer from 'components/layouts/all';
+import AllContainer from 'shared/components/layouts/all';
 import { IStage } from '../model/IStage';
 import AllDialogs from './allDialogs';
 import CreateGroup from './createGroup';

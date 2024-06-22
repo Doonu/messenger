@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Back from 'components/custom/back';
+import Back from 'shared/components/custom/back';
 import { stageChatInfo } from '../../../model/IChatInfo';
 import { SContainer, STitle } from './navigate.styles';
 

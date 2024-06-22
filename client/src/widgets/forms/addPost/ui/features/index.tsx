@@ -3,7 +3,7 @@ import { SContainer } from './features.styled';
 import { displayOptions } from '../../lib/displayOptions';
 import { useFormikContext } from 'formik';
 import { IPost } from '../../model/IPost';
-import { BaseSelect } from 'components/ui/select';
+import { BaseSelect } from 'shared/components/ui/select';
 
 const Features = () => {
   const { values, setFieldValue } = useFormikContext<IPost>();

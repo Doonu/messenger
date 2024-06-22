@@ -4,7 +4,7 @@ import { privateRoutes, publicRoutes } from 'app/routes';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { checkAuth } from 'entities/auth/auth.slice';
 import { isAuthSelector } from 'entities/auth/auth.selectors';
-import { LoaderPage } from 'components/ui/loaders';
+import { LoaderPage } from 'shared/components/ui/loaders';
 import Login from 'pages/public/login';
 import { Feed } from 'pages/private/feed';
 

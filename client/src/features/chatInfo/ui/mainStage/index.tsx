@@ -10,7 +10,7 @@ import {
   SText,
   STitle,
 } from './mainStage.styled';
-import PhotoProfile from 'components/custom/profiles/photo';
+import PhotoProfile from 'shared/components/custom/profiles/photo';
 import Navigate from './navigate';
 import { GoPlusCircle } from 'react-icons/go';
 import ItemPlayer from './ItemPlayer';
@@ -20,7 +20,7 @@ import { IUser } from 'shared/models/IUser';
 import { updateNameChat, userOutOfChat } from 'shared/api/socket/dialog';
 import { IChatInfo, stageChatInfo } from '../../model/IChatInfo';
 import { showMessage } from 'entities/notification/notification.slice';
-import Editable from '../../../../components/custom/editable';
+import Editable from 'shared/components/custom/editable';
 
 interface IMainStage extends IChatInfo {
   switchStage: (stage: stageChatInfo) => void;

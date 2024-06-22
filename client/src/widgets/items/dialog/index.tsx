@@ -1,6 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import { IDialog } from 'shared/models/IDialog';
-import PhotoProfile from 'components/custom/profiles/photo';
+import PhotoProfile from 'shared/components/custom/profiles/photo';
 import { useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import {

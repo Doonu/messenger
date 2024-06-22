@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef } from 'react';
 import { SDialogList } from '../dialogs.styled';
 import Dialog from 'widgets/items/dialog';
 import SearchDialogs from 'widgets/forms/searchDialogs';
-import { ObserverList } from 'components/custom/lists/ObserverList';
+import { ObserverList } from 'shared/components/custom/lists/ObserverList';
 import getAllDialogs from 'shared/api/http/dialogs/getAllDialogs';
 import { addNewMessage, addPage } from 'entities/dialogs/dialogs.slice';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';

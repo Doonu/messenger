@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { IUser, IUserExcept } from 'shared/models/IUser';
 import { SContainer, SName } from './pickFriend.styled';
-import PhotoProfile from 'components/custom/profiles/photo';
-import CheckBox from 'components/ui/checkbox/ui/CheckBox';
+import PhotoProfile from 'shared/components/custom/profiles/photo';
+import CheckBox from 'shared/components/ui/checkbox/ui/CheckBox';
 
 interface IPickFriend {
   user: IUserExcept;

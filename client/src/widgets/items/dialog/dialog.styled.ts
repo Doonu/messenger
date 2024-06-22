@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Typography } from 'antd';
-import Badge from 'components/custom/signals/badge';
+import Badge from 'shared/components/custom/signals/badge';
 
 interface ISContainer {
   $isRead: boolean;

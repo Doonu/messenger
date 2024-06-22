@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseButton from 'components/ui/buttons/baseButton';
+import BaseButton from 'shared/components/ui/buttons/baseButton';
 import { SService } from './writeMessage.styled';
 
 const WriteMessage = () => {

@@ -10,7 +10,7 @@ import {
 import { IChat } from 'pages/private/chat/model/IChat';
 import { getTime } from 'shared/util/time';
 import MessageItem from './messageItem';
-import PhotoProfile from 'components/custom/profiles/photo';
+import PhotoProfile from 'shared/components/custom/profiles/photo';
 
 interface IMessage extends IChat {
   handlerChoice: (id: number) => void;

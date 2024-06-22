@@ -2,7 +2,7 @@ import { MenuProps } from 'antd';
 import React from 'react';
 import { useFormikContext } from 'formik';
 import { IPost } from '../model/IPost';
-import { CheckBox } from 'components/ui/checkbox';
+import { CheckBox } from 'shared/components/ui/checkbox';
 
 const SwitchComments = () => {
   const { values, setFieldValue } = useFormikContext<IPost>();

@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { SHead, SP } from './content.styled';
-import MainPostProfile from 'components/custom/profiles/mainPost';
+import MainPostProfile from 'shared/components/custom/profiles/mainPost';
 import { postTime } from 'shared/util/time';
 import More from '../more';
 import { useAppSelector } from 'hooks/redux';
 import { selectorEditedPost } from 'entities/post/post.selectors';
 import Grid from './ui/grid';
-import { Carousel } from 'components/ui/carousel';
+import { Carousel } from 'shared/components/ui/carousel';
 import Files from 'features/files';
 import { IContent } from './model/IPhoto';
 

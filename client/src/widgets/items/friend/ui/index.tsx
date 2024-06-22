@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { SContainer, SInfo, SName, SServices } from './friend.styled';
-import PhotoProfile from 'components/custom/profiles/photo';
+import PhotoProfile from 'shared/components/custom/profiles/photo';
 import { useNavigate } from 'react-router-dom';
 import { IFriend } from '../model/IFriend';
 import WriteMessage from './writeMessage';

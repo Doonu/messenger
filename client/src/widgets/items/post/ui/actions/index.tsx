@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { SComment, SInfo, SShared } from './acions.styled';
-import LikeButton from 'components/ui/buttons/likesButton/likeButton';
+import LikeButton from 'shared/components/ui/buttons/likesButton/likeButton';
 import { likePost } from 'shared/api';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';

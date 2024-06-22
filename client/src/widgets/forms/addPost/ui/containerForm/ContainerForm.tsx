@@ -17,7 +17,7 @@ import { selectorEditedPost, selectorPost } from 'entities/post/post.selectors';
 import { selectorProfileLoader } from 'entities/profile/profile.selectors';
 import { useOutsideClick } from 'hooks/outside';
 import ActionIcons from 'features/actionIcons';
-import BaseButton from 'components/ui/buttons/baseButton';
+import BaseButton from 'shared/components/ui/buttons/baseButton';
 import addPendingList from 'shared/api/http/files/addPendingList';
 import { extensionPhotoList } from 'shared/util/filter';
 import SkeletonAddPost from '../skeleton';

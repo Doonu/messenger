@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 import { SContainerUsers } from '../user.styled';
-import Segmented from 'components/ui/segment';
+import Segmented from 'shared/components/ui/segment';
 import SearchUsers from 'widgets/forms/searchUsers';
-import { ObserverList } from 'components/custom/lists/ObserverList';
+import { ObserverList } from 'shared/components/custom/lists/ObserverList';
 import { Friend } from 'widgets/items/friend';
 import { generateOptions } from '../../lib/options';
 import getFriends from 'shared/api/http/user/getFriends';

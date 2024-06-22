@@ -1,8 +1,8 @@
-import React, { ChangeEvent, Dispatch, FC, SetStateAction, useCallback, useMemo } from 'react';
+import React, { ChangeEvent, Dispatch, SetStateAction, useMemo } from 'react';
 import { SFormSearch } from 'pages/private/dialogs/ui/createGroup/createGroup.styled';
-import Input from 'components/ui/inputs/baseInput';
+import Input from 'shared/components/ui/inputs/baseInput';
 import { SClose, STag, STags } from 'pages/private/dialogs/ui/dialogs.styled';
-import HorizontalList from 'components/custom/lists/HorizontalList';
+import HorizontalList from 'shared/components/custom/lists/HorizontalList';
 import { ContainerByIcon } from 'shared/styles/containers';
 import debounce from 'lodash.debounce';
 import { IUser } from 'shared/models/IUser';

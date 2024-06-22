@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/redux';
 import { IUser } from 'shared/models/IUser';
-import AllContainer from 'components/layouts/all';
+import AllContainer from 'shared/components/layouts/all';
 import { getAllPost, getUser } from 'shared/api';
 import getAllFriends from 'shared/api/http/user/getAllFriends';
 import ActionsProfile from './actionsProfile';
-import ObserverList from 'components/custom/lists/ObserverList/ui';
+import ObserverList from 'shared/components/custom/lists/ObserverList/ui';
 import { DraggableContainer, SContent, SSidebars, ViewContainer } from './Profile.styled';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import {
@@ -23,7 +23,7 @@ import { addPage, setAllPosts } from 'entities/post/post.slice';
 import AddPost from 'widgets/forms/addPost';
 import Friends from 'features/friends';
 import SkeletonPost from 'widgets/items/post/ui/skeleton';
-import CollapsePost from 'components/custom/collapseAllPost';
+import CollapsePost from 'shared/components/custom/collapseAllPost';
 
 const Profile = () => {
   const dispatch = useAppDispatch();

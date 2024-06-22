@@ -7,7 +7,7 @@ import { APIMessage, IMessage } from 'shared/models/IMessage';
 import { getOldMessagesByDialogId } from 'shared/api';
 import Navigate from './navigate';
 import { SChat, SContainer, SContent, SLine, SNewMessage } from './chat.styled';
-import AllContainer from 'components/layouts/all';
+import AllContainer from 'shared/components/layouts/all';
 import { Message } from 'widgets/items/message';
 import CreateMessage from 'widgets/forms/createMessage';
 import { compositionMessages, compositionRevert } from '../lib/compositMessages';
@@ -24,8 +24,8 @@ import {
 import FixedMessage from './fixedMessage';
 import { scrollToById } from 'shared/util/scrollTo';
 import ChatInfo from 'features/chatInfo';
-import { ObserverList } from 'components/custom/lists/ObserverList';
-import Modal from 'components/navigation/modal/ui';
+import { ObserverList } from 'shared/components/custom/lists/ObserverList';
+import Modal from 'shared/components/navigation/modal/ui';
 import { getNewMessagesByDialog } from 'shared/api';
 import {
   createFixedMessageCallback,

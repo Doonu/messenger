@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useMemo, useState } from 'react';
-import BaseInput from 'components/ui/inputs/baseInput';
+import BaseInput from 'shared/components/ui/inputs/baseInput';
 import { IoCreateOutline } from 'react-icons/io5';
 import { MdAddCall } from 'react-icons/md';
 import { IoIosMore } from 'react-icons/io';

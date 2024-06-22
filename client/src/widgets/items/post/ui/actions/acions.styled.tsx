@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import BaseButton from 'components/ui/buttons/baseButton';
+import BaseButton from 'shared/components/ui/buttons/baseButton';
 import { Comment, Shared } from 'shared/assets/icons';
 import React from 'react';
 

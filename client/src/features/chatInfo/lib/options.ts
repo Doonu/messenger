@@ -1,4 +1,4 @@
-import { ISegmented } from 'components/ui/segment';
+import { ISegmented } from 'shared/components/ui/segment';
 
 interface IOptions {
   counts?: number[];

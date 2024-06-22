@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 import { SContainerUsers, SText, STitle } from '../user.styled';
-import BaseButton from 'components/ui/buttons/baseButton';
+import BaseButton from 'shared/components/ui/buttons/baseButton';
 import { TbListSearch } from 'react-icons/tb';
 import { Friend } from 'widgets/items/friend';
 import { IUserExcept } from 'shared/models/IUser';
-import { ObserverList } from 'components/custom/lists/ObserverList';
+import { ObserverList } from 'shared/components/custom/lists/ObserverList';
 
 interface IAllUsers {
   users: IUserExcept[];

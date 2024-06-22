@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import { MainPageProfile } from 'components/custom/profiles/mainPageProfile';
+import { MainPageProfile } from 'shared/components/custom/profiles/mainPageProfile';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import { IActionsProfile } from './model/IActionsProfile';
@@ -14,7 +14,7 @@ import {
   getFriendRequest,
   canselFriendReqWS,
 } from 'shared/api';
-import createDialog from '../../../../../shared/api/http/dialogs/createDialog';
+import createDialog from 'shared/api/http/dialogs/createDialog';
 
 const ActionsProfile: FC<IActionsProfile> = ({
   profilePage,
