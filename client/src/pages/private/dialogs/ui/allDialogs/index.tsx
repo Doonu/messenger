@@ -15,7 +15,7 @@ import {
   selectorSearch,
 } from 'entities/dialogs/dialogs.selectors';
 import { dialogHook } from 'shared/api';
-import { messageConverting } from 'shared/converteitions';
+import { messageConverting } from 'shared/api/converteitions';
 
 interface IAllDialogs {
   changeStage: () => void;

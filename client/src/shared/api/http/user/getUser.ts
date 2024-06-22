@@ -4,7 +4,7 @@ import { IConfigAsyncThunk, IError } from 'shared/models/errors';
 import API from 'shared/api/interceptors';
 import { AxiosError } from 'axios';
 import { showMessage } from 'entities/notification/notification.slice';
-import { userConverting } from 'shared/converteitions';
+import { userConverting } from 'shared/api/converteitions';
 
 const getUser = createAsyncThunk<IUser, number, IConfigAsyncThunk>(
   'auth/getUser',

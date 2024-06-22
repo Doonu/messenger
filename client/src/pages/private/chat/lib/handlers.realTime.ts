@@ -9,7 +9,7 @@ import {
   IUpdateNameChatCallback,
   IUpdateUsersInChatCallback,
 } from '../model/IMessageCallback';
-import { messageConverting, userArrayConverting } from 'shared/converteitions';
+import { messageConverting, userArrayConverting } from 'shared/api/converteitions';
 import {
   addInCompositionMessages,
   deleteInCompositionMessages,

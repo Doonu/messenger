@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIMessage, IMessage } from '../../../models/IMessage';
 import { IConfigAsyncThunk } from '../../../models/errors';
 import API from '../../interceptors';
-import { messageConverting } from '../../../converteitions';
+import { messageConverting } from '../../converteitions';
 
 const getNewMessagesByDialog = createAsyncThunk<IMessage[], number, IConfigAsyncThunk>(
   'message/getById',

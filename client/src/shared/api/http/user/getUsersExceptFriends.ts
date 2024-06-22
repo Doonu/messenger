@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiGetUsersExceptFriends, IUserExcept } from 'shared/models/IUser';
 import { IConfigAsyncThunk, IError } from 'shared/models/errors';
 import API from 'shared/api/interceptors';
-import { userConverting } from 'shared/converteitions';
+import { userConverting } from 'shared/api/converteitions';
 import { AxiosError } from 'axios';
 
 interface IGetUsersExceptFriends {

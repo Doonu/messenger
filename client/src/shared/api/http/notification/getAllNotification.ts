@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import API from 'shared/api/interceptors';
 import { APINotifyItem, INotifyItem } from 'shared/models/INotification';
 import { IConfigAsyncThunk } from 'shared/models/errors';
-import { userConverting } from 'shared/converteitions';
+import { userConverting } from 'shared/api/converteitions';
 
 interface IGetAllNotification {
   page: number;

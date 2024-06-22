@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIDialogChat, IDialogChat } from 'shared/models/IDialog';
 import API from '../../interceptors';
-import { messageConverting, userArrayConverting } from 'shared/converteitions';
+import { messageConverting, userArrayConverting } from 'shared/api/converteitions';
 import { IConfigAsyncThunk } from 'shared/models/errors';
 
 const getDialogById = createAsyncThunk<IDialogChat, number, IConfigAsyncThunk>(

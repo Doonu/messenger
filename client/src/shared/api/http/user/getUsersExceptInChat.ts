@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ApiProfile, IUser } from 'shared/models/IUser';
 import { IConfigAsyncThunk, IError } from '../../../models/errors';
 import API from '../../interceptors';
-import { userArrayConverting } from '../../../converteitions';
+import { userArrayConverting } from '../../converteitions';
 import { AxiosError } from 'axios';
 
 interface IGetUsersExceptInChat {

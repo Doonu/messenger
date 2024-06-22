@@ -6,7 +6,7 @@ import { AxiosError } from 'axios';
 import { showMessage } from 'entities/notification/notification.slice';
 import { logout } from 'entities/auth/auth.slice';
 import { ApiProfile, IUser } from 'shared/models/IUser';
-import { userConverting } from 'shared/converteitions';
+import { userConverting } from 'shared/api/converteitions';
 
 const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
   'auth/getProfile',

@@ -4,7 +4,7 @@ import { ApiProfile, IUser } from 'shared/models/IUser';
 import API from 'shared/api/interceptors';
 import { AxiosError } from 'axios';
 import { showMessage } from 'entities/notification/notification.slice';
-import { userArrayConverting } from 'shared/converteitions';
+import { userArrayConverting } from 'shared/api/converteitions';
 
 interface IGetFriends {
   id: number;

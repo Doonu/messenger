@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { APIDialog, IDialog } from 'shared/models/IDialog';
 import { IConfigAsyncThunk } from 'shared/models/errors';
 import API from '../../interceptors';
-import { messageConverting, userArrayConverting } from 'shared/converteitions';
+import { messageConverting, userArrayConverting } from 'shared/api/converteitions';
 
 interface IGetAllDialogs {
   page: number;

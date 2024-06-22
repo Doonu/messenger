@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import API from 'shared/api/interceptors';
 import { IConfigAsyncThunk } from 'shared/models/errors';
-import { userConverting } from 'shared/converteitions';
+import { userConverting } from 'shared/api/converteitions';
 import { APIAllFriendRequests, IAllFriendRequests } from 'shared/models/IFriendRequest';
 
 const getAllFriendRequests = createAsyncThunk<IAllFriendRequests[], undefined, IConfigAsyncThunk>(
