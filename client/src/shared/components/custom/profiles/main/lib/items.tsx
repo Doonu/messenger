@@ -3,10 +3,14 @@ import { Link } from 'react-router-dom';
 import React, { FC } from 'react';
 import { logout } from 'entities/auth/auth.slice';
 import { useAppDispatch } from 'hooks/redux';
+import { SocketApi } from 'shared/api';
 
 const Exit: FC = () => {
   const dispatch = useAppDispatch();
-  const handlerLogout = () => dispatch(logout());
+  const handlerLogout = () => {
+    SocketApi.socket?.disconnect();
+    dispatch(logout());
+  };
 
   return <div onClick={handlerLogout}>Выйти</div>;
 };
