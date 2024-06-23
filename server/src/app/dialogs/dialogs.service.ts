@@ -7,7 +7,6 @@ import {UserDialog} from "./user-dialogs.model";
 import {Message} from "../messages/models/messages.model";
 import {Role} from "../roles/roles.model";
 import {MessageReadStatus} from "../messages/models/messagesReadStatus.model";
-import {MessagesService} from "../messages/messages.service";
 import {IGetAll} from "./models/IGetAll";
 
 @Injectable()
@@ -49,7 +48,7 @@ export class DialogsService {
             where: whereDialogs,
             include: [
                 {
-                    association: 'participants',z
+                    association: 'participants',
                 },
                 {
                     association: 'lastMessage',
