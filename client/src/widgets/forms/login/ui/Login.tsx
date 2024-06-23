@@ -11,7 +11,7 @@ import {
 import { SForm, SLogo, SLogoContainer, STitle } from './login.styled';
 import { ILoginState } from '../model/login.type';
 import { useAppDispatch } from 'hooks/redux';
-import { postLogin, getProfile } from 'shared/api';
+import { postLogin, getProfile, SocketApi } from 'shared/api';
 import { ContainerAuth } from 'shared/styles/containers';
 import { addressRules, passwordRules } from '../lib/login.rules';
 import { initialValue } from '../lib/login.initialValue';
@@ -30,6 +30,9 @@ const Login = () => {
       .then(() => {
         dispatch(getProfile())
           .unwrap()
+          .then(() => {
+            SocketApi.socket?.connect();
+          })
           .catch(() => {});
       })
       .catch(() => {});
