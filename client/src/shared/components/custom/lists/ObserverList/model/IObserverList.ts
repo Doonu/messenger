@@ -5,7 +5,7 @@ export interface IObserverList<T, K> {
   itemContent: (element: T, index?: number) => React.ReactNode;
   fetchNextPage: () => Promise<void>;
   hasMore: boolean;
-  skeleton: () => React.ReactNode;
+  skeleton: (element: number) => React.ReactNode;
   notFoundMessage: string;
   refContainer?: RefObject<HTMLDivElement>;
   isPending?: boolean;

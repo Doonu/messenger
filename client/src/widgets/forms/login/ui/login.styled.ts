@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Form } from 'antd';
 import { Link } from 'react-router-dom';
-import Input from 'shared/components/ui/inputs/baseInput';
 import Logo from 'shared/components/custom/logo';
 import BaseButton from 'shared/components/ui/buttons/baseButton';
 
@@ -37,10 +36,6 @@ export const SInputForm = styled(Form.Item).attrs({
 export const SLink = styled(Link)`
   color: ${({ theme }) => theme.colors.link};
 `;
-
-export const SInput = styled(Input).attrs({
-  height: '40px',
-})``;
 
 export const SLogo = styled(Logo).attrs({
   size: 60,

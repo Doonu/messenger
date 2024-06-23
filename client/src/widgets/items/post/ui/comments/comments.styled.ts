@@ -11,7 +11,7 @@ export const SContainer = styled.div`
 
 export const SForm = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 15px;
   padding: 15px;
 `;

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { moreItemsDropdown } from '../../lib/moreOptions';
-import { SMore } from './more.styled';
+import { SLink, SMore } from './more.styled';
 import { IPost } from '../../model/shared';
 import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import { editPost } from 'entities/post/post.slice';
@@ -42,7 +42,9 @@ const More: FC<IPost> = ({ post }) => {
         }),
       }}
     >
-      <SMore size={20} />
+      <SLink>
+        <SMore size={20} />
+      </SLink>
     </Dropdown>
   );
 };

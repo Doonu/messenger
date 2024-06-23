@@ -8,13 +8,13 @@ export interface IPositionProps extends InputProps {
   minRows: number;
   maxRows?: number;
   isDrag?: boolean;
-  isMaxWidth?: boolean;
+  $isMaxWidth?: boolean;
 }
 
 interface IInputs extends IPositionProps {}
 
 const AutosizeInput: FC<IInputs> = ({ isDrag = true, ...props }) => {
-  return <SInput {...props} isDrag={isDrag} />;
+  return <SInput {...props} $isDrag={isDrag} />;
 };
 
 export default AutosizeInput;

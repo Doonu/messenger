@@ -1,14 +1,6 @@
 import styled from 'styled-components';
 import { Input } from 'antd';
-import { LoaderSmall } from 'shared/components/ui/loaders';
-
-interface SInputProps {
-  border?: string;
-  $minWidth?: string;
-  $isBgTransparent?: boolean;
-}
-
-export const SLoaderSmall = styled(LoaderSmall)``;
+import { SInputProps } from '../model/baseInput.styled.type';
 
 export const SLabel = styled.label`
   display: flex;
@@ -31,13 +23,13 @@ export const SPrevIcon = styled.span`
 export const SInput = styled(Input)<SInputProps>`
   border-color: transparent;
   outline: none !important;
-  border-radius: ${({ border }) => border};
+  border-radius: ${({ $border }) => $border};
   padding-right: 45px;
   background: ${({ theme, $isBgTransparent }) =>
     $isBgTransparent ? 'transparent' : theme.colors.secondary};
   color: ${({ theme }) => theme.colors.active};
   width: 100%;
-  height: ${({ height }) => height};
+  height: ${({ $height }) => $height};
   flex: 1;
   min-width: ${({ $minWidth }) => $minWidth};
 
@@ -63,7 +55,8 @@ export const SIcon = styled.div`
   right: 15px;
   cursor: pointer;
   z-index: 2;
+
   svg {
-    color: white;
+    color: ${({ theme }) => theme.colors.active};
   }
 `;

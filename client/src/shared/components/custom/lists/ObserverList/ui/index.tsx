@@ -69,12 +69,10 @@ const ObserverList = <T, K>({
   return (
     <>
       {position === 'top' && <ObserverBlock ref={ref} />}
-      {!isFetching && (
-        <SList $gap={gap}>
-          {list.map((el, index) => itemContent(el, index))}
-          {isPending && [...new Array(5)].map(() => skeleton())}
-        </SList>
-      )}
+      <SList $gap={gap}>
+        {!isFetching && list.map((el, index) => itemContent(el, index))}
+        {isPending && [...new Array(5)].map((el, i) => skeleton(i))}
+      </SList>
       {position === 'bottom' && <ObserverBlock ref={ref} />}
       {isFetching && <LoaderSmall />}
       {isEmpty || (!list.length && !isPending && <Empty message={notFoundMessage} />)}

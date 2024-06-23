@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 import { FiMoreHorizontal } from 'react-icons/fi';
 
-export const SMore = styled(FiMoreHorizontal)`
+export const SLink = styled.div`
   cursor: pointer;
-  color: ${({ theme }) => theme.colors.active};
 `;
+
+export const SMore = styled(FiMoreHorizontal).attrs(({ theme }) => ({
+  color: theme.colors.active,
+}))``;

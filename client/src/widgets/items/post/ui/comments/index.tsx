@@ -181,7 +181,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
         <PhotoProfile img={avatar} name={name} />
         <SAutosizeInput
           minRows={1}
-          maxRows={5}
+          maxRows={2}
           isDrag={false}
           value={content}
           onChange={handleChangeContent}

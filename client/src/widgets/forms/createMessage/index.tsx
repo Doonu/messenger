@@ -83,12 +83,11 @@ const CreateMessage: FC<ICreateMessage> = ({
           value={message}
           onChange={handlerChangeMessage}
           minRows={1}
-          maxRows={5}
+          maxRows={12}
           isDrag={false}
           $position={true}
           placeholder="Написать сообщение..."
           draggable="false"
-          bordered
         />
         <SButton onClick={handlerCreateMessage}>
           <IoSend />

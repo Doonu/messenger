@@ -23,7 +23,7 @@ import { addPage, setAllPosts } from 'entities/post/post.slice';
 import AddPost from 'widgets/forms/addPost';
 import Friends from 'features/friends';
 import SkeletonPost from 'widgets/items/post/ui/skeleton';
-import CollapsePost from 'shared/components/custom/collapseAllPost';
+import CollapsePost from 'pages/private/feed/ui/collapsePost';
 
 const Profile = () => {
   const dispatch = useAppDispatch();
@@ -146,7 +146,7 @@ const Profile = () => {
               hasMore={haseMore}
               isPending={loadingPosts && page === 1}
               notFoundMessage={errorMessage}
-              skeleton={() => <SkeletonPost />}
+              skeleton={(el) => <SkeletonPost key={el} />}
               isFetching={loadingPosts && page > 1}
             />
           </ViewContainer>

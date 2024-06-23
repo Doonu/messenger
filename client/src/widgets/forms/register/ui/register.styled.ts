@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { Form } from 'antd';
 import { Link } from 'react-router-dom';
-import Input from 'shared/components/ui/inputs/baseInput';
 import BaseButton from 'shared/components/ui/buttons/baseButton';
 import { ContainerAuth } from 'shared/styles/containers';
 
@@ -25,10 +24,6 @@ export const SInputForm = styled(Form.Item).attrs({
     color: ${({ theme }) => theme.colors.text};
   }
 `;
-
-export const SInput = styled(Input).attrs({
-  height: '40px',
-})``;
 
 export const SBaseButton = styled(BaseButton)`
   margin: 10px 0;

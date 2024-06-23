@@ -66,9 +66,9 @@ const AllDialogs: FC<IAllDialogs> = ({ changeStage }) => {
           fetchNextPage={handlerNextPage}
           hasMore={haseMore}
           isFetching={loading && page > 1}
-          skeleton={() => <div>...Загрузка</div>}
+          skeleton={(el) => <div key={el}>...Загрузка</div>}
           notFoundMessage={errorMessage}
-          gap={0}
+          gap={2}
           refContainer={refDialogs}
         />
       </SDialogList>

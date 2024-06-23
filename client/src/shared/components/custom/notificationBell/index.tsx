@@ -78,7 +78,7 @@ const NotificationBell = () => {
       )}
     >
       <SContent>
-        <Badge isAbsolute count={countNotification} />
+        <Badge $isAbsolute count={countNotification} />
         <Bell />
       </SContent>
     </Dropdown>

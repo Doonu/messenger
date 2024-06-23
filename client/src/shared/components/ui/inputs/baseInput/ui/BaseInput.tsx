@@ -1,9 +1,10 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
-import { SIcon, SInput, SLabel, SLoaderSmall, SPrevIcon } from './baseInput.styled';
-import { IInput, IVariantType } from '../model/IInput';
+import { SIcon, SInput, SLabel, SPrevIcon } from './baseInput.styled';
+import { BaseInputType, IVariantType } from '../model/baseInput.type';
 import { allVariantType } from '../lib/variantType';
+import { LoaderSmall } from '../../../loaders';
 
-const Input: FC<IInput> = ({
+const Input: FC<BaseInputType> = ({
   border,
   type,
   height = 'inherit',
@@ -41,10 +42,10 @@ const Input: FC<IInput> = ({
     <SLabel>
       {!!prevIcon && <SPrevIcon>{prevIcon}</SPrevIcon>}
       <SInput
-        border={generateBorderValue}
+        $border={generateBorderValue}
         autoComplete="off"
         type={variantType && variantType.type}
-        height={height}
+        $height={height}
         $minWidth={minWidth}
         $isBgTransparent={isBgTransparent}
         {...props}
@@ -52,7 +53,7 @@ const Input: FC<IInput> = ({
       {(variantType?.type === 'password' || variantType?.type === 'text') && !loading && (
         <SIcon onClick={handlePasswordIcon}>{variantType && variantType.icon}</SIcon>
       )}
-      {loading && <SLoaderSmall size={sizeLoading} />}
+      {loading && <LoaderSmall size={sizeLoading} />}
     </SLabel>
   );
 };

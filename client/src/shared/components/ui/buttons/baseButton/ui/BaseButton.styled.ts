@@ -2,8 +2,9 @@ import styled, { css } from 'styled-components';
 import { Button } from 'antd';
 import { IBaseButton } from '../model/IBaseButton';
 
-interface BaseButtonProps extends Omit<IBaseButton, 'leftIcon'> {
+interface BaseButtonProps extends Omit<IBaseButton, 'leftIcon' | 'bgTransparent'> {
   $isLeftIcon: boolean;
+  $bgTransparent?: boolean;
 }
 
 export const SButton = styled(Button)<BaseButtonProps>`
@@ -16,7 +17,8 @@ export const SButton = styled(Button)<BaseButtonProps>`
       max-height: 30px;
     `};
 
-  background: ${({ theme, bgTransparent }) => (bgTransparent ? 'transparent' : theme.colors.blue)};
+  background: ${({ theme, $bgTransparent }) =>
+    $bgTransparent ? 'transparent' : theme.colors.blue};
   color: ${({ theme, color }) => (color ? theme.colors.link : theme.colors.active)};
   border: none;
   border-radius: ${({ radius }) => (radius ? `${radius}px` : '')};

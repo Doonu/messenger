@@ -3,11 +3,11 @@ import { BadgeProps } from 'antd';
 import { SBadgeAntd } from './badge.styled';
 
 interface IBadge extends BadgeProps {
-  isAbsolute?: boolean;
+  $isAbsolute?: boolean;
 }
 
 const Badge: FC<IBadge> = (props) => {
-  return <SBadgeAntd $isAbsolute={props.isAbsolute} {...props} />;
+  return <SBadgeAntd $isAbsolute={props.$isAbsolute} {...props} />;
 };
 
 export default Badge;

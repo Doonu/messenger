@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { IPostAndDrag } from 'widgets/items/post/model/shared';
-import Collapse from '../../ui/collapse';
+import Collapse from 'shared/components/ui/collapse';
 import { Post } from 'widgets/items/post';
 import Comments from 'widgets/items/post/ui/comments';
 
