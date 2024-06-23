@@ -2,7 +2,7 @@ import React from 'react';
 import { Formik } from 'formik';
 import { Form } from 'antd';
 import { SContainerAuth, SInputForm, STitle, SBaseButton, SLink } from './register.styled';
-import { IRegister } from 'shared/api/http/auth/model/register';
+import { IRegister } from 'shared/api/http/auth/postRegistration/postRegistration.type';
 import { useAppDispatch } from 'hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { postRegistration, getProfile } from 'shared/api';

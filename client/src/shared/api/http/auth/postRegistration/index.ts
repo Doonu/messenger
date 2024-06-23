@@ -5,7 +5,7 @@ import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from 'shared/mo
 import { RootState } from 'app/store';
 import { AxiosError } from 'axios';
 import { showMessage } from 'entities/notification/notification.slice';
-import { ApiRegister, IPostRegister, IRegister } from './model/register';
+import { ApiRegister, IPostRegister, IRegister } from './postRegistration.type';
 
 interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
   state: RootState;

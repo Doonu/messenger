@@ -1,15 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import API from 'shared/api/interceptors';
-import { ApiLogin, ILogin, IPostLogin } from './model/login';
+import { ApiLogin, ILogin, IPostLogin } from './postLogin.type';
 
-import { IConfigAsyncThunk as IDefaultConfigAsyncThunk, IError } from 'shared/models/errors';
-import { RootState } from 'app/store';
+import { IConfigAsyncThunk, IError } from 'shared/models/errors';
 import { AxiosError } from 'axios';
 import { showMessage } from 'entities/notification/notification.slice';
-
-interface IConfigAsyncThunk extends IDefaultConfigAsyncThunk {
-  state: RootState;
-}
 
 const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
   'auth/login',
