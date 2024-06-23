@@ -1,12 +1,13 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Form } from 'antd';
-import { SContainerAuth, SInput, SInputForm, STitle, SBaseButton, SLink } from './register.styled';
+import { SContainerAuth, SInputForm, STitle, SBaseButton, SLink } from './register.styled';
 import { IRegister } from 'shared/api/http/auth/model/register';
 import { useAppDispatch } from 'hooks/redux';
 import { useNavigate } from 'react-router-dom';
 import { postRegistration, getProfile } from 'shared/api';
 import { IInitialValue } from '../model/IInitialValueRegister';
+import Input from 'shared/components/ui/inputs/baseInput';
 
 const Register = () => {
   const dispatch = useAppDispatch();
@@ -61,11 +62,12 @@ const Register = () => {
                 },
               ]}
             >
-              <SInput
+              <Input
                 border="none"
                 name="email"
                 onChange={(e) => setFieldValue('email', e.target.value)}
                 value={values.email}
+                height="40px"
               />
             </SInputForm>
             <SInputForm
@@ -81,12 +83,13 @@ const Register = () => {
                 { min: 3, message: 'Минимальное кол-во символов: 3', whitespace: false },
               ]}
             >
-              <SInput
+              <Input
                 border="none"
                 name="name"
                 onChange={(e) => setFieldValue('name', e.target.value)}
                 value={values.name}
-              ></SInput>
+                height="40px"
+              ></Input>
             </SInputForm>
             <SInputForm
               help={errors.password}
@@ -98,13 +101,14 @@ const Register = () => {
                 { max: 16, message: 'Максимальное кол-во символов: 16', whitespace: false },
               ]}
             >
-              <SInput
+              <Input
                 border="none"
                 name="password"
                 type="password"
                 onChange={(e) => setFieldValue('password', e.target.value)}
                 value={values.password}
-              ></SInput>
+                height="40px"
+              ></Input>
             </SInputForm>
             <SInputForm
               help={errors.repeatPassword}
@@ -125,13 +129,14 @@ const Register = () => {
                 { max: 16, message: 'Максимальное кол-во символов: 16', whitespace: true },
               ]}
             >
-              <SInput
+              <Input
                 border="none"
                 name="repeatPassword"
                 type="password"
+                height="40px"
                 onChange={(e) => setFieldValue('repeatPassword', e.target.value)}
                 value={values.repeatPassword}
-              ></SInput>
+              ></Input>
             </SInputForm>
             <SBaseButton htmlType="submit">Вход</SBaseButton>
             <SLink to={'/'}>Уже зарегестрированы?</SLink>

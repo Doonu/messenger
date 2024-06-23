@@ -5,7 +5,6 @@ import { useAppDispatch, useAppSelector } from 'hooks/redux';
 import getFriends from 'shared/api/http/user/getFriends';
 import { selectorProfile } from 'entities/profile/profile.selectors';
 import { selectorSearch } from 'entities/friends/friends.selectors';
-import { setAllFriends, setSearch } from 'entities/friends/friends.slice';
 import { getUsersExceptFriends } from 'shared/api';
 import Friends from './friends';
 import AllUsers from './allUsers';
@@ -55,14 +54,11 @@ const Users = () => {
   };
 
   useEffect(() => {
-    handlerGetFriends();
-    handlerGetUsersExceptFriends();
-
-    return () => {
-      dispatch(setAllFriends([]));
-      dispatch(setSearch(''));
-    };
-  }, []);
+    if (user.id) {
+      handlerGetFriends();
+      handlerGetUsersExceptFriends();
+    }
+  }, [user.id]);
 
   return (
     <AllContainer>

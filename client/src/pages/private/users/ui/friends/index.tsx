@@ -67,7 +67,7 @@ const Friends: FC<IFriends> = ({ handlerSearch }) => {
           fetchNextPage={handlerNextPage}
           hasMore={haseMore}
           notFoundMessage={errorMessage}
-          skeleton={() => <div>Загрузка...</div>}
+          skeleton={(item) => <div key={item}>Загрузка...{item}</div>}
           isPending={loading}
         />
       </div>

@@ -17,7 +17,7 @@ import AddPost from 'widgets/forms/addPost';
 import SkeletonPost from 'widgets/items/post/ui/skeleton';
 import ObserverList from 'shared/components/custom/lists/ObserverList/ui';
 import { DraggableContainer, SContainerList } from './Feed.styled';
-import CollapsePost from 'shared/components/custom/collapseAllPost';
+import CollapsePost from 'pages/private/feed/ui/collapsePost';
 
 const Feed = () => {
   const dispatch = useAppDispatch();
@@ -92,7 +92,7 @@ const Feed = () => {
             hasMore={haseMore}
             isPending={loadingPosts && page === 1}
             notFoundMessage={errorMessage}
-            skeleton={() => <SkeletonPost />}
+            skeleton={(el) => <SkeletonPost key={el} />}
             isFetching={loadingPosts && page > 1}
           />
         </SContainerList>

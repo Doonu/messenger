@@ -49,7 +49,7 @@ export class DialogsService {
             where: whereDialogs,
             include: [
                 {
-                    association: 'participants',
+                    association: 'participants',z
                 },
                 {
                     association: 'lastMessage',
