@@ -9,11 +9,11 @@ import { IGetAllPost } from './getAllPost.type';
 // TODO: перделеать -1 на null
 export const getAllPost = createAsyncThunk<IPostState[], IGetAllPost, IConfigAsyncThunk>(
   'posts/getAll',
-  ({ page, userId = -1 }, { rejectWithValue }) => {
+  ({ page, userId }, { rejectWithValue }) => {
     return API<ApiPostState[]>({
-      url: `api/posts/${userId}`,
+      url: `api/posts`,
       method: 'GET',
-      params: { page },
+      params: { page, userId },
     })
       .then(({ data }) => {
         return data.map((post) => {

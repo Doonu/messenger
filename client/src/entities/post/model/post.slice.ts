@@ -40,32 +40,35 @@ const PostSlice = createSlice({
   name: 'post',
   initialState,
   reducers: {
-    deletePost: (state, { payload }: PayloadAction<number>) => {
+    deletePost: (state: PostsState, { payload }: PayloadAction<number>) => {
       state.posts = state.posts.filter((post) => post.id !== payload);
     },
-    setAllPosts: (state, { payload }: PayloadAction<IPostState[]>) => {
+    setAllPosts: (state: PostsState, { payload }: PayloadAction<IPostState[]>) => {
       state.posts = payload;
       state.isLoading = true;
       state.isHaseMore = true;
       state.pagePost = 1;
     },
-    editPost: (state, { payload }: PayloadAction<number>) => {
+    editPost: (state: PostsState, { payload }: PayloadAction<number>) => {
       if (!state.editedPost) {
         state.editedPost = state.posts.find((post) => post.id === payload);
       } else {
         state.isWarningEdit = true;
       }
     },
-    addPage: (state) => {
+    addPage: (state: PostsState) => {
       state.pagePost += 1;
     },
-    switchWarningPost: (state, { payload }: PayloadAction<boolean>) => {
+    switchWarningPost: (state: PostsState, { payload }: PayloadAction<boolean>) => {
       state.isWarningEdit = payload;
     },
-    removeEditPost: (state) => {
+    removeEditPost: (state: PostsState) => {
       state.editedPost = undefined;
     },
-    recalculationOfComments: (state, { payload }: PayloadAction<IRecalculationOfComments>) => {
+    recalculationOfComments: (
+      state: PostsState,
+      { payload }: PayloadAction<IRecalculationOfComments>
+    ) => {
       state.posts = state.posts.map((post) => {
         if (post.id === payload.id) {
           return {
@@ -78,53 +81,56 @@ const PostSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getAllPost.fulfilled, (state, { payload }) => {
+    builder.addCase(getAllPost.fulfilled, (state: PostsState, { payload }) => {
       if (payload.length === 0) state.isHaseMore = false;
       if (payload.length !== 0) state.posts = [...state.posts, ...payload];
 
       state.isLoading = false;
     });
-    builder.addCase(getAllPost.pending, (state) => {
+    builder.addCase(getAllPost.pending, (state: PostsState) => {
       state.isLoading = true;
     });
-    builder.addCase(getAllPost.rejected, (state) => {
+    builder.addCase(getAllPost.rejected, (state: PostsState) => {
       state.isError = true;
       state.isLoading = false;
     });
 
-    builder.addCase(postCreate.fulfilled, (state, { payload }) => {
+    builder.addCase(postCreate.fulfilled, (state: PostsState, { payload }) => {
       state.posts.unshift(payload);
     });
-    builder.addCase(updatePost.fulfilled, (state, { payload }) => {
+    builder.addCase(updatePost.fulfilled, (state: PostsState, { payload }) => {
       const index = state.posts.findIndex((i) => i.id === payload.id);
       state.posts[index] = payload;
     });
-    builder.addCase(deletePostById.fulfilled, (state, { payload }) => {
+    builder.addCase(deletePostById.fulfilled, (state: PostsState, { payload }) => {
       state.deletedPost = [...state.deletedPost, payload];
     });
-    builder.addCase(restorePostById.fulfilled, (state, { payload }) => {
+    builder.addCase(restorePostById.fulfilled, (state: PostsState, { payload }) => {
       state.deletedPost = state.deletedPost.filter((post) => post.id !== payload.id);
     });
-    builder.addCase(likePost.fulfilled, (state, { payload }: PayloadAction<ILikePost>) => {
-      state.posts = state.posts.map((post) => {
-        if (post.id === payload.postId) {
-          if (payload.isLike) {
+    builder.addCase(
+      likePost.fulfilled,
+      (state: PostsState, { payload }: PayloadAction<ILikePost>) => {
+        state.posts = state.posts.map((post) => {
+          if (post.id === payload.postId) {
+            if (payload.isLike) {
+              return {
+                ...post,
+                countLikes: post.countLikes + 1,
+              };
+            }
             return {
               ...post,
-              countLikes: post.countLikes + 1,
+              countLikes: post.countLikes - 1,
             };
           }
-          return {
-            ...post,
-            countLikes: post.countLikes - 1,
-          };
-        }
-        return post;
-      });
-    });
+          return post;
+        });
+      }
+    );
     builder.addCase(
       toggleCommentsById.fulfilled,
-      (state, { payload }: PayloadAction<IToggleCommentsById>) => {
+      (state: PostsState, { payload }: PayloadAction<IToggleCommentsById>) => {
         state.posts = state.posts.map((post) => {
           if (post.id === payload.postId) {
             return {

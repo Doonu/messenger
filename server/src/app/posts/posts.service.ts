@@ -87,11 +87,11 @@ export class PostsService {
     *  Если сортировки нет, то дефолтная сортировка по дате создания order: [['createdAt', 'DESC']]
     *
     * */
-    async getAll(page: number, idUser?: number){
+    async getAll(page: number, userId?: number){
         let currentPage = page - 1;
         const limit = 30;
 
-        if(+idUser !== -1) return await this.postRepository.findAll({include: {all: true}, where: { userId: idUser } , order: [['createdAt', 'DESC']], limit: limit, offset: currentPage * limit });
+        if(userId) return await this.postRepository.findAll({include: {all: true}, where: { userId: userId } , order: [['createdAt', 'DESC']], limit: limit, offset: currentPage * limit });
 
         return await this.postRepository.findAll({include: {all: true}, order: [['createdAt', 'DESC']], limit: limit, offset: currentPage * limit });
     }
