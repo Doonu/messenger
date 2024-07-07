@@ -4,7 +4,7 @@ import { useAppDispatch } from '@shared/hooks';
 import { postLogin, getProfile, SocketApi } from '@shared/api';
 import { ContainerAuth } from '@shared/styles';
 import { auth } from '@shared/strings';
-import { BaseInput } from '@shared/components';
+import { BaseInput, Logo } from '@shared/components';
 import { Form } from 'antd';
 
 import {
@@ -15,7 +15,6 @@ import {
   SLinkWrap,
   SSubTitle,
   SForm,
-  SLogo,
   SLogoContainer,
   STitle,
 } from './login.styled';
@@ -91,12 +90,11 @@ export function Login() {
                 <SLink to="/">{auth.forgotYourPassword}?</SLink>
                 <SBaseButton htmlType="submit">{auth.entrance}</SBaseButton>
                 <SLinkWrap>
-                  {auth.needAnAccount}? <SLink to="/index">{auth.register}</SLink>
+                  {auth.needAnAccount}? <SLink to="/registration">{auth.register}</SLink>
                 </SLinkWrap>
               </SForm>
               <SLogoContainer>
-                {/* <SLogo shadow /> */}
-                <SLogo />
+                <Logo size={60} sizeBg="80px" color="white" />
                 <STitle>{auth.name}</STitle>
               </SLogoContainer>
             </SFormContainer>

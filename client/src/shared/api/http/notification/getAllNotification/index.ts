@@ -8,7 +8,7 @@ export const getAllNotification = createAsyncThunk<
   INotifyItem[],
   IGetAllNotification,
   IConfigAsyncThunk
->('Notification/getAll', ({ limit, page }, { rejectWithValue }) => {
+>('Notification/getAll', async ({ limit, page }, { rejectWithValue }) => {
   return API<APINotifyItem[]>({
     url: 'api/notifications',
     method: 'GET',

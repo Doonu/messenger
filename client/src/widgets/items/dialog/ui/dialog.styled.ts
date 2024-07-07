@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Typography } from 'antd';
+import { Typography, Badge } from 'antd';
 
 import { ISContainer } from '../model/IDialog.style';
 
@@ -62,8 +62,7 @@ export const STitle = styled.div`
 
 export const STime = styled.div``;
 
-// TODO: исправить
-export const SBadge = styled.div`
+export const SBadge = styled(Badge)`
   &.ant-badge .ant-badge-count {
     background: ${({ theme }) => theme.colors.active};
   }
@@ -73,14 +72,3 @@ export const SBadge = styled.div`
     font-size: 12px;
   }
 `;
-
-// export const SBadge = styled(Badge)`
-//   &.ant-badge .ant-badge-count {
-//     background: ${({ theme }) => theme.colors.active};
-//   }
-//
-//   .ant-scroll-number-only-unit {
-//     color: ${({ theme }) => theme.colors.secondary};
-//     font-size: 12px;
-//   }
-// `;

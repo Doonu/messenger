@@ -38,22 +38,6 @@ export const SLink = styled(Link)`
   color: ${({ theme }) => theme.colors.link};
 `;
 
-export const SLogo = styled.div.attrs({
-  size: 60,
-  sizeBg: '80px',
-  color: 'white',
-})`
-  align-self: center;
-`;
-
-// export const SLogo = styled(Logo).attrs({
-//   size: 60,
-//   sizeBg: '80px',
-//   color: 'white',
-// })`
-//   align-self: center;
-// `;
-
 export const STitle = styled.h1`
   color: ${({ theme }) => theme.colors.active};
   font-size: 20px;

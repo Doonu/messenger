@@ -31,10 +31,11 @@ export const NotificationBell = () => {
   const limit = useAppSelector(notificationLimitSelectors);
   const haseMore = useAppSelector(notificationHaseMoreSelectors);
 
-  const handlerGetAllNotification = () =>
+  const handlerGetAllNotification = () => {
     dispatch(getAllNotification({ page: 1, limit }))
       .unwrap()
       .catch(() => {});
+  };
 
   const handlerAllCount = () => dispatch(getAllNotificationCount());
 
@@ -47,7 +48,11 @@ export const NotificationBell = () => {
       .catch(() => {});
   };
 
-  const handlerDeleteNotification = () => user?.id && dispatch(deleteAllNotifications(user.id));
+  const handlerDeleteNotification = () => {
+    if (user.id) {
+      dispatch(deleteAllNotifications(user.id));
+    }
+  };
 
   useEffect(() => {
     if (notification.length === 0) {

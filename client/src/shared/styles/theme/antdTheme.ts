@@ -17,7 +17,12 @@ export const antdTheme: ThemeConfig = {
       activeBg: '',
       colorBgContainer: '',
     },
-    Button: {},
+    Button: {
+      colorPrimaryHover: '',
+      defaultHoverBg: '',
+      colorPrimaryActive: '',
+      defaultActiveBg: '',
+    },
     Select: {
       controlHeight: 40,
       borderRadius: 12,

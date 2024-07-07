@@ -99,6 +99,7 @@
     "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/user-event": "^13.2.1",
     "@types/react-countup": "^4.3.1",
+    "@types/react-redux": "^7.1.33",
     "@types/react-virtualized": "^9.21.22",
     "@types/testing-library__jest-dom": "^6.0.0",
     "@types/throttle-debounce": "^5.0.0",
@@ -139,4 +140,3 @@
   },
   "proxy": "http://localhost:5000"
 }
-

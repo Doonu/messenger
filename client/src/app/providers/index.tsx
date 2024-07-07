@@ -1,5 +1,5 @@
 import React from 'react';
-import { setupStore } from '@app/store';
+import { store } from '@app/store';
 import { ThemeProvider } from 'styled-components';
 import { darkTheme, GlobalStyles } from '@shared/styles';
 import { Provider } from 'react-redux';
@@ -11,8 +11,6 @@ import AuthProvider from './AuthProvider';
 import SocketProviders from './SocketProviders';
 
 const Providers = () => {
-  const store = setupStore();
-
   return (
     <ThemeProvider theme={darkTheme}>
       <GlobalStyles />

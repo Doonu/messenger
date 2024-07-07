@@ -28,6 +28,7 @@ export const Dialog: FC<IDialog> = ({
   isGroup,
   readStatusLastMessage,
   lastMessage,
+  countNotReadMessages,
 }) => {
   const navigate = useNavigate();
   const user = useAppSelector(selectorProfile);
@@ -73,8 +74,7 @@ export const Dialog: FC<IDialog> = ({
             )}
             <SMessage>{message}</SMessage>
           </SLastMessage>
-          {/* <SBadge count={countNotReadMessages} /> */}
-          <SBadge />
+          <SBadge count={countNotReadMessages} />
         </SBottom>
       </SInfo>
     </SContainer>
