@@ -1,1 +1,1 @@
-export { default as Register } from './ui';
+export * from './ui';

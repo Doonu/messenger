@@ -1,4 +1,3 @@
-import { SocketApi } from '../../index';
 import {
   ICreateMessage,
   ICreateFixedMessage,
@@ -9,75 +8,109 @@ import {
   IUpdateNameChat,
   IOutUserOfChat,
   IAddNewUsers,
-} from './dialog.type';
+  SocketApi,
+} from '@shared/api';
+
+import {
+  SocketAddNewUsers,
+  SocketCreateFixedMessage,
+  SocketCreateMessage,
+  SocketDeleteFixedMessage,
+  SocketDeleteMessage,
+  SocketOutUserOfChat,
+  SocketReadMessage,
+  SocketUpdateMessage,
+  SocketUpdateNameChat,
+} from './dialog.socket.type';
 
 export const createMessage = ({ content, dialogId, userId }: ICreateMessage) => {
-  SocketApi.socket?.emit('create_message', {
-    content: content,
-    dialogId: dialogId,
-    userId: userId,
+  const socketCustom: SocketCreateMessage | null = SocketApi.socket;
+
+  socketCustom?.emit('create_message', {
+    content,
+    dialogId,
+    userId,
   });
 };
 
 export const deleteMessage = ({ messagesId, dialogId, userId }: IDeleteMessage) => {
-  SocketApi.socket?.emit('delete_messages', {
-    messagesId: messagesId,
-    userId: userId,
-    dialogId: dialogId,
+  const socketCustom: SocketDeleteMessage | null = SocketApi.socket;
+
+  socketCustom?.emit('delete_messages', {
+    messagesId,
+    userId,
+    dialogId,
   });
 };
 
 export const updateMessage = ({ content, dialogId, userId, id }: IUpdateMessage) => {
-  SocketApi.socket?.emit('update_message', {
-    content: content,
-    dialogId: dialogId,
-    userId: userId,
-    id: id,
+  const socketCustom: SocketUpdateMessage | null = SocketApi.socket;
+
+  socketCustom?.emit('update_message', {
+    content,
+    dialogId,
+    userId,
+    id,
   });
 };
 
 export const createFixedMessage = ({ messageId, dialogId, userId }: ICreateFixedMessage) => {
-  SocketApi.socket?.emit('create_fixed_message', {
-    dialogId: dialogId,
-    messageId: messageId,
-    userId: userId,
+  const socketCustom: SocketCreateFixedMessage | null = SocketApi.socket;
+
+  socketCustom?.emit('create_fixed_message', {
+    dialogId,
+    messageId,
+    userId,
   });
 };
 
 export const deleteFixedMessage = ({ dialogId, userId }: IDeleteFixedMessage) => {
-  SocketApi.socket?.emit('delete_fixed_message', {
-    dialogId: dialogId,
-    userId: userId,
+  const socketCustom: SocketDeleteFixedMessage | null = SocketApi.socket;
+
+  socketCustom?.emit('delete_fixed_message', {
+    dialogId,
+    userId,
   });
 };
 
 export const readMessage = ({ messageId, dialogId, userId }: IReadMessage) => {
-  SocketApi.socket?.emit('read_message', {
-    dialogId: dialogId,
-    userId: userId,
-    messageId: messageId,
+  const socketCustom: SocketReadMessage | null = SocketApi.socket;
+
+  socketCustom?.emit('read_message', {
+    dialogId,
+    userId,
+    messageId,
   });
 };
 
 export const userOutOfChat = ({ dialogId, participant }: IOutUserOfChat) => {
-  SocketApi.socket?.emit('user_out_chat', {
-    dialogId: dialogId,
-    participant: participant,
+  const socketCustom: SocketOutUserOfChat | null = SocketApi.socket;
+
+  socketCustom?.emit('read_message', {
+    dialogId,
+    participant,
   });
 };
 
 export const updateNameChat = ({ dialogName, dialogId, userId }: IUpdateNameChat) => {
-  SocketApi.socket?.emit('update_dialogName', {
-    dialogName: dialogName,
-    dialogId: dialogId,
-    userId: userId,
+  const socketCustom: SocketUpdateNameChat | null = SocketApi.socket;
+
+  socketCustom?.emit('update_dialogName', {
+    dialogName,
+    dialogId,
+    userId,
   });
 };
 
 export const addNewUsers = ({ userId, participants, dialogId }: IAddNewUsers) => {
-  SocketApi.socket?.emit('user_add_chat', {
-    participants: participants,
-    userId: userId,
-    dialogId: dialogId,
+  const socketCustom: SocketAddNewUsers | null = SocketApi.socket;
+
+  socketCustom?.emit('user_add_chat', {
+    participants,
+    userId,
+    dialogId,
   });
 };
+
+export * from './dialog.type';
+export * from './dialog.hook';

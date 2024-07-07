@@ -1,1 +1,1 @@
-export { default } from './ui/MainProfile';
+export * from './ui';

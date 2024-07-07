@@ -1,9 +1,15 @@
 import React, { ChangeEvent, FC, useState } from 'react';
-import BaseButton from 'shared/components/ui/buttons/baseButton';
-import { useAppDispatch } from 'hooks/redux';
-import { removeEditPost } from 'entities/post/post.slice';
-import MainPostProfile from 'shared/components/custom/profiles/mainPost';
-import { postTime } from 'shared/util/time';
+import { BaseButton, MainPost, Modal, WarningCountPhotos } from '@shared/components';
+import { useAppDispatch } from '@shared/hooks';
+import { removeEditPost } from '@entities/post';
+import { postTime, extensionPhotoList, photosFilter } from '@shared/util';
+import { IAllFiles } from '@shared/models';
+import { updatePost, addPendingList, clearTrash } from '@shared/api';
+import { PreviewPhoto } from '@features/PreviewPhoto';
+import { ActionIcons } from '@features/ActionIcons';
+import { Files } from '@features/Files';
+import { Photos } from '@features/Photos';
+
 import {
   DragInput,
   SAutosizeInput,
@@ -13,15 +19,6 @@ import {
   SDragField,
   SHead,
 } from './modification.styled';
-import { IAllFiles } from 'shared/models/IPost';
-import { updatePost, addPendingList, clearTrash } from 'shared/api';
-import Index from 'shared/components/navigation/modal/ui';
-import { WarningCountPhotos } from 'shared/components/custom/warningCountPhotos';
-import { PreviewPhoto } from 'features/previewPhoto';
-import ActionIcons from 'features/actionIcons';
-import { extensionPhotoList, photosFilter } from 'shared/util/filter';
-import Files from 'features/files';
-import Photos from 'features/photos';
 import { IModification } from './model/IModification';
 
 const Modification: FC<IModification> = ({
@@ -65,23 +62,23 @@ const Modification: FC<IModification> = ({
   const handlerPhoto = async (e: ChangeEvent<HTMLInputElement>) => {
     handlerChange();
 
-    const files = e.target.files;
+    const { files } = e.target;
     if (!files) return;
 
     const filteredPhoto = Array.from(files).filter((file) =>
       extensionPhotoList.includes(file.name.split('.')[file.name.split('.').length - 1])
     );
 
-    if (modifyAllFiles.photos?.length + filteredPhoto.length > 5) {
+    if ((modifyAllFiles.photos?.length || 0) + filteredPhoto.length > 5) {
       handlerChangeTitle('Вы можете прикрепить к посту не больше 5 фотографий');
       return;
     }
 
     dispatch(addPendingList({ files: Array.from(filteredPhoto), status: 2 }))
       .unwrap()
-      .then((files) => {
+      .then((fetchFiles) => {
         setModifyAllFiles((prev) => {
-          return { ...prev, photos: [...files, ...prev.photos] };
+          return { ...prev, photos: [...fetchFiles, ...prev.photos] };
         });
       })
       .catch(() => {});
@@ -103,11 +100,11 @@ const Modification: FC<IModification> = ({
       })
     )
       .unwrap()
-      .then((post) => {
+      .then((fetchPost) => {
         handlerRemoveEdit();
 
-        const photos = photosFilter({ photos: post.files, type: 'photo' });
-        const files = photosFilter({ photos: post.files, type: 'file' });
+        const photos = photosFilter({ photos: fetchPost.files, type: 'Photo' });
+        const files = photosFilter({ photos: fetchPost.files, type: 'file' });
 
         setAllFiles({ photos: photos || [], files: files || [] });
       })
@@ -116,10 +113,10 @@ const Modification: FC<IModification> = ({
 
   return (
     <SContainer onDragEnterCapture={handlerPhotoFocus} onDragLeaveCapture={handlerPhotoFocus}>
-      <Index onClose={() => setIsWarningMessage(false)} width="400px" open={isWarningMessage}>
+      <Modal onClose={() => setIsWarningMessage(false)} width="400px" open={isWarningMessage}>
         <WarningCountPhotos message={warningMessage} />
-      </Index>
-      <Index
+      </Modal>
+      <Modal
         isFooter={false}
         width="max-content"
         onClose={() => setIsPreviewPhoto(false)}
@@ -135,7 +132,7 @@ const Modification: FC<IModification> = ({
             description={content.toString().split('\n')}
           />
         )}
-      </Index>
+      </Modal>
       {isDraggablePhotoInPost && <DragInput multiple type="file" onChange={handlerPhoto} />}
       {isDraggablePhotoInPost && (
         <SDragField isFocus={isDraggablePhotoFocus}>
@@ -147,9 +144,8 @@ const Modification: FC<IModification> = ({
       {!isDraggablePhotoInPost && (
         <>
           <SHead>
-            <MainPostProfile
+            <MainPost
               status={post.author.statusConnected}
-              statusTime={post.author.timeConnected}
               time={postTime(post.createdAt)}
               name={post.author.name}
               avatar={post.author.imgSubstitute}
@@ -174,7 +170,7 @@ const Modification: FC<IModification> = ({
             draggable="false"
             minRows={2}
             maxRows={5}
-            isDrag={true}
+            isDrag
             $position={false}
           />
           <SBottom>
@@ -185,7 +181,7 @@ const Modification: FC<IModification> = ({
               data={modifyAllFiles}
               onTitle={handlerChangeTitle}
               statusPhoto={2}
-            ></ActionIcons>
+            />
             <SButtons>
               <BaseButton bgTransparent onClick={handlerRemoveEdit}>
                 Отмена

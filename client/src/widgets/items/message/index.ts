@@ -1,3 +1,1 @@
-import Message from './ui';
-
-export { Message };
+export * from './ui';

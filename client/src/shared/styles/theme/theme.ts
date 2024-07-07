@@ -30,7 +30,7 @@ export const baseTheme: ITheme = {
   radius: {
     base: '10px',
   },
-  type: 'dark',
+  type: ThemeEnum.dark,
 };
 
 // TODO: настроить светлую тему

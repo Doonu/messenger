@@ -1,7 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
 
+// TODO: вернуть с рабочего стола
 export const GlobalStyles = createGlobalStyle`
-  #root{
+#root{
     height: 100vh;
     
     @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
@@ -111,7 +112,6 @@ export const GlobalStyles = createGlobalStyle`
         }
       }
     }
-    
 
     .ant-select-dropdown {
       background: ${({ theme }) => theme.colors.secondaryBg};

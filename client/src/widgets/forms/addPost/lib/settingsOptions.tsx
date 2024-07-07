@@ -1,14 +1,15 @@
 import { MenuProps } from 'antd';
 import React from 'react';
 import { useFormikContext } from 'formik';
+import { CheckBox } from '@shared/components';
+
 import { IPost } from '../model/IPost';
-import { CheckBox } from 'shared/components/ui/checkbox';
 
 const SwitchComments = () => {
   const { values, setFieldValue } = useFormikContext<IPost>();
 
   return (
-    <div onClick={(e) => e.stopPropagation()}>
+    <div onKeyDown={() => {}} onClick={(e) => e.stopPropagation()}>
       <CheckBox
         onChange={(e) => setFieldValue('isDisabledComments', e.target.checked)}
         checked={values.isDisabledComments}

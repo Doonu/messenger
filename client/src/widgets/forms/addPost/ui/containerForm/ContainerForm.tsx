@@ -1,8 +1,18 @@
 import React, { ChangeEvent, FC, useState } from 'react';
-
-import Settings from '../settings/Settings';
 import { useFormikContext } from 'formik';
-import { IContainerFormProps, IPost } from '../../model/IPost';
+import { useAppSelector, useAppDispatch, useOutsideClick } from '@shared/hooks';
+import { selectorEditedPost, selectorPost } from '@entities/post';
+import { selectorProfileLoader } from '@entities/profile';
+import { ActionIcons } from '@features/ActionIcons';
+import { BaseButton } from '@shared/components';
+import { addPendingList } from '@shared/api';
+import { extensionPhotoList } from '@shared/util';
+import { Files } from '@features/Files';
+import { Photos } from '@features/Photos';
+
+import { SkeletonAddPost } from '../skeleton';
+import Features from '../features';
+import Content from '../content';
 import {
   SContainer,
   SContainerIcons,
@@ -10,19 +20,8 @@ import {
   SSubmit,
   DragInput,
 } from './containerForm.styled';
-import Content from '../content';
-import Features from '../features';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { selectorEditedPost, selectorPost } from 'entities/post/post.selectors';
-import { selectorProfileLoader } from 'entities/profile/profile.selectors';
-import { useOutsideClick } from 'hooks/outside';
-import ActionIcons from 'features/actionIcons';
-import BaseButton from 'shared/components/ui/buttons/baseButton';
-import addPendingList from 'shared/api/http/files/addPendingList';
-import { extensionPhotoList } from 'shared/util/filter';
-import SkeletonAddPost from '../skeleton';
-import Files from 'features/files';
-import Photos from 'features/photos';
+import { IContainerFormProps, IPost } from '../../model/IPost';
+import Settings from '../settings/Settings';
 
 const ContainerForm: FC<IContainerFormProps> = ({
   isDraggablePhoto,
@@ -63,7 +62,7 @@ const ContainerForm: FC<IContainerFormProps> = ({
     handlerChange();
     handlerActive();
 
-    const files = e.target.files;
+    const { files } = e.target;
 
     if (!files) return;
 
@@ -80,9 +79,9 @@ const ContainerForm: FC<IContainerFormProps> = ({
 
     dispatch(addPendingList({ files: Array.from(filteredPhoto), status: 1 }))
       .unwrap()
-      .then((files) => {
+      .then((fetchFiles) => {
         setData((prev) => {
-          return { ...prev, photos: [...files, ...prev.photos] };
+          return { ...prev, photos: [...fetchFiles, ...prev.photos] };
         });
       })
       .catch(() => {})
@@ -92,7 +91,9 @@ const ContainerForm: FC<IContainerFormProps> = ({
   };
 
   const handlerPhotoFocus = () => {
-    isEditPost && setFieldValue('isDraggablePhotoFocus', !values.isDraggablePhotoFocus);
+    if (isEditPost) {
+      setFieldValue('isDraggablePhotoFocus', !values.isDraggablePhotoFocus);
+    }
   };
 
   if (loaderProfile) {

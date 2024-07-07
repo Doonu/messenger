@@ -1,3 +1,1 @@
-import BaseList from './ui';
-
-export { BaseList };
+export * from './ui';

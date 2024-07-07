@@ -1,3 +1,1 @@
-import BaseSelect from './ui/Select';
-
-export { BaseSelect };
+export * from './ui';

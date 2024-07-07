@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
-import SocketApi from './socket-api';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { selectorProfile } from 'entities/profile/profile.selectors';
-import { updateStatus } from 'entities/profile/profile.slice';
+import { useAppSelector, useAppDispatch } from '@shared/hooks';
+import { selectorProfile, updateStatus } from '@entities/profile';
+import { SocketApi } from '@shared/api';
 
 export const useSocket = () => {
   const dispatch = useAppDispatch();

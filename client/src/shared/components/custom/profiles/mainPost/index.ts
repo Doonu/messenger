@@ -1,1 +1,1 @@
-export { default } from './ui/MainPostProfile';
+export * from './ui';

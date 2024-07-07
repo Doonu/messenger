@@ -4,5 +4,4 @@ export interface IMainPost {
   time: string;
   id: number;
   status: boolean;
-  statusTime?: number;
 }

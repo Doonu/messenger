@@ -1,3 +1,1 @@
-import Modal from './ui';
-
-export { Modal };
+export * from './ui';

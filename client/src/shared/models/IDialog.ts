@@ -26,7 +26,6 @@ export interface APIDialog {
   updatedAt: string;
   createdAt: string;
   isGroup: boolean;
-  fixedMessage: APIMessage | null;
   countNotReadMessages: number;
   readStatusLastMessage: boolean;
   lastMessage: APIMessage | null;
@@ -34,4 +33,22 @@ export interface APIDialog {
 
 export interface APIDialogChat extends Omit<APIDialog, 'lastMessage' | 'readStatusLastMessage'> {
   fixedMessage: APIMessage | null;
+}
+
+export interface IMessageItem {
+  id: number;
+  content: string[];
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+  readStatus: boolean;
+  status: 'main' | 'info';
+}
+
+export interface IChat {
+  id: string;
+  author: IUser | null;
+  createdAt: string | null;
+  dialogId: number;
+  messages: IMessageItem[];
 }

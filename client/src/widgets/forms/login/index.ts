@@ -1,1 +1,1 @@
-export { default as LoginForm } from './ui/Login';
+export * from './ui';

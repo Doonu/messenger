@@ -13,7 +13,9 @@ export const SContainer = styled.div<ISContainer>`
   position: relative;
   z-index: ${({ $isChoice }) => ($isChoice ? 0 : 1)};
   padding: ${({ $isFirstElement, $status }) =>
-    $isFirstElement ? '5px 95px 5px 85px' : $status === 'info' ? '0px' : '30px 95px 5px 85px'};
+    ($isFirstElement && '5px 95px 5px 85px') ||
+    ($status === 'info' && '0px') ||
+    ($status !== 'info' && '30px 95px 5px 85px')};
   width: 100%;
   height: 150%;
   background: ${({ $isChoice, theme }) => $isChoice && theme.colors.secondaryText};

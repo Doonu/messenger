@@ -1,3 +1,1 @@
-import Friend from './ui';
-
-export { Friend };
+export * from './ui';

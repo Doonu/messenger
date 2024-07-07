@@ -1,12 +1,12 @@
 import React, { Suspense, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { privateRoutes, publicRoutes } from 'app/routes';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { checkAuth } from 'entities/auth/auth.slice';
-import { isAuthSelector } from 'entities/auth/auth.selectors';
-import { LoaderPage } from 'shared/components/ui/loaders';
-import Login from 'pages/public/login';
-import { Feed } from 'pages/private/feed';
+import { useAppDispatch, useAppSelector } from '@shared/hooks';
+import { checkAuth, isAuthSelector } from '@entities/auth';
+import { LoaderPage } from '@shared/components';
+import Login from '@pages/login';
+import Feed from '@pages/Feed';
+
+import { privateRoutes, publicRoutes } from '../routes';
 
 const Router = () => {
   const dispatch = useAppDispatch();

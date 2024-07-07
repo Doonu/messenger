@@ -1,3 +1,1 @@
-import Sorting from './ui';
-
-export { Sorting };
+export * from './ui';

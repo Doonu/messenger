@@ -1,18 +1,29 @@
 import { MenuProps } from 'antd';
 import { Link } from 'react-router-dom';
-import React, { FC } from 'react';
-import { logout } from 'entities/auth/auth.slice';
-import { useAppDispatch } from 'hooks/redux';
-import { SocketApi } from 'shared/api';
+import React, { FC, KeyboardEvent } from 'react';
+import { logout } from '@entities/auth';
+import { useAppDispatch } from '@shared/hooks';
+import { SocketApi } from '@shared/api';
 
 const Exit: FC = () => {
   const dispatch = useAppDispatch();
+
   const handlerLogout = () => {
     SocketApi.socket?.disconnect();
     dispatch(logout());
   };
 
-  return <div onClick={handlerLogout}>Выйти</div>;
+  const handlerKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      handlerLogout();
+    }
+  };
+
+  return (
+    <div onKeyDown={handlerKeyDown} onClick={handlerLogout}>
+      Выйти
+    </div>
+  );
 };
 
 export const itemsDropdown: MenuProps['items'] = [

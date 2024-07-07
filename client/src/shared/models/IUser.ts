@@ -5,7 +5,7 @@ export interface IUser {
   banned: boolean;
   banReason: null | string;
   statusConnected: boolean;
-  timeConnected: number;
+  timeConnected: string;
   roles: {
     value: string;
     createdAt: string;
@@ -21,7 +21,7 @@ export interface ApiProfile {
   banReason: null | string;
   id: number;
   statusConnected: boolean;
-  timeConnected: number;
+  timeConnected: string;
   roles: {
     id: number;
     value: string;

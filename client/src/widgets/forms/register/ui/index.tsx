@@ -1,15 +1,18 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Form } from 'antd';
-import { SContainerAuth, SInputForm, STitle, SBaseButton, SLink } from './register.styled';
-import { IRegister } from 'shared/api/http/auth/postRegistration/postRegistration.type';
-import { useAppDispatch } from 'hooks/redux';
+import { postRegistration, getProfile } from '@shared/api';
+import { useAppDispatch } from '@shared/hooks';
 import { useNavigate } from 'react-router-dom';
-import { postRegistration, getProfile } from 'shared/api';
-import { IInitialValue } from '../model/IInitialValueRegister';
-import Input from 'shared/components/ui/inputs/baseInput';
+import { BaseInput } from '@shared/components';
+import { IRegister } from '@shared/models';
 
-const Register = () => {
+import { IInitialValue } from '../model/IInitialValueRegister';
+import { SContainerAuth, SInputForm, STitle, SBaseButton, SLink } from './register.styled';
+
+// TODO: убрать эти валидаторы
+
+export const Register = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -62,7 +65,7 @@ const Register = () => {
                 },
               ]}
             >
-              <Input
+              <BaseInput
                 border="none"
                 name="email"
                 onChange={(e) => setFieldValue('email', e.target.value)}
@@ -83,13 +86,13 @@ const Register = () => {
                 { min: 3, message: 'Минимальное кол-во символов: 3', whitespace: false },
               ]}
             >
-              <Input
+              <BaseInput
                 border="none"
                 name="name"
                 onChange={(e) => setFieldValue('name', e.target.value)}
                 value={values.name}
                 height="40px"
-              ></Input>
+              />
             </SInputForm>
             <SInputForm
               help={errors.password}
@@ -101,14 +104,14 @@ const Register = () => {
                 { max: 16, message: 'Максимальное кол-во символов: 16', whitespace: false },
               ]}
             >
-              <Input
+              <BaseInput
                 border="none"
                 name="password"
                 type="password"
                 onChange={(e) => setFieldValue('password', e.target.value)}
                 value={values.password}
                 height="40px"
-              ></Input>
+              />
             </SInputForm>
             <SInputForm
               help={errors.repeatPassword}
@@ -116,9 +119,10 @@ const Register = () => {
               name="Повторите пароль"
               rules={[
                 {
-                  validator: (_, value) => {
+                  validator: (_, valueValidator) => {
                     return new Promise((resolve: any, reject) => {
-                      value === values.password ? resolve() : reject();
+                      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                      valueValidator === values.password ? resolve() : reject();
                     });
                   },
                   message: 'Пароли не совпадают',
@@ -129,22 +133,20 @@ const Register = () => {
                 { max: 16, message: 'Максимальное кол-во символов: 16', whitespace: true },
               ]}
             >
-              <Input
+              <BaseInput
                 border="none"
                 name="repeatPassword"
                 type="password"
                 height="40px"
                 onChange={(e) => setFieldValue('repeatPassword', e.target.value)}
                 value={values.repeatPassword}
-              ></Input>
+              />
             </SInputForm>
             <SBaseButton htmlType="submit">Вход</SBaseButton>
-            <SLink to={'/'}>Уже зарегестрированы?</SLink>
+            <SLink to="/">Уже зарегестрированы?</SLink>
           </Form>
         )}
       </Formik>
     </SContainerAuth>
   );
 };
-
-export default Register;

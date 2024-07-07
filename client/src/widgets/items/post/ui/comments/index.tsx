@@ -1,18 +1,16 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import { SAutosizeInput, SButton, SContainer, Send, SForm } from './comments.styled';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { selectorProfile } from 'entities/profile/profile.selectors';
-import { getAllCommentsInPost, createComment, deleteComments } from 'shared/api';
-import CommentItem from '../commentItem';
-import PhotoProfile from 'shared/components/custom/profiles/photo';
-import { CommentsProps } from '../../model/IComments';
-import { recalculationOfComments } from 'entities/post/post.slice';
-import Sorting from 'shared/components/ui/sorting/ui';
-import { filterComments, IFilterCommentsKeys } from './lib/filterComments';
-import { ICommentsState } from 'entities/post/model/IPost';
-import BaseList from 'shared/components/custom/lists/BaseList/ui';
+import { useAppDispatch, useAppSelector } from '@shared/hooks';
+import { selectorProfile } from '@entities/profile';
+import { getAllCommentsInPost, createComment, deleteComments } from '@shared/api';
+import { PhotoProfile, Sorting, BaseList } from '@shared/components';
+import { recalculationOfComments, ICommentsState } from '@entities/post';
 
-const Comments: FC<CommentsProps> = ({ post }) => {
+import { filterComments, IFilterCommentsKeys } from './lib/filterComments';
+import { CommentsProps } from '../../model/IComments';
+import CommentItem from '../commentItem';
+import { SAutosizeInput, SButton, SContainer, Send, SForm } from './comments.styled';
+
+export const Comments: FC<CommentsProps> = ({ post }) => {
   const dispatch = useAppDispatch();
 
   const { name, avatar } = useAppSelector(selectorProfile);
@@ -35,7 +33,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
       getAllCommentsInPost({
         postId: post.id,
         orderBy,
-        orderDirection: orderDirection,
+        orderDirection,
         page: 1,
         limit,
       })
@@ -57,7 +55,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
       getAllCommentsInPost({
         postId: post.id,
         orderBy,
-        orderDirection: orderDirection,
+        orderDirection,
         page: page + 1,
         limit,
       })
@@ -78,7 +76,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
       dispatch(createComment({ postId: post.id, content: content.toString().split('\n') }))
         .unwrap()
         .then((comment) => {
-          setComments((comments) => [comment, ...comments]);
+          setComments((oldComments) => [comment, ...oldComments]);
           dispatch(recalculationOfComments({ action: 1, id: post.id }));
           setContent('');
         });
@@ -103,12 +101,11 @@ const Comments: FC<CommentsProps> = ({ post }) => {
           ...comment,
           isEdit: true,
         };
-      } else {
-        return {
-          ...comment,
-          isEdit: false,
-        };
       }
+      return {
+        ...comment,
+        isEdit: false,
+      };
     });
     setComments(newComments);
   };
@@ -121,18 +118,17 @@ const Comments: FC<CommentsProps> = ({ post }) => {
           content: editContent.toString().split('\n'),
           isEdit: false,
         };
-      } else {
-        return {
-          ...comment,
-          isEdit: false,
-        };
       }
+      return {
+        ...comment,
+        isEdit: false,
+      };
     });
 
     setComments(newComments);
   };
 
-  const handleChangeContent = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
@@ -161,7 +157,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
       )}
       <BaseList
         list={comments}
-        isBorderBottom={true}
+        isBorderBottom
         isPending={loader}
         fetchNextPage={nextPageGetAllComments}
         hasMore={isMore}
@@ -185,7 +181,7 @@ const Comments: FC<CommentsProps> = ({ post }) => {
           isDrag={false}
           value={content}
           onChange={handleChangeContent}
-          $position={true}
+          $position
           placeholder="Написать комментарий..."
           draggable="false"
         />
@@ -196,5 +192,3 @@ const Comments: FC<CommentsProps> = ({ post }) => {
     </SContainer>
   );
 };
-
-export default Comments;

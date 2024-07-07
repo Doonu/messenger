@@ -1,3 +1,1 @@
-import Carousel from './ui';
-
-export { Carousel };
+export * from './ui';

@@ -1,28 +1,18 @@
-import React, { MouseEvent, FC, useState, RefObject, useEffect } from 'react';
-import { SChoiceMessage, SContainer, SContent, SFutures, SInfo, SP } from './messageItem.styled';
+import React, { FC, useState, useEffect } from 'react';
 import { LuPencil } from 'react-icons/lu';
 import { PiShareFatLight } from 'react-icons/pi';
 import { FaRegStar } from 'react-icons/fa';
 import { FaRegCircleCheck } from 'react-icons/fa6';
-import { IMessageItem } from 'pages/private/chat/model/IChat';
-import { useAppSelector } from 'hooks/redux';
-import { selectorProfile } from 'entities/profile/profile.selectors';
-// @ts-ignore
+import { useAppSelector } from '@shared/hooks';
+import { selectorProfile } from '@entities/profile';
 import { useInView } from 'react-intersection-observer';
-import { readMessage } from 'shared/api/socket/dialog';
+import { readMessage } from '@shared/api';
 import { useParams } from 'react-router-dom';
 
-interface IMessage {
-  messageItem: IMessageItem;
-  index: number;
-  handlerChoice: (id: number) => void;
-  handlerUpdate: (event: MouseEvent<HTMLDivElement>, id: number) => void;
-  choiceMessages: number[];
-  isRead: boolean;
-  chatRef: RefObject<HTMLDivElement>;
-}
+import { IMessageItemProps } from '../../model/IMessage';
+import { SChoiceMessage, SContainer, SContent, SFutures, SInfo, SP } from './messageItem.styled';
 
-const MessageItem: FC<IMessage> = ({
+const MessageItem: FC<IMessageItemProps> = ({
   messageItem,
   index,
   handlerChoice,
@@ -32,7 +22,12 @@ const MessageItem: FC<IMessage> = ({
   chatRef,
 }) => {
   const params = useParams();
-  const idParam = params['id'];
+  const idParam = params.id;
+
+  const [isShow, setIsShow] = useState(false);
+  const isNotFirstElement = index !== 0;
+  const isChoice = choiceMessages.includes(messageItem.id);
+  const user = useAppSelector(selectorProfile);
 
   const { ref, entry, inView } = useInView({
     threshold: 1,
@@ -57,11 +52,6 @@ const MessageItem: FC<IMessage> = ({
       readMessage({ messageId: messageItem.id, dialogId: +idParam, userId: user.id });
     }
   }, [inView, entry?.intersectionRatio]);
-
-  const [isShow, setIsShow] = useState(false);
-  const isNotFirstElement = index !== 0;
-  const isChoice = choiceMessages.includes(messageItem.id);
-  const user = useAppSelector(selectorProfile);
 
   const handlerOnMouseEnter = () => {
     if (messageItem.status === 'main') setIsShow(true);
@@ -91,6 +81,7 @@ const MessageItem: FC<IMessage> = ({
         <SInfo>
           <SContent>
             {messageItem.content.map((content, i) => (
+              // eslint-disable-next-line react/no-array-index-key
               <SP key={messageItem.id + i} $status={messageItem.status}>
                 {content}
               </SP>
@@ -100,14 +91,14 @@ const MessageItem: FC<IMessage> = ({
 
         {(isShow || isChoice) && (
           <SChoiceMessage $isFirstElement={isNotFirstElement}>
-            <FaRegCircleCheck color={'white'} size={20} />
+            <FaRegCircleCheck color="white" size={20} />
           </SChoiceMessage>
         )}
 
         {isShow && (
           <SFutures $isFirstElement={isNotFirstElement}>
             {user.id === messageItem.userId && (
-              <div onClick={(e) => handlerUpdate(e, messageItem.id)}>
+              <div onKeyDown={() => {}} onClick={(e) => handlerUpdate(e, messageItem.id)}>
                 <LuPencil size={20} />
               </div>
             )}

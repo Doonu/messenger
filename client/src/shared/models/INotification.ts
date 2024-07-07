@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+
 import { ApiProfile, IUser } from './IUser';
 
 export type Types = 'error' | 'warning' | 'info' | 'success' | undefined;
@@ -8,7 +9,7 @@ export interface INotifyItem {
   id: number;
   content: string;
   createdAt: string;
-  sender: Omit<IUser, 'roles'>;
+  sender: IUser;
 }
 
 export interface INotification {

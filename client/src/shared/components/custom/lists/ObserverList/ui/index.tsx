@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
-// @ts-ignore
 import { useInView } from 'react-intersection-observer';
-import { ObserverBlock, SList } from './ObserverList.styled';
+import { LoaderSmall, Empty } from '@shared/components';
+
+import { SList } from './ObserverList.styled';
 import { IObserverList } from '../model/IObserverList';
-import Empty from 'shared/components/ui/empty';
-import { LoaderSmall } from 'shared/components/ui/loaders';
 
 /**
  *   data - Массив для рендера
@@ -14,9 +13,11 @@ import { LoaderSmall } from 'shared/components/ui/loaders';
  *   isFetching — Дозагрузка данных
  *   isNotFound — Данные не найдены
  *   position - С какой стороны прогрузка при скроле
- **/
+ * */
 
-const ObserverList = <T, K>({
+// TODO: вернуть
+
+export const ObserverList = <T,>({
   list,
   notFoundMessage,
   isFetching,
@@ -29,17 +30,19 @@ const ObserverList = <T, K>({
   isEmpty,
   gap = 15,
   refContainer,
-}: IObserverList<T, K>) => {
+}: IObserverList<T>) => {
   const { ref, inView, entry } = useInView({
     threshold: 0,
     initialInView: false,
   });
 
-  const isFetchingNextPage =
-    document.body.clientHeight <
-      (window.scrollY + 100 !== 100 || (refContainer?.current?.scrollHeight || 0) + 100) &&
-    hasMore &&
-    entry?.intersectionRatio === 1;
+  // const isFetchingNextPage =
+  //   document.body.clientHeight <
+  //     (window.scrollY + 100 !== 100 || (refContainer?.current?.scrollHeight || 0) + 100) &&
+  //   hasMore &&
+  //   entry?.intersectionRatio === 1;
+
+  const isFetchingNextPage = 0;
 
   const isFetchingNextPageTop = window.scrollY === 0 && hasMore && entry?.intersectionRatio === 1;
 
@@ -51,7 +54,8 @@ const ObserverList = <T, K>({
     requestAnimationFrame(() => {
       const newHeight = refContainer?.current?.scrollHeight;
 
-      if (newHeight && initialHeight && refContainer.current) {
+      if (newHeight && initialHeight && refContainer?.current) {
+        // eslint-disable-next-line no-param-reassign
         refContainer.current.scrollTop = newHeight - initialHeight;
       }
     });
@@ -68,16 +72,14 @@ const ObserverList = <T, K>({
 
   return (
     <>
-      {position === 'top' && <ObserverBlock ref={ref} />}
+      {position === 'top' && <div ref={ref} />}
       <SList $gap={gap}>
         {!isFetching && list.map((el, index) => itemContent(el, index))}
         {isPending && [...new Array(5)].map((el, i) => skeleton(i))}
       </SList>
-      {position === 'bottom' && <ObserverBlock ref={ref} />}
+      {position === 'bottom' && <div ref={ref} />}
       {isFetching && <LoaderSmall />}
       {isEmpty || (!list.length && !isPending && <Empty message={notFoundMessage} />)}
     </>
   );
 };
-
-export default ObserverList;

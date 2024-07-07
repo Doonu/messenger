@@ -1,17 +1,18 @@
 import styled from 'styled-components';
 import { Form } from 'antd';
 import { Link } from 'react-router-dom';
-import Logo from 'shared/components/custom/logo';
-import BaseButton from 'shared/components/ui/buttons/baseButton';
+import { BaseButton } from '@shared/components';
 
-export const SForm = styled(Form)`
+// TODO: переделать
+
+export const SFormContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 70px;
   padding-right: 20px;
 `;
 
-export const SFormContainer = styled.div`
+export const SForm = styled.div`
   flex: 1;
 `;
 
@@ -37,13 +38,21 @@ export const SLink = styled(Link)`
   color: ${({ theme }) => theme.colors.link};
 `;
 
-export const SLogo = styled(Logo).attrs({
+export const SLogo = styled.div.attrs({
   size: 60,
   sizeBg: '80px',
   color: 'white',
 })`
   align-self: center;
 `;
+
+// export const SLogo = styled(Logo).attrs({
+//   size: 60,
+//   sizeBg: '80px',
+//   color: 'white',
+// })`
+//   align-self: center;
+// `;
 
 export const STitle = styled.h1`
   color: ${({ theme }) => theme.colors.active};

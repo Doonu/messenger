@@ -1,13 +1,16 @@
 import { useEffect } from 'react';
-import SocketApi from '../socket-api';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { selectorProfile } from 'entities/profile/profile.selectors';
-import { addCount, addNotification, showMessage } from 'entities/notification/notification.slice';
-import { Types } from 'shared/models/INotification';
-import { friendRequestConverting } from './friendRequest.converting';
-import { IResponseNotification, IUseFriendRequest } from './friendRequest.type';
+import { useAppSelector, useAppDispatch } from '@shared/hooks';
+import { selectorProfile } from '@entities/profile';
+import { addCount, addNotification, showMessage } from '@entities/notification';
+import { Types } from '@shared/models';
+import {
+  SocketApi,
+  friendRequestConverting,
+  IResponseNotification,
+  IUseFriendRequest,
+} from '@shared/api';
 
-export const friendRequestHook = ({
+export const useFriendRequestHook = ({
   newFriendReqCallback,
   acceptedRequestCallback,
   canselRequestCallback,
@@ -20,7 +23,7 @@ export const friendRequestHook = ({
     dispatch(
       showMessage({
         title: data.message,
-        type: type,
+        type,
         level: 'medium',
       })
     );
@@ -48,7 +51,10 @@ export const friendRequestHook = ({
     }
 
     messageView(data);
-    acceptedRequestCallback && acceptedRequestCallback();
+
+    if (acceptedRequestCallback) {
+      acceptedRequestCallback();
+    }
   };
 
   const handlerCanselFriendRequest = (data: IResponseNotification) => {
@@ -59,7 +65,10 @@ export const friendRequestHook = ({
     }
 
     messageView(data, 'error');
-    canselFriendRequestCallback && canselFriendRequestCallback();
+
+    if (canselFriendRequestCallback) {
+      canselFriendRequestCallback();
+    }
   };
 
   const handlerCanselRequest = (data: IResponseNotification) => {
@@ -70,7 +79,10 @@ export const friendRequestHook = ({
     }
 
     messageView(data, 'error');
-    canselRequestCallback && canselRequestCallback();
+
+    if (canselRequestCallback) {
+      canselRequestCallback();
+    }
   };
 
   const connectSocket = () => {

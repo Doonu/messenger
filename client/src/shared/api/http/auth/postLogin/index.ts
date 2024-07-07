@@ -1,14 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from 'shared/api/interceptors';
-import { ApiLogin, ILogin, IPostLogin } from './postLogin.type';
-
-import { IConfigAsyncThunk, IError } from 'shared/models/errors';
+import { API } from '@shared/api';
+import { IConfigAsyncThunk, IError, ILogin } from '@shared/models';
 import { AxiosError } from 'axios';
-import { showMessage } from 'entities/notification/notification.slice';
 
-const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
-  'auth/login',
-  ({ email, password }, { rejectWithValue, dispatch }) => {
+import { ApiLogin, IPostLogin } from './postLogin.type';
+
+// TODO: доделать
+export const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
+  'auth/Login',
+  ({ email, password }, { rejectWithValue }) => {
     return API<ApiLogin>({
       url: `api/auth/login`,
       method: 'POST',
@@ -27,19 +27,17 @@ const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>(
         };
       })
       .catch(({ response }: AxiosError<IError>) => {
-        const title = response?.data.message || 'Неизвестная ошибка';
-
-        dispatch(
-          showMessage({
-            title: title,
-            type: 'error',
-            level: 'medium',
-          })
-        );
+        // const title = response.data || 'Неизвестная ошибка';
+        //
+        // dispatch(
+        //   showMessage({
+        //     title,
+        //     type: 'error',
+        //     level: 'medium',
+        //   })
+        // );
 
         return rejectWithValue(response?.data);
       });
   }
 );
-
-export default postLogin;

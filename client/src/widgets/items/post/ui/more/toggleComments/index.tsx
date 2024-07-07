@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { IPost } from 'widgets/items/post/model/shared';
+import { IPost } from '@widgets/items';
 
 const ToggleComments: FC<IPost> = ({ post }) => {
   return <>{post.isDisabledComments ? 'Включить комментарии' : 'Выключить комментарии'}</>;

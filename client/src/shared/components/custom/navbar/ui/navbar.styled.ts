@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
+import { LinkStyle } from '../model/INavbar.style';
+
 export const Container = styled.div`
   display: flex;
   align-items: center;
@@ -18,15 +20,10 @@ export const Container = styled.div`
     border-top: 1px solid ${({ theme }) => theme.colors.secondaryText};
     border-radius: 15px;
     background: ${({ theme }) => theme.colors.bg};
-  } ;
+  }
 `;
 
-interface SLinkProps {
-  $active: boolean;
-  isNotify?: boolean;
-}
-
-export const SLink = styled(Link)<SLinkProps>`
+export const SLink = styled(Link)<LinkStyle>`
   color: ${({ theme, $active }) => ($active ? theme.colors.active : theme.colors.text)};
   position: relative;
 
@@ -51,7 +48,7 @@ export const SItem = styled.div`
       width: 20px;
       height: 20px;
     }
-  } ;
+  }
 `;
 
 export const SDescription = styled.div`
@@ -60,5 +57,5 @@ export const SDescription = styled.div`
   @media (max-width: ${({ theme }) => theme.breakpoints.tablet}) {
     display: flex;
     font-size: 10px;
-  } ;
+  }
 `;

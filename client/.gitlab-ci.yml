@@ -1,0 +1,90 @@
+image: node:latest
+
+stages:
+  - test
+  - buildDev
+  - buildProd
+  - publishDev
+  - publishProd
+
+# Определение кэша, зависимого от package-lock.json
+cache:
+  key: 
+    files:
+      - package-lock.json
+  paths:
+    - node_modules/
+    - ~/.npm
+
+test:
+  stage: test
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  before_script:
+    - npm i eslint --legacy-peer-deps
+    - npm i prettier --legacy-peer-deps
+    - npm i jest --legacy-peer-deps
+  script:
+    - npm run lint
+    - npm run format
+    - npm run test:update
+
+buildDev:
+  stage: buildDev
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+  before_script:
+    - npm i standard-version --legacy-peer-deps
+    - npm i env-cmd --legacy-peer-deps
+    - npm i -save @craco/craco --legacy-peer-deps
+  script:
+    - npx standard-version
+    - export NODE_OPTIONS=--max_old_space_size=2867
+    - npm run build:dev
+  artifacts:
+    paths:
+      - build
+      - CHANGELOG.md
+    expire_in: 30d
+
+buildProd:
+  stage: buildProd
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  before_script:
+    - npm i standard-version --legacy-peer-deps
+    - npm i env-cmd --legacy-peer-deps
+    - npm i -save @craco/craco --legacy-peer-deps
+  script:
+    - npx standard-version
+    - export NODE_OPTIONS=--max_old_space_size=2867
+    - npm run build:prod
+  artifacts:
+    paths:
+      - build
+      - CHANGELOG.md
+    expire_in: 30d
+
+publishDev:
+  stage: publishDev
+  when: manual
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "develop"'
+  script:
+    - ssh -p 42031 runner@81.163.21.39 -i /home/gitlab-runner/y 'rm -rf /var/www/lk-dev.iteco.com/*'
+    - scp -o StrictHostKeyChecking=no -i /home/gitlab-runner/y -P42031 -r build/* runner@81.163.21.39:/var/www/lk-dev.iteco.com/
+    - ssh -p 42031 runner@81.163.21.39 -i /home/gitlab-runner/y 'chown -R runner:developers /var/www/lk-dev.iteco.com/*'
+    - ssh -p 42031 runner@81.163.21.39 -i /home/gitlab-runner/y 'chmod -R 770 /var/www/lk-dev.iteco.com/*'
+
+publishProd:
+  stage: publishProd
+  when: manual
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+  script:
+    - ssh -p 42010 -o "StrictHostKeyChecking no" runner@95.213.188.19 -i /home/gitlab-runner/y 'rm -rf /var/www/lk-new.iteco.com/*'
+    - scp -o StrictHostKeyChecking=no -i /home/gitlab-runner/y -P42010 -r build/* runner@95.213.188.19:/var/www/lk-new.iteco.com/
+    - ssh -p 42010 runner@95.213.188.19 -i /home/gitlab-runner/y 'chown -R runner:developers /var/www/lk-new.iteco.com/*'
+    - ssh -p 42010 runner@95.213.188.19 -i /home/gitlab-runner/y 'chmod -R 770 /var/www/lk-new.iteco.com/*'

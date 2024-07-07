@@ -1,22 +1,13 @@
 import { ComponentType, lazy } from 'react';
 
-// TODO: разобраться с этим
-// @ts-ignore
-const Dialogs = lazy(() => import('pages/private/dialogs/ui'));
-// @ts-ignore
-const Favorite = lazy(() => import('pages/private/favorite'));
-// @ts-ignore
-const Login = lazy(() => import('pages/public/login'));
-// @ts-ignore
-const Registration = lazy(() => import('pages/public/registration'));
-// @ts-ignore
-const Feed = lazy(() => import('pages/private/feed/ui'));
-// @ts-ignore
-const Profile = lazy(() => import('pages/private/profile'));
-// @ts-ignore
-const Users = lazy(() => import('pages/private/users'));
-// @ts-ignore
-const Chat = lazy(() => import('pages/private/chat/ui'));
+const Dialogs = lazy(() => import('../../pages/Dialogs'));
+const Favorite = lazy(() => import('../../pages/Favorite'));
+const Login = lazy(() => import('../../pages/login'));
+const Registration = lazy(() => import('../../pages/Registration'));
+const Feed = lazy(() => import('../../pages/Feed'));
+const Profile = lazy(() => import('../../pages/Profile'));
+const Users = lazy(() => import('../../pages/Users'));
+const Chat = lazy(() => import('../../pages/Chat'));
 
 export interface IRoute {
   path: string;

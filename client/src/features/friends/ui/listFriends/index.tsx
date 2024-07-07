@@ -1,22 +1,17 @@
 import React, { FC } from 'react';
-import { SContainer, SName, STitle, SUser, SUsers } from './ListFriends.styles';
-import { convertName } from 'shared/util/user';
-import PhotoProfile from 'shared/components/custom/profiles/photo';
-import { IUser } from 'shared/models/IUser';
+import { convertName } from '@shared/util';
+import { PhotoProfile } from '@shared/components';
 import { useNavigate } from 'react-router-dom';
 
-interface IListFriends {
-  title: string;
-  users: IUser[];
-  isBorder?: boolean;
-}
+import { IListFriends } from '../../model/IFriends';
+import { SContainer, SName, STitle, SUser, SUsers } from './ListFriends.styles';
 
 const ListFriends: FC<IListFriends> = ({ users, title, isBorder = false }) => {
   const navigate = useNavigate();
 
   return (
     <SContainer $isBorder={isBorder}>
-      <STitle onClick={() => navigate('/friends')}>
+      <STitle onClick={() => navigate('/Friends')}>
         <span>{title}</span> {users.length}
       </STitle>
       <SUsers>
@@ -28,7 +23,6 @@ const ListFriends: FC<IListFriends> = ({ users, title, isBorder = false }) => {
           >
             <PhotoProfile
               status={friend.statusConnected}
-              statusTime={friend.timeConnected}
               fontSize={30}
               size={60}
               img={friend.avatar}

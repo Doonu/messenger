@@ -1,4 +1,14 @@
 import React, { ChangeEvent, FC, useState } from 'react';
+import { postTime, convertName } from '@shared/util';
+import { BaseButton, PhotoProfile, Slice } from '@shared/components';
+import { BgLike, Close, Like, Redaction } from '@shared/assets';
+import { useAppDispatch, useAppSelector } from '@shared/hooks';
+import { likeComments, updateComment } from '@shared/api';
+import { selectorProfile } from '@entities/profile';
+import { useNavigate } from 'react-router-dom';
+
+import { ICommentItem } from '../../model/ICommentItem';
+import { SAutosizeInput } from '../comments/comments.styled';
 import {
   SContainer,
   SName,
@@ -14,19 +24,8 @@ import {
   SComment,
   SContainerRow,
 } from './commentItem.styled';
-import { postTime } from 'shared/util/time';
-import PhotoProfile from 'shared/components/custom/profiles/photo';
-import { convertName } from 'shared/util/user';
-import { BgLike, Close, Like, Redaction } from 'shared/assets/icons';
-import { useAppDispatch, useAppSelector } from 'hooks/redux';
-import { likeComments, updateComment } from 'shared/api';
-import { SAutosizeInput } from '../comments/comments.styled';
-import { selectorProfile } from 'entities/profile/profile.selectors';
-import BaseButton from 'shared/components/ui/buttons/baseButton';
-import { ICommentItem } from '../../model/ICommentItem';
-import { Slice } from 'shared/components/custom/slice';
-import { useNavigate } from 'react-router-dom';
 
+// TODO: eslint
 const CommentItem: FC<ICommentItem> = ({
   comment,
   onDelete,
@@ -52,6 +51,7 @@ const CommentItem: FC<ICommentItem> = ({
   const handlerLike = () => {
     dispatch(likeComments(comment.id))
       .unwrap()
+      // eslint-disable-next-line @typescript-eslint/no-shadow
       .then(({ isLike }) => {
         setComments((comments) => {
           return comments.map((prevComment) => {
@@ -68,7 +68,7 @@ const CommentItem: FC<ICommentItem> = ({
       .finally(() => setIsLike((prev) => !prev));
   };
 
-  const handleChangeContent = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeContent = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setEditContent(e.target.value);
   };
 
@@ -110,13 +110,13 @@ const CommentItem: FC<ICommentItem> = ({
               isDrag={false}
               value={editContent}
               onChange={handleChangeContent}
-              $position={true}
+              $position
               placeholder="Написать комментарий..."
               draggable="false"
-              bordered={false}
+              // bordered={false}
             />
             <SContainerButtons>
-              <BaseButton onClick={handlerCansel} bgTransparent={true}>
+              <BaseButton onClick={handlerCansel} bgTransparent>
                 Отмена
               </BaseButton>
               <BaseButton onClick={handleUpdateComment}>Сохранить</BaseButton>
@@ -146,7 +146,7 @@ const CommentItem: FC<ICommentItem> = ({
           </SContainerRow>
           <SLike onClick={handlerLike}>
             {!isLike && <Like />}
-            {isLike && <BgLike color={'red'} />}
+            {isLike && <BgLike color="red" />}
             {comment.countLikes}
           </SLike>
         </SContainerHandle>
