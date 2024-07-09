@@ -23,14 +23,17 @@ const ProfileSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getProfile.fulfilled, (state, { payload }: PayloadAction<IUser>) => {
-      state.user = payload;
-      state.isLoading = false;
-    });
-    builder.addCase(getProfile.pending, (state) => {
+    builder.addCase(
+      getProfile.fulfilled,
+      (state: ProfileState, { payload }: PayloadAction<IUser>) => {
+        state.user = payload;
+        state.isLoading = false;
+      }
+    );
+    builder.addCase(getProfile.pending, (state: ProfileState) => {
       state.isLoading = true;
     });
-    builder.addCase(getProfile.rejected, (state) => {
+    builder.addCase(getProfile.rejected, (state: ProfileState) => {
       state.isLoading = false;
     });
   },

@@ -78,7 +78,7 @@ const Chat = () => {
   };
 
   const handlerGetChat = () => {
-    if (idParam)
+    if (idParam) {
       dispatch(getDialogById(idParam))
         .unwrap()
         .then((data) => {
@@ -86,6 +86,7 @@ const Chat = () => {
           setFixedMessage(data.fixedMessage);
         })
         .catch(() => {});
+    }
   };
 
   const getNewMessages = () => {

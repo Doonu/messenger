@@ -49,17 +49,17 @@ const DialogsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(getAllDialogs.fulfilled, (state, { payload }) => {
+    builder.addCase(getAllDialogs.fulfilled, (state: DialogsState, { payload }) => {
       if (payload.length === 0) state.isHaseMore = false;
       if (state.page === 1) state.list = payload;
       if (state.page > 1 && payload.length !== 0) state.list = [...state.list, ...payload];
 
       state.isLoading = false;
     });
-    builder.addCase(getAllDialogs.pending, (state) => {
+    builder.addCase(getAllDialogs.pending, (state: DialogsState) => {
       state.isLoading = true;
     });
-    builder.addCase(getAllDialogs.rejected, (state) => {
+    builder.addCase(getAllDialogs.rejected, (state: DialogsState) => {
       state.isError = true;
       state.isLoading = false;
     });

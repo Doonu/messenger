@@ -1,7 +1,4 @@
 const path = require('path');
-const dotenv = require('dotenv');
-
-dotenv.config();
 
 const resolvePath = (p) => path.resolve(__dirname, p);
 
@@ -13,7 +10,7 @@ module.exports = {
         warnings: false,
         runtimeErrors: false,
       },
-    }
+    },
   },
   webpack: {
     configure: {
