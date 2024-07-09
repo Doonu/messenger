@@ -17,7 +17,7 @@ const API: AxiosInstance = axios.create({
 const handlerRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
   const { method, url, headers } = config;
 
-  const session = store.getState().session.accessToken;
+  const session = store.getState().ls.session.accessToken;
 
   if (session) headers.Authorization = session;
 

@@ -7,8 +7,7 @@ const WithInterceptor: FC<PropsWithChildren> = ({ children }) => {
     axios.interceptors.request.use(
       (config) => {
         const state = store.getState();
-        console.log('Current state:', state);
-        const sessionToken = state.session.accessToken;
+        const sessionToken = state.ls.session.accessToken;
 
         if (sessionToken) {
           config.headers.Authorization = `Bearer ${sessionToken}`;
