@@ -5,6 +5,7 @@ import axios, {
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
+import { store } from '@app/store';
 
 const API: AxiosInstance = axios.create({
   headers: {
@@ -16,9 +17,9 @@ const API: AxiosInstance = axios.create({
 const handlerRequest = (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
   const { method, url, headers } = config;
 
-  const session = localStorage.getItem('session');
+  const session = store.getState().session.accessToken;
 
-  if (session) headers.Authorization = JSON.parse(session).at;
+  if (session) headers.Authorization = session;
 
   console.log(`🚀 [API] ${method?.toUpperCase()} ${url} | Request`);
 

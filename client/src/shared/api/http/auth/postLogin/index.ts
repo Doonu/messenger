@@ -15,13 +15,6 @@ export const postLogin = createAsyncThunk<IPostLogin, ILogin, IConfigAsyncThunk>
       data: { email, password },
     })
       .then(({ data }) => {
-        localStorage.setItem(
-          'session',
-          JSON.stringify({
-            at: data.token,
-          })
-        );
-
         return {
           token: data.token,
         };

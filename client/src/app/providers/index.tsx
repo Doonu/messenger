@@ -1,28 +1,30 @@
 import React from 'react';
-import { store } from '@app/store';
-import { ThemeProvider } from 'styled-components';
-import { darkTheme, GlobalStyles } from '@shared/styles';
-import { Provider } from 'react-redux';
+import { GlobalStyles } from '@shared/styles';
 import { Notification } from '@shared/components';
 
+import WithTheme from './WithTheme';
+import WithPersist from './WithPersist';
+import WithStore from './WithStore';
 import Router from '../router';
-import AntdConfigProvider from './AntdConfigProvider';
-import AuthProvider from './AuthProvider';
-import SocketProviders from './SocketProviders';
+import WithAntdConfig from './WithAntdConfig';
+import WithAuth from './WithAuth';
+import WithSocket from './WithSocket';
 
 const Providers = () => {
   return (
-    <ThemeProvider theme={darkTheme}>
-      <GlobalStyles />
-      <AntdConfigProvider>
-        <Provider store={store}>
-          <AuthProvider />
-          <Notification />
-          <Router />
-          <SocketProviders />
-        </Provider>
-      </AntdConfigProvider>
-    </ThemeProvider>
+    <WithStore>
+      <WithPersist>
+        <WithTheme>
+          <GlobalStyles />
+          <WithAntdConfig>
+            <WithAuth />
+            <Notification />
+            <Router />
+            <WithSocket />
+          </WithAntdConfig>
+        </WithTheme>
+      </WithPersist>
+    </WithStore>
   );
 };
 

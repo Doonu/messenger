@@ -1,9 +1,9 @@
 import { useSocket, useFriendRequestHook } from '@shared/api';
 
-const SocketProviders = () => {
+const WithSocket = () => {
   useSocket();
   useFriendRequestHook({});
   return null;
 };
 
-export default SocketProviders;
+export default WithSocket;

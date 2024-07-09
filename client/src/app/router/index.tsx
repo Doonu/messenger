@@ -1,7 +1,7 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '@shared/hooks';
-import { checkAuth, isAuthSelector } from '@entities/auth';
+import { accessTokenSelector } from '@entities/auth';
 import { LoaderPage } from '@shared/components';
 import Login from '@pages/login';
 import Feed from '@pages/Feed';
@@ -10,11 +10,7 @@ import { privateRoutes, publicRoutes } from '../routes';
 
 const Router = () => {
   const dispatch = useAppDispatch();
-  const isAuth = useAppSelector(isAuthSelector);
-
-  useEffect(() => {
-    dispatch(checkAuth());
-  }, [isAuth]);
+  const isAuth = useAppSelector(accessTokenSelector);
 
   return (
     <BrowserRouter>

@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks';
 import { getProfile } from '@shared/api';
-import { isAuthSelector } from '@entities/auth';
+import { accessTokenSelector } from '@entities/auth';
 
-const AuthProvider = () => {
+const WithAuth = () => {
   const dispatch = useAppDispatch();
 
-  const isAuth = useAppSelector(isAuthSelector);
+  const isAuth = useAppSelector(accessTokenSelector);
 
   useEffect(() => {
     if (isAuth) dispatch(getProfile());
@@ -15,4 +15,4 @@ const AuthProvider = () => {
   return null;
 };
 
-export default AuthProvider;
+export default WithAuth;

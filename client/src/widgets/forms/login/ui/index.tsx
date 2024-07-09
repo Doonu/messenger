@@ -22,9 +22,7 @@ import { ILoginState } from '../model/login.type';
 import { addressRules, passwordRules } from '../lib/login.rules';
 import { initialValue } from '../lib/login.initialValue';
 
-// TODO: вернуть SForm и logo
-
-export function Login() {
+export const Login = () => {
   const dispatch = useAppDispatch();
 
   const formSubmit = (values: ILoginState) => {
@@ -103,4 +101,4 @@ export function Login() {
       </Formik>
     </ContainerAuth>
   );
-}
+};
