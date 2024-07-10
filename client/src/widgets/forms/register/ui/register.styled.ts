@@ -17,9 +17,7 @@ export const STitle = styled.h1`
   margin-bottom: 20px;
 `;
 
-export const SInputForm = styled(Form.Item).attrs({
-  validateTrigger: 'onBlur',
-})`
+export const SInputForm = styled(Form.Item)`
   .ant-form-item-label > label {
     color: ${({ theme }) => theme.colors.text};
   }
