@@ -23,9 +23,7 @@ export const SLogoContainer = styled.div`
   gap: 30px;
 `;
 
-export const SInputForm = styled(Form.Item).attrs({
-  validateTrigger: 'onBlur',
-})`
+export const SInputForm = styled(Form.Item)`
   .ant-form-item-label > label {
     color: ${({ theme }) => theme.colors.text};
   }

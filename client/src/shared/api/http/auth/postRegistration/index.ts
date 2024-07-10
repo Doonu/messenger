@@ -7,12 +7,12 @@ import { showMessage } from '@entities/notification';
 import { ApiRegister, IPostRegister } from './postRegistration.type';
 
 export const postRegistration = createAsyncThunk<IPostRegister, IRegister, IConfigAsyncThunk>(
-  'index/Index',
-  ({ email, password, name }, { rejectWithValue, dispatch }) => {
+  'auth/registration',
+  ({ email, password, userName }, { rejectWithValue, dispatch }) => {
     return API<ApiRegister>({
       url: `api/auth/registration`,
       method: 'POST',
-      data: { email, password, name },
+      data: { email, password, name: userName },
     })
       .then(({ data }) => {
         localStorage.setItem(

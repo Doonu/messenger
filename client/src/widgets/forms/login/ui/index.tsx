@@ -7,6 +7,7 @@ import { auth } from '@shared/strings';
 import { BaseInput, Logo } from '@shared/components';
 import { Form } from 'antd';
 
+import { ValidationSchema } from '../model/login.validationSchema';
 import {
   SBaseButton,
   SFormContainer,
@@ -19,7 +20,6 @@ import {
   STitle,
 } from './login.styled';
 import { ILoginState } from '../model/login.type';
-import { addressRules, passwordRules } from '../lib/login.rules';
 import { initialValue } from '../lib/login.initialValue';
 
 export const Login = () => {
@@ -42,47 +42,49 @@ export const Login = () => {
   return (
     <ContainerAuth>
       <Formik<ILoginState>
-        enableReinitialize
         initialValues={initialValue}
+        validationSchema={ValidationSchema}
+        validateOnBlur
         validateOnChange={false}
-        validateOnBlur={false}
-        validateOnMount={false}
         onSubmit={formSubmit}
       >
-        {({ handleSubmit, setValues, values, errors, handleBlur }) => (
+        {({ handleSubmit, setValues, values, errors, handleBlur, touched, handleChange }) => (
           <Form layout="vertical" onFinish={handleSubmit}>
             <SFormContainer>
               <SForm>
                 <STitle>{auth.welcomeBack}!</STitle>
                 <SSubTitle>{auth.weGladSeeYou}!</SSubTitle>
                 <SInputForm
-                  help={errors.email}
+                  help={touched.email && errors.email ? errors.email : ''}
+                  validateStatus={errors.email && touched.email ? 'error' : 'success'}
+                  valuePropName="email"
                   label={auth.email}
                   name={auth.email}
-                  rules={addressRules}
                 >
                   <BaseInput
-                    name={auth.email}
+                    border="none"
                     onChange={(e) => setValues({ ...values, email: e.target.value })}
                     value={values.email}
-                    border="none"
                     height="40px"
+                    onBlur={handleBlur}
+                    name="email"
                   />
                 </SInputForm>
                 <SInputForm
-                  help={errors.password}
+                  help={errors.password && touched.password ? errors.password : ''}
+                  validateStatus={errors.password && touched.password ? 'error' : 'success'}
+                  valuePropName="password"
                   label={auth.password}
                   name={auth.password}
-                  rules={passwordRules}
                 >
                   <BaseInput
-                    border="none"
-                    name={auth.password}
-                    type="password"
-                    height="40px"
-                    onBlur={handleBlur}
-                    onChange={(e) => setValues({ ...values, password: e.target.value })}
                     value={values.password}
+                    border="none"
+                    type="password"
+                    name="password"
+                    height="40px"
+                    onChange={(e) => setValues({ ...values, password: e.target.value })}
+                    onBlur={handleBlur}
                   />
                 </SInputForm>
                 <SLink to="/">{auth.forgotYourPassword}?</SLink>

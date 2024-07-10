@@ -1,5 +1,5 @@
 import { IRegister } from '@shared/models';
 
-export interface IInitialValue extends IRegister {
+export interface RegisterInitialValue extends IRegister {
   repeatPassword: string;
 }

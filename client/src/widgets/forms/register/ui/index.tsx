@@ -6,27 +6,21 @@ import { useAppDispatch } from '@shared/hooks';
 import { useNavigate } from 'react-router-dom';
 import { BaseInput } from '@shared/components';
 import { IRegister } from '@shared/models';
+import { auth } from '@shared/strings';
 
-import { IInitialValue } from '../model/IInitialValueRegister';
+import { RegisterInitialValue } from '../model/register.initialValue';
 import { SContainerAuth, SInputForm, STitle, SBaseButton, SLink } from './register.styled';
-
-// TODO: убрать эти валидаторы
+import { initialValueRegister } from '../lib/register.initialValue';
+import { ValidationSchema } from '../model/register.validationSchema';
 
 export const Register = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const initialValue: IInitialValue = {
-    email: '',
-    password: '',
-    name: '',
-    repeatPassword: '',
-  };
-
-  const formSubmit = (values: IInitialValue) => {
+  const formSubmit = (values: RegisterInitialValue) => {
     const dataRegister: IRegister = {
       email: values.email,
-      name: values.name,
+      userName: values.userName,
       password: values.password,
     };
 
@@ -44,65 +38,54 @@ export const Register = () => {
 
   return (
     <SContainerAuth>
-      <Formik initialValues={initialValue} onSubmit={formSubmit}>
-        {({ handleSubmit, setFieldValue, values, errors }) => (
+      <Formik<RegisterInitialValue>
+        validateOnBlur
+        validateOnChange={false}
+        initialValues={initialValueRegister}
+        validationSchema={ValidationSchema}
+        onSubmit={formSubmit}
+      >
+        {({ handleSubmit, setFieldValue, values, errors, touched, handleBlur }) => (
           <Form layout="vertical" onFinish={handleSubmit}>
             <STitle>Создать учетную запись</STitle>
             <SInputForm
-              help={errors.email}
+              help={touched.email && errors.email ? errors.email : ''}
+              validateStatus={errors.email && touched.email ? 'error' : 'success'}
+              valuePropName="email"
               label="Адрес электронной почты"
               name="Адрес электронной почты"
-              rules={[
-                {
-                  required: true,
-                  message: 'Пожалуйста введите адрес электронной почты',
-                  whitespace: false,
-                },
-                {
-                  type: 'email',
-                  message: 'Адрес электронной почты невалидный',
-                  whitespace: false,
-                },
-              ]}
             >
               <BaseInput
-                border="none"
                 name="email"
+                border="none"
                 onChange={(e) => setFieldValue('email', e.target.value)}
                 value={values.email}
                 height="40px"
+                onBlur={handleBlur}
               />
             </SInputForm>
             <SInputForm
-              help={errors.name}
+              help={touched.userName && errors.userName ? errors.userName : ''}
+              validateStatus={errors.userName && touched.userName ? 'error' : 'success'}
+              valuePropName="userName"
               label="Отображаемое имя"
               name="Отображаемое имя"
-              rules={[
-                {
-                  required: true,
-                  message: 'Пожалуйста введите имя',
-                  whitespace: false,
-                },
-                { min: 3, message: 'Минимальное кол-во символов: 3', whitespace: false },
-              ]}
             >
               <BaseInput
+                name="userName"
                 border="none"
-                name="name"
-                onChange={(e) => setFieldValue('name', e.target.value)}
-                value={values.name}
+                onChange={(e) => setFieldValue('userName', e.target.value)}
+                value={values.userName}
+                onBlur={handleBlur}
                 height="40px"
               />
             </SInputForm>
             <SInputForm
-              help={errors.password}
+              help={errors.password && touched.password ? errors.password : ''}
+              validateStatus={errors.password && touched.password ? 'error' : 'success'}
+              valuePropName="password"
               label="Пароль"
               name="Пароль"
-              rules={[
-                { required: true, message: 'Пожалуйста введите пароль', whitespace: false },
-                { min: 4, message: 'Минимальное кол-во символов: 4', whitespace: false },
-                { max: 16, message: 'Максимальное кол-во символов: 16', whitespace: false },
-              ]}
             >
               <BaseInput
                 border="none"
@@ -111,27 +94,15 @@ export const Register = () => {
                 onChange={(e) => setFieldValue('password', e.target.value)}
                 value={values.password}
                 height="40px"
+                onBlur={handleBlur}
               />
             </SInputForm>
             <SInputForm
-              help={errors.repeatPassword}
+              help={errors.repeatPassword && touched.repeatPassword ? errors.repeatPassword : ''}
+              validateStatus={errors.repeatPassword && touched.repeatPassword ? 'error' : 'success'}
+              valuePropName="repeatPassword"
               label="Повторите пароль"
               name="Повторите пароль"
-              rules={[
-                {
-                  validator: (_, valueValidator) => {
-                    return new Promise((resolve: any, reject) => {
-                      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-                      valueValidator === values.password ? resolve() : reject();
-                    });
-                  },
-                  message: 'Пароли не совпадают',
-                  whitespace: true,
-                },
-                { required: true, message: 'Пожалуйста введите пароль', whitespace: true },
-                { min: 4, message: 'Минимальное кол-во символов: 4', whitespace: true },
-                { max: 16, message: 'Максимальное кол-во символов: 16', whitespace: true },
-              ]}
             >
               <BaseInput
                 border="none"
@@ -139,6 +110,7 @@ export const Register = () => {
                 type="password"
                 height="40px"
                 onChange={(e) => setFieldValue('repeatPassword', e.target.value)}
+                onBlur={handleBlur}
                 value={values.repeatPassword}
               />
             </SInputForm>
