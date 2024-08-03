@@ -14,12 +14,18 @@ export class PostsService {
     ) {
     }
 
-    async create(dto: CreatePostDto, userId: number) {
-        const newFiles = await this.fileService.renameFiles(dto.files, dto.status)
-        await this.fileService.clearTrash(userId, dto.status)
+    async create(dto: CreatePostDto, files: Express.Multer.File[], userId: number) {
+        const newFiles = await this.fileService.addFiles(files)
 
-        const createdPost = await this.postRepository.create({...dto, userId,files: newFiles})
-        return await this.postRepository.findOne({where: { id: createdPost.id }, include: { all: true } })
+        const createdPost = await this.postRepository.create({
+            content: dto.content,
+            view: dto.view,
+            isDisabledComments: dto.isDisabledComments,
+            userId,
+            files: newFiles
+        });
+
+        return await this.postRepository.findOne({where: { id: createdPost.id }, include: { all: true } });
     }
 
     async deleteById(id: number, userId: number){
@@ -29,11 +35,6 @@ export class PostsService {
             throw new HttpException("У вас нет прав удалять этот пост", HttpStatus.BAD_REQUEST);
         }
 
-       if(savedPost.files){
-           const newFilesName = await this.fileService.renameUpdatePending(savedPost.files, userId, 2)
-           await savedPost.update({files: newFilesName})
-       }
-
         await this.postRepository.destroy({where: {id: id}})
         return savedPost
     }
@@ -42,56 +43,67 @@ export class PostsService {
         const post = await this.postRepository.findByPk(id, {paranoid: false})
         await post.restore()
 
-        if(post.files){
-            const newFiles = await this.fileService.renameFiles(post.files, 2)
-            await post.update({files: newFiles})
-        }
-
         return post;
     }
 
-    async updatePost(dto: UpdatePostDto, userId: number){
+    //TODO: переделать
+    async updatePost(dto: UpdatePostDto, userId: number, files: Express.Multer.File[]){
         const oldPost = await this.postRepository.findOne({ where: {id: dto.id} })
 
         if(oldPost.userId !== userId){
             throw new HttpException("У вас нет прав изменять этот пост", HttpStatus.BAD_REQUEST);
         }
 
-        const deletedFiles = oldPost?.files?.filter(file => {
-            if(dto.files){
-                return !dto.files.find((newFile) => {
-                    return file.id === newFile.id
-                })
-            } else {
-                return true
-            }
-        })
+        const deletedFiles = [];
+        const addFiles = [];
+        const stateFiles = []
 
-        await this.fileService.removeFiles(deletedFiles)
+        if(!dto?.files || !dto?.files?.length){
+            deletedFiles.push(...oldPost.files)
+        } else {
+            dto.files?.forEach((file, index) => {
+                if(!file.url){
+                    if(oldPost.files?.length){
+                        const isFind = oldPost.files.find(el => el.uid === file.uid);
 
-        let newFiles = []
-
-        if(dto.files?.length){
-             newFiles = await this.fileService.renameFiles(dto.files, dto.status)
+                        if (!isFind) addFiles.push(files[index]);
+                        if(isFind) stateFiles.push(files[index]);
+                    } else {
+                        addFiles.push(files[index]);
+                    }
+                } else {
+                    stateFiles.push(file);
+                }
+            })
         }
 
+        await this.fileService.removeFiles(deletedFiles)
+        const newFiles = await this.fileService.addFiles(addFiles)
 
-        await oldPost.update({files: newFiles, content: [...dto.content], isDisabledComments: dto.isDisabledComments, view: dto.view})
+        await oldPost.update({files: [...stateFiles, ...newFiles], content: [...dto.content], isDisabledComments: dto.isDisabledComments, view: dto.view})
         return await this.postRepository.findOne({where: {id: dto.id}, include: { all: true } })
     }
 
     //TODO: Получение постов только друзей
     //TODO: Не отправлять пароль
       /*
-    *
     *  Если сортировки нет, то дефолтная сортировка по дате создания order: [['createdAt', 'DESC']]
-    *
     * */
     async getAll(page: number, userId?: number){
         let currentPage = page - 1;
         const limit = 30;
 
-        if(userId) return await this.postRepository.findAll({include: {all: true}, where: { userId: userId } , order: [['createdAt', 'DESC']], limit: limit, offset: currentPage * limit });
+        if(userId){
+            return await this.postRepository.findAll(
+                {
+                    include: {all: true},
+                    where: { userId: userId } ,
+                    order: [['createdAt', 'DESC']],
+                    limit: limit,
+                    offset: currentPage * limit
+                }
+            )
+        }
 
         return await this.postRepository.findAll({include: {all: true}, order: [['createdAt', 'DESC']], limit: limit, offset: currentPage * limit });
     }

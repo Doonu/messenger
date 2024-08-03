@@ -7,17 +7,20 @@ import { IPostUpdate } from './updatePost.type';
 
 export const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
   'Index/update',
-  ({ content, isDisabledComments, view, files, id, status }, { rejectWithValue }) => {
-    let dynamicParams = {};
+  (post, { rejectWithValue }) => {
+    const formData = new FormData();
 
-    if (files.length) {
-      dynamicParams = { ...updatePost, files };
-    }
+    post.files.forEach((file) => {
+      formData.append('images', file.originFileObj as File);
+    });
 
     return API<ApiPostState>({
       url: `api/posts`,
       method: 'PUT',
-      data: { ...dynamicParams, content, isDisabledComments, view, id, status },
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: { ...formData, ...post },
     })
       .then(({ data }) => {
         return {

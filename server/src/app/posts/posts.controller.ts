@@ -3,20 +3,17 @@ import {
     Controller,
     Delete,
     Get, Param, Patch,
-    Post, Put, Query, Req,
+    Post, Put, Query, Req, UploadedFiles,
     UseGuards,
     UseInterceptors
 } from '@nestjs/common';
 import {CreatePostDto} from "./dto/create-post.dto";
 import {PostsService} from "./posts.service";
-import {AnyFilesInterceptor} from "@nestjs/platform-express";
+import {AnyFilesInterceptor, FileInterceptor} from "@nestjs/platform-express";
 import {ApiResponse} from "@nestjs/swagger";
 import {JwtAuthGuard} from "../auth/jwt-auth.guard";
 import {UpdatePostCommentsDto, UpdatePostLikeDto} from "./dto/update-post.dto";
 import {UpdatePostDto} from "../comments/dto/update-comment.dto";
-
-
-//TODO: При измении поста (удаление, изменение) изменять и статику на диске
 
 @Controller('posts')
 export class PostsController {
@@ -34,21 +31,24 @@ export class PostsController {
 
     @UseGuards(JwtAuthGuard)
     @Post('')
+    @UseInterceptors(AnyFilesInterceptor())
     createPost(
+        @UploadedFiles() files: Express.Multer.File[],
         @Body() dto: CreatePostDto,
         @Req() {userId}: any
     ){
-        return this.postService.create(dto, userId)
+        return this.postService.create(dto, files, userId)
     }
 
     @UseGuards(JwtAuthGuard)
     @Put('')
     @UseInterceptors(AnyFilesInterceptor())
     updatePost(
+        @UploadedFiles() files: Express.Multer.File[],
         @Body() dto: UpdatePostDto,
         @Req() {userId}: any
     ){
-        return this.postService.updatePost(dto, userId)
+        return this.postService.updatePost(dto, userId, files)
     }
 
     @Post('/restore/:id')

@@ -1,10 +1,10 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
 import { Select } from '@shared/components';
+import { IPost } from '@shared/models';
 
 import { SContainer } from './features.styled';
 import { displayOptions } from '../../lib/displayOptions';
-import { IPost } from '../../model/IPost';
 
 const Features = () => {
   const { values, setFieldValue } = useFormikContext<IPost>();

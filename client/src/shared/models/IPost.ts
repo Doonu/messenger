@@ -1,18 +1,19 @@
-export interface IFilesPost {
-  id: string;
-  url: string;
-  originalName: string;
-  size: number;
-  type: string;
-  dimensions: {
-    height: number;
-    width: number;
-  };
-}
+import { UploadFile } from 'antd';
+
+export type IPost = {
+  isDisabledComments: boolean;
+  content: string[];
+  view: 'slider' | 'grid';
+};
 
 export interface IAllFiles {
-  photos: IFilesPost[];
-  files: IFilesPost[];
+  photos: UploadFile[];
+  files: UploadFile[];
+}
+
+export interface IAllFilesBlob {
+  photos: Blob[];
+  files: Blob[];
 }
 
 export interface IToggleCommentsById {

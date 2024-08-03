@@ -1,24 +1,28 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useFormikContext } from 'formik';
 import { useAppSelector } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
 import { PhotoProfile, AutosizeInput } from '@shared/components';
+import { IPost } from '@shared/models';
 
-import { IPost } from '../../model/IPost';
 import { SContainer } from './content.styled';
 
-const Content = () => {
+interface IContent {
+  isActive: boolean;
+}
+
+const Content: FC<IContent> = ({ isActive }) => {
   const { values, setFieldValue } = useFormikContext<IPost>();
   const { name, avatar } = useAppSelector(selectorProfile);
 
   return (
-    <SContainer $position={values.isActive}>
+    <SContainer $position={isActive}>
       <PhotoProfile img={avatar} name={name} />
       <AutosizeInput
         isDrag
         minRows={2}
         value={values.content}
-        $position={values.isActive}
+        $position={isActive}
         onChange={(e) => setFieldValue('content', e.target.value)}
         onFocus={() => setFieldValue('isActive', true)}
         placeholder="Что у вас нового?"

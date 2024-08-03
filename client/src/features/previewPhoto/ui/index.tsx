@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import { getProfile, replace } from '@shared/api';
+import { getProfile } from '@shared/api';
 import { useAppDispatch } from '@shared/hooks';
 import { MainPost, Like, Slice, Carousel } from '@shared/components';
 import { IUser } from '@shared/models';
-import { PhotoEditor } from '@features/PhotoEditor';
 
+import { IPreviewPhotoProps } from '../model/IPreviewPhoto';
 import {
   Descriptions,
   SContainer,
@@ -17,14 +17,12 @@ import {
   SLeft,
   SRight,
 } from './previewPhoto.styled';
-import { IPreviewPhotoProps } from '../model/IPreviewPhoto';
 
 export const PreviewPhoto: FC<IPreviewPhotoProps> = ({
-  list,
-  setList,
   description,
   currentIndex,
   setCurrentIndex,
+  photos,
 }) => {
   const [userPhoto, setUserPhoto] = useState<IUser>();
   const [isLike, setIsLike] = useState(false);
@@ -47,21 +45,9 @@ export const PreviewPhoto: FC<IPreviewPhotoProps> = ({
 
   const canselEdit = () => setIsEditorPhoto(false);
 
+  // TODO изменить тип
   const handlerEditionImage = (image: any, id: string) => {
     if (!image) return;
-
-    dispatch(replace({ file: image, idPhoto: id, status: 2 }))
-      .unwrap()
-      .then((data) => {
-        const currentList = list.map((item) => {
-          if (item.id === id) {
-            return data;
-          }
-          return item;
-        });
-
-        setList((prev) => ({ ...prev, photos: currentList }));
-      });
 
     setIsEditorPhoto(false);
   };
@@ -72,25 +58,17 @@ export const PreviewPhoto: FC<IPreviewPhotoProps> = ({
 
   return (
     <SContainer>
-      {isEditorPhoto && (
-        <PhotoEditor
-          canselEdit={canselEdit}
-          onEditionImage={handlerEditionImage}
-          image={list[currentIndex - 1]}
-        />
-      )}
+      {/* {isEditorPhoto && ( */}
+      {/*   <PhotoEditor */}
+      {/*     canselEdit={canselEdit} */}
+      {/*     onEditionImage={handlerEditionImage} */}
+      {/*     image={list[currentIndex - 1]} */}
+      {/*   /> */}
+      {/* )} */}
       {!isEditorPhoto && (
         <SContent>
           <SLeft>
-            <Carousel
-              speed={0}
-              fixedMinHeight={800}
-              dots={false}
-              infinite
-              currentSlide={currentIndex}
-              photoList={list}
-              setCurrentSlide={setCurrentIndex}
-            />
+            <Carousel speed={0} fixedMinHeight={800} dots={false} infinite photoList={photos} />
           </SLeft>
           <SRight>
             <SContainerProfile>
@@ -120,8 +98,8 @@ export const PreviewPhoto: FC<IPreviewPhotoProps> = ({
           <SEdit onClick={() => setIsEditorPhoto((prev) => !prev)}>Редактировать</SEdit>
         )}
         <SInfoPic>
-          {list.length > 1
-            ? `Фотографии для публикации поста ${currentIndex} из ${list.length}`
+          {photos.length > 1
+            ? `Фотографии для публикации поста ${currentIndex} из ${photos.length}`
             : `Фотография для публикации поста`}
         </SInfoPic>
         {!isEditorPhoto && <div />}

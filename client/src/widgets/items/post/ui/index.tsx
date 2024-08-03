@@ -13,8 +13,6 @@ import Actions from './actions';
 
 export const Post: FC<IPostAndDrag> = ({
   post,
-  isDraggablePhotoInPost,
-  handlerChange,
   deletedPost,
   posts,
   editedPost,
@@ -23,7 +21,7 @@ export const Post: FC<IPostAndDrag> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const ref = useRef<any>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   const [allFiles, setAllFiles] = useState<IAllFiles>({ photos: [], files: [] });
 
@@ -65,7 +63,7 @@ export const Post: FC<IPostAndDrag> = ({
     }, 2000);
 
     if (warningEdit && editedPost?.id === post.id) {
-      ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      ref.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
     return () => {
@@ -76,15 +74,7 @@ export const Post: FC<IPostAndDrag> = ({
   return (
     <SContainer $isWarning={warningEdit && isEditPost} ref={ref}>
       <STop>
-        {isEditPost && (
-          <Modification
-            setAllFiles={setAllFiles}
-            allFiles={allFiles}
-            handlerChange={handlerChange}
-            isDraggablePhotoInPost={isDraggablePhotoInPost}
-            post={post}
-          />
-        )}
+        {isEditPost && <Modification setAllFiles={setAllFiles} allFiles={allFiles} post={post} />}
 
         {!isEditPost && (
           <>

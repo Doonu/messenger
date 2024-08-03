@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 import { HorizontalList, File } from '@shared/components';
-import { IFilesPost } from '@shared/models';
+import { UploadFile } from 'antd';
 
 import { IFilesProps } from './model/IFiles';
 
 export const Files: FC<IFilesProps> = ({ data, setData, loader = false, isModify = true }) => {
-  const handlerFilterFiles = (id: string) => {
-    const filterFiles = data.files.filter((file) => file.id !== id);
+  const handlerFilterFiles = (uid: string) => {
+    const filterFiles = data.files.filter((file) => file.uid !== uid);
 
     if (setData) {
       setData({ ...data, files: filterFiles });
@@ -14,18 +14,11 @@ export const Files: FC<IFilesProps> = ({ data, setData, loader = false, isModify
   };
 
   return (
-    <HorizontalList<IFilesPost>
+    <HorizontalList<UploadFile>
       list={data.files}
       loading={loader}
-      itemContent={({ url, originalName, size, id }) => (
-        <File
-          isModify={isModify}
-          originalName={originalName}
-          size={size}
-          key={id}
-          url={url}
-          onDelete={() => handlerFilterFiles(id)}
-        />
+      itemContent={(file) => (
+        <File isModify={isModify} file={file} onDelete={() => handlerFilterFiles(file.uid)} />
       )}
     />
   );

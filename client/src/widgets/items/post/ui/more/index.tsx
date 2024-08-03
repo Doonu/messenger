@@ -11,29 +11,20 @@ import { moreItemsDropdown } from '../../lib/moreOptions';
 
 const More: FC<IPost> = ({ post }) => {
   const dispatch = useAppDispatch();
-
   const user = useAppSelector(selectorProfile);
 
   const disabledServices = user.id !== post.userId;
 
   const handlerEditPost = () => {
-    if (disabledServices) {
-      dispatch(editPost(post.id));
-    }
+    dispatch(editPost(post.id));
   };
 
   const handlerToggleComments = () => {
-    if (disabledServices) {
-      dispatch(
-        toggleCommentsById({ isDisabledComments: post.isDisabledComments, postId: post.id })
-      );
-    }
+    dispatch(toggleCommentsById({ isDisabledComments: post.isDisabledComments, postId: post.id }));
   };
 
   const handlerDeletePost = () => {
-    if (disabledServices) {
-      dispatch(deletePostById(post.id));
-    }
+    dispatch(deletePostById(post.id));
   };
 
   return (

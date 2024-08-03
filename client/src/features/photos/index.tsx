@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { HorizontalList, Photo } from '@shared/components';
-import { IFilesPost } from '@shared/models';
+import { UploadFile } from 'antd';
 
 import { IPhotos } from './model/IPhotos';
 
@@ -12,7 +12,7 @@ export const Photos: FC<IPhotos> = ({
   setCurrentIndex,
 }) => {
   const handleDelete = (id: string) => {
-    const filteredList = data.photos.filter((file) => file.id !== id);
+    const filteredList = data.photos.filter((file) => file.uid !== id);
     setData({ ...data, photos: filteredList });
   };
 
@@ -22,17 +22,19 @@ export const Photos: FC<IPhotos> = ({
   };
 
   return (
-    <HorizontalList<IFilesPost>
+    <HorizontalList<UploadFile>
       list={data.photos}
       loading={loader}
-      itemContent={(file, index) => (
-        <Photo
-          onClick={() => handleOpenModalPhoto(index)}
-          key={file.id}
-          onDelete={() => handleDelete(file.id)}
-          url={`http://localhost:3000/${file.url}`}
-        />
-      )}
+      itemContent={(file, index) => {
+        return (
+          <Photo
+            onClick={() => handleOpenModalPhoto(index)}
+            key={file.uid}
+            onDelete={() => handleDelete(file.uid)}
+            url={file.url ? file.url : URL.createObjectURL(file.originFileObj as File)}
+          />
+        );
+      }}
     />
   );
 };

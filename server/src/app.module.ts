@@ -15,7 +15,6 @@ import {join} from 'path';
 import {CommentsModule} from "./app/comments/comments.module";
 import {ConfigModule} from "@nestjs/config";
 import {Comments} from "./app/comments/comments.model";
-import { FilesController } from './app/files/files.controller';
 import { NotificationsModule } from './app/notifications/notifications.module';
 import { DialogsModule } from './app/dialogs/dialogs.module';
 import {UserDialog} from "./app/dialogs/user-dialogs.model";
@@ -24,7 +23,7 @@ import { MessagesModule } from './app/messages/messages.module';
 import {Message} from "./app/messages/models/messages.model";
 
 @Module({
-  controllers: [FilesController],
+  controllers: [],
   providers: [],
   imports: [
     ConfigModule.forRoot({ envFilePath: `.${process.env.NODE_ENV}.env` }),

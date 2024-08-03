@@ -67,9 +67,9 @@ const CreateGroup: FC<ICreateGroup> = ({ changeStage }) => {
   const pickUser = (currentUser: IUser) => {
     const findUserInUsersPick = usersPick.find((el) => el.id === currentUser.id);
 
-    if (!findUserInUsersPick) setUsersPick((prev) => [user, ...prev]);
+    if (!findUserInUsersPick) setUsersPick((prev) => [currentUser, ...prev]);
     else {
-      const filterUserIds = usersPick.filter((userInPick) => userInPick.id !== user.id);
+      const filterUserIds = usersPick.filter((userInPick) => userInPick.id !== currentUser.id);
       setUsersPick(filterUserIds);
     }
 

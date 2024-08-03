@@ -1,11 +1,14 @@
 import {Model, Table, Column, DataType, BelongsTo, ForeignKey, DeletedAt, HasMany} from "sequelize-typescript";
 import { User } from "../users/models/users.model";
 import {Comments} from "../comments/comments.model";
+import {IFile} from "./dto/create-post.dto";
 
 interface PostCreationAttrs {
   userId: number;
   content: string[];
-  files: string[];
+  files: IFile[];
+  view: string;
+  isDisabledComments: boolean;
 }
 
 //TODO: Изменить массив комментариев, добавить (id отправителя, body, id, likes [])
@@ -27,18 +30,15 @@ export class Post extends Model<Post, PostCreationAttrs> {
   @Column({ type: DataType.INTEGER, defaultValue: 0 })
   countLikes: number;
 
+  @Column({type: DataType.BOOLEAN, defaultValue: true})
+  isNotDelete: boolean;
+
   //Айди пользователей
   @Column({type: DataType.ARRAY(DataType.INTEGER), defaultValue: []})
   likesList: number[];
 
   @Column({type: DataType.ARRAY(DataType.JSONB)})
-  files: {
-    id: string;
-    url: string;
-    originalName: string;
-    size: number;
-    type: string;
-  }[];
+  files: IFile[];
 
   @Column({type: DataType.STRING})
   view: string;

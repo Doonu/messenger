@@ -14,18 +14,9 @@ export const postRegistration = createAsyncThunk<IPostRegister, IRegister, IConf
       method: 'POST',
       data: { email, password, name: userName },
     })
-      .then(({ data }) => {
-        localStorage.setItem(
-          'session',
-          JSON.stringify({
-            at: data.token,
-          })
-        );
-
-        return {
-          token: data.token,
-        };
-      })
+      .then(({ data }) => ({
+        token: data.token,
+      }))
       .catch(({ response }: AxiosError<IError>) => {
         const title = response?.data.message || 'Неизвестная ошибка';
         dispatch(

@@ -22,9 +22,11 @@ export class AuthService {
 
   async registration(userDto: RegisterUserDto) {
     const candidate = await this.userService.getUserByEmail(userDto.email);
+
     if (candidate) {
       throw new HttpException("Пользователь с таким email существует", HttpStatus.BAD_REQUEST);
     }
+
     const generateName = `${userDto.name}#${Math.floor(Math.random() * 10000)}`
     const hashPassword = await bcrypt.hash(userDto.password, 5);
     const color = await this.getRandomColor();

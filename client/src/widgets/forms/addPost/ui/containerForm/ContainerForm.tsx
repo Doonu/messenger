@@ -1,99 +1,50 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useFormikContext } from 'formik';
-import { useAppSelector, useAppDispatch, useOutsideClick } from '@shared/hooks';
-import { selectorEditedPost, selectorPost } from '@entities/post';
+import { useAppSelector, useOutsideClick } from '@shared/hooks';
 import { selectorProfileLoader } from '@entities/profile';
 import { ActionIcons } from '@features/ActionIcons';
 import { BaseButton } from '@shared/components';
-import { addPendingList } from '@shared/api';
-import { extensionPhotoList } from '@shared/util';
 import { Files } from '@features/Files';
 import { Photos } from '@features/Photos';
+import { IPost } from '@shared/models';
 
 import { SkeletonAddPost } from '../skeleton';
 import Features from '../features';
 import Content from '../content';
-import {
-  SContainer,
-  SContainerIcons,
-  SDragField,
-  SSubmit,
-  DragInput,
-} from './containerForm.styled';
-import { IContainerFormProps, IPost } from '../../model/IPost';
+import { SContainer, SContainerIcons, SSubmit } from './containerForm.styled';
+import { IContainerFormProps } from '../../model/IPost';
 import Settings from '../settings/Settings';
 
 const ContainerForm: FC<IContainerFormProps> = ({
-  isDraggablePhoto,
-  handlerChange,
-  data,
-  setData,
+  allFiles,
+  setAllFiles,
   setCurrentIndex,
   setIsPreviewPhoto,
+  isActive,
+  setIsActive,
+  setWarningModalTitle,
+  setIsWarningModal,
 }) => {
-  const dispatch = useAppDispatch();
+  const { values } = useFormikContext<IPost>();
 
-  const { values, setFieldValue } = useFormikContext<IPost>();
-
-  const editedPost = useAppSelector(selectorEditedPost);
-  const posts = useAppSelector(selectorPost);
   const loaderProfile = useAppSelector(selectorProfileLoader);
 
   const [loadingPhotos, setLoadingPhotos] = useState(false);
   const [loadingFiles, setLoadingFiles] = useState(false);
 
-  const isCorrect = !values.content.length && !data.photos.length && !data.files.length;
-  const isEditPost = posts.find((post) => post.id === editedPost?.id);
+  const isCorrect = !values.content.length && !allFiles.photos.length && !allFiles.files.length;
 
   const ref = useOutsideClick(() => {
-    if (isCorrect) setFieldValue('isActive', false);
+    if (isCorrect) setIsActive(false);
   });
 
   const handlerChangeTitle = (title: string) => {
-    setFieldValue('isWarningModalTitle', title);
-    setFieldValue('isWarningModal', true);
+    setWarningModalTitle(title);
+    setIsWarningModal(true);
   };
 
   const handlerActive = () => {
-    setFieldValue('isActive', true);
-  };
-
-  const handlerPhoto = (e: ChangeEvent<HTMLInputElement>) => {
-    handlerChange();
-    handlerActive();
-
-    const { files } = e.target;
-
-    if (!files) return;
-
-    const filteredPhoto = Array.from(files).filter((file) =>
-      extensionPhotoList.includes(file.name.split('.')[file.name.split('.').length - 1])
-    );
-
-    if (data.photos.length + filteredPhoto.length > 5) {
-      handlerChangeTitle('Вы можете прикрепить к посту не больше 5 фотографий');
-      return;
-    }
-
-    setLoadingPhotos(true);
-
-    dispatch(addPendingList({ files: Array.from(filteredPhoto), status: 1 }))
-      .unwrap()
-      .then((fetchFiles) => {
-        setData((prev) => {
-          return { ...prev, photos: [...fetchFiles, ...prev.photos] };
-        });
-      })
-      .catch(() => {})
-      .finally(() => {
-        setLoadingPhotos(false);
-      });
-  };
-
-  const handlerPhotoFocus = () => {
-    if (isEditPost) {
-      setFieldValue('isDraggablePhotoFocus', !values.isDraggablePhotoFocus);
-    }
+    setIsActive(true);
   };
 
   if (loaderProfile) {
@@ -101,59 +52,38 @@ const ContainerForm: FC<IContainerFormProps> = ({
   }
 
   return (
-    <SContainer
-      onDragEnterCapture={handlerPhotoFocus}
-      onDragLeaveCapture={handlerPhotoFocus}
-      ref={ref}
-      onClick={() => setFieldValue('isActive', true)}
-      $position={values.isActive}
-      $isDraggable={isDraggablePhoto}
-    >
-      {isDraggablePhoto && <DragInput multiple type="file" onChange={handlerPhoto} />}
-      {isDraggablePhoto && (
-        <SDragField isFocus={values.isDraggablePhotoFocus}>
-          {values.isDraggablePhotoFocus
-            ? 'Претащите сюда свои фотографии'
-            : 'Отпустите кнопку мышки чтоб закрепить фотографии'}
-        </SDragField>
-      )}
-      {!isDraggablePhoto && (
-        <>
-          <Content />
+    <SContainer ref={ref} onClick={() => setIsActive(true)} $position={isActive}>
+      <Content isActive={isActive} />
 
-          <Photos
-            loader={loadingPhotos}
-            setCurrentIndex={setCurrentIndex}
-            data={data}
-            setData={setData}
-            setIsPreviewPhoto={setIsPreviewPhoto}
-          />
+      <Photos
+        loader={loadingPhotos}
+        setCurrentIndex={setCurrentIndex}
+        data={allFiles}
+        setData={setAllFiles}
+        setIsPreviewPhoto={setIsPreviewPhoto}
+      />
 
-          <Files data={data} setData={setData} loader={loadingFiles} />
+      <Files data={allFiles} setData={setAllFiles} loader={loadingFiles} />
 
-          {data.photos.length > 1 && <Features />}
-          <SContainerIcons $position={values.isActive}>
-            <ActionIcons
-              setLoadingFiles={setLoadingFiles}
-              setLoadingPhoto={setLoadingPhotos}
-              setData={setData}
-              data={data}
-              onActive={handlerActive}
-              onTitle={handlerChangeTitle}
-              isActive={values.isActive}
-              statusPhoto={1}
-            />
-            {values.isActive && (
-              <SSubmit>
-                {!isCorrect && <Settings />}
-                <BaseButton htmlType="submit" disabled={isCorrect} height="30px">
-                  Опубликовать
-                </BaseButton>
-              </SSubmit>
-            )}
-          </SContainerIcons>
-        </>
-      )}
+      {allFiles.photos.length > 1 && <Features />}
+      <SContainerIcons $position={isActive}>
+        <ActionIcons
+          setData={setAllFiles}
+          data={allFiles}
+          onActive={handlerActive}
+          onTitle={handlerChangeTitle}
+          isActive={isActive}
+          statusPhoto={1}
+        />
+        {isActive && (
+          <SSubmit>
+            {!isCorrect && <Settings />}
+            <BaseButton htmlType="submit" disabled={isCorrect} height="30px">
+              Опубликовать
+            </BaseButton>
+          </SSubmit>
+        )}
+      </SContainerIcons>
     </SContainer>
   );
 };

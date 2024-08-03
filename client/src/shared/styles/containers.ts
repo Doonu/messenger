@@ -5,7 +5,6 @@ export const Content = styled.div`
   margin: 0 auto;
   min-height: calc(100vh - 181px);
   flex: 1;
-  user-select: none;
   padding: 20px 10px 0 10px;
 `;
 
@@ -16,7 +15,6 @@ export const ContainerForm = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  user-select: none;
 `;
 
 export const ContainerAuth = styled.div`
@@ -27,7 +25,6 @@ export const ContainerAuth = styled.div`
   border-radius: 15px;
   border: 1px solid ${({ theme }) => theme.colors.active};
   box-shadow: 0 0 8px 1px ${({ theme }) => theme.colors.active};
-  user-select: none;
 `;
 
 export const BlockContainer = styled.div`

@@ -1,9 +1,5 @@
 import styled, { css } from 'styled-components';
 
-export const DraggableContainer = styled.div`
-  height: 100%;
-`;
-
 interface ISContainerList {
   $isLength: boolean;
 }

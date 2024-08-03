@@ -10,6 +10,10 @@ export const SAffixContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+
+  @media (max-width: ${({ theme }) => theme.breakpoints.oldDesktop}) {
+    display: none;
+  }
 `;
 
 interface SCenterProps {

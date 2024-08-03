@@ -5,12 +5,10 @@ import { Collapse } from '@shared/components';
 // TODO: Положить рядом со списком
 export const CollapsePost: FC<Omit<IPostAndDrag, 'openComments'>> = ({
   post,
-  isDraggablePhotoInPost,
   editedPost,
   warningEdit,
   posts,
   deletedPost,
-  handlerChange,
 }) => {
   const [isCommentsActive, setIsCommentsActive] = useState(false);
   const handlerSwitch = () => setIsCommentsActive((prev) => !prev);
@@ -25,8 +23,6 @@ export const CollapsePost: FC<Omit<IPostAndDrag, 'openComments'>> = ({
           warningEdit={warningEdit}
           posts={posts}
           deletedPost={deletedPost}
-          isDraggablePhotoInPost={isDraggablePhotoInPost}
-          handlerChange={handlerChange}
           post={post}
         />
       }

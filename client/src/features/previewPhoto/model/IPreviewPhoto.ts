@@ -1,10 +1,9 @@
-import { IAllFiles, IFilesPost } from '@shared/models';
 import { Dispatch, SetStateAction } from 'react';
+import { IAllFiles } from '@shared/models';
 
 export interface IPreviewPhotoProps {
-  list: IFilesPost[];
-  setList: Dispatch<SetStateAction<IAllFiles>>;
   description: string[];
   currentIndex: number;
   setCurrentIndex: Dispatch<SetStateAction<number>>;
+  photos: IAllFiles['photos'];
 }

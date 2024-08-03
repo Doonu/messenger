@@ -14,6 +14,6 @@ export class UpdatePostDto{
     readonly id: number
     readonly isDisabledComments: boolean
     readonly view: string;
-    readonly files: IFile[];
     readonly status: number;
+    readonly files: IFile[];
 }

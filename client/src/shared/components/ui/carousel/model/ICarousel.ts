@@ -1,10 +1,6 @@
-import { CarouselProps } from 'antd';
-import { IFilesPost } from '@shared/models';
-import { Dispatch, SetStateAction } from 'react';
+import { CarouselProps, UploadFile } from 'antd';
 
 export interface ICarousel extends CarouselProps {
-  photoList: IFilesPost[];
-  currentSlide?: number;
-  setCurrentSlide?: Dispatch<SetStateAction<number>>;
+  photoList: UploadFile[];
   fixedMinHeight?: number;
 }

@@ -1,4 +1,4 @@
-import { IFilesPost } from '@shared/models';
+import { UploadFile } from 'antd';
 
 export interface IPostState {
   id: number;
@@ -8,7 +8,7 @@ export interface IPostState {
   likesList: number[];
   shared: number;
   comments: number;
-  files: IFilesPost[];
+  files: UploadFile[];
   createdAt: string;
   updatedAt: string;
   view: 'slider' | 'grid';

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { postLogin } from '@shared/api';
+import { postLogin, postRegistration } from '@shared/api';
 
 interface AuthState {
   accessToken: string;
@@ -19,7 +19,9 @@ const AuthSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(postLogin.fulfilled, (state: AuthState, { payload }) => {
-      console.log(payload);
+      state.accessToken = payload.token;
+    });
+    builder.addCase(postRegistration.fulfilled, (state: AuthState, { payload }) => {
       state.accessToken = payload.token;
     });
   },

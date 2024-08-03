@@ -12,6 +12,7 @@ export const SContainerPhoto = styled.div`
 export const SImg = styled.img`
   width: inherit;
   height: inherit;
+  object-fit: cover;
 `;
 
 export const SCloseContainer = styled.div`

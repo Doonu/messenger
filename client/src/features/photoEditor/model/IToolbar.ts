@@ -1,5 +1,5 @@
 import { ComponentType, Dispatch, SetStateAction } from 'react';
-import { IFilesPost } from '@shared/models';
+import { UploadFile } from 'antd';
 
 export type IActionType = 'burch' | 'resize' | 'text' | null;
 
@@ -14,7 +14,7 @@ export interface IToolbar {
 }
 
 export interface IPhotoEditor {
-  image: IFilesPost;
-  onEditionImage: (url: any, id: string) => void;
+  image: UploadFile;
+  onEditionImage: (url: string, id: string) => void;
   canselEdit: () => void;
 }

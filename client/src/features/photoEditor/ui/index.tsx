@@ -6,6 +6,7 @@ import { SActionChange, SActions, SaveImage, SContainer, SPicture } from './phot
 import { Toolbar } from './Toolbar';
 import { IActionType, IPhotoEditor } from '../model/IToolbar';
 
+// TODO: доделать
 export const PhotoEditor: FC<IPhotoEditor> = ({ image, onEditionImage, canselEdit }) => {
   const [tool, setTool] = useState<IActionType>(null);
 
@@ -34,22 +35,22 @@ export const PhotoEditor: FC<IPhotoEditor> = ({ image, onEditionImage, canselEdi
   const handlerOnloadImageInCanvas = () => {
     const context = canvasRef.current?.getContext('2d');
     const newImage = new Image();
-    newImage.src = image?.url;
-    newImage.onload = () =>
-      context?.drawImage(
-        newImage,
-        0,
-        0,
-        image.dimensions.width / 1.5,
-        image.dimensions.height / 1.5
-      );
+    // newImage.src = image?.url;
+    // newImage.onload = () =>
+    //   context?.drawImage(
+    //     newImage,
+    //     0,
+    //     0,
+    //     image.dimensions.width / 1.5,
+    //     image.dimensions.height / 1.5
+    //   );
   };
 
   const handlerSaveImage = async () => {
     const result = await new Promise((resolve) => {
       canvasRef?.current?.toBlob(resolve, 'image/png');
     });
-    onEditionImage(result, image.id);
+    // onEditionImage(result, image.id);
   };
 
   useEffect(() => {
@@ -62,8 +63,8 @@ export const PhotoEditor: FC<IPhotoEditor> = ({ image, onEditionImage, canselEdi
         <canvas
           onMouseDown={onMouseDown}
           ref={canvasRef}
-          width={image.dimensions.width / 1.5}
-          height={image.dimensions.height / 1.5}
+          // width={image.dimensions.width / 1.5}
+          // height={image.dimensions.height / 1.5}
         />
       </SPicture>
       <SActions>

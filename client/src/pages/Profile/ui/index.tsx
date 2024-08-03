@@ -21,7 +21,7 @@ import { Friends } from '@features/Friends';
 import { SkeletonPost } from '@widgets/items';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
 
-import { DraggableContainer, SContent, SSidebars, ViewContainer } from './Profile.styled';
+import { SContent, SSidebars, ViewContainer } from './Profile.styled';
 import ActionsProfile from './actionsProfile';
 
 const Profile = () => {
@@ -40,36 +40,16 @@ const Profile = () => {
   const warningEdit = useAppSelector(selectorWarningEdit);
   const deletedPost = useAppSelector(selectorDeletedPost);
 
-  const [isDraggablePhoto, setIsDraggablePhoto] = useState(false);
-  const [isDraggablePhotoInPost, setIsDraggablePhotoInPost] = useState(false);
-
   const [profilePage, setProfilePage] = useState<IUser>({} as IUser);
   const [profileFriends, setProfileFriends] = useState<IUser[]>([]);
 
   const errorMessage = errorPosts ? 'Произошла ошибка' : 'Посты не найдены';
-  const isEditPost = posts.find((post) => post.id === editedPost?.id);
 
   const generalFriends = profileFriends.filter((profileFriend) =>
     user.friends.includes(profileFriend.id)
   );
 
   const isMe = idParam && user.id === +idParam;
-
-  const handlerPhotoDrag = () => {
-    if (!isEditPost) {
-      setIsDraggablePhoto((prev) => !prev);
-    } else {
-      setIsDraggablePhotoInPost((prev) => !prev);
-    }
-  };
-
-  const handlerChange = () => {
-    setIsDraggablePhoto(false);
-  };
-
-  const handlerChangeInPost = () => {
-    setIsDraggablePhotoInPost(false);
-  };
 
   const handlerGetUser = (id: number) => {
     dispatch(getUser(id))
@@ -111,56 +91,47 @@ const Profile = () => {
   }, [idParam]);
 
   return (
-    <DraggableContainer onDragEnterCapture={handlerPhotoDrag} onDragLeaveCapture={handlerPhotoDrag}>
-      <AllContainer right={false}>
-        <ActionsProfile
-          setProfileFriends={setProfileFriends}
-          profileFriends={profileFriends}
-          profilePage={profilePage}
-        />
+    <AllContainer right={false}>
+      <ActionsProfile
+        setProfileFriends={setProfileFriends}
+        profileFriends={profileFriends}
+        profilePage={profilePage}
+      />
 
-        <SContent>
-          <ViewContainer>
-            {isMe && (
-              <AddPost
-                handlerSetDraggablePhoto={handlerChange}
-                isDraggablePhoto={isDraggablePhoto}
+      <SContent>
+        <ViewContainer>
+          {isMe && <AddPost />}
+          <ObserverList
+            list={posts}
+            itemContent={(el) => (
+              <CollapsePost
+                key={el.id}
+                editedPost={editedPost}
+                warningEdit={warningEdit}
+                posts={posts}
+                deletedPost={deletedPost}
+                post={el}
               />
             )}
-            <ObserverList
-              list={posts}
-              itemContent={(el) => (
-                <CollapsePost
-                  key={el.id}
-                  editedPost={editedPost}
-                  warningEdit={warningEdit}
-                  posts={posts}
-                  deletedPost={deletedPost}
-                  isDraggablePhotoInPost={isDraggablePhotoInPost}
-                  handlerChange={handlerChangeInPost}
-                  post={el}
-                />
-              )}
-              fetchNextPage={handlerNextPage}
-              hasMore={haseMore}
-              isPending={loadingPosts && page === 1}
-              notFoundMessage={errorMessage}
-              skeleton={(el) => <SkeletonPost key={el} />}
-              isFetching={loadingPosts && page > 1}
-            />
-          </ViewContainer>
+            fetchNextPage={handlerNextPage}
+            hasMore={haseMore}
+            isPending={loadingPosts && page === 1}
+            notFoundMessage={errorMessage}
+            skeleton={(el) => <SkeletonPost key={el} />}
+            isFetching={loadingPosts && page > 1}
+          />
+        </ViewContainer>
 
-          <SSidebars>
-            {!!generalFriends.length && !isMe && (
-              <Friends friends={generalFriends} title="Общие друзья" />
-            )}
-            {!!profileFriends.length && (
-              <Friends isOnlineFriends friends={profileFriends} title="Друзья" />
-            )}
-          </SSidebars>
-        </SContent>
-      </AllContainer>
-    </DraggableContainer>
+        <SSidebars>
+          {!!generalFriends.length && !isMe && (
+            <Friends friends={generalFriends} title="Общие друзья" />
+          )}
+          {!!profileFriends.length && (
+            <Friends isOnlineFriends friends={profileFriends} title="Друзья" />
+          )}
+        </SSidebars>
+      </SContent>
+    </AllContainer>
   );
 };
 

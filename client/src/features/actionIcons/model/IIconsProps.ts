@@ -7,7 +7,5 @@ export interface IIconsProps {
   onTitle: (title: string) => void;
   onActive?: () => void;
   isActive?: boolean;
-  setLoadingPhoto: Dispatch<SetStateAction<boolean>>;
-  setLoadingFiles: Dispatch<SetStateAction<boolean>>;
   statusPhoto: number;
 }

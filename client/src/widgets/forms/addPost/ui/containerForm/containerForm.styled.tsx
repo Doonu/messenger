@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { Upload } from 'antd';
 
 interface IPositionProps {
   $position: boolean;
@@ -36,7 +37,7 @@ export const SContainer = styled.div<IPositionProps>`
     `};
 `;
 
-export const DragInput = styled.input`
+export const DragInput = styled(Upload)`
   opacity: 0;
   position: absolute;
   top: 0;

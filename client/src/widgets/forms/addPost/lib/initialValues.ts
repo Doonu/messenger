@@ -1,12 +1,7 @@
-import { IPost } from '../model/IPost';
+import { IPost } from '@shared/models';
 
 export const initialValues: IPost = {
   content: [],
-  isActive: false,
-  isWarningModal: false,
-  isDraggablePhotoFocus: true,
   isDisabledComments: false,
   view: 'slider',
-
-  isWarningModalTitle: '',
 };

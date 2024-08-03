@@ -6,10 +6,9 @@ import { AxiosError } from 'axios';
 
 import { IGetAllPost } from './getAllPost.type';
 
-// TODO: перделеать -1 на null
 export const getAllPost = createAsyncThunk<IPostState[], IGetAllPost, IConfigAsyncThunk>(
   'posts/getAll',
-  ({ page, userId }, { rejectWithValue }) => {
+  async ({ page, userId }, { rejectWithValue }) => {
     return API<ApiPostState[]>({
       url: `api/posts`,
       method: 'GET',

@@ -4,4 +4,3 @@ export * from './notification';
 export * from './post';
 export * from './comments';
 export * from './dialogs';
-export * from './files';

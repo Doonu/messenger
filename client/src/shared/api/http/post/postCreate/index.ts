@@ -10,10 +10,22 @@ import { IPostCreate } from './postCreate.type';
 export const postCreate = createAsyncThunk<IPostState, IPostCreate, IConfigAsyncThunk>(
   'posts/create',
   (post, { rejectWithValue, dispatch }) => {
+    const formData = new FormData();
+
+    post.files.forEach((file) => {
+      formData.append('images', file.originFileObj as File);
+    });
+
     return API<ApiPostState>({
       url: `api/posts`,
       method: 'POST',
-      data: post,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+      data: {
+        ...post,
+        ...formData,
+      },
     })
       .then(({ data }) => {
         return {

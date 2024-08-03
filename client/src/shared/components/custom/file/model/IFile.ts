@@ -1,6 +1,7 @@
-import { IFilesPost } from '@shared/models';
+import { UploadFile } from 'antd';
 
-export interface IFile extends Pick<IFilesPost, 'originalName' | 'size' | 'url'> {
+export interface IFile {
   onDelete: () => void;
   isModify?: boolean;
+  file: UploadFile;
 }

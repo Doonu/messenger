@@ -1,6 +1,6 @@
-import { IFilesPost } from '@shared/models';
+import { UploadFile } from 'antd';
 
 export interface IPhotosFilter {
-  photos: IFilesPost[];
+  photos: UploadFile[];
   type: 'file' | 'Photo';
 }
