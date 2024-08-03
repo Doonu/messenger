@@ -12,12 +12,9 @@ export const SContent = styled.div`
 export const SLeft = styled.div`
   display: flex;
   align-items: center;
-
   height: 88vh;
   width: 60vw;
-
   padding: 0;
-  user-select: none;
 `;
 
 export const SFooter = styled.div`

@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useMemo, useState } from 'react';
+import Typical from 'react-typical';
 
-import { SIcon, SInput, SLabel, SPrevIcon } from './baseInput.styled';
+import { SIcon, SInput, SLabel, SPlaceholder, SPrevIcon } from './baseInput.styled';
 import { IBaseInput, IVariantType } from '../model/IBaseInput';
 import { allVariantType } from '../lib/variantType';
 import { LoaderSmall } from '../../../Loaders';
@@ -15,6 +16,8 @@ export const BaseInput: FC<IBaseInput> = ({
   loading,
   isBgTransparent,
   prevIcon,
+  animationPlaceholder,
+  placeholder,
   ...props
 }) => {
   const [variantType, setVariantType] = useState<IVariantType>();
@@ -52,12 +55,22 @@ export const BaseInput: FC<IBaseInput> = ({
         $height={height}
         $minWidth={minWidth}
         $isBgTransparent={isBgTransparent}
+        placeholder={animationPlaceholder?.length ? '' : placeholder}
         {...props}
       />
+      {animationPlaceholder?.length && !props?.value && (
+        <SPlaceholder>
+          <Typical loop={Infinity} steps={animationPlaceholder} wrapper="p" />
+        </SPlaceholder>
+      )}
       {(variantType?.type === 'password' || variantType?.type === 'text') && !loading && (
         <SIcon onClick={handlePasswordIcon}>{variantType && variantType.icon}</SIcon>
       )}
-      {loading && <LoaderSmall size={sizeLoading} />}
+      {loading && (
+        <SIcon>
+          <LoaderSmall size={sizeLoading} />
+        </SIcon>
+      )}
     </SLabel>
   );
 };

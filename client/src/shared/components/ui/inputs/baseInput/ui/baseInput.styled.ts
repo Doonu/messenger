@@ -17,6 +17,14 @@ export const SLabel = styled.label`
   }
 `;
 
+export const SPlaceholder = styled.span`
+  position: absolute;
+  left: 15px;
+  color: ${({ theme }) => theme.colors.text};
+  font-weight: 500;
+  caret-color: transparent !important;
+`;
+
 export const SPrevIcon = styled.span`
   display: block;
 `;

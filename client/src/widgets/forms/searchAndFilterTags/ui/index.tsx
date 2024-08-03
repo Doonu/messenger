@@ -37,7 +37,7 @@ export const SearchAndFilterTags = ({
             <STag key={el.id}>
               <div>{el.name}</div>
               <ContainerByIcon onClick={() => filterPicks(el.id)}>
-                <SClose />
+                <SClose size={20} />
               </ContainerByIcon>
             </STag>
           )}

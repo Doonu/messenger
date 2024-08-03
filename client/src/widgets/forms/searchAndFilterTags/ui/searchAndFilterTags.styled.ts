@@ -26,9 +26,7 @@ export const STag = styled.div`
 
 // TODO: доделать
 
-export const SClose = styled(Close).attrs({
-  size: 5,
-})<any>`
+export const SClose = styled(Close)`
   font-size: 20px;
   align-self: flex-end;
   cursor: pointer;

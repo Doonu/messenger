@@ -31,6 +31,7 @@ export const GlobalSearch = () => {
                 placeholder="Поиск..."
                 border="none"
                 height="40px"
+                animationPlaceholder={['Поиск...', 3000, 'Поиск', 3000]}
               />
               <BaseButton disabled={!values.search} htmlType="submit">
                 Поиск
