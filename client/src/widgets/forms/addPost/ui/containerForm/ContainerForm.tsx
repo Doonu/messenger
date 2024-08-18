@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useFormikContext } from 'formik';
 import { useAppSelector, useOutsideClick } from '@shared/hooks';
 import { selectorProfileLoader } from '@entities/profile';
-import { ActionIcons } from '@features/ActionIcons';
+import { ActionFiles } from '@features/ActionIcons';
 import { BaseButton } from '@shared/components';
 import { Files } from '@features/Files';
 import { Photos } from '@features/Photos';
@@ -56,10 +56,10 @@ const ContainerForm: FC<IContainerFormProps> = ({
       <Content isActive={isActive} />
 
       <Photos
-        loader={loadingPhotos}
-        setCurrentIndex={setCurrentIndex}
         data={allFiles}
         setData={setAllFiles}
+        setCurrentIndex={setCurrentIndex}
+        loader={loadingPhotos}
         setIsPreviewPhoto={setIsPreviewPhoto}
       />
 
@@ -67,7 +67,7 @@ const ContainerForm: FC<IContainerFormProps> = ({
 
       {allFiles.photos.length > 1 && <Features />}
       <SContainerIcons $position={isActive}>
-        <ActionIcons
+        <ActionFiles
           setData={setAllFiles}
           data={allFiles}
           onActive={handlerActive}

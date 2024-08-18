@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDraw, Draw } from '@shared/hooks';
 import { BaseButton } from '@shared/components';
+import { RcFile } from 'antd/es/upload';
 
 import { SActionChange, SActions, SaveImage, SContainer, SPicture } from './photoEditor.styled';
 import { Toolbar } from './Toolbar';
@@ -35,22 +36,38 @@ export const PhotoEditor: FC<IPhotoEditor> = ({ image, onEditionImage, canselEdi
   const handlerOnloadImageInCanvas = () => {
     const context = canvasRef.current?.getContext('2d');
     const newImage = new Image();
-    // newImage.src = image?.url;
-    // newImage.onload = () =>
-    //   context?.drawImage(
-    //     newImage,
-    //     0,
-    //     0,
-    //     image.dimensions.width / 1.5,
-    //     image.dimensions.height / 1.5
-    //   );
+    const url = image && image.url ? image.url : URL.createObjectURL(image.originFileObj as File);
+
+    newImage.src = url;
+    newImage.onload = () =>
+      context?.drawImage(
+        newImage,
+        0,
+        0,
+        500,
+        500
+        // image.dimensions.width / 1.5,
+        // image.dimensions.height / 1.5
+      );
   };
 
   const handlerSaveImage = async () => {
-    const result = await new Promise((resolve) => {
-      canvasRef?.current?.toBlob(resolve, 'image/png');
-    });
-    // onEditionImage(result, image.id);
+    const canvas = canvasRef.current;
+
+    if (canvas) {
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const file = new File([blob], image?.name, { type: blob.type });
+
+          onEditionImage({
+            ...image,
+            status: 'done',
+            url: URL.createObjectURL(file),
+            originFileObj: file as RcFile,
+          });
+        }
+      });
+    }
   };
 
   useEffect(() => {
@@ -63,6 +80,8 @@ export const PhotoEditor: FC<IPhotoEditor> = ({ image, onEditionImage, canselEdi
         <canvas
           onMouseDown={onMouseDown}
           ref={canvasRef}
+          width={500}
+          height={500}
           // width={image.dimensions.width / 1.5}
           // height={image.dimensions.height / 1.5}
         />

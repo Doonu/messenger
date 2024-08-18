@@ -6,7 +6,7 @@ import { postTime, photosFilter } from '@shared/util';
 import { IAllFiles } from '@shared/models';
 import { updatePost } from '@shared/api';
 import { PreviewPhoto } from '@features/PreviewPhoto';
-import { ActionIcons } from '@features/ActionIcons';
+import { ActionFiles } from '@features/ActionIcons';
 import { Files } from '@features/Files';
 import { Photos } from '@features/Photos';
 
@@ -65,28 +65,38 @@ const Modification: FC<IModification> = ({ post, allFiles, setAllFiles }) => {
       .catch(() => {});
   };
 
+  const updatePhoto = (uid: string, photoFetch: any) => {
+    const updatePhotos = modifyAllFiles.photos.map((photo) => {
+      if (photo.uid === uid) {
+        return photoFetch;
+      }
+
+      return photo;
+    });
+
+    setModifyAllFiles((prev) => ({ ...prev, photos: updatePhotos }));
+  };
+
   return (
     <SContainer>
-      <Modal onClose={() => setIsWarningMessage(false)} width="400px" open={isWarningMessage}>
-        <WarningCountPhotos message={warningMessage} />
-      </Modal>
-      <Modal
-        isFooter={false}
-        width="max-content"
-        onClose={() => setIsPreviewPhoto(false)}
-        open={isPreviewPhoto}
-        padding="0 0 0 0"
-      >
-        {modifyAllFiles.photos && (
-          <PreviewPhoto
-            // setList={setModifyAllFiles}
-            setCurrentIndex={setCurrentIndex}
-            currentIndex={currentIndex}
-            photos={modifyAllFiles.photos}
-            description={content.toString().split('\n')}
-          />
-        )}
-      </Modal>
+      <WarningCountPhotos
+        onClose={() => setIsWarningMessage(false)}
+        open={isWarningMessage}
+        message={warningMessage}
+      />
+
+      {modifyAllFiles.photos && (
+        <PreviewPhoto
+          open={isPreviewPhoto}
+          onClose={() => setIsPreviewPhoto(false)}
+          updatePhoto={updatePhoto}
+          // setList={setModifyAllFiles}
+          setCurrentIndex={setCurrentIndex}
+          currentIndex={currentIndex}
+          photos={modifyAllFiles.photos}
+          description={content.toString().split('\n')}
+        />
+      )}
 
       <SHead>
         <MainPost
@@ -119,7 +129,7 @@ const Modification: FC<IModification> = ({ post, allFiles, setAllFiles }) => {
         $position={false}
       />
       <SBottom>
-        <ActionIcons
+        <ActionFiles
           setData={setModifyAllFiles}
           data={modifyAllFiles}
           onTitle={handlerChangeTitle}

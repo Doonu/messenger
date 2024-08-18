@@ -32,6 +32,19 @@ export const SUsers = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
+  overflow: hidden;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    background: ${({ theme }) => theme.colors.secondaryBg};
+    height: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+    background: ${({ theme }) => theme.colors.secondaryText};
+  }
 `;
 
 export const SName = styled(Typography.Text).attrs({

@@ -1,16 +1,17 @@
 import React, { FC } from 'react';
-import { BigPhoto } from '@shared/components';
+import { Image } from 'antd';
 
-import { SCarouselAntd, SImgContainer } from './carousel.styled';
+import { SCarouselAntd } from './carousel.styled';
 import { ICarousel } from '../model/ICarousel';
 
-// TODO: dimension
 export const Carousel: FC<ICarousel> = ({ children, photoList, ...props }) => {
   return (
     <SCarouselAntd dots arrows {...props}>
-      {photoList.map((el) => (
-        <SImgContainer key={el.uid}>{el.url && <BigPhoto url={el.url} />}</SImgContainer>
-      ))}
+      {photoList.map((el) => {
+        const url = el && el.url ? el.url : URL.createObjectURL(el.originFileObj as File);
+
+        return <Image preview={false} key={el.uid} src={url} />;
+      })}
     </SCarouselAntd>
   );
 };

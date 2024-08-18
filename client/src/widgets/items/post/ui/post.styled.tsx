@@ -6,7 +6,7 @@ interface ISContainer {
 
 export const SContainer = styled.div<ISContainer>`
   padding: 0;
-  max-width: 100%;
+  max-width: 650px;
 
   ${({ $isWarning }) =>
     $isWarning &&

@@ -11,9 +11,11 @@ export const ViewContainer = styled.div`
 `;
 
 export const SSidebars = styled.div`
-  width: 300px;
+  width: 250px;
+  //display: grid;
+  //grid-template-columns: 3fr 1fr;
 
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  //display: flex;
+  //flex-direction: column;
+  //gap: 15px;
 `;

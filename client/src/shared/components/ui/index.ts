@@ -9,3 +9,4 @@ export * from './Collapse';
 export * from './Checkbox';
 export * from './Segment';
 export * from './Carousel';
+export * from './Upload';

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Formik, FormikConfig } from 'formik';
-import { Form } from 'antd';
+import { Form, UploadFile } from 'antd';
 import { IAllFiles, IPost } from '@shared/models';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
 import { postCreate } from '@shared/api';
-import { Modal, WarningCountPhotos } from '@shared/components';
+import { WarningCountPhotos } from '@shared/components';
 import { PreviewPhoto } from '@features/PreviewPhoto';
 import { switchWarningPost, selectorEditedPost, selectorPost } from '@entities/post';
 
@@ -57,33 +57,39 @@ export const AddPost = () => {
     resetForm();
   };
 
+  const updatePhoto = (uid: string, photoFetch: UploadFile) => {
+    const updatePhotos = allFiles.photos.map((photo) => {
+      if (photo.uid === uid) {
+        return photoFetch;
+      }
+
+      return photo;
+    });
+
+    setAllFiles((prev) => ({ ...prev, photos: updatePhotos }));
+  };
+
   return (
     <Formik<IPost> initialValues={initialValues} onSubmit={handlerSubmit}>
-      {({ values, setFieldValue, handleSubmit }) => (
+      {({ values, handleSubmit }) => (
         <Form encType="multipart/form-data" layout="vertical" onFinish={handleSubmit}>
-          <Modal
-            onClose={() => setFieldValue('isWarningModal', false)}
-            width="400px"
+          <WarningCountPhotos
+            onClose={() => setIsWarningModal(false)}
             open={isWarningModal}
-          >
-            <WarningCountPhotos message={warningModalTitle} />
-          </Modal>
-          <Modal
-            isFooter={false}
-            width="max-content"
-            onClose={() => setIsPreviewPhoto(false)}
-            open={isPreviewPhoto}
-            padding="0 0 0 0"
-          >
-            {allFiles.photos && (
-              <PreviewPhoto
-                currentIndex={currentIndex}
-                setCurrentIndex={setCurrentIndex}
-                description={values.content.toString().split('\n')}
-                photos={allFiles.photos}
-              />
-            )}
-          </Modal>
+            message={warningModalTitle}
+          />
+
+          {allFiles.photos && (
+            <PreviewPhoto
+              open={isPreviewPhoto}
+              onClose={() => setIsPreviewPhoto(false)}
+              currentIndex={currentIndex}
+              setCurrentIndex={setCurrentIndex}
+              description={values.content.toString().split('\n')}
+              photos={allFiles.photos}
+              updatePhoto={updatePhoto}
+            />
+          )}
           {allFiles && (
             <ContainerForm
               setIsPreviewPhoto={setIsPreviewPhoto}

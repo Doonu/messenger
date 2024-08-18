@@ -15,6 +15,6 @@ export interface IToolbar {
 
 export interface IPhotoEditor {
   image: UploadFile;
-  onEditionImage: (url: string, id: string) => void;
+  onEditionImage: (file: UploadFile) => void;
   canselEdit: () => void;
 }

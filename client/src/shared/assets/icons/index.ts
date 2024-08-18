@@ -7,11 +7,11 @@ import { GiResize, GiTargetPoster } from 'react-icons/gi';
 import { FaPaintBrush, FaPenFancy, FaRegHeart, FaPen, FaBell } from 'react-icons/fa';
 import { IoMdClose, IoMdHeart } from 'react-icons/io';
 import { TbShare3 } from 'react-icons/tb';
-import { GoComment } from 'react-icons/go';
+import { GoComment, GoArrowLeft, GoArrowRight } from 'react-icons/go';
 import { SlMagnifier } from 'react-icons/sl';
-import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md';
 import { PiTextAa } from 'react-icons/pi';
 import { LuArrowDownWideNarrow } from 'react-icons/lu';
+import { MdKeyboardArrowLeft } from 'react-icons/md';
 
 export const Bell = styled(FaBell).attrs({
   size: 25,
@@ -126,14 +126,12 @@ export const BeautPen = styled(FaPenFancy).attrs({
   cursor: pointer;
 `;
 
-export const ArrowRight = styled(MdArrowBackIos).attrs({
-  size: 50,
-})`
-  color: ${({ theme }) => theme.colors.active};
+export const ArrowRight = styled(GoArrowLeft)`
+  color: red;
   cursor: pointer;
 `;
 
-export const ArrowLeft = styled(MdArrowForwardIos).attrs({
+export const ArrowLeft = styled(GoArrowLeft).attrs({
   size: 50,
 })`
   color: ${({ theme }) => theme.colors.active};

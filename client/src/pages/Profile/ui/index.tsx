@@ -40,7 +40,7 @@ const Profile = () => {
   const warningEdit = useAppSelector(selectorWarningEdit);
   const deletedPost = useAppSelector(selectorDeletedPost);
 
-  const [profilePage, setProfilePage] = useState<IUser>({} as IUser);
+  const [profilePage, setProfilePage] = useState<IUser | null>(null);
   const [profileFriends, setProfileFriends] = useState<IUser[]>([]);
 
   const errorMessage = errorPosts ? 'Произошла ошибка' : 'Посты не найдены';
@@ -92,11 +92,13 @@ const Profile = () => {
 
   return (
     <AllContainer right={false}>
-      <ActionsProfile
-        setProfileFriends={setProfileFriends}
-        profileFriends={profileFriends}
-        profilePage={profilePage}
-      />
+      {profilePage && (
+        <ActionsProfile
+          setProfileFriends={setProfileFriends}
+          profileFriends={profileFriends}
+          profilePage={profilePage}
+        />
+      )}
 
       <SContent>
         <ViewContainer>

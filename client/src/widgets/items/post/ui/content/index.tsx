@@ -34,9 +34,7 @@ const Content: FC<IContent> = ({ post, allFiles }) => {
       ))}
 
       {!!allFiles.photos.length && (
-        <div style={{ width: 'auto', maxWidth: '615px' }}>
-          {post.view === 'slider' && <Carousel fade speed={200} photoList={allFiles.photos} />}
-        </div>
+        <>{post.view === 'slider' && <Carousel fade speed={200} photoList={allFiles.photos} />}</>
       )}
 
       {post.view === 'grid' && <Grid photos={allFiles.photos} />}

@@ -10,10 +10,8 @@ export const SContent = styled.div`
 `;
 
 export const SLeft = styled.div`
-  display: flex;
-  align-items: center;
   height: 88vh;
-  width: 60vw;
+  width: 1200px;
   padding: 0;
 `;
 

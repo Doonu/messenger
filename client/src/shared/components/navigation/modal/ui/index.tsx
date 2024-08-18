@@ -7,12 +7,12 @@ import { IModal } from '../model/IModal';
 export const Modal: FC<IModal> = ({
   children,
   onClose,
-  top = '20px',
+  top = '300px',
   isFooter = true,
   ...props
 }) => {
   return (
-    <SModal top={top} onCancel={onClose} {...props}>
+    <SModal top={top} onCancel={onClose} footer={() => <div>fff</div>} {...props}>
       <div>{children}</div>
       {isFooter && (
         <SButtons>
