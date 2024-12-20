@@ -10,11 +10,13 @@ import {
   notificationPageSelectors,
   notificationSelectors,
   addPage,
+  getAllNotificationCount,
+  getAllNotification,
+  deleteAllNotifications,
+  INotifyItem,
 } from '@entities/notification';
-import { deleteAllNotifications, getAllNotification, getAllNotificationCount } from '@shared/api';
 import { selectorProfile } from '@entities/profile';
 import { BaseList, Badge } from '@shared/components';
-import { INotifyItem } from '@shared/models';
 
 import { NotifyItem } from './NotifyItem';
 import { SContent, SList, SNotificationBellStyled } from './notificationBell.styled';

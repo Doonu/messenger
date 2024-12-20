@@ -1,14 +1,13 @@
 import React, { FC, useState } from 'react';
 import { BaseButton, MainPost, WarningCountPhotos } from '@shared/components';
 import { useAppDispatch } from '@shared/hooks';
-import { removeEditPost } from '@entities/post';
+import { removeEditPost, updatePost } from '@entities/post';
 import { postTime, photosFilter } from '@shared/util';
-import { IAllFiles } from '@shared/models';
-import { updatePost } from '@shared/api';
 import { PreviewPhoto } from '@features/PreviewPhoto';
 import { ActionFiles } from '@features/ActionIcons';
 import { Files } from '@features/Files';
 import { Photos } from '@features/Photos';
+import { IAllFiles } from '@entities/dialogs';
 
 import { SAutosizeInput, SBottom, SButtons, SContainer, SHead } from './modification.styled';
 import { IModification } from './model/IModification';

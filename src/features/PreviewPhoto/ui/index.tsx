@@ -1,10 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import { getProfile } from '@shared/api';
 import { useAppDispatch } from '@shared/hooks';
 import { MainPost, Like, Slice, Carousel, Modal } from '@shared/components';
-import { IUser } from '@shared/models';
 import { PhotoEditor } from '@features/PhotoEditor';
 import { UploadFile } from 'antd';
+import { getProfile } from '@entities/profile';
+import { IUser } from '@entities/friends';
 
 import { IPreviewPhotoProps } from '../model/IPreviewPhoto';
 import {
@@ -23,7 +23,6 @@ import {
 export const PreviewPhoto: FC<IPreviewPhotoProps> = ({
   description,
   currentIndex,
-  setCurrentIndex,
   photos,
   open,
   onClose,

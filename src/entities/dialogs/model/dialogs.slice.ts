@@ -1,15 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IDialog, IMessage } from '@shared/models';
-import { getAllDialogs } from '@shared/api';
+import { getAllDialogs, IMessage } from '@entities/dialogs';
 
-interface DialogsState {
-  list: IDialog[];
-  page: number;
-  isError: boolean;
-  isHaseMore: boolean;
-  isLoading: boolean;
-  search: string;
-}
+import { DialogsState, IDialog } from './dialogs.types';
 
 const initialState: DialogsState = {
   list: [],

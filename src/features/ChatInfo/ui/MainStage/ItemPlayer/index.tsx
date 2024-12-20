@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { PhotoProfile } from '@shared/components';
-import { IUser } from '@shared/models';
 import { convertName, postTime } from '@shared/util';
+import { IUser } from '@entities/friends';
 
 import { SContainer, SInfoConnected, SName, SProfileInfo } from './ItemPlayer.styled';
 

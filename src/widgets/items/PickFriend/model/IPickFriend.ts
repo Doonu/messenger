@@ -1,4 +1,4 @@
-import { IUser, IUserExcept } from '@shared/models';
+import { IUser, IUserExcept } from '@entities/friends';
 
 export interface IPickFriend {
   user: IUserExcept;

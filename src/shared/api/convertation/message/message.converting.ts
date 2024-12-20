@@ -1,5 +1,5 @@
-import { APIMessage, IMessage } from '@shared/models';
 import { userConverting } from '@shared/api';
+import { APIMessage, IMessage } from '@entities/dialogs';
 
 export const messageConverting = (data: APIMessage): IMessage => ({
   id: data.id,

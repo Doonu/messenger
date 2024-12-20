@@ -3,9 +3,9 @@ import { PhotoProfile, Editable } from '@shared/components';
 import { GoPlusCircle } from 'react-icons/go';
 import { useAppDispatch, useAppSelector } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
-import { IUser } from '@shared/models';
 import { updateNameChat, userOutOfChat } from '@shared/api';
 import { showMessage } from '@entities/notification';
+import { IUser } from '@entities/friends';
 
 import { IMainStage } from '../../model/IChatInfo';
 import ItemPlayer from './ItemPlayer';

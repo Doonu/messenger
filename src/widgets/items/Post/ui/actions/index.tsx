@@ -1,8 +1,8 @@
 import React, { FC, useState } from 'react';
 import { LikeButton } from '@shared/components';
-import { likePost } from '@shared/api';
 import { useAppDispatch, useAppSelector } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
+import { likePost } from '@entities/post';
 
 import { SComment, SInfo, SShared } from './acions.styled';
 import { IActions } from './model/IActions';

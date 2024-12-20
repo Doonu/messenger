@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IUser } from '@shared/models';
 import { AllContainer, ObserverList, CollapsePost } from '@shared/components';
-import { getAllPost, getUser, getAllFriends } from '@shared/api';
-import { selectorProfile } from '@entities/profile';
+import { getUser, selectorProfile } from '@entities/profile';
 import {
   selectorDeletedPost,
   selectorEditedPost,
@@ -15,11 +13,13 @@ import {
   selectorWarningEdit,
   addPage,
   setAllPosts,
+  getAllPost,
 } from '@entities/post';
 import { AddPost } from '@widgets/forms';
 import { Friends } from '@features/Friends';
 import { SkeletonPost } from '@widgets/items';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
+import { getAllFriends, IUser } from '@entities/friends';
 
 import { SContent, SSidebars, ViewContainer } from './Profile.styled';
 import ActionsProfile from './actionsProfile';

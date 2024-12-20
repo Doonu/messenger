@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks';
-import { getProfile } from '@shared/api';
 import { accessTokenSelector } from '@entities/auth';
+import { getProfile } from '@entities/profile';
 
 const WithAuth = () => {
   const dispatch = useAppDispatch();

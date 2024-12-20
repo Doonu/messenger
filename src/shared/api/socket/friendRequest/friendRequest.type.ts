@@ -1,4 +1,4 @@
-import { APINotifyItem } from '@shared/models';
+import { APINotifyItem } from '@entities/notification';
 
 export interface IHandlerFriendRequestWS {
   to: number;

@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { Formik, FormikConfig } from 'formik';
 import { Form, UploadFile } from 'antd';
-import { IAllFiles, IPost } from '@shared/models';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
-import { postCreate } from '@shared/api';
 import { WarningCountPhotos } from '@shared/components';
 import { PreviewPhoto } from '@features/PreviewPhoto';
-import { switchWarningPost, selectorEditedPost, selectorPost } from '@entities/post';
+import { switchWarningPost, selectorEditedPost, selectorPost, postCreate } from '@entities/post';
+import { IAllFiles, IPost } from '@entities/dialogs';
 
 import { initialValues } from '../lib/initialValues';
 import ContainerForm from './containerForm/ContainerForm';

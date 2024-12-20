@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { useAppSelector } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
-import { APIMessage } from '@shared/models';
 import {
   APIDeleteMessage,
   IUseDialogSocket,
@@ -13,6 +12,7 @@ import {
   APIOutUserOfChat,
   SocketApi,
 } from '@shared/api';
+import { APIMessage } from '@entities/dialogs';
 
 export const useDialogHook = ({
   deleteUserOutOfChat: deleteUserOutOfChatCallback,

@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks';
-import { editPost } from '@entities/post';
-import { toggleCommentsById, deletePostById } from '@shared/api';
+import { deletePostById, editPost, toggleCommentsById } from '@entities/post';
 import { selectorProfile } from '@entities/profile';
 import { Dropdown } from 'antd';
 import { IPost } from '@widgets/items';

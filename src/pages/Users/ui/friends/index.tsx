@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import { Segment, ObserverList } from '@shared/components';
 import { SearchUsers } from '@widgets/forms';
 import { Friend } from '@widgets/items';
-import { getFriends } from '@shared/api';
 import {
   addPage,
   selectorErrorFriends,
@@ -11,10 +10,11 @@ import {
   selectorLoadingFriends,
   selectorPageFriends,
   selectorFriendsSearch,
+  getFriends,
+  IUser,
 } from '@entities/friends';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
-import { IUser } from '@shared/models';
 
 import { generateOptions } from '../../lib/options';
 import { SContainerUsers } from '../user.styled';

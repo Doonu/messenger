@@ -1,6 +1,5 @@
-import { IAllFiles } from '@shared/models';
 import { Dispatch, SetStateAction } from 'react';
-import { ActionFiles } from '@features/ActionIcons';
+import { IAllFiles } from '@entities/dialogs';
 
 export interface IActionFilesProps {
   data: IAllFiles;

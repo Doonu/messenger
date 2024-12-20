@@ -1,4 +1,5 @@
-import { ApiProfile, APIMessage } from '@shared/models';
+import { ApiProfile } from '@entities/friends';
+import { APIMessage } from '@entities/dialogs';
 
 export interface APIDeleteMessage {
   messagesId: number[];

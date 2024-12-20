@@ -1,4 +1,4 @@
-import { IPost } from '@shared/models';
+import { IPost } from '@entities/dialogs';
 
 export const initialValues: IPost = {
   content: [],

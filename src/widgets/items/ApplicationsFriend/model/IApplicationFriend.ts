@@ -1,4 +1,4 @@
-import { IAllFriendRequests } from '@shared/models';
+import { IAllFriendRequests } from '@entities/friends';
 
 export interface IItemApplicationsFriends {
   request: IAllFriendRequests;

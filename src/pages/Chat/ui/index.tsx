@@ -1,12 +1,8 @@
 import React, { MouseEvent, useEffect, useRef, useState } from 'react';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IDialogChat, APIMessage, IMessage, IChat } from '@shared/models';
 import {
   useDialogHook,
-  getDialogById,
-  getOldMessagesByDialogId,
-  getNewMessagesByDialog,
   APIUpdateMessage,
   APIDeleteFixedMessage,
   APIDeleteMessage,
@@ -21,6 +17,15 @@ import { CreateMessage } from '@widgets/forms';
 import { scrollToById } from '@shared/util';
 import { ChatInfo } from '@features/ChatInfo';
 import { selectorProfile } from '@entities/profile';
+import {
+  APIMessage,
+  getDialogById,
+  getNewMessagesByDialog,
+  getOldMessagesByDialogId,
+  IChat,
+  IDialogChat,
+  IMessage,
+} from '@entities/dialogs';
 
 import {
   createFixedMessageCallback,

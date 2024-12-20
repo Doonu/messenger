@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { useAppDispatch } from '@shared/hooks';
-import { IAllFiles } from '@shared/models';
 import { switchWarningPost } from '@entities/post';
 import { photosFilter } from '@shared/util';
 import { IPostAndDrag } from '@widgets/items';
+import { IAllFiles } from '@entities/dialogs';
 
 import { SContainer, STop } from './post.styled';
 import Restore from './restore';

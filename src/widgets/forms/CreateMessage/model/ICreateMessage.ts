@@ -1,4 +1,4 @@
-import { IMessage } from '@shared/models';
+import { IMessage } from '@entities/dialogs';
 
 export interface ICreateMessage {
   linkToEditionMessage: () => void;

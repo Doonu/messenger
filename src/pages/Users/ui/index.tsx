@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { AllContainer } from '@shared/components';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
-import { getFriends, getUsersExceptFriends } from '@shared/api';
 import { selectorProfile } from '@entities/profile';
-import { selectorFriendsSearch } from '@entities/friends';
-import { IUserExcept } from '@shared/models';
+import {
+  getFriends,
+  getUsersExceptFriends,
+  IUserExcept,
+  selectorFriendsSearch,
+} from '@entities/friends';
 
 import Friends from './friends';
 import AllUsers from './allUsers';

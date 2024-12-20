@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { useAppDispatch } from '@shared/hooks';
-import { restorePostById } from '@shared/api';
 import { deletePost } from '@entities/post';
 import { photosFilter } from '@shared/util';
+import { restorePostById } from '@entities/post/api/restorePostById';
 
 import { SContainer, SButtonContainer, SDelete, SRestore } from './restore.styled';
 import { IRestoreProps } from './model/IRestore';

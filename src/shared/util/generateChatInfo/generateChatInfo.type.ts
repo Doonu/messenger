@@ -1,4 +1,4 @@
-import { IUser } from '@shared/models';
+import { IUser } from '@entities/friends';
 
 export interface GenerateChatProps {
   type?: boolean;

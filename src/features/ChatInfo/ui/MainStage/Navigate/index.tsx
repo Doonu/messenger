@@ -1,7 +1,7 @@
 import React, { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { Segment, BaseInput } from '@shared/components';
-import { IUser } from '@shared/models';
 import { Close, Magnifier } from '@shared/assets';
+import { IUser } from '@entities/friends';
 
 import { SContainer } from './navigate.styled';
 import { generateOptions } from '../../../lib/options';

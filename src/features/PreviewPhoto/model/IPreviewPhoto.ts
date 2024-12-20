@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import { IAllFiles } from '@shared/models';
 import { ModalProps, UploadFile } from 'antd';
+import { IAllFiles } from '@entities/dialogs';
 
 export interface IPreviewPhotoProps extends Pick<ModalProps, 'open'> {
   description: string[];

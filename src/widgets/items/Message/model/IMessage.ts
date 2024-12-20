@@ -1,5 +1,5 @@
-import { IChat, IMessageItem } from '@shared/models';
 import { MouseEvent, RefObject } from 'react';
+import { IChat, IMessageItem } from '@entities/dialogs';
 
 export interface IMessage extends IChat {
   handlerChoice: (id: number) => void;

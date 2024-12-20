@@ -9,7 +9,7 @@ import { BsPinAngleFill } from 'react-icons/bs';
 import { FaRegStar } from 'react-icons/fa';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { deleteMessage, createFixedMessage } from '@shared/api';
-import { IChat, IDialogChat } from '@shared/models';
+import { IChat, IDialogChat } from '@entities/dialogs';
 
 import {
   SContainer,

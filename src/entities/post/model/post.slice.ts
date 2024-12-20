@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ILikePost, IToggleCommentsById } from '@shared/models';
 import {
-  likePost,
-  updatePost,
-  postCreate,
-  getAllPost,
   deletePostById,
+  getAllPost,
+  likePost,
+  postCreate,
   restorePostById,
   toggleCommentsById,
-} from '@shared/api';
+  updatePost,
+} from '@entities/post';
+import { ILikePost, IToggleCommentsById } from '@entities/dialogs';
 
 import { IPostState, IRecalculationOfComments } from './IPost';
 

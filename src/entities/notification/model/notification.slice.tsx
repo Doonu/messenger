@@ -1,11 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { INotification, INotifyItem } from '@shared/models';
 import {
-  deleteAllNotifications,
   getAllNotification,
-  deleteNotification,
   getAllNotificationCount,
-} from '@shared/api';
+  deleteNotification,
+  deleteAllNotifications,
+} from '@entities/notification';
+
+import { INotification, INotifyItem } from './notification.types';
 
 const initialState: INotification = {
   message: {

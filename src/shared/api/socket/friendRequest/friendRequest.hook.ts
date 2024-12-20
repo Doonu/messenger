@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
-import { addCount, addNotification, showMessage } from '@entities/notification';
-import { Types } from '@shared/models';
+import { addCount, addNotification, showMessage, Types } from '@entities/notification';
 import {
   SocketApi,
   friendRequestConverting,

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getProfile } from '@shared/api';
-import { IUser } from '@shared/models';
+import { getProfile } from '@entities/profile';
+import { IUser } from '@entities/friends';
 
 export interface ProfileState {
   user: IUser;

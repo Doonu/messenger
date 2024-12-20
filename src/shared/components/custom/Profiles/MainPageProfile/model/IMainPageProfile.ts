@@ -1,4 +1,4 @@
-import { IUser, IGetFriendRequest } from '@shared/models';
+import { IGetFriendRequest, IUser } from '@entities/friends';
 
 export interface IMainPageProfile {
   user: IUser;

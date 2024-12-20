@@ -3,7 +3,7 @@ import { useFormikContext } from 'formik';
 import { useAppSelector } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
 import { PhotoProfile, AutosizeInput } from '@shared/components';
-import { IPost } from '@shared/models';
+import { IPost } from '@entities/dialogs';
 
 import { SContainer } from './content.styled';
 

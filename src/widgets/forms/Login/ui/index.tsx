@@ -1,11 +1,13 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { useAppDispatch } from '@shared/hooks';
-import { postLogin, getProfile, SocketApi } from '@shared/api';
+import { SocketApi } from '@shared/api';
 import { ContainerAuth } from '@shared/styles';
 import { auth } from '@shared/strings';
 import { BaseInput, Logo } from '@shared/components';
 import { Form } from 'antd';
+import { postLogin } from '@entities/auth';
+import { getProfile } from '@entities/profile';
 
 import { ValidationSchema } from '../model/login.validationSchema';
 import {
@@ -48,7 +50,7 @@ export const Login = () => {
         validateOnChange={false}
         onSubmit={formSubmit}
       >
-        {({ handleSubmit, setValues, values, errors, handleBlur, touched, handleChange }) => (
+        {({ handleSubmit, setValues, values, errors, handleBlur, touched }) => (
           <Form layout="vertical" onFinish={handleSubmit}>
             <SFormContainer>
               <SForm>

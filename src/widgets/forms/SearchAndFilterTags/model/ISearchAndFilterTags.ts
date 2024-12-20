@@ -1,5 +1,5 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react';
-import { IUser } from '@shared/models';
+import { IUser } from '@entities/friends';
 
 export interface ISearchAndFilterTags {
   search: string;

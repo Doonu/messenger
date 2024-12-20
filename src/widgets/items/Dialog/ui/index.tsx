@@ -1,10 +1,10 @@
 import React, { FC, useMemo } from 'react';
-import { IDialog } from '@shared/models';
 import { PhotoProfile } from '@shared/components';
 import { useAppSelector } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
 import { postTime, generateChatInfo } from '@shared/util';
 import { useNavigate } from 'react-router-dom';
+import { IDialog } from '@entities/dialogs';
 
 import {
   SBadge,

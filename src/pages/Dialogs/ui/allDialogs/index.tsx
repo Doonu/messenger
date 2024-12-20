@@ -2,7 +2,7 @@ import React, { FC, useEffect, useRef } from 'react';
 import { Dialog } from '@widgets/items';
 import { SearchDialogs } from '@widgets/forms';
 import { ObserverList } from '@shared/components';
-import { getAllDialogs, useDialogHook, messageConverting } from '@shared/api';
+import { useDialogHook, messageConverting } from '@shared/api';
 import {
   addNewMessage,
   addPage,
@@ -12,6 +12,7 @@ import {
   selectorLoading,
   selectorPage,
   selectorDialogsSearch,
+  getAllDialogs,
 } from '@entities/dialogs';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
 

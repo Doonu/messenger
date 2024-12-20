@@ -8,14 +8,15 @@ import {
   selectorLoadingFriends,
   selectorPageFriends,
   addPage,
+  getFriends,
+  IUser,
 } from '@entities/friends';
-import { getFriends, createDialog } from '@shared/api';
 import { selectorProfile } from '@entities/profile';
 import { PickFriend } from '@widgets/items';
-import { IUser } from '@shared/models';
 import { Affix } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { SearchAndFilterTags } from '@widgets/forms';
+import { createDialog } from '@entities/dialogs';
 
 import { SClose } from '../dialogs.styled';
 import { SBaseButton, SContainer, SFormCreate, SFriends, SHeader } from './createGroup.styled';

@@ -1,11 +1,10 @@
 import React from 'react';
 import { PhotoProfile } from '@shared/components';
-import { INotifyItem } from '@shared/models';
 import { postTime } from '@shared/util';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@shared/hooks';
-import { deleteNotification } from '@shared/api';
 import { Close } from '@shared/assets';
+import { deleteNotification, INotifyItem } from '@entities/notification';
 
 import { SClose, SContent, SDate, SInfo, SNotifyItem, SUser } from './notifyItem.styled';
 

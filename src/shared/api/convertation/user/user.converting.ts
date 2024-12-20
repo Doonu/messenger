@@ -1,4 +1,4 @@
-import { ApiProfile, IUser } from '@shared/models';
+import { ApiProfile, IUser } from '@entities/friends';
 
 export const userConverting = (user: ApiProfile): IUser => ({
   name: user.name,

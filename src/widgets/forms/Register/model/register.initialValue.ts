@@ -1,4 +1,4 @@
-import { IRegister } from '@shared/models';
+import { IRegister } from '@entities/auth';
 
 export interface RegisterInitialValue extends IRegister {
   repeatPassword: string;

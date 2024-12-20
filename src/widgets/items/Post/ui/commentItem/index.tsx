@@ -3,9 +3,9 @@ import { postTime, convertName } from '@shared/util';
 import { BaseButton, PhotoProfile, Slice } from '@shared/components';
 import { BgLike, Close, Like, Redaction } from '@shared/assets';
 import { useAppDispatch, useAppSelector } from '@shared/hooks';
-import { likeComments, updateComment } from '@shared/api';
 import { selectorProfile } from '@entities/profile';
 import { useNavigate } from 'react-router-dom';
+import { likeComments, updateComment } from '@entities/comment';
 
 import { ICommentItem } from '../../model/ICommentItem';
 import { SAutosizeInput } from '../comments/comments.styled';

@@ -1,5 +1,5 @@
-import { IAllFiles } from '@shared/models';
 import { Dispatch, SetStateAction } from 'react';
+import { IAllFiles } from '@entities/dialogs';
 
 export interface IContainerFormProps {
   allFiles: IAllFiles;

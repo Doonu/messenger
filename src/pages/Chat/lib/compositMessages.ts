@@ -1,5 +1,5 @@
-import { IMessage, IMessageItem, IChat } from '@shared/models';
 import { v4 as uuidv4 } from 'uuid';
+import { IChat, IMessage, IMessageItem } from '@entities/dialogs';
 
 export const compositionRevert = (initialMessages: IChat[]): IMessage[] => {
   const currentMessages: IMessage[] = [];

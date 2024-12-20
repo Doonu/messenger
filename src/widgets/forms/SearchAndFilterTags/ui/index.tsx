@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { HorizontalList, BaseInput } from '@shared/components';
 import { ContainerByIcon } from '@shared/styles';
 import debounce from 'lodash.debounce';
-import { IUser } from '@shared/models';
+import { IUser } from '@entities/friends';
 
 import { SClose, SFormSearch, STag, STags } from './searchAndFilterTags.styled';
 import { ISearchAndFilterTags } from '../model/ISearchAndFilterTags';

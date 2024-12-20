@@ -1,12 +1,11 @@
 import React from 'react';
 import { Formik } from 'formik';
 import { Form } from 'antd';
-import { postRegistration, getProfile } from '@shared/api';
 import { useAppDispatch } from '@shared/hooks';
 import { useNavigate } from 'react-router-dom';
 import { BaseInput } from '@shared/components';
-import { IRegister } from '@shared/models';
-import { auth } from '@shared/strings';
+import { postRegistration, IRegister } from '@entities/auth';
+import { getProfile } from '@entities/profile';
 
 import { RegisterInitialValue } from '../model/register.initialValue';
 import { SContainerAuth, SInputForm, STitle, SBaseButton, SLink } from './register.styled';

@@ -1,11 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { postLogin, postRegistration } from '@shared/api';
+import { postLogin, postRegistration } from '@entities/auth';
 
-interface AuthState {
-  accessToken: string;
-}
+import { IAuthState } from './auth.types';
 
-const initialState: AuthState = {
+const initialState: IAuthState = {
   accessToken: '',
 };
 
@@ -13,16 +11,16 @@ const AuthSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: (state: AuthState) => {
+    logout: (state: IAuthState) => {
       state.accessToken = '';
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(postLogin.fulfilled, (state: AuthState, { payload }) => {
-      state.accessToken = payload.token;
+    builder.addCase(postLogin.fulfilled, (state: IAuthState, { payload }) => {
+      state.accessToken = payload.accessToken;
     });
-    builder.addCase(postRegistration.fulfilled, (state: AuthState, { payload }) => {
-      state.accessToken = payload.token;
+    builder.addCase(postRegistration.fulfilled, (state: IAuthState, { payload }) => {
+      state.accessToken = payload.accessToken;
     });
   },
 });

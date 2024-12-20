@@ -1,4 +1,4 @@
-import { IUserExcept } from '@shared/models';
+import { IUserExcept } from '@entities/friends';
 
 export type IUserType = 'friend' | 'notFriend';
 

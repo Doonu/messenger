@@ -1,4 +1,4 @@
-import { IDialogChat } from '@shared/models';
+import { IDialogChat } from '@entities/dialogs';
 
 export interface IChatInfo {
   chat: Partial<IDialogChat | null>;

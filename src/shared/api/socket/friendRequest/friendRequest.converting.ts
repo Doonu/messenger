@@ -1,5 +1,5 @@
-import { INotifyItem, APINotifyItem } from '@shared/models';
 import { userConverting } from '@shared/api';
+import { APINotifyItem, INotifyItem } from '@entities/notification';
 
 export const friendRequestConverting = (data: APINotifyItem): INotifyItem => {
   return {

@@ -1,9 +1,9 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
-import { getAllCommentsInPost, createComment, deleteComments } from '@shared/api';
 import { PhotoProfile, Sorting, BaseList } from '@shared/components';
 import { recalculationOfComments, ICommentsState } from '@entities/post';
+import { createComment, deleteComments, getAllCommentsInPost } from '@entities/comment';
 
 import { filterComments, IFilterCommentsKeys } from './lib/filterComments';
 import { CommentsProps } from '../../model/IComments';

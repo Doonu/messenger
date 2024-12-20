@@ -1,13 +1,13 @@
 import React from 'react';
 import { ArgsProps } from 'antd/es/notification/interface';
 import { CSSProperties } from 'styled-components';
-import { INotification } from '@shared/models';
 import {
   AiFillCheckCircle,
   AiFillCloseCircle,
   AiFillInfoCircle,
   AiFillWarning,
 } from 'react-icons/ai';
+import { INotification } from '@entities/notification';
 
 type IMessageConfigProps = ArgsProps & Pick<INotification['message'], 'type' | 'level'>;
 

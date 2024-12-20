@@ -1,15 +1,7 @@
-import { IUser } from '@shared/models';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getFriends } from '@shared/api';
+import { getFriends, IUser } from '@entities/friends';
 
-interface FriendsState {
-  friends: IUser[];
-  page: number;
-  isError: boolean;
-  isHaseMore: boolean;
-  isLoading: boolean;
-  search: string;
-}
+import { FriendsState } from './friends.types';
 
 const initialState: FriendsState = {
   friends: [],

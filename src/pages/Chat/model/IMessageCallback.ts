@@ -1,4 +1,3 @@
-import { APIMessage, IMessage, IDialogChat, IChat } from '@shared/models';
 import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import { NavigateFunction } from 'react-router-dom';
 import {
@@ -10,6 +9,7 @@ import {
   APIOutUserOfChat,
   APIUpdateMessage,
 } from '@shared/api';
+import { APIMessage, IChat, IDialogChat, IMessage } from '@entities/dialogs';
 
 interface IMessageCallback {
   id: number;

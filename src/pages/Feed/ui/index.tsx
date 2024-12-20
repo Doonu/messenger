@@ -12,8 +12,8 @@ import {
   selectorDeletedPost,
   addPage,
   setAllPosts,
+  getAllPost,
 } from '@entities/post';
-import { getAllPost } from '@shared/api';
 import { AddPost } from '@widgets/forms';
 import { SkeletonPost } from '@widgets/items';
 

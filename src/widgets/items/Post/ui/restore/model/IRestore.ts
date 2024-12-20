@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { IAllFiles } from '@shared/models';
+import { IAllFiles } from '@entities/dialogs';
 
 export interface IRestoreProps {
   postId: number;

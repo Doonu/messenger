@@ -6,7 +6,7 @@ import { ActionFiles } from '@features/ActionIcons';
 import { BaseButton } from '@shared/components';
 import { Files } from '@features/Files';
 import { Photos } from '@features/Photos';
-import { IPost } from '@shared/models';
+import { IPost } from '@entities/dialogs';
 
 import { SkeletonAddPost } from '../skeleton';
 import Features from '../features';

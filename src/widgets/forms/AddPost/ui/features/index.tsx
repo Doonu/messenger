@@ -1,7 +1,7 @@
 import React from 'react';
 import { useFormikContext } from 'formik';
 import { Select } from '@shared/components';
-import { IPost } from '@shared/models';
+import { IPost } from '@entities/dialogs';
 
 import { SContainer } from './features.styled';
 import { displayOptions } from '../../lib/displayOptions';

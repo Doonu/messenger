@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { IMessage } from '@shared/models';
 import { BsPinAngleFill } from 'react-icons/bs';
 import { getTime, scrollToById } from '@shared/util';
 import { IoClose } from 'react-icons/io5';
@@ -7,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import { deleteFixedMessage } from '@shared/api';
 import { useAppSelector } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
+import { IMessage } from '@entities/dialogs';
 
 import {
   SContainer,

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from '@shared/hooks';
-import { IAllFriendRequests } from '@shared/models';
-import { getAllFriendRequests } from '@shared/api';
 import { ApplicationFriend } from '@widgets/items';
+import { getAllFriendRequests, IAllFriendRequests } from '@entities/friends';
 
 import { SBlockContainer, SListFriendRequest, STitle } from './application.styled';
 

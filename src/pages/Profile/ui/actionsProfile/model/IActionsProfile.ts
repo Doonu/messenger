@@ -1,5 +1,5 @@
-import { IUser } from '@shared/models';
 import { Dispatch, SetStateAction } from 'react';
+import { IUser } from '@entities/friends';
 
 export interface IActionsProfile {
   profilePage: IUser;

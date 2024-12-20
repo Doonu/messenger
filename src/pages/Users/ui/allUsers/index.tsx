@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { BaseButton, ObserverList } from '@shared/components';
 import { TbListSearch } from 'react-icons/tb';
 import { Friend } from '@widgets/items';
-import { IUserExcept } from '@shared/models';
+import { IUserExcept } from '@entities/friends';
 
 import { SContainerUsers, SText, STitle } from '../user.styled';
 

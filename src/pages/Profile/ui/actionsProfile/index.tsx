@@ -2,18 +2,16 @@ import React, { FC, useEffect, useState } from 'react';
 import { MainPageProfile } from '@shared/components';
 import { useAppSelector, useAppDispatch } from '@shared/hooks';
 import { selectorProfile } from '@entities/profile';
-import { IGetFriendRequest } from '@shared/models';
 import {
-  createDialog,
   useFriendRequestHook,
   cancellationAddFriendWS,
-  deleteFriend,
   friendAcceptWS,
   friendRequestWS,
-  getFriendRequest,
   canselFriendReqWS,
 } from '@shared/api';
 import { useNavigate, useParams } from 'react-router-dom';
+import { createDialog } from '@entities/dialogs';
+import { deleteFriend, getFriendRequest, IGetFriendRequest } from '@entities/friends';
 
 import { IActionsProfile } from './model/IActionsProfile';
 
