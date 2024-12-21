@@ -8,7 +8,7 @@ import { ApiProfile, IUser } from '@entities/friends';
 import { ValidationSchema } from './getUser.validation';
 
 export const getUser = createAsyncThunk<IUser, number, IConfigAsyncThunk>(
-  'index/getUser',
+  'user/getUser',
   async (id, { rejectWithValue, dispatch }) => {
     return API<ApiProfile>({
       url: `api/users/${id}`,

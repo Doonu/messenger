@@ -8,7 +8,7 @@ export interface IAction {
   Icon: ComponentType;
 }
 
-export interface IToolbar {
+export interface ToolbarTypes {
   tool: IActionType;
   setTool: Dispatch<SetStateAction<IActionType>>;
 }

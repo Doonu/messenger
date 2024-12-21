@@ -7,9 +7,9 @@ import { updateNameChat, userOutOfChat } from '@shared/api';
 import { showMessage } from '@entities/notification';
 import { IUser } from '@entities/friends';
 
-import { IMainStage } from '../../model/IChatInfo';
-import ItemPlayer from './ItemPlayer';
-import Navigate from './Navigate';
+import { IMainStage } from '../../model/chatInfo.types';
+import ItemPlayer from './ItemPlayer/ItemPlayer';
+import Navigate from './Navigate/Navigate';
 import {
   AllPlayers,
   SAddPlayer,
@@ -20,7 +20,7 @@ import {
   SInfo,
   SText,
   STitle,
-} from './mainStage.styled';
+} from './mainStage.styles';
 
 const MainStage: FC<IMainStage> = ({ chat, switchStage }) => {
   const dispatch = useAppDispatch();

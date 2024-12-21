@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { Typography } from 'antd';
 
-import { SPaddingForModal } from '../chatInfo.styled';
+import { SPaddingForModal } from '../chatInfo.styles';
 
 export const STitle = styled(SPaddingForModal)`
   color: ${({ theme }) => theme.colors.active};

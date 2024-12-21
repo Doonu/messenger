@@ -1,6 +1,6 @@
 import { IUser } from '@entities/friends';
 
-export interface IFriends {
+export interface FriendsTypes {
   friends: IUser[];
   title: string;
   isOnlineFriends?: boolean;

@@ -2,7 +2,7 @@ import React, { FC, useState } from 'react';
 import { useFormikContext } from 'formik';
 import { useAppSelector, useOutsideClick } from '@shared/hooks';
 import { selectorProfileLoader } from '@entities/profile';
-import { ActionFiles } from '@features/ActionIcons';
+import { ActionFiles } from '@features/ActionFiles';
 import { BaseButton } from '@shared/components';
 import { Files } from '@features/Files';
 import { Photos } from '@features/Photos';
@@ -29,8 +29,8 @@ const ContainerForm: FC<IContainerFormProps> = ({
 
   const loaderProfile = useAppSelector(selectorProfileLoader);
 
-  const [loadingPhotos, setLoadingPhotos] = useState(false);
-  const [loadingFiles, setLoadingFiles] = useState(false);
+  const [loadingPhotos] = useState(false);
+  const [loadingFiles] = useState(false);
 
   const isCorrect = !values.content.length && !allFiles.photos.length && !allFiles.files.length;
 

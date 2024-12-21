@@ -6,7 +6,7 @@ import { UploadFile } from 'antd';
 import { getProfile } from '@entities/profile';
 import { IUser } from '@entities/friends';
 
-import { IPreviewPhotoProps } from '../model/IPreviewPhoto';
+import { IPreviewPhotoProps } from '../model/previewPhoto.types';
 import {
   Descriptions,
   SContainer,
@@ -18,7 +18,7 @@ import {
   SInfoPic,
   SLeft,
   SRight,
-} from './previewPhoto.styled';
+} from './previewPhoto.styles';
 
 export const PreviewPhoto: FC<IPreviewPhotoProps> = ({
   description,

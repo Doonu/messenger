@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Back } from '@shared/components';
 
-import { IMainStage } from '../../../model/IChatInfo';
+import { IMainStage } from '../../../model/chatInfo.types';
 import { SContainer, STitle } from './navigate.styles';
 
 const Navigate: FC<Pick<IMainStage, 'switchStage'>> = ({ switchStage }) => {

@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import { HorizontalList, Photo } from '@shared/components';
 import { UploadFile } from 'antd';
 
-import { IPhotos } from './model/IPhotos';
+import { PhotosTypes } from '../model/photos.types';
 
-export const Photos: FC<IPhotos> = ({
+export const Photos: FC<PhotosTypes> = ({
   setIsPreviewPhoto,
   loader,
   setData,

@@ -9,13 +9,9 @@ import { getUsersExceptInChat, selectorProfile } from '@entities/profile';
 import { useParams } from 'react-router-dom';
 import { IUser } from '@entities/friends';
 
-import Navigate from './Navigate';
-import { SBaseButton, SForm, SList } from './addUsersStage.styled';
-import { IChatInfo, StageChatInfo } from '../../model/IChatInfo';
-
-interface IAddUsersStage extends IChatInfo {
-  switchStage: (stage: StageChatInfo) => void;
-}
+import { IAddUsersStage } from '../../model/addUsersStage.types';
+import Navigate from './Navigate/Navigate';
+import { SBaseButton, SForm, SList } from './addUsersStage.styles';
 
 const AddUsersStage: FC<IAddUsersStage> = ({ chat, switchStage }) => {
   const dispatch = useAppDispatch();

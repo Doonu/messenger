@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { HorizontalList, File } from '@shared/components';
 import { UploadFile } from 'antd';
 
-import { IFilesProps } from './model/IFiles';
+import { IFilesProps } from '../model/files.types';
 
 export const Files: FC<IFilesProps> = ({ data, setData, loader = false, isModify = true }) => {
   const handlerFilterFiles = (uid: string) => {

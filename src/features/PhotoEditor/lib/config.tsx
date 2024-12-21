@@ -1,6 +1,6 @@
 import { PaintBrush, Resizer, Text } from '@shared/assets';
 
-import { IAction } from '../../../model/IToolbar';
+import { IAction } from '../model/toolbar.types';
 
 export const arrayAction: IAction[] = [
   { type: 'burch', Icon: PaintBrush },

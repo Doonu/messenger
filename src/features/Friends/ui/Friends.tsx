@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
-import ListFriends from './listFriends';
-import { SContainer } from './friends.styled';
-import { IFriends } from '../model/IFriends';
+import { ListFriends } from './listFriends/listFriends';
+import { SContainer } from './friends.styles';
+import { FriendsTypes } from '../model/friends.types';
 
-export const Friends: FC<IFriends> = ({ friends, title, isOnlineFriends = false }) => {
+export const Friends: FC<FriendsTypes> = ({ friends, title, isOnlineFriends = false }) => {
   const connectedUsers = friends.filter((friend) => friend.statusConnected);
 
   const notConnectedUsers = isOnlineFriends

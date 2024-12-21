@@ -1,10 +1,10 @@
 import React, { FC } from 'react';
 
-import { SContainer, SContainerIcons } from './toolbar.styled';
-import { arrayAction } from './lib/config';
-import { IToolbar } from '../../model/IToolbar';
+import { arrayAction } from '../../lib/config';
+import { SContainer, SContainerIcons } from './toolbar.styles';
+import { ToolbarTypes } from '../../model/toolbar.types';
 
-export const Toolbar: FC<IToolbar> = ({ setTool, tool }) => {
+export const Toolbar: FC<ToolbarTypes> = ({ setTool, tool }) => {
   return (
     <SContainer>
       {arrayAction.map(({ Icon, type }) => (

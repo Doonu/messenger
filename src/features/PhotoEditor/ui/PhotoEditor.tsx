@@ -4,8 +4,8 @@ import { BaseButton } from '@shared/components';
 import { RcFile } from 'antd/es/upload';
 
 import { SActionChange, SActions, SaveImage, SContainer, SPicture } from './photoEditor.styled';
-import { Toolbar } from './Toolbar';
-import { IActionType, IPhotoEditor } from '../model/IToolbar';
+import { Toolbar } from './Toolbar/Toolbar';
+import { IActionType, IPhotoEditor } from '../model/toolbar.types';
 
 // TODO: доделать
 export const PhotoEditor: FC<IPhotoEditor> = ({ image, onEditionImage, canselEdit }) => {

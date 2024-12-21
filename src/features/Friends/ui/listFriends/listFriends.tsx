@@ -3,10 +3,10 @@ import { convertName } from '@shared/util';
 import { PhotoProfile } from '@shared/components';
 import { useNavigate } from 'react-router-dom';
 
-import { IListFriends } from '../../model/IFriends';
+import { IListFriends } from '../../model/friends.types';
 import { SContainer, SName, STitle, SUser, SUsers } from './ListFriends.styles';
 
-const ListFriends: FC<IListFriends> = ({ users, title, isBorder = false }) => {
+export const ListFriends: FC<IListFriends> = ({ users, title, isBorder = false }) => {
   const navigate = useNavigate();
 
   return (
@@ -35,5 +35,3 @@ const ListFriends: FC<IListFriends> = ({ users, title, isBorder = false }) => {
     </SContainer>
   );
 };
-
-export default ListFriends;

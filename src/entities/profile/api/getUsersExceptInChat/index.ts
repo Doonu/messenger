@@ -10,7 +10,7 @@ export const getUsersExceptInChat = createAsyncThunk<
   IUser[],
   IGetUsersExceptInChat,
   IConfigAsyncThunk
->('Users/getUsersExceptInChat', async ({ exceptions, search, page }, { rejectWithValue }) => {
+>('users/getUsersExceptInChat', async ({ exceptions, search, page }, { rejectWithValue }) => {
   return API<ApiProfile[]>({
     url: `api/users/allUsersExceptions`,
     method: 'POST',

@@ -3,7 +3,7 @@ import { PhotoProfile } from '@shared/components';
 import { convertName, postTime } from '@shared/util';
 import { IUser } from '@entities/friends';
 
-import { SContainer, SInfoConnected, SName, SProfileInfo } from './ItemPlayer.styled';
+import { SContainer, SInfoConnected, SName, SProfileInfo } from './ItemPlayer.styles';
 
 const ItemPlayer: FC<IUser> = (player) => {
   return (

@@ -4,7 +4,7 @@ import { useAppDispatch } from '@shared/hooks';
 import { removeEditPost, updatePost } from '@entities/post';
 import { postTime, photosFilter } from '@shared/util';
 import { PreviewPhoto } from '@features/PreviewPhoto';
-import { ActionFiles } from '@features/ActionIcons';
+import { ActionFiles } from '@features/ActionFiles';
 import { Files } from '@features/Files';
 import { Photos } from '@features/Photos';
 import { IAllFiles } from '@entities/dialogs';
@@ -22,8 +22,8 @@ const Modification: FC<IModification> = ({ post, allFiles, setAllFiles }) => {
 
   const [content, setContent] = useState(post.content.join('\n'));
 
-  const [loadingPhotos, setLoadingPhotos] = useState(false);
-  const [loadingFiles, setLoadingFiles] = useState(false);
+  const [loadingPhotos] = useState(false);
+  const [loadingFiles] = useState(false);
 
   const [isWarningMessage, setIsWarningMessage] = useState(false);
   const [warningMessage, setWarningMessage] = useState('');

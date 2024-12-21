@@ -1,15 +1,10 @@
-import React, { ChangeEvent, Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { Segment, BaseInput } from '@shared/components';
 import { Close, Magnifier } from '@shared/assets';
-import { IUser } from '@entities/friends';
 
-import { SContainer } from './navigate.styled';
+import { SContainer } from './navigate.styles';
 import { generateOptions } from '../../../lib/options';
-
-interface INavigate {
-  setUsers: Dispatch<SetStateAction<IUser[]>>;
-  participants?: IUser[];
-}
+import { INavigate } from '../../../model/chatInfo.types';
 
 const Navigate: FC<INavigate> = ({ participants, setUsers }) => {
   const [choiceUser, setChoiceUser] = useState<string>('all');

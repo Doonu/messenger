@@ -1,8 +1,6 @@
 import { ISegment } from '@shared/components';
 
-interface IOptions {
-  counts?: number[];
-}
+import { IOptions } from '../model/options.types';
 
 export const generateOptions = ({ counts }: IOptions): ISegment['options'] => [
   { label: `Все участники ${counts?.[0]}`, value: 'all' },
