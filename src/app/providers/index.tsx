@@ -1,6 +1,6 @@
 import React from 'react';
 import { GlobalStyles } from '@shared/styles';
-import { Notification } from '@shared/components';
+import { Notification } from '@shared/ui';
 
 import WithTheme from './WithTheme';
 import WithPersist from './WithPersist';

@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Camera, Music, Poster, SFile, Video } from '@shared/assets';
-import { Upload } from '@shared/components';
+import { Upload } from '@shared/ui';
 import { UploadChangeParam } from 'antd/es/upload';
 
 import { SContainer, SDivider } from './actionFiles.styles';

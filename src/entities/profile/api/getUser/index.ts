@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IConfigAsyncThunk, IError } from '@shared/models';
-import { API, userConverting } from '@shared/api';
+import { API } from '@shared/api';
 import { AxiosError } from 'axios';
 import { showMessage } from '@entities/notification';
-import { ApiProfile, IUser } from '@entities/friends';
+import { ApiProfile, IUser, userConverting } from '@entities/friends';
 
 import { ValidationSchema } from './getUser.validation';
 

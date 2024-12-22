@@ -3,7 +3,7 @@ import { IConfigAsyncThunk } from '@shared/models';
 import { API } from '@shared/api';
 
 export const deleteNotification = createAsyncThunk<number, number, IConfigAsyncThunk>(
-  'Notification/delete',
+  'notification/delete',
   (notificationId, { rejectWithValue }) => {
     return API({
       url: `api/notifications/${notificationId}`,

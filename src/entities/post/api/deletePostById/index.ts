@@ -6,8 +6,8 @@ import { IPostState } from '@entities/post';
 import { AxiosError } from 'axios';
 
 export const deletePostById = createAsyncThunk<IPostState, number, IConfigAsyncThunk>(
-  'Index/delete',
-  (postId, { rejectWithValue, dispatch }) => {
+  'post/delete',
+  async (postId, { rejectWithValue, dispatch }) => {
     return API<IPostState>({
       url: `api/posts/${postId}`,
       method: 'DELETE',

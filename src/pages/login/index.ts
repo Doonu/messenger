@@ -1,3 +1,3 @@
-import Login from './ui';
+import Login from './ui/login';
 
 export default Login;

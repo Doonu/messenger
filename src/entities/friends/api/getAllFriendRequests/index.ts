@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { API, userConverting } from '@shared/api';
+import { API } from '@shared/api';
 import { IConfigAsyncThunk } from '@shared/models';
-import { APIAllFriendRequests, IAllFriendRequests } from '@entities/friends';
+import { APIAllFriendRequests, IAllFriendRequests, userConverting } from '@entities/friends';
 
 export const getAllFriendRequests = createAsyncThunk<
   IAllFriendRequests[],

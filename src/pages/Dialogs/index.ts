@@ -1,3 +1,3 @@
-import Dialogs from './ui';
+import Dialogs from './ui/Dialogs';
 
 export default Dialogs;

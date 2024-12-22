@@ -1,3 +1,3 @@
-import Chat from './ui';
+import Chat from './ui/Chat';
 
 export default Chat;

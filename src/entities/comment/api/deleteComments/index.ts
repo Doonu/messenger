@@ -6,7 +6,7 @@ import { showMessage } from '@entities/notification';
 
 export const deleteComments = createAsyncThunk<ICommentsState, number, IConfigAsyncThunk>(
   'comments/deleteComment',
-  (postId, { rejectWithValue, dispatch }) => {
+  async (postId, { rejectWithValue, dispatch }) => {
     return API<ICommentsState>({
       url: `api/posts/comments/${postId}`,
       method: 'DELETE',

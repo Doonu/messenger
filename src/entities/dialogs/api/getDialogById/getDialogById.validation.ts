@@ -8,7 +8,7 @@ export const ValidationSchema = null;
 //       updatedAt: string().required(),
 //       createdAt: string().required(),
 //       isGroup: boolean().required(),
-//       fixedMessage: messageValidationSchema().nullable(),
+//       FixedMessage: messageValidationSchema().nullable(),
 //       countNotReadMessages: number().required(),
 //   })
 //   .required();

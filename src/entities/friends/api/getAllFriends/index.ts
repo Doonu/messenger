@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IConfigAsyncThunk, IError } from '@shared/models';
-import { API, userArrayConverting } from '@shared/api';
+import { API } from '@shared/api';
 import { AxiosError } from 'axios';
 import { showMessage } from '@entities/notification';
-import { ApiProfile, IUser } from '@entities/friends';
+import { ApiProfile, IUser, userArrayConverting } from '@entities/friends';
 
 export const getAllFriends = createAsyncThunk<IUser[], number, IConfigAsyncThunk>(
   'user/getAllFriends',

@@ -1,1 +1,1 @@
-export * from './IErrors';
+export * from './errors.types';

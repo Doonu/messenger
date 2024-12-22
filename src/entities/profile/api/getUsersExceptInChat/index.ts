@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IConfigAsyncThunk, IError } from '@shared/models';
 import { AxiosError } from 'axios';
-import { userArrayConverting, API } from '@shared/api';
-import { ApiProfile, IUser } from '@entities/friends';
+import { ApiProfile, IUser, userArrayConverting } from '@entities/friends';
+import { API } from '@shared/api';
 
-import { IGetUsersExceptInChat } from './getUsersExceptInChat.type';
+import { IGetUsersExceptInChat } from './getUsersExceptInChat.types';
 
 export const getUsersExceptInChat = createAsyncThunk<
   IUser[],

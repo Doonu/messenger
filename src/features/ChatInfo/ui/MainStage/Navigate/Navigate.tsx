@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import { Segment, BaseInput } from '@shared/components';
+import { Segment, BaseInput } from '@shared/ui';
 import { Close, Magnifier } from '@shared/assets';
 
 import { SContainer } from './navigate.styles';

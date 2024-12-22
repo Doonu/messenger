@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { useAppSelector } from '@shared/hooks';
 import { accessTokenSelector } from '@entities/auth';
-import { LoaderPage } from '@shared/components';
+import { LoaderPage } from '@shared/ui';
 import Login from '@pages/login';
 import Feed from '@pages/Feed';
 

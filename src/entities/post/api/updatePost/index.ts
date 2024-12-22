@@ -3,10 +3,10 @@ import { ApiPostState, IPostState } from '@entities/post';
 import { IConfigAsyncThunk } from '@shared/models';
 import { API } from '@shared/api';
 
-import { IPostUpdate } from './updatePost.type';
+import { IPostUpdate } from './updatePost.types';
 
 export const updatePost = createAsyncThunk<IPostState, IPostUpdate, IConfigAsyncThunk>(
-  'Index/update',
+  'post/update',
   (post, { rejectWithValue }) => {
     const formData = new FormData();
 

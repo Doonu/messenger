@@ -6,7 +6,7 @@ import { APIDialogChat, IDialogChat } from '@entities/dialogs';
 import { getDialogByIdConvertation } from './getDialogById.convertation';
 
 export const getDialogById = createAsyncThunk<IDialogChat, number, IConfigAsyncThunk>(
-  'Dialog/getById',
+  'dialog/getById',
   async (id, { rejectWithValue }) => {
     return API<APIDialogChat>({
       url: `api/dialogs/${id}`,

@@ -9,31 +9,28 @@ export const toggleCommentsById = createAsyncThunk<
   IToggleCommentsById,
   IToggleCommentsById,
   IConfigAsyncThunk
->(
-  'Index/toggle-comments',
-  async ({ postId, isDisabledComments }, { rejectWithValue, dispatch }) => {
-    return API<IToggleCommentsById>({
-      url: `api/posts/toggle-comments`,
-      method: 'PATCH',
-      data: { postId, isDisabledComments },
+>('post/toggle-comments', async ({ postId, isDisabledComments }, { rejectWithValue, dispatch }) => {
+  return API<IToggleCommentsById>({
+    url: `api/posts/toggle-comments`,
+    method: 'PATCH',
+    data: { postId, isDisabledComments },
+  })
+    .then(({ data }) => {
+      return data;
     })
-      .then(({ data }) => {
-        return data;
-      })
-      .catch(({ response }: AxiosError<IError>) => {
-        const customMessage = `У вас нет прав для ${
-          isDisabledComments ? 'разблокировки' : 'блокировки'
-        } комментариев`;
+    .catch(({ response }: AxiosError<IError>) => {
+      const customMessage = `У вас нет прав для ${
+        isDisabledComments ? 'разблокировки' : 'блокировки'
+      } комментариев`;
 
-        dispatch(
-          showMessage({
-            title: customMessage,
-            type: 'warning',
-            level: 'medium',
-          })
-        );
+      dispatch(
+        showMessage({
+          title: customMessage,
+          type: 'warning',
+          level: 'medium',
+        })
+      );
 
-        return rejectWithValue(response?.data);
-      });
-  }
-);
+      return rejectWithValue(response?.data);
+    });
+});

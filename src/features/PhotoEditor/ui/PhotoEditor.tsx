@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDraw, Draw } from '@shared/hooks';
-import { BaseButton } from '@shared/components';
+import { BaseButton } from '@shared/ui';
 import { RcFile } from 'antd/es/upload';
 
 import { SActionChange, SActions, SaveImage, SContainer, SPicture } from './photoEditor.styled';

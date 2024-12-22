@@ -1,4 +1,5 @@
-import { messageConverting, userArrayConverting } from '@shared/api';
+import { messageConverting } from '@entities/dialogs';
+import { userArrayConverting } from '@entities/friends';
 
 import {
   ICreateFixedMessageCallback,
@@ -10,7 +11,7 @@ import {
   IUpdateMessageCallback,
   IUpdateNameChatCallback,
   IUpdateUsersInChatCallback,
-} from '../model/IMessageCallback';
+} from '../model/messageCallback.types';
 import {
   addInCompositionMessages,
   deleteInCompositionMessages,

@@ -1,12 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { API, userConverting } from '@shared/api';
+import { API } from '@shared/api';
 import { IConfigAsyncThunk, IError } from '@shared/models';
 import { AxiosError } from 'axios';
 import { logout } from '@entities/auth';
-import { ApiProfile, IUser } from '@entities/friends';
+import { ApiProfile, IUser, userConverting } from '@entities/friends';
 
 export const getProfile = createAsyncThunk<IUser, undefined, IConfigAsyncThunk>(
-  'index/getProfile',
+  'user/getProfile',
   async (_, { rejectWithValue, dispatch }) => {
     return API<ApiProfile>({
       url: `api/users/profile`,

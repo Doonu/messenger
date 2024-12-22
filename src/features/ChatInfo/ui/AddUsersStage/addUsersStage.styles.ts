@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BaseButton } from '@shared/components';
+import { BaseButton } from '@shared/ui';
 
 export const SList = styled.div`
   display: flex;

@@ -8,8 +8,8 @@ import { IPostState, ApiPostState } from '@entities/post';
 import { IPostCreate } from './postCreate.type';
 
 export const postCreate = createAsyncThunk<IPostState, IPostCreate, IConfigAsyncThunk>(
-  'posts/create',
-  (post, { rejectWithValue, dispatch }) => {
+  'post/create',
+  async (post, { rejectWithValue, dispatch }) => {
     const formData = new FormData();
 
     post.files.forEach((file) => {

@@ -1,8 +1,9 @@
-import { useSocket, useFriendRequestHook } from '@shared/api';
+import { useFriendRequest } from '@entities/friends';
+import { useSocket } from '@shared/hooks';
 
 const WithSocket = () => {
   useSocket();
-  useFriendRequestHook({});
+  useFriendRequest({});
   return null;
 };
 

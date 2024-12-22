@@ -4,11 +4,11 @@ import { API } from '@shared/api';
 import { APIDialog, IDialog } from '@entities/dialogs';
 
 import { createDialogConvertation } from './createDialog.convertation';
-import { ICreateDialog } from './createDialog.type';
+import { ICreateDialog } from './createDialog.types';
 
 export const createDialog = createAsyncThunk<IDialog, ICreateDialog, IConfigAsyncThunk>(
-  'Dialogs/createDialog',
-  ({ participantIds, nameChat }, { rejectWithValue }) => {
+  'dialogs/createDialog',
+  async ({ participantIds, nameChat }, { rejectWithValue }) => {
     return API<APIDialog>({
       url: `api/dialogs`,
       method: 'POST',

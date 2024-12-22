@@ -4,10 +4,10 @@ import { IConfigAsyncThunk, IError } from '@shared/models';
 import { API } from '@shared/api';
 import { AxiosError } from 'axios';
 
-import { IGetAllPost } from './getAllPost.type';
+import { IGetAllPost } from './getAllPost.types';
 
 export const getAllPost = createAsyncThunk<IPostState[], IGetAllPost, IConfigAsyncThunk>(
-  'posts/getAll',
+  'post/getAll',
   async ({ page, userId }, { rejectWithValue }) => {
     return API<ApiPostState[]>({
       url: `api/posts`,

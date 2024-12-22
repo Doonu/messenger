@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { API, userConverting } from '@shared/api';
+import { API } from '@shared/api';
 import { IConfigAsyncThunk } from '@shared/models';
 import { APINotifyItem, INotifyItem } from '@entities/notification';
+import { userConverting } from '@entities/friends';
 
-import { IGetAllNotification } from './getAllNotification.type';
+import { IGetAllNotification } from './getAllNotification.types';
 
 export const getAllNotification = createAsyncThunk<
   INotifyItem[],

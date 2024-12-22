@@ -4,11 +4,11 @@ import { API } from '@shared/api';
 import { APIDialog, IDialog } from '@entities/dialogs';
 
 import { createDialogConvertation } from './getAllDialogs.convertation';
-import { IGetAllDialogs } from './getAllDialogs.type';
+import { IGetAllDialogs } from './getAllDialogs.types';
 
 export const getAllDialogs = createAsyncThunk<IDialog[], IGetAllDialogs, IConfigAsyncThunk>(
-  'Dialogs/getAll',
-  ({ search, page }, { rejectWithValue }) => {
+  'dialogs/getAll',
+  async ({ search, page }, { rejectWithValue }) => {
     return API<APIDialog[]>({
       url: `api/dialogs`,
       method: 'GET',

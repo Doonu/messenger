@@ -1,13 +1,13 @@
 import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import { SearchAndFilterTags } from '@widgets/forms';
+import { SearchAndFilterTags } from '@widgets/SearchAndFilterTags';
 import { ObserverList } from '@shared/components';
-import { PickFriend } from '@widgets/items';
+import { PickFriend } from '@widgets/PickFriend';
 import { useAppDispatch, useAppSelector } from '@shared/hooks';
-import { addNewUsers } from '@shared/api';
 import { Affix } from 'antd';
 import { getUsersExceptInChat, selectorProfile } from '@entities/profile';
 import { useParams } from 'react-router-dom';
 import { IUser } from '@entities/friends';
+import { addNewUsers } from '@entities/dialogs';
 
 import { IAddUsersStage } from '../../model/addUsersStage.types';
 import Navigate from './Navigate/Navigate';

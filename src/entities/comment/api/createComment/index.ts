@@ -3,11 +3,11 @@ import { IConfigAsyncThunk } from '@shared/models';
 import { API } from '@shared/api';
 import { ICommentsState } from '@entities/post';
 
-import { ICreateComment } from './createComment.type';
+import { ICreateComment } from './createComment.types';
 
 export const createComment = createAsyncThunk<ICommentsState, ICreateComment, IConfigAsyncThunk>(
   'comments/createComment',
-  ({ content, postId }, { rejectWithValue }) => {
+  async ({ content, postId }, { rejectWithValue }) => {
     return API<ICommentsState>({
       url: `api/posts/comments`,
       method: 'POST',

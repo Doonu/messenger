@@ -5,7 +5,7 @@
  *   type = 'photos' -> ['jpg', 'png', 'webp', 'doc', 'docx'] = ['jpg', 'png', 'webp']
  * */
 
-import { IPhotosFilter } from './photosFilter.type';
+import { IPhotosFilter } from './photosFilter.types';
 
 export const extensionPhotoList = ['jpg', 'png', 'webp', 'svg', 'gif', 'jpeg', 'bmp'];
 export const extensionFileList = ['doc', 'docx', 'pdf', 'txt'];

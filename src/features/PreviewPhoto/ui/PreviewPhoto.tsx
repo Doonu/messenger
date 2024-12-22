@@ -1,10 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useAppDispatch } from '@shared/hooks';
-import { MainPost, Like, Slice, Carousel, Modal } from '@shared/components';
+import { MainPost, Slice } from '@shared/components';
 import { PhotoEditor } from '@features/PhotoEditor';
 import { UploadFile } from 'antd';
 import { getProfile } from '@entities/profile';
 import { IUser } from '@entities/friends';
+import { Carousel, Like, Modal } from '@shared/ui';
 
 import { IPreviewPhotoProps } from '../model/previewPhoto.types';
 import {

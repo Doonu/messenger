@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IConfigAsyncThunk, IError } from '@shared/models';
-import { API, userConverting } from '@shared/api';
+import { API } from '@shared/api';
 import { AxiosError } from 'axios';
-import { ApiGetUsersExceptFriends, IUserExcept } from '@entities/friends';
+import { ApiGetUsersExceptFriends, IUserExcept, userConverting } from '@entities/friends';
 
-import { IGetUsersExceptFriends } from './getUsersExceptFriends.type';
+import { IGetUsersExceptFriends } from './getUsersExceptFriends.types';
 
 export const getUsersExceptFriends = createAsyncThunk<
   IUserExcept[],

@@ -1,5 +1,5 @@
-import { messageConverting, userArrayConverting } from '@shared/api';
-import { APIDialogChat, IDialogChat } from '@entities/dialogs';
+import { APIDialogChat, IDialogChat, messageConverting } from '@entities/dialogs';
+import { userArrayConverting } from '@entities/friends';
 
 export const getDialogByIdConvertation = (data: APIDialogChat): IDialogChat => ({
   id: data.id,

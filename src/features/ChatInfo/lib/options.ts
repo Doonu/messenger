@@ -1,4 +1,4 @@
-import { ISegment } from '@shared/components';
+import { ISegment } from '@shared/ui';
 
 import { IOptions } from '../model/options.types';
 

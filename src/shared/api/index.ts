@@ -1,6 +1,5 @@
 import API from './interceptors';
 
-export * from './convertation';
-export * from './socket';
+export * from './socket-api';
 
 export { API };

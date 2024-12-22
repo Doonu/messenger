@@ -1,9 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IConfigAsyncThunk } from '@shared/models';
-import { messageConverting, API } from '@shared/api';
-import { APIMessage, IMessage } from '@entities/dialogs';
+import { API } from '@shared/api';
+import { APIMessage, IMessage, messageConverting } from '@entities/dialogs';
 
-import { IGetAllMessagesByDialogId } from './getOldMessagesByDialogId.type';
+import { IGetAllMessagesByDialogId } from './getOldMessagesByDialogId.types';
 
 export const getOldMessagesByDialogId = createAsyncThunk<
   IMessage[],

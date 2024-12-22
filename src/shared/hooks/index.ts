@@ -1,4 +1,5 @@
 export * from './useDevice';
 export * from './outside';
 export * from './redux';
-export * from './draw';
+export * from './useDraw';
+export * from './useSocket';
